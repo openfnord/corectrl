@@ -1,0 +1,15 @@
+*.o
+*.gch
+*.pch
+*.so
+*.a
+*.out
+*.swp
+*.swo
+*.un~
+*.orig
+*.txt.user
+*.txt.autosave
+*.patch
+*.qm
+compile_commands.json

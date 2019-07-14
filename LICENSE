@@ -1,0 +1,3 @@
+All CoreCtrl source files are licensed under the GNU General Public License. See the 'COPYING' file for details.
+
+Thirdparty project files from Easylogging++, {fmt}, pugixml, UNITS, Catch2 and Trompeloeil use their own license. See the accompanying LICENSE file of each project for more details.

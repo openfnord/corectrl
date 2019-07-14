@@ -1,0 +1,53 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+        <file>qml/Style.js</file>
+        <file>qml/main.qml</file>
+        <file>qml/Profiles.qml</file>
+        <file>qml/System.qml</file>
+        <file>qml/CComboBox.qml</file>
+        <file>qml/CIntInput.qml</file>
+        <file>qml/CurveControl.qml</file>
+        <file>qml/FVControl.qml</file>
+        <file>qml/SensorGraph.qml</file>
+        <file>qml/ModeSelector.qml</file>
+        <file>qml/SysModelForm.qml</file>
+        <file>qml/GPUForm.qml</file>
+        <file>qml/CPUForm.qml</file>
+        <file>qml/AMDPMPerfModeForm.qml</file>
+        <file>qml/AMDPMAutoForm.qml</file>
+        <file>qml/AMDPMFixedForm.qml</file>
+        <file>qml/AMDPMAdvancedForm.qml</file>
+        <file>qml/AMDPMDynamicFreqForm.qml</file>
+        <file>qml/AMDPMFixedFreqForm.qml</file>
+        <file>qml/AMDPMPowerCapForm.qml</file>
+        <file>qml/AMDPMFreqModeForm.qml</file>
+        <file>qml/AMDPMOverclockForm.qml</file>
+        <file>qml/AMDPMFreqOdForm.qml</file>
+        <file>qml/AMDPMFVStateForm.qml</file>
+        <file>qml/AMDPMFVVoltCurveForm.qml</file>
+        <file>qml/AMDPMPowerProfileForm.qml</file>
+        <file>qml/AMDPMPowerStateForm.qml</file>
+        <file>qml/AMDFanModeForm.qml</file>
+        <file>qml/AMDFanAutoForm.qml</file>
+        <file>qml/AMDFanFixedForm.qml</file>
+        <file>qml/AMDFanCurveForm.qml</file>
+        <file>qml/CPUFreqForm.qml</file>
+        <file>qml/ProfileButton.qml</file>
+        <file>qml/ProfileInfoDialog.qml</file>
+        <file>qml/NativeFileDialog.qml</file>
+        <file>qml/About.qml</file>
+        <file>qml/InfoPane.qml</file>
+        <file>qml/SettingsDialog.qml</file>
+    </qresource>
+    <qresource prefix="/translations">
+        <file alias="lang_en_EN">translations/lang_en_EN.qm</file>
+        <file alias="lang_es_ES">translations/lang_es_ES.qm</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file alias="GlobalIcon">images/GlobalProfile.svg</file>
+        <file alias="DefaultIcon">images/DefaultIcon.svg</file>
+        <file alias="AppIcon">images/AppIcon.svg</file>
+        <file alias="Patreon">images/patreon.png</file>
+    </qresource>
+</RCC>

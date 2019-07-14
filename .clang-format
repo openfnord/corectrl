@@ -1,0 +1,71 @@
+# -- General settings --
+Language: Cpp
+
+# Merge empty functions in a single line.
+AllowShortFunctionsOnASingleLine: None
+
+# Align pointers and references to the right
+PointerAlignment: Right
+DerivePointerAlignment: false
+
+# Remove space after template keyword
+SpaceAfterTemplateKeyword: false
+
+# Avoid mixing comments with code when code containing comments has been commented
+ReflowComments: false
+
+# Sort options
+SortIncludes: true
+
+# -- Indentation settings --
+UseTab:                  Never
+TabWidth:                2
+IndentWidth:             2
+IndentCaseLabels:        true
+ContinuationIndentWidth: 4
+
+# Indentation witdh before ':' in constructors and class inheritance lists.
+ConstructorInitializerIndentWidth: 0
+
+# Enable indentation for [public, private, protected]
+# and takes one space from the general indentation setting.
+AccessModifierOffset: -1
+
+
+# -- Break settings--
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass:            true
+  AfterControlStatement: false
+  AfterEnum:             false
+  AfterFunction:         true
+  AfterNamespace:        false
+  AfterStruct:           true
+  AfterUnion:            true
+  AfterExternBlock:      false
+  BeforeCatch:           true
+  BeforeElse:            true
+  IndentBraces:          false
+  SplitEmptyFunction:    true
+  SplitEmptyRecord:      true
+  SplitEmptyNamespace:   true
+
+# Initializers breaks.
+BreakConstructorInitializers: BeforeComma
+
+# Inheritance breaks.
+BreakInheritanceList: BeforeComma
+#BreakBeforeInheritanceComma: true # Use with clang < 7
+
+# Template breaks.
+AlwaysBreakTemplateDeclarations: true
+
+# Penalties
+PenaltyBreakAssignment: 30
+PenaltyBreakBeforeFirstCallParameter: 10
+PenaltyExcessCharacter: 15
+
+# Uncoment to reset line breaks
+#ColumnLimit: 500
+
+...

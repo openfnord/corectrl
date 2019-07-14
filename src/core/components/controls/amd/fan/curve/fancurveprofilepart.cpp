@@ -1,0 +1,150 @@
+//
+// Copyright 2019 Juan Palacios <jpalaciosdev@gmail.com>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// Distributed under the GPL version 3 or any later version.
+//
+#include "fancurveprofilepart.h"
+
+#include "core/profilepartprovider.h"
+
+class AMD::FanCurveProfilePart::Initializer final : public AMD::FanCurve::Exporter
+{
+ public:
+  Initializer(AMD::FanCurveProfilePart &outer) noexcept
+  : outer_(outer)
+  {
+  }
+
+  std::optional<std::reference_wrapper<Exportable::Exporter>>
+  provideExporter(Item const &) override
+  {
+    return {};
+  }
+
+  void takeActive(bool active) override;
+  void
+  takeFanCurvePoints(std::vector<AMD::FanCurve::Point> const &points) override;
+  void takeFanCurveFanStop(bool enabled) override;
+  void takeFanCurveFanStartValue(units::concentration::percent_t value) override;
+  void takeFanCurveTemperatureRange(units::temperature::celsius_t,
+                                    units::temperature::celsius_t) override
+  {
+  }
+
+ private:
+  AMD::FanCurveProfilePart &outer_;
+};
+
+void AMD::FanCurveProfilePart::Initializer::takeActive(bool active)
+{
+  outer_.activate(active);
+}
+
+void AMD::FanCurveProfilePart::Initializer::takeFanCurvePoints(
+    std::vector<AMD::FanCurve::Point> const &points)
+{
+  outer_.points_ = points;
+}
+
+void AMD::FanCurveProfilePart::Initializer::takeFanCurveFanStop(bool enabled)
+{
+  outer_.fanStop_ = enabled;
+}
+
+void AMD::FanCurveProfilePart::Initializer::takeFanCurveFanStartValue(
+    units::concentration::percent_t value)
+{
+  outer_.fanStartValue_ = value;
+}
+
+AMD::FanCurveProfilePart::FanCurveProfilePart() noexcept
+: id_(AMD::FanCurve::ItemID)
+{
+}
+
+std::unique_ptr<Exportable::Exporter>
+AMD::FanCurveProfilePart::factory(IProfilePartProvider const &)
+{
+  return nullptr;
+}
+
+std::unique_ptr<Exportable::Exporter> AMD::FanCurveProfilePart::initializer()
+{
+  return std::make_unique<AMD::FanCurveProfilePart::Initializer>(*this);
+}
+
+std::string const &AMD::FanCurveProfilePart::ID() const
+{
+  return id_;
+}
+
+std::optional<std::reference_wrapper<Importable::Importer>>
+AMD::FanCurveProfilePart::provideImporter(Item const &)
+{
+  return {};
+}
+
+bool AMD::FanCurveProfilePart::provideActive() const
+{
+  return active();
+}
+
+std::vector<AMD::FanCurve::Point> const &
+AMD::FanCurveProfilePart::provideFanCurvePoints() const
+{
+  return points_;
+}
+
+bool AMD::FanCurveProfilePart::provideFanCurveFanStop() const
+{
+  return fanStop_;
+}
+
+units::concentration::percent_t
+AMD::FanCurveProfilePart::provideFanCurveFanStartValue() const
+{
+  return fanStartValue_;
+}
+
+void AMD::FanCurveProfilePart::importProfilePart(IProfilePart::Importer &i)
+{
+  auto &pmfImporter = dynamic_cast<AMD::FanCurveProfilePart::Importer &>(i);
+  points_ = pmfImporter.provideFanCurvePoints();
+  fanStop_ = pmfImporter.provideFanCurveFanStop();
+  fanStartValue_ = pmfImporter.provideFanCurveFanStartValue();
+}
+
+void AMD::FanCurveProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
+{
+  auto &pmfExporter = dynamic_cast<AMD::FanCurveProfilePart::Exporter &>(e);
+  pmfExporter.takeFanCurvePoints(points_);
+  pmfExporter.takeFanCurveFanStop(fanStop_);
+  pmfExporter.takeFanCurveFanStartValue(fanStartValue_);
+}
+
+std::unique_ptr<IProfilePart> AMD::FanCurveProfilePart::cloneProfilePart() const
+{
+  auto clone = std::make_unique<AMD::FanCurveProfilePart>();
+  clone->points_ = points_;
+  clone->fanStop_ = fanStop_;
+  clone->fanStartValue_ = fanStartValue_;
+
+  return std::move(clone);
+}
+
+bool const AMD::FanCurveProfilePart::registered_ =
+    ProfilePartProvider::registerProvider(AMD::FanCurve::ItemID, []() {
+      return std::make_unique<AMD::FanCurveProfilePart>();
+    });
