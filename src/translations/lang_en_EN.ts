@@ -502,6 +502,11 @@ Do you want to apply them now?</source>
 Do you want to apply them now?</translation>
     </message>
     <message>
+        <location filename="../qml/Profiles.qml" line="474"/>
+        <source>Manage profiles for your applications...</source>
+        <translation>Manage profiles for your applications...</translation>
+    </message>
+    <message>
         <location filename="../qml/Profiles.qml" line="546"/>
         <source>Load from...</source>
         <translation>Load from...</translation>
@@ -579,11 +584,6 @@ Check the permissions of the destination file and directory.</translation>
         <location filename="../qml/Profiles.qml" line="566"/>
         <source>Reset</source>
         <translation>Reset</translation>
-    </message>
-    <message>
-        <location filename="../qml/Profiles.qml" line="474"/>
-        <source>Manage profiles for you applications...</source>
-        <translation>Manage profiles for you applications...</translation>
     </message>
 </context>
 <context>
@@ -713,7 +713,7 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../core/systeminfoui.cpp" line="35"/>
         <source>deviceid</source>
-        <translation>Devide ID</translation>
+        <translation>Device ID</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="36"/>
