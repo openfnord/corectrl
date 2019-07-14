@@ -471,7 +471,7 @@ Page {
       anchors.fill: parent
 
       Label {
-        text: qsTr("Manage profiles for you applications...")
+        text: qsTr("Manage profiles for your applications...")
         leftPadding: 10
         color: Style.ToolBar.text_color_msg
         visible: stack.depth === 1

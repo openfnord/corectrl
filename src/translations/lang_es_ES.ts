@@ -502,6 +502,11 @@ Do you want to apply them now?</source>
 ¿Quieres aplicarlos ahora?</translation>
     </message>
     <message>
+        <location filename="../qml/Profiles.qml" line="474"/>
+        <source>Manage profiles for your applications...</source>
+        <translation>Gestiona perfiles para tus aplicaciones...</translation>
+    </message>
+    <message>
         <location filename="../qml/Profiles.qml" line="546"/>
         <source>Load from...</source>
         <translation>Cargar desde...</translation>
@@ -579,11 +584,6 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
         <location filename="../qml/Profiles.qml" line="566"/>
         <source>Reset</source>
         <translation>Reinicializar</translation>
-    </message>
-    <message>
-        <location filename="../qml/Profiles.qml" line="474"/>
-        <source>Manage profiles for you applications...</source>
-        <translation>Gestiona perfiles para tus aplicaciones...</translation>
     </message>
 </context>
 <context>
