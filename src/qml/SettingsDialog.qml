@@ -26,7 +26,7 @@ Dialog {
 
   focus: true
   modal: true
-  standardButtons: Dialog.Apply | Dialog.Discard
+  standardButtons: Dialog.Ok | Dialog.Cancel
   closePolicy: Popup.CloseOnEscape
 
   // center in parent
@@ -38,7 +38,7 @@ Dialog {
       id: sysTrayIcon
       text: qsTr("Show system tray icon")
 
-      onToggled: footer.standardButton(Dialog.Apply).enabled = true
+      onToggled: footer.standardButton(Dialog.Ok).enabled = true
     }
 
     CheckBox {
@@ -46,29 +46,29 @@ Dialog {
       enabled: sysTrayIcon.enabled && sysTrayIcon.checked
       text: qsTr("Start minimized on system tray")
 
-      onToggled: footer.standardButton(Dialog.Apply).enabled = true
+      onToggled: footer.standardButton(Dialog.Ok).enabled = true
     }
   }
 
   onOpened: {
-    footer.standardButton(Dialog.Apply).enabled = false
+    footer.standardButton(Dialog.Ok).enabled = false
 
     sysTrayIcon.enabled = systemTray.isAvailable()
     sysTrayIcon.checked = settings.getValue("sysTray", true)
     startOnSysTray.checked = settings.getValue("startOnSysTray", true)
   }
 
-  onApplied: {
+  onAccepted: {
     settings.setValue("sysTray", sysTrayIcon.checked)
     settings.setValue("startOnSysTray", startOnSysTray.checked)
     close()
   }
 
-  onDiscarded: close()
+  onRejected: close()
 
   Component.onCompleted: {
-    footer.standardButton(Dialog.Apply).enabled = false
-    footer.standardButton(Dialog.Apply).hoverEnabled = Style.g_hover
-    footer.standardButton(Dialog.Discard).hoverEnabled = Style.g_hover
+    footer.standardButton(Dialog.Ok).enabled = false
+    footer.standardButton(Dialog.Ok).hoverEnabled = Style.g_hover
+    footer.standardButton(Dialog.Cancel).hoverEnabled = Style.g_hover
   }
 }

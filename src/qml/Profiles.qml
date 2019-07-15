@@ -376,7 +376,7 @@ Page {
 
     focus: true
     modal: true
-    standardButtons: Dialog.Apply | Dialog.Discard
+    standardButtons: Dialog.Ok | Dialog.Cancel
     closePolicy: Popup.CloseOnEscape
 
     // center in parent
@@ -387,20 +387,20 @@ Page {
       text: qsTr("Unapplied settings will be lost.\nDo you want to apply them now?")
     }
 
-    onDiscarded:  {
-      p.exitProfileSettings()
-      close()
-    }
-
-    onApplied: {
+    onAccepted: {
       profileManager.applySettings(p.editedProfileBtn.name)
       p.exitProfileSettings()
       close()
     }
 
+    onRejected: {
+      p.exitProfileSettings()
+      close()
+    }
+
     Component.onCompleted: {
-      footer.standardButton(Dialog.Apply).hoverEnabled = Style.g_hover
-      footer.standardButton(Dialog.Discard).hoverEnabled = Style.g_hover
+      footer.standardButton(Dialog.Ok).hoverEnabled = Style.g_hover
+      footer.standardButton(Dialog.Cancel).hoverEnabled = Style.g_hover
     }
   }
 
