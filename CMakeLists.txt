@@ -9,8 +9,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND TARGET_COMMON_COMPILE_FEATURES
   cxx_std_17              # C++17
 )
-add_compile_definitions($<$<CONFIG:Debug>:_DEBUG>)
-add_compile_options("$<$<CONFIG:Debug>:-W;-Wall;-Wextra;-Wpedantic>")
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  add_definitions("-D_DEBUG")
+  add_compile_options("-W;-Wall;-Wextra;-Wpedantic")
+endif()
 
 find_package(ECM REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH  ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
