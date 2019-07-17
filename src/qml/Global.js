@@ -19,5 +19,5 @@
 
 var SysemTrayDefaults = {
   enabled: true,
-  startMinimized: true,
+  startMinimized: false,
 };
