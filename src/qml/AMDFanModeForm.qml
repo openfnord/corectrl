@@ -16,7 +16,6 @@
 // Distributed under the GPL version 3 or any later version.
 //
 import QtQuick 2.9
-import QtQml.Models 2.2
 import Radman.UIComponents 1.0
 
 AMD_FAN_MODE {
