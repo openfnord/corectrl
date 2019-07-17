@@ -18,6 +18,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import "Style.js" as Style
+import "Global.js" as Global
 
 Dialog {
   id: settingsDlg
@@ -54,8 +55,10 @@ Dialog {
     footer.standardButton(Dialog.Ok).enabled = false
 
     sysTrayIcon.enabled = systemTray.isAvailable()
-    sysTrayIcon.checked = settings.getValue("sysTray", true)
-    startOnSysTray.checked = settings.getValue("startOnSysTray", true)
+    sysTrayIcon.checked = settings.getValue("sysTray",
+                                            Global.SysemTrayDefaults.enabled)
+    startOnSysTray.checked = settings.getValue("startOnSysTray",
+                                               Global.SysemTrayDefaults.startMinimized)
   }
 
   onAccepted: {
