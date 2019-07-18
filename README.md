@@ -11,7 +11,15 @@ All of this is perceived by regular users as a big burden or even a barrier that
 
 The actual version of **CoreCtrl** automatically apply profiles for native and Windows applications, has basic CPU controls and full AMD GPUs controls (for both old and new models). The goal is to support as much hardware as possible, even from other vendors. Please, see [Future work](https://gitlab.com/corectrl/corectrl/wikis/home#future-work) for more details.
 
-For installation and setup instructions, please go to the [project wiki](https://gitlab.com/corectrl/corectrl/wikis/home).
+## Installation
+
+### Distribution packages
+
+- Fedora: `sudo dnf install corectrl`
+- OpenSUSE: [`corectrl`](https://software.opensuse.org/download.html?project=home%3ADead_Mozay&package=corectrl)
+- Arch Linux (AUR): [`corectrl`](https://aur.archlinux.org/packages/corectrl/)
+
+For other installation methods and setup instructions, please go to the [project wiki](https://gitlab.com/corectrl/corectrl/wikis/home).
 
 ## Lead developer note
 This project requires a huge amount of work and dedication. If you think that it is worthwhile for you or the community, please consider to sustain my work on it through [Patreon](https://www.patreon.com/jpalaciosdev).
