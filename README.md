@@ -15,6 +15,8 @@ The actual version of **CoreCtrl** automatically apply profiles for native and W
 
 ### Distribution packages
 
+This list may contain unofficial distribution packages. For security reasons, always be extra careful on what you install on your system. I you are suspicious about them, you can wait until you distribution packages CoreCtrl officially or you can install it from the [source code](https://gitlab.com/corectrl/corectrl/wikis/Installation). If you find something wrong or malicious on any of them, please open an issue so the list can be updated.
+
 - Fedora: `sudo dnf install corectrl`
 - OpenSUSE: [`corectrl`](https://software.opensuse.org/download.html?project=home%3ADead_Mozay&package=corectrl)
 - Arch Linux (AUR): [`corectrl`](https://aur.archlinux.org/packages/corectrl/)
