@@ -85,12 +85,13 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
 {
   std::vector<std::string> availableGovernors{"performance", "powersave"};
   std::vector<std::unique_ptr<IDataSource<std::string>>> scalingGovernorDataSources;
+  std::string defaultGovernor{"powersave"};
   std::string const scalingGovernorPath{"scaling_governor"};
   CommandQueueStub ctlCmds;
 
   SECTION("Has CPUFreq ID")
   {
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
 
     REQUIRE(ts.ID() == ::CPUFreq::ItemID);
@@ -98,26 +99,25 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
 
   SECTION("Is active by default")
   {
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
 
     REQUIRE(ts.active());
   }
 
-  SECTION("Has 'powersave' scaling governor selected by default when "
-          "'powersave' scaling governor is available")
+  SECTION("Has defaultGovernor selected by default when is available")
   {
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
 
-    REQUIRE(ts.scalingGovernor() == "powersave");
+    REQUIRE(ts.scalingGovernor() == defaultGovernor);
   }
 
   SECTION("Has the first available scaling governor selected by default when "
-          "'powersave' scaling governor is not available")
+          "defaultGovernor is not available")
   {
     std::vector<std::string> otherGovernors{"_other_0_", "_other_1_"};
-    CPUFreqTestAdapter ts(std::move(otherGovernors),
+    CPUFreqTestAdapter ts(std::move(otherGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
 
     REQUIRE(ts.scalingGovernor() == "_other_0_");
@@ -125,7 +125,7 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
 
   SECTION("scalingGovernor only sets known scaling governors")
   {
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
 
     ts.scalingGovernor("performance");
@@ -137,7 +137,7 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
 
   SECTION("Does not clean control on pre-init")
   {
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
 
     CommandQueueStub cmds;
@@ -148,7 +148,7 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
 
   SECTION("Imports its state")
   {
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
     CPUFreqImporterStub i("performance");
     ts.importControl(i);
@@ -159,20 +159,20 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
   SECTION("Export its state and available scaling governors")
   {
     auto governors = availableGovernors;
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
     CPUFreqExporterMock e;
 
     REQUIRE_CALL(e, takeCPUFreqScalingGovernors(trompeloeil::_))
         .LR_WITH(_1 == governors);
-    REQUIRE_CALL(e, takeCPUFreqScalingGovernor(trompeloeil::eq("powersave")));
+    REQUIRE_CALL(e, takeCPUFreqScalingGovernor(trompeloeil::eq(defaultGovernor)));
 
     ts.exportControl(e);
   }
 
   SECTION("Does not generate clean control commands")
   {
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
     ts.cleanControl(ctlCmds);
 
@@ -183,8 +183,8 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
   {
     scalingGovernorDataSources.emplace_back(
         std::make_unique<StringDataSourceStub>(scalingGovernorPath,
-                                               "powersave"));
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+                                               defaultGovernor));
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
 
     ts.syncControl(ctlCmds);
@@ -196,7 +196,7 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
   {
     scalingGovernorDataSources.emplace_back(
         std::make_unique<StringDataSourceStub>(scalingGovernorPath, "_other_"));
-    CPUFreqTestAdapter ts(std::move(availableGovernors),
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
 
     ts.syncControl(ctlCmds);
@@ -205,7 +205,7 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
 
     auto &[path, value] = ctlCmds.commands().front();
     REQUIRE(path == scalingGovernorPath);
-    REQUIRE(value == "powersave");
+    REQUIRE(value == defaultGovernor);
   }
 }
 

@@ -21,6 +21,7 @@
 #include "common/stringutils.h"
 #include "core/components/controls/cpucontrolprovider.h"
 #include "core/info/icpuinfo.h"
+#include <algorithm>
 
 #include "cpufreq.h"
 
@@ -33,12 +34,12 @@ CPUFreqProvider::provideCPUControl(ICPUInfo const &cpuInfo, ISWInfo const &) con
     if (!executionUnits.empty()) {
       auto governors = availableGovernors(cpuInfo);
       if (!governors.empty()) {
-
+        auto governor = defatultGovernor(cpuInfo, governors);
         auto scalingGovernorDataSources =
             createScalingGovernorDataSources(cpuInfo);
         if (!scalingGovernorDataSources.empty())
-          return std::make_unique<CPUFreq>(
-              std::move(governors), std::move(scalingGovernorDataSources));
+          return std::make_unique<CPUFreq>(std::move(governors), governor,
+                                           std::move(scalingGovernorDataSources));
       }
     }
   }
@@ -61,6 +62,40 @@ CPUFreqProvider::availableGovernors(ICPUInfo const &cpuInfo) const
   }
   else
     return {};
+}
+
+std::string CPUFreqProvider::defatultGovernor(
+    ICPUInfo const &cpuInfo, std::vector<std::string> const &governors) const
+{
+  std::string scalingDriverPath{"cpufreq/scaling_driver"};
+
+  // get scaling driver from the first execution unit
+  auto unitScalingDriverPath = cpuInfo.executionUnits().front().sysPath /
+                               scalingDriverPath;
+
+  if (Utils::File::isSysFSEntryValid(unitScalingDriverPath)) {
+    auto lines = Utils::File::readFileLines(unitScalingDriverPath);
+    if (!lines.empty()) {
+
+      std::string governor("ondemand");
+
+      auto driver = lines.front();
+      if (driver == "intel_pstate")
+        governor = "powersave";
+
+      // clamp governor into available governors
+      auto iter = std::find_if(governors.cbegin(), governors.cend(),
+                               [&](auto &availableGovernor) {
+                                 return governor == availableGovernor;
+                               });
+      if (iter == governors.cend()) // fallback to first available governor
+        governor = governors.front();
+
+      return governor;
+    }
+  }
+
+  return governors.front();
 }
 
 std::vector<std::unique_ptr<IDataSource<std::string>>>

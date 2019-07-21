@@ -21,6 +21,7 @@
 #include "core/idatasource.h"
 
 CPUFreq::CPUFreq(std::vector<std::string> &&scalingGovernors,
+                 std::string const &defaultGovernor,
                  std::vector<std::unique_ptr<IDataSource<std::string>>>
                      &&scalingGovernorDataSources) noexcept
 : Control(true)
@@ -28,7 +29,7 @@ CPUFreq::CPUFreq(std::vector<std::string> &&scalingGovernors,
 , scalingGovernors_(std::move(scalingGovernors))
 , scalingGovernorDataSources_(std::move(scalingGovernorDataSources))
 {
-  scalingGovernor("powersave");
+  scalingGovernor(defaultGovernor);
   if (scalingGovernor_.empty())
     scalingGovernor(scalingGovernors_.front());
 }
