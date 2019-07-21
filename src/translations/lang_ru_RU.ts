@@ -44,7 +44,7 @@
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="29"/>
         <source>COMPUTE</source>
-        <translation>Compute</translation>
+        <translation>Вычисления</translation>
     </message>
 </context>
 <context>
@@ -75,7 +75,7 @@
     <message>
         <location filename="../qml/AMDFanCurveForm.qml" line="57"/>
         <source>PWM</source>
-        <translation>PWM</translation>
+        <translation>ШИМ</translation>
     </message>
     <message>
         <location filename="../qml/AMDFanCurveForm.qml" line="132"/>
@@ -167,7 +167,7 @@
     <message>
         <location filename="../qml/AMDPMFreqOdForm.qml" line="91"/>
         <source>Memory</source>
-        <translation>Memory</translation>
+        <translation>Память</translation>
     </message>
 </context>
 <context>
@@ -252,7 +252,7 @@
     <message>
         <location filename="../qml/About.qml" line="95"/>
         <source>There is always new hardware to support and new features to implement.</source>
-        <translation>Всегда появляется новое оборудование которое требует поддержки и требует реализации новых возможностей.</translation>
+        <translation>Всегда появляется новое оборудование, которое требует поддержки и требует реализации новых возможностей.</translation>
     </message>
     <message>
         <location filename="../qml/About.qml" line="96"/>
@@ -278,32 +278,32 @@
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="26"/>
         <source>performance</source>
-        <translation>Performance</translation>
+        <translation>Производительность</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="27"/>
         <source>powersave</source>
-        <translation>Powersave</translation>
+        <translation>Экономия энергии</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
         <source>userspace</source>
-        <translation>Custom frequency</translation>
+        <translation>Своя частота</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
         <source>schedutil</source>
-        <translation>CPU utilization</translation>
+        <translation>Использование CPU</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
         <source>ondemand</source>
-        <translation>Ondemand</translation>
+        <translation>По требованию</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
         <source>conservative</source>
-        <translation>Conservative</translation>
+        <translation>Консервативный</translation>
     </message>
 </context>
 <context>
