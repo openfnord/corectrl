@@ -44,6 +44,7 @@ class CPUFreq : public Control
   };
 
   CPUFreq(std::vector<std::string> &&scalingGovernors,
+          std::string const &defaultGovernor,
           std::vector<std::unique_ptr<IDataSource<std::string>>>
               &&scalingGovernorDataSources) noexcept;
 
