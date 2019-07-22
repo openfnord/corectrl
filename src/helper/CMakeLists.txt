@@ -4,7 +4,7 @@ include(KDEInstallDirs)
 
 find_package(Qt5 COMPONENTS Core DBus REQUIRED)
 find_package(KF5Auth REQUIRED)
-find_package(Qca-qt5 REQUIRED)
+find_package(Botan REQUIRED)
 
 list(APPEND PROCESS_MONITOR_SRC
   pmon/processmonitor.cpp
