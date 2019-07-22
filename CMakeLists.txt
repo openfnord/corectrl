@@ -58,4 +58,5 @@ install(FILES resources/icon/app_96.svg DESTINATION share/icons/hicolor/96x96/ap
 install(FILES resources/icon/app_128.svg DESTINATION share/icons/hicolor/128x128/apps RENAME ${ICON_NAME}.svg)
 install(FILES resources/icon/app_192.svg DESTINATION share/icons/hicolor/192x192/apps RENAME ${ICON_NAME}.svg)
 install(FILES resources/icon/app_256.svg DESTINATION share/icons/hicolor/256x256/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/launcher.desktop DESTINATION share/applications RENAME ${PROJECT_NAME}.desktop)
+install(FILES resources/launcher.desktop DESTINATION share/applications RENAME org.corectrl.corectrl.desktop)
+install(FILES resources/org.corectrl.corectrl.appdata.xml DESTINATION share/metainfo)
