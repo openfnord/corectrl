@@ -242,7 +242,7 @@
     <message>
         <location filename="../qml/About.qml" line="88"/>
         <source>This project needs you!</source>
-        <translation>Проект нуждается в вас!</translation>
+        <translation>Этот проект нуждается в вас!</translation>
     </message>
     <message>
         <location filename="../qml/About.qml" line="94"/>
@@ -252,7 +252,7 @@
     <message>
         <location filename="../qml/About.qml" line="95"/>
         <source>There is always new hardware to support and new features to implement.</source>
-        <translation>Всегда появляется новое оборудование, которое требует поддержки и требует реализации новых возможностей.</translation>
+        <translation>Всегда появляется новое оборудование, которое требует поддержки и реализации новых возможностей.</translation>
     </message>
     <message>
         <location filename="../qml/About.qml" line="96"/>
@@ -420,12 +420,12 @@
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="127"/>
         <source>Executable:</source>
-        <translation>Исполняемый:</translation>
+        <translation>Исполняемый файл:</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="137"/>
         <source>Executable name</source>
-        <translation>Исполняемое имя</translation>
+        <translation>Имя исполняемого файла</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="154"/>
@@ -616,17 +616,18 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/components/sensors/amd/memusagegraphitem.cpp" line="33"/>
         <source>AMD_MEM_USAGE</source>
-        <translation>Использованние памяти</translation>
+        <translation>Использование памяти</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/fanspeedpercgraphitem.cpp" line="33"/>
         <source>AMD_FAN_SPEED_PERC</source>
-        <translation>Вентилятор</translation>
+        <translatorcomment>I hope &quot;_PERC&quot; refers to the percentage of fan speed. If it doesn&apos;t, remove the percent sign.</translatorcomment>
+        <translation>Вентилятор (%)</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/fanspeedrpmgraphitem.cpp" line="35"/>
         <source>AMD_FAN_SPEED_RPM</source>
-        <translation>Вентилятор</translation>
+        <translation>Вентилятор (об/мин)</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/cpu/cpufreqpackgraphitem.cpp" line="32"/>
@@ -808,7 +809,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/systeminfoui.cpp" line="55"/>
         <source>flags</source>
-        <translation>Flags</translation>
+        <translation>Флаги</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="56"/>
@@ -833,7 +834,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/systeminfoui.cpp" line="60"/>
         <source>byteorder</source>
-        <translation>Byte order</translation>
+        <translation>Порядок байтов</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="61"/>
@@ -858,7 +859,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/systeminfoui.cpp" line="53"/>
         <source>exeunits</source>
-        <translation>Execution units</translation>
+        <translation>Исполнительные единицы</translation>
     </message>
 </context>
 <context>
