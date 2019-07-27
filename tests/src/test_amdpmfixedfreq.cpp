@@ -194,11 +194,12 @@ TEST_CASE("AMD PMFixedFreq tests", "[GPU][AMD][PM][PMAdvanced][PMFixedFreq]")
     PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
                               std::move(ppDpmSclkMock),
                               std::move(ppDpmMclkMock));
+    trompeloeil::sequence seq;
     PMFixedFreqExporterMock e;
-    REQUIRE_CALL(e, takePMFixedFreqSclkStates(trompeloeil::_));
-    REQUIRE_CALL(e, takePMFixedFreqMclkStates(trompeloeil::_));
-    REQUIRE_CALL(e, takePMFixedFreqSclkIndex(trompeloeil::eq(0u)));
-    REQUIRE_CALL(e, takePMFixedFreqMclkIndex(trompeloeil::eq(0u)));
+    REQUIRE_CALL(e, takePMFixedFreqSclkStates(trompeloeil::_)).IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFixedFreqSclkIndex(trompeloeil::eq(0u))).IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFixedFreqMclkStates(trompeloeil::_)).IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFixedFreqMclkIndex(trompeloeil::eq(0u))).IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }

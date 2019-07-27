@@ -153,8 +153,10 @@ TEST_CASE("AMD PMPowerState tests", "[GPU][AMD][PM][PMPowerState]")
     PMPowerStateTestAdapter ts(std::make_unique<StringDataSourceStub>());
     PMPowerStateExporterMock e;
 
-    REQUIRE_CALL(e, takePMPowerStateModes(trompeloeil::_));
-    REQUIRE_CALL(e, takePMPowerStateMode(trompeloeil::eq("balanced")));
+    trompeloeil::sequence seq;
+    REQUIRE_CALL(e, takePMPowerStateModes(trompeloeil::_)).IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMPowerStateMode(trompeloeil::eq("balanced")))
+        .IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }

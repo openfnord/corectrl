@@ -373,14 +373,19 @@ TEST_CASE("AMD FanCurve tests", "[GPU][AMD][Fan][FanCurve]")
     ts.fanStop(true);
     ts.fanStartValue(128);
 
+    trompeloeil::sequence seq;
     FanCurveExporterMock e;
-    REQUIRE_CALL(e, takeFanCurvePoints(trompeloeil::_)).LR_WITH(_1 == curve);
-    REQUIRE_CALL(e, takeFanCurveFanStop(true));
-    REQUIRE_CALL(e, takeFanCurveFanStartValue(trompeloeil::_))
-        .WITH(_1 == units::concentration::percent_t(50));
     REQUIRE_CALL(e, takeFanCurveTemperatureRange(trompeloeil::_, trompeloeil::_))
         .WITH(_1 == units::temperature::celsius_t(0))
-        .WITH(_2 == units::temperature::celsius_t(100));
+        .WITH(_2 == units::temperature::celsius_t(100))
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takeFanCurvePoints(trompeloeil::_))
+        .LR_WITH(_1 == curve)
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takeFanCurveFanStop(true)).IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takeFanCurveFanStartValue(trompeloeil::_))
+        .WITH(_1 == units::concentration::percent_t(50))
+        .IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }

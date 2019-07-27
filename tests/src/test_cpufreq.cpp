@@ -161,11 +161,13 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
     auto governors = availableGovernors;
     CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
+    trompeloeil::sequence seq;
     CPUFreqExporterMock e;
-
     REQUIRE_CALL(e, takeCPUFreqScalingGovernors(trompeloeil::_))
-        .LR_WITH(_1 == governors);
-    REQUIRE_CALL(e, takeCPUFreqScalingGovernor(trompeloeil::eq(defaultGovernor)));
+        .LR_WITH(_1 == governors)
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takeCPUFreqScalingGovernor(trompeloeil::eq(defaultGovernor)))
+        .IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }

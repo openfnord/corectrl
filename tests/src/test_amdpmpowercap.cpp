@@ -198,11 +198,15 @@ TEST_CASE("AMD PMPowerCap tests", "[GPU][AMD][PM][PMPowerCap]")
     units::power::watt_t value(80);
     ts.value(value);
 
+    trompeloeil::sequence seq;
     PMPowerCapExporterMock e;
-    REQUIRE_CALL(e, takePMPowerCapValue(trompeloeil::_)).LR_WITH(_1 == value);
     REQUIRE_CALL(e, takePMPowerCapRange(trompeloeil::_, trompeloeil::_))
         .LR_WITH(_1 == min)
-        .LR_WITH(_2 == max);
+        .LR_WITH(_2 == max)
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMPowerCapValue(trompeloeil::_))
+        .LR_WITH(_1 == value)
+        .IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }

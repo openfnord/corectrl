@@ -212,13 +212,17 @@ TEST_CASE("AMD PMFreqOd tests",
         std::make_unique<VectorStringDataSourceStub>("pp_dpm_sclk", ppDpmData),
         std::make_unique<VectorStringDataSourceStub>("pp_dpm_mclk", ppDpmData));
     ts.init();
+
+    trompeloeil::sequence seq;
     PMFreqOdExporterMock e;
     REQUIRE_CALL(e, takePMFreqOdBaseSclk(
-                        trompeloeil::eq(units::frequency::megahertz_t(2000))));
+                        trompeloeil::eq(units::frequency::megahertz_t(2000))))
+        .IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFreqOdBaseMclk(
-                        trompeloeil::eq(units::frequency::megahertz_t(2000))));
-    REQUIRE_CALL(e, takePMFreqOdSclkOd(trompeloeil::eq(0u)));
-    REQUIRE_CALL(e, takePMFreqOdMclkOd(trompeloeil::eq(0u)));
+                        trompeloeil::eq(units::frequency::megahertz_t(2000))))
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFreqOdSclkOd(trompeloeil::eq(0u))).IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFreqOdMclkOd(trompeloeil::eq(0u))).IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }
