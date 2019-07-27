@@ -149,6 +149,7 @@ TEST_CASE("ControlGroup tests", "[GPU][ControlGroup]")
     ALLOW_CALL(*controlMock, ID()).LR_RETURN(controlMockID);
     ALLOW_CALL(*controlMock, active()).RETURN(true);
     REQUIRE_CALL(*controlMock, importWith(trompeloeil::_));
+    REQUIRE_CALL(*controlMock, activate(true));
 
     ControlModeImporterStub i;
     ControlGroupTestAdapter ts(id, std::move(controlMocks), true);

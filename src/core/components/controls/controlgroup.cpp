@@ -17,8 +17,6 @@
 //
 #include "controlgroup.h"
 
-#include <algorithm>
-
 ControlGroup::ControlGroup(std::string_view id,
                            std::vector<std::unique_ptr<IControl>> &&controls,
                            bool active) noexcept
@@ -54,8 +52,12 @@ std::string const &ControlGroup::ID() const
 
 void ControlGroup::importControl(IControl::Importer &i)
 {
-  for (auto &control : controls_)
+  for (auto &control : controls_) {
     control->importWith(i);
+
+    // ensure that all controls are active
+    control->activate(true);
+  }
 }
 
 void ControlGroup::exportControl(IControl::Exporter &e) const
