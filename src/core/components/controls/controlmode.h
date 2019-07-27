@@ -52,6 +52,7 @@ class ControlMode : public Control
 
   void cleanControl(ICommandQueue &ctlCmds) final override;
   void syncControl(ICommandQueue &ctlCmds) final override;
+
   std::string const &mode() const;
   void mode(std::string const &mode);
 

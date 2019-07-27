@@ -44,7 +44,7 @@ void ControlMode::init()
     control->init();
 
     if (!activeFound && control->active()) {
-      mode(control->ID());
+      mode_ = control->ID();
       activeFound = true;
     }
     else if (activeFound && control->active())
@@ -54,7 +54,7 @@ void ControlMode::init()
   if (!activeFound && !controls_.empty()) {
     auto &control = controls_.front();
     control->activate(true);
-    mode(control->ID());
+    mode_ = control->ID();
   }
 }
 
@@ -66,17 +66,14 @@ std::string const &ControlMode::ID() const
 void ControlMode::importControl(IControl::Importer &i)
 {
   auto &pModeImporter = dynamic_cast<ControlMode::Importer &>(i);
+  mode(pModeImporter.provideMode());
 
-  // import mode when is a known mode
-  auto &newMode = pModeImporter.provideMode();
-  auto iter = std::find_if(
-      controls_.cbegin(), controls_.cend(),
-      [&](auto &control) { return newMode == control->ID(); });
-  if (iter != controls_.cend())
-    mode(newMode);
-
-  for (auto &control : controls_)
+  for (auto &control : controls_) {
     control->importWith(i);
+
+    // ensure that only the selected mode is active
+    control->activate(control->ID() == mode());
+  }
 }
 
 void ControlMode::exportControl(IControl::Exporter &e) const
@@ -111,5 +108,8 @@ std::string const &ControlMode::mode() const
 
 void ControlMode::mode(std::string const &mode)
 {
-  mode_ = mode;
+  auto iter = std::find_if(controls_.cbegin(), controls_.cend(),
+                           [&](auto &control) { return mode == control->ID(); });
+  if (iter != controls_.cend())
+    mode_ = mode;
 }
