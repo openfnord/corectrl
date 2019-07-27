@@ -103,6 +103,22 @@ TEST_CASE("ControlMode tests", "[GPU][ControlMode]")
     REQUIRE(ts.ID() == id);
   }
 
+  SECTION("mode are set only for known control ids")
+  {
+    controlMocks.emplace_back(std::make_unique<ControlMock>());
+    ControlMock *controlMock = static_cast<ControlMock *>(controlMocks[0].get());
+    std::string const controlMockID("_control_mock_");
+    ALLOW_CALL(*controlMock, ID()).LR_RETURN(controlMockID);
+
+    ControlModeTestAdapter ts(id, std::move(controlMocks), true);
+
+    ts.mode(controlMockID);
+    REQUIRE(ts.mode() == controlMockID);
+
+    ts.mode("unknown");
+    REQUIRE(ts.mode() == controlMockID);
+  }
+
   SECTION("Pre-init its controls")
   {
     controlMocks.emplace_back(std::make_unique<ControlMock>());
@@ -189,7 +205,7 @@ TEST_CASE("ControlMode tests", "[GPU][ControlMode]")
     }
   }
 
-  SECTION("Imports controls and mode when the importer provides a known mode")
+  SECTION("Imports controls and mode")
   {
     controlMocks.emplace_back(std::make_unique<ControlMock>());
     controlMocks.emplace_back(std::make_unique<ControlMock>());
@@ -200,43 +216,24 @@ TEST_CASE("ControlMode tests", "[GPU][ControlMode]")
     ALLOW_CALL(*controlMock, ID()).LR_RETURN(activeControlMockID);
     ALLOW_CALL(*controlMock, active()).RETURN(true);
     REQUIRE_CALL(*controlMock, importWith(trompeloeil::_));
+    REQUIRE_CALL(*controlMock, activate(false));
 
     controlMock = static_cast<ControlMock *>(controlMocks[1].get());
-    std::string const knownControlMockID("_known_control_mock_");
+    std::string const newActiveControlMockID("_new_active_control_mock_");
     ALLOW_CALL(*controlMock, init());
-    ALLOW_CALL(*controlMock, ID()).LR_RETURN(knownControlMockID);
+    ALLOW_CALL(*controlMock, ID()).LR_RETURN(newActiveControlMockID);
     ALLOW_CALL(*controlMock, active()).RETURN(false);
     REQUIRE_CALL(*controlMock, importWith(trompeloeil::_));
+    REQUIRE_CALL(*controlMock, activate(true));
 
-    ControlModeImporterStub i("_known_control_mock_");
+    ControlModeImporterStub i("_new_active_control_mock_");
     ControlModeTestAdapter ts(id, std::move(controlMocks), true);
     ts.init();
     auto oldMode = ts.mode();
     ts.importControl(i);
 
     REQUIRE(ts.mode() != oldMode);
-    REQUIRE(ts.mode() == knownControlMockID);
-  }
-
-  SECTION("Imports controls but not mode when the importer provides an unknown "
-          "mode")
-  {
-    controlMocks.emplace_back(std::make_unique<ControlMock>());
-
-    ControlMock *controlMock = static_cast<ControlMock *>(controlMocks[0].get());
-    std::string const activeControlMockID("_active_control_mock_");
-    ALLOW_CALL(*controlMock, init());
-    ALLOW_CALL(*controlMock, ID()).LR_RETURN(activeControlMockID);
-    ALLOW_CALL(*controlMock, active()).RETURN(true);
-    REQUIRE_CALL(*controlMock, importWith(trompeloeil::_));
-
-    ControlModeImporterStub i("_unknown_control_");
-    ControlModeTestAdapter ts(id, std::move(controlMocks), true);
-    ts.init();
-    auto mode = ts.mode();
-    ts.importControl(i);
-
-    REQUIRE(mode == ts.mode());
+    REQUIRE(ts.mode() == newActiveControlMockID);
   }
 
   SECTION("Export controls and mode")
