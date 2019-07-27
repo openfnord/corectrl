@@ -82,10 +82,10 @@ void AMD::FanCurve::importControl(IControl::Importer &i)
 void AMD::FanCurve::exportControl(IControl::Exporter &e) const
 {
   auto &fanCurveExporter = dynamic_cast<AMD::FanCurve::Exporter &>(e);
+  fanCurveExporter.takeFanCurveTemperatureRange(tempMin_, tempMax_);
   fanCurveExporter.takeFanCurvePoints(curve());
   fanCurveExporter.takeFanCurveFanStop(fanStop());
   fanCurveExporter.takeFanCurveFanStartValue(std::round(fanStartValue() / 2.55));
-  fanCurveExporter.takeFanCurveTemperatureRange(tempMin_, tempMax_);
 }
 
 void AMD::FanCurve::cleanControl(ICommandQueue &)

@@ -169,9 +169,12 @@ TEST_CASE("AMD PMPowerProfile tests",
         std::make_unique<VectorStringDataSourceStub>("pp_power_profile_mode",
                                                      ppPowerProfileModeData));
     ts.init();
+
+    trompeloeil::sequence seq;
     PMPowerProfileExporterMock e;
-    REQUIRE_CALL(e, takePMPowerProfileModes(trompeloeil::_));
-    REQUIRE_CALL(e, takePMPowerProfileMode(trompeloeil::eq("3D_FULL_SCREEN")));
+    REQUIRE_CALL(e, takePMPowerProfileModes(trompeloeil::_)).IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMPowerProfileMode(trompeloeil::eq("3D_FULL_SCREEN")))
+        .IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }

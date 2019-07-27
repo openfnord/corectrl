@@ -518,27 +518,41 @@ TEST_CASE("AMD PMFVVoltCurve tests",
     voltCurve.emplace_back(units::frequency::megahertz_t(2000),
                            units::voltage::millivolt_t(900));
 
+    trompeloeil::sequence seq;
     PMFVVoltCurveExporterMock e;
-    REQUIRE_CALL(e, takePMFVVoltCurveVoltModes(trompeloeil::_)).LR_WITH(_1 == modes);
-    REQUIRE_CALL(e, takePMFVVoltCurveVoltMode("auto"));
-    REQUIRE_CALL(e, takePMFVVoltCurveVoltRange(trompeloeil::_))
-        .LR_WITH(_1 == curveRange);
+    REQUIRE_CALL(e, takePMFVVoltCurveVoltModes(trompeloeil::_))
+        .LR_WITH(_1 == modes)
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFVVoltCurveVoltMode("auto")).IN_SEQUENCE(seq);
+
     REQUIRE_CALL(e, takePMFVVoltCurveGPURange(
                         trompeloeil::eq(units::frequency::megahertz_t(200)),
-                        trompeloeil::eq(units::frequency::megahertz_t(2000))));
+                        trompeloeil::eq(units::frequency::megahertz_t(2000))))
+        .IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFVVoltCurveMemRange(
                         trompeloeil::eq(units::frequency::megahertz_t(300)),
-                        trompeloeil::eq(units::frequency::megahertz_t(3000))));
+                        trompeloeil::eq(units::frequency::megahertz_t(3000))))
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFVVoltCurveVoltRange(trompeloeil::_))
+        .LR_WITH(_1 == curveRange)
+        .IN_SEQUENCE(seq);
+
     REQUIRE_CALL(e, takePMFVVoltCurveVoltCurve(trompeloeil::_))
-        .LR_WITH(_1 == voltCurve);
+        .LR_WITH(_1 == voltCurve)
+        .IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFVVoltCurveGPUStates(trompeloeil::_))
-        .LR_WITH(_1 == gpuStates);
+        .LR_WITH(_1 == gpuStates)
+        .IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFVVoltCurveMemStates(trompeloeil::_))
-        .LR_WITH(_1 == memStates);
+        .LR_WITH(_1 == memStates)
+        .IN_SEQUENCE(seq);
+
     REQUIRE_CALL(e, takePMFVVoltCurveGPUActiveStates(trompeloeil::_))
-        .LR_WITH(_1 == gpuActiveStates);
+        .LR_WITH(_1 == gpuActiveStates)
+        .IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFVVoltCurveMemActiveStates(trompeloeil::_))
-        .LR_WITH(_1 == memActiveStates);
+        .LR_WITH(_1 == memActiveStates)
+        .IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }

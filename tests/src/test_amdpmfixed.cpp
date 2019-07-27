@@ -126,10 +126,10 @@ TEST_CASE("AMD PMFixed tests", "[GPU][AMD][PM][PMFixed]")
 
   SECTION("Export its mode and available modes")
   {
+    trompeloeil::sequence seq;
     PMFixedExporterMock e;
-
-    REQUIRE_CALL(e, takePMFixedModes(trompeloeil::_));
-    REQUIRE_CALL(e, takePMFixedMode(trompeloeil::eq("_mode_0_")));
+    REQUIRE_CALL(e, takePMFixedModes(trompeloeil::_)).IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFixedMode(trompeloeil::eq("_mode_0_"))).IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }

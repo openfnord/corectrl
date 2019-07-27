@@ -448,25 +448,37 @@ TEST_CASE("AMD PMFVState tests", "[GPU][AMD][PM][PMAdvanced][PMFVState]")
     memStates.emplace_back(1, units::frequency::megahertz_t(3000),
                            units::voltage::millivolt_t(900));
 
+    trompeloeil::sequence seq;
     PMFVStateExporterMock e;
-    REQUIRE_CALL(e, takePMFVStateVoltModes(trompeloeil::_)).LR_WITH(_1 == modes);
-    REQUIRE_CALL(e, takePMFVStateGPUVoltMode("auto"));
-    REQUIRE_CALL(e, takePMFVStateMemVoltMode("auto"));
+    REQUIRE_CALL(e, takePMFVStateVoltModes(trompeloeil::_))
+        .LR_WITH(_1 == modes)
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFVStateGPUVoltMode("auto")).IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFVStateMemVoltMode("auto")).IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFVStateGPURange(
                         trompeloeil::eq(units::frequency::megahertz_t(200)),
-                        trompeloeil::eq(units::frequency::megahertz_t(2000))));
+                        trompeloeil::eq(units::frequency::megahertz_t(2000))))
+        .IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFVStateMemRange(
                         trompeloeil::eq(units::frequency::megahertz_t(300)),
-                        trompeloeil::eq(units::frequency::megahertz_t(3000))));
+                        trompeloeil::eq(units::frequency::megahertz_t(3000))))
+        .IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFVStateVoltRange(
                         trompeloeil::eq(units::voltage::millivolt_t(800)),
-                        trompeloeil::eq(units::voltage::millivolt_t(900))));
-    REQUIRE_CALL(e, takePMFVStateGPUStates(trompeloeil::_)).LR_WITH(_1 == gpuStates);
-    REQUIRE_CALL(e, takePMFVStateMemStates(trompeloeil::_)).LR_WITH(_1 == memStates);
+                        trompeloeil::eq(units::voltage::millivolt_t(900))))
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFVStateGPUStates(trompeloeil::_))
+        .LR_WITH(_1 == gpuStates)
+        .IN_SEQUENCE(seq);
+    REQUIRE_CALL(e, takePMFVStateMemStates(trompeloeil::_))
+        .LR_WITH(_1 == memStates)
+        .IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFVStateGPUActiveStates(trompeloeil::_))
-        .LR_WITH(_1 == gpuActiveStates);
+        .LR_WITH(_1 == gpuActiveStates)
+        .IN_SEQUENCE(seq);
     REQUIRE_CALL(e, takePMFVStateMemActiveStates(trompeloeil::_))
-        .LR_WITH(_1 == memActiveStates);
+        .LR_WITH(_1 == memActiveStates)
+        .IN_SEQUENCE(seq);
 
     ts.exportControl(e);
   }
