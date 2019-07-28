@@ -18,6 +18,7 @@
 #include "pmfixedfreqprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
 
 class AMD::PMFixedFreqProfilePart::Initializer final
 : public PMFixedFreq::Exporter
@@ -40,14 +41,11 @@ class AMD::PMFixedFreqProfilePart::Initializer final
   void takePMFixedFreqMclkIndex(unsigned int index) override;
 
   void takePMFixedFreqSclkStates(
-      std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const &) override
-  {
-  }
-
+      std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
+          &states) override;
   void takePMFixedFreqMclkStates(
-      std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const &) override
-  {
-  }
+      std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
+          &states) override;
 
  private:
   AMD::PMFixedFreqProfilePart &outer_;
@@ -68,6 +66,24 @@ void AMD::PMFixedFreqProfilePart::Initializer::takePMFixedFreqMclkIndex(
     unsigned int index)
 {
   outer_.mclkIndex_ = index;
+}
+
+void AMD::PMFixedFreqProfilePart::Initializer::takePMFixedFreqSclkStates(
+    std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const &states)
+{
+  outer_.sclkIndices_.reserve(states.size());
+  std::transform(states.cbegin(), states.cend(),
+                 std::back_inserter(outer_.sclkIndices_),
+                 [](auto &kv) { return kv.first; });
+}
+
+void AMD::PMFixedFreqProfilePart::Initializer::takePMFixedFreqMclkStates(
+    std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const &states)
+{
+  outer_.mclkIndices_.reserve(states.size());
+  std::transform(states.cbegin(), states.cend(),
+                 std::back_inserter(outer_.mclkIndices_),
+                 [](auto &kv) { return kv.first; });
 }
 
 AMD::PMFixedFreqProfilePart::PMFixedFreqProfilePart() noexcept
@@ -115,8 +131,8 @@ unsigned int AMD::PMFixedFreqProfilePart::providePMFixedFreqMclkIndex() const
 void AMD::PMFixedFreqProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
   auto &pmFreqImporter = dynamic_cast<AMD::PMFixedFreqProfilePart::Importer &>(i);
-  sclkIndex_ = pmFreqImporter.providePMFixedFreqSclkIndex();
-  mclkIndex_ = pmFreqImporter.providePMFixedFreqMclkIndex();
+  sclkIndex(pmFreqImporter.providePMFixedFreqSclkIndex());
+  mclkIndex(pmFreqImporter.providePMFixedFreqMclkIndex());
 }
 
 void AMD::PMFixedFreqProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
@@ -129,10 +145,34 @@ void AMD::PMFixedFreqProfilePart::exportProfilePart(IProfilePart::Exporter &e) c
 std::unique_ptr<IProfilePart> AMD::PMFixedFreqProfilePart::cloneProfilePart() const
 {
   auto clone = std::make_unique<AMD::PMFixedFreqProfilePart>();
+
+  clone->sclkIndices_ = sclkIndices_;
+  clone->mclkIndices_ = mclkIndices_;
+
   clone->sclkIndex_ = sclkIndex_;
   clone->mclkIndex_ = mclkIndex_;
 
   return std::move(clone);
+}
+
+void AMD::PMFixedFreqProfilePart::sclkIndex(unsigned int index)
+{
+  clkIndex(sclkIndex_, index, sclkIndices_);
+}
+
+void AMD::PMFixedFreqProfilePart::mclkIndex(unsigned int index)
+{
+  clkIndex(mclkIndex_, index, mclkIndices_);
+}
+
+void AMD::PMFixedFreqProfilePart::clkIndex(
+    unsigned int &targetIndex, unsigned int newIndex,
+    std::vector<unsigned int> const &availableIndices) const
+{
+  auto indexIt = std::find(availableIndices.cbegin(), availableIndices.cend(),
+                           newIndex);
+  if (indexIt != availableIndices.cend())
+    targetIndex = newIndex;
 }
 
 bool const AMD::PMFixedFreqProfilePart::registered_ =
