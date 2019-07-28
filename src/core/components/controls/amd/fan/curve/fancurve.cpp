@@ -17,6 +17,8 @@
 //
 #include "fancurve.h"
 
+#include "common/mathutils.h"
+#include "core/components/commonutils.h"
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
 #include <algorithm>
@@ -32,8 +34,7 @@ AMD::FanCurve::FanCurve(
 , pwmEnableDataSource_(std::move(pwmEnableDataSource))
 , pwmDataSource_(std::move(pwmDataSource))
 , tempInputDataSource_(std::move(tempInputDataSource))
-, tempMin_(tempMin)
-, tempMax_(tempMax)
+, tempRange_(std::make_pair(tempMin, tempMax))
 , fanStop_(false)
 , fanStartValue_(54)
 , hysteresis_(5)
@@ -51,6 +52,8 @@ AMD::FanCurve::FanCurve(
                        units::make_unit<units::concentration::percent_t>(50));
   points_.emplace_back(units::temperature::celsius_t(85),
                        units::make_unit<units::concentration::percent_t>(82));
+
+  Utils::Common::normalizePoints(points_, tempRange_);
 
   // compute fan start temperature
   fanStartTemp_ = evaluatePwm(std::round(fanStartValue_ / 2.55));
@@ -82,7 +85,8 @@ void AMD::FanCurve::importControl(IControl::Importer &i)
 void AMD::FanCurve::exportControl(IControl::Exporter &e) const
 {
   auto &fanCurveExporter = dynamic_cast<AMD::FanCurve::Exporter &>(e);
-  fanCurveExporter.takeFanCurveTemperatureRange(tempMin_, tempMax_);
+  fanCurveExporter.takeFanCurveTemperatureRange(tempRange_.first,
+                                                tempRange_.second);
   fanCurveExporter.takeFanCurvePoints(curve());
   fanCurveExporter.takeFanCurveFanStop(fanStop());
   fanCurveExporter.takeFanCurveFanStartValue(std::round(fanStartValue() / 2.55));
@@ -137,6 +141,7 @@ std::vector<AMD::FanCurve::Point> const &AMD::FanCurve::curve() const
 void AMD::FanCurve::curve(std::vector<AMD::FanCurve::Point> const &points)
 {
   points_ = points;
+  Utils::Common::normalizePoints(points_, tempRange_);
   fanStartTemp_ = evaluatePwm(std::round(fanStartValue_ / 2.55));
 }
 
@@ -193,10 +198,10 @@ int AMD::FanCurve::lerpFromPwm(units::concentration::percent_t input,
                                AMD::FanCurve::Point const &p2) const
 {
   input = std::clamp(input, p1.second, p2.second);
-  return static_cast<int>(std::round(
-      (((input - p1.second) / (p2.second - p1.second)) * (p2.first - p1.first) +
-       p1.first)
-          .to<double>()));
+  return static_cast<int>(std::round(Utils::Math::lerpY(
+      input.to<double>(),
+      std::make_pair(p1.first.to<double>(), p1.second.to<double>()),
+      std::make_pair(p2.first.to<double>(), p2.second.to<double>()))));
 }
 
 unsigned int AMD::FanCurve::evaluateTemp(units::temperature::celsius_t input) const
@@ -228,8 +233,9 @@ unsigned int AMD::FanCurve::lerpFromTemp(units::temperature::celsius_t input,
 {
   input = std::clamp(input, p1.first, p2.first);
   return static_cast<unsigned int>(std::round(
-      (((input - p1.first) / (p2.first - p1.first)) * (p2.second - p1.second) +
-       p1.second)
-          .to<double>() *
+      Utils::Math::lerpX(
+          input.to<double>(),
+          std::make_pair(p1.first.to<double>(), p1.second.to<double>()),
+          std::make_pair(p2.first.to<double>(), p2.second.to<double>())) *
       255)); // scale to [0, 255] range of pwm1
 }
