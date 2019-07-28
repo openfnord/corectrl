@@ -170,10 +170,14 @@ std::string const &ControlModeProfilePart::provideMode() const
 void ControlModeProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
   auto &pmImporter = dynamic_cast<ControlModeProfilePart::Importer &>(i);
-  mode_ = pmImporter.provideMode();
+  mode(pmImporter.provideMode());
 
-  for (auto &part : parts_)
+  for (auto &part : parts_) {
     part->importWith(i);
+
+    // only the selected mode profile part can be active
+    part->activate(part->ID() == mode_);
+  }
 }
 
 void ControlModeProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
@@ -188,11 +192,21 @@ void ControlModeProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
 std::unique_ptr<IProfilePart> ControlModeProfilePart::cloneProfilePart() const
 {
   auto clone = instance();
-  clone->mode_ = mode_;
+
   clone->parts_.reserve(parts_.size());
   std::transform(
       parts_.cbegin(), parts_.cend(), std::back_inserter(clone->parts_),
       [](std::unique_ptr<IProfilePart> const &part) { return part->clone(); });
 
+  clone->mode_ = mode_;
+
   return std::move(clone);
+}
+
+void ControlModeProfilePart::mode(std::string const &mode)
+{
+  auto iter = std::find_if(parts_.cbegin(), parts_.cend(),
+                           [&](auto &part) { return mode == part->ID(); });
+  if (iter != parts_.cend())
+    mode_ = mode;
 }
