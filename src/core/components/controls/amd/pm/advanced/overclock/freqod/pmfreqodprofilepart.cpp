@@ -109,8 +109,8 @@ unsigned int AMD::PMFreqOdProfilePart::providePMFreqOdMclkOd() const
 void AMD::PMFreqOdProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
   auto &pmFreqImporter = dynamic_cast<AMD::PMFreqOdProfilePart::Importer &>(i);
-  sclkOd_ = pmFreqImporter.providePMFreqOdSclkOd();
-  mclkOd_ = pmFreqImporter.providePMFreqOdMclkOd();
+  sclkOd(pmFreqImporter.providePMFreqOdSclkOd());
+  mclkOd(pmFreqImporter.providePMFreqOdMclkOd());
 }
 
 void AMD::PMFreqOdProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
@@ -127,6 +127,16 @@ std::unique_ptr<IProfilePart> AMD::PMFreqOdProfilePart::cloneProfilePart() const
   clone->mclkOd_ = mclkOd_;
 
   return std::move(clone);
+}
+
+void AMD::PMFreqOdProfilePart::sclkOd(unsigned int value)
+{
+  sclkOd_ = std::clamp(value, 0u, 20u);
+}
+
+void AMD::PMFreqOdProfilePart::mclkOd(unsigned int value)
+{
+  mclkOd_ = std::clamp(value, 0u, 20u);
 }
 
 bool const AMD::PMFreqOdProfilePart::registered_ =
