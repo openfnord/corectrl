@@ -18,6 +18,7 @@
 #include "controlgroupprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
 
 class ControlGroupProfilePart::Factory final
 : public ProfilePart::Factory
@@ -147,8 +148,12 @@ bool ControlGroupProfilePart::provideActive() const
 
 void ControlGroupProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
-  for (auto &part : parts_)
+  for (auto &part : parts_) {
     part->importWith(i);
+
+    // ensure that all parts are active
+    part->activate(true);
+  }
 }
 
 void ControlGroupProfilePart::exportProfilePart(IProfilePart::Exporter &e) const

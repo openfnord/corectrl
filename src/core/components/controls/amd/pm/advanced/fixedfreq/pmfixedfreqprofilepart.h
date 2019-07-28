@@ -63,12 +63,20 @@ class PMFixedFreqProfilePart final
   std::unique_ptr<IProfilePart> cloneProfilePart() const override;
 
  private:
+  void sclkIndex(unsigned int index);
+  void mclkIndex(unsigned int index);
+  void clkIndex(unsigned int &targetIndex, unsigned int newIndex,
+                std::vector<unsigned int> const &availableIndices) const;
+
   class Initializer;
 
   std::string const id_;
 
   unsigned int sclkIndex_;
   unsigned int mclkIndex_;
+
+  std::vector<unsigned int> sclkIndices_;
+  std::vector<unsigned int> mclkIndices_;
 
   static bool const registered_;
 };

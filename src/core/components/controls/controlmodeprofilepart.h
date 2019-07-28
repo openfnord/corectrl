@@ -59,6 +59,8 @@ class ControlModeProfilePart
   virtual std::unique_ptr<ControlModeProfilePart> instance() const = 0;
 
  private:
+  void mode(std::string const &mode);
+
   class Factory;
   class Initializer;
 

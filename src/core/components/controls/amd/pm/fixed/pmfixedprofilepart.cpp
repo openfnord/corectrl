@@ -35,10 +35,7 @@ class AMD::PMFixedProfilePart::Initializer final : public AMD::PMFixed::Exporter
 
   void takeActive(bool active) override;
   void takePMFixedMode(std::string const &mode) override;
-
-  void takePMFixedModes(std::vector<std::string> const &) override
-  {
-  }
+  void takePMFixedModes(std::vector<std::string> const &modes) override;
 
  private:
   AMD::PMFixedProfilePart &outer_;
@@ -52,6 +49,12 @@ void AMD::PMFixedProfilePart::Initializer::takeActive(bool active)
 void AMD::PMFixedProfilePart::Initializer::takePMFixedMode(std::string const &mode)
 {
   outer_.mode_ = mode;
+}
+
+void AMD::PMFixedProfilePart::Initializer::takePMFixedModes(
+    std::vector<std::string> const &modes)
+{
+  outer_.modes_ = modes;
 }
 
 AMD::PMFixedProfilePart::PMFixedProfilePart() noexcept
@@ -94,7 +97,7 @@ std::string const &AMD::PMFixedProfilePart::providePMFixedMode() const
 void AMD::PMFixedProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
   auto &pmfImporter = dynamic_cast<AMD::PMFixedProfilePart::Importer &>(i);
-  mode_ = pmfImporter.providePMFixedMode();
+  mode(pmfImporter.providePMFixedMode());
 }
 
 void AMD::PMFixedProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
@@ -106,9 +109,19 @@ void AMD::PMFixedProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
 std::unique_ptr<IProfilePart> AMD::PMFixedProfilePart::cloneProfilePart() const
 {
   auto clone = std::make_unique<AMD::PMFixedProfilePart>();
+  clone->modes_ = modes_;
   clone->mode_ = mode_;
 
   return std::move(clone);
+}
+
+void AMD::PMFixedProfilePart::mode(std::string const &mode)
+{
+  auto iter = std::find_if(
+      modes_.cbegin(), modes_.cend(),
+      [&](auto &availableMode) { return mode == availableMode; });
+  if (iter != modes_.cend())
+    mode_ = mode;
 }
 
 bool const AMD::PMFixedProfilePart::registered_ =

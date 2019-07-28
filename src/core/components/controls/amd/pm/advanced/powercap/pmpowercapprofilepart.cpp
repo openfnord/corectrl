@@ -36,9 +36,8 @@ class AMD::PMPowerCapProfilePart::Initializer final
 
   void takeActive(bool active) override;
   void takePMPowerCapValue(units::power::watt_t value) override;
-  void takePMPowerCapRange(units::power::watt_t, units::power::watt_t) override
-  {
-  }
+  void takePMPowerCapRange(units::power::watt_t min,
+                           units::power::watt_t max) override;
 
  private:
   AMD::PMPowerCapProfilePart &outer_;
@@ -53,6 +52,12 @@ void AMD::PMPowerCapProfilePart::Initializer::takePMPowerCapValue(
     units::power::watt_t value)
 {
   outer_.value_ = value;
+}
+
+void AMD::PMPowerCapProfilePart::Initializer::takePMPowerCapRange(
+    units::power::watt_t min, units::power::watt_t max)
+{
+  outer_.range_ = std::make_pair(min, max);
 }
 
 AMD::PMPowerCapProfilePart::PMPowerCapProfilePart() noexcept
@@ -96,7 +101,7 @@ void AMD::PMPowerCapProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
   auto &pmPowerCapProfilePartImporter =
       dynamic_cast<AMD::PMPowerCapProfilePart::Importer &>(i);
-  value_ = pmPowerCapProfilePartImporter.providePMPowerCapValue();
+  value(pmPowerCapProfilePartImporter.providePMPowerCapValue());
 }
 
 void AMD::PMPowerCapProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
@@ -109,9 +114,15 @@ void AMD::PMPowerCapProfilePart::exportProfilePart(IProfilePart::Exporter &e) co
 std::unique_ptr<IProfilePart> AMD::PMPowerCapProfilePart::cloneProfilePart() const
 {
   auto clone = std::make_unique<AMD::PMPowerCapProfilePart>();
+  clone->range_ = range_;
   clone->value_ = value_;
 
   return std::move(clone);
+}
+
+void AMD::PMPowerCapProfilePart::value(units::power::watt_t value)
+{
+  value_ = std::clamp(value, range_.first, range_.second);
 }
 
 bool const AMD::PMPowerCapProfilePart::registered_ =

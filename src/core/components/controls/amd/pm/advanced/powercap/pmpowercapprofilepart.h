@@ -59,10 +59,13 @@ class PMPowerCapProfilePart final
   std::unique_ptr<IProfilePart> cloneProfilePart() const override;
 
  private:
+  void value(units::power::watt_t value);
+
   class Initializer;
 
   std::string const id_;
   units::power::watt_t value_;
+  std::pair<units::power::watt_t, units::power::watt_t> range_;
 
   static bool const registered_;
 };

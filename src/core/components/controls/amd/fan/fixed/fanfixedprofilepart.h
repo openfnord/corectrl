@@ -67,6 +67,9 @@ class FanFixedProfilePart final
   std::unique_ptr<IProfilePart> cloneProfilePart() const override;
 
  private:
+  void value(units::concentration::percent_t value);
+  void startValue(units::concentration::percent_t value);
+
   class Initializer;
 
   std::string const id_;
