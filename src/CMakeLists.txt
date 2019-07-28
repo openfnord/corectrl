@@ -73,6 +73,7 @@ list(APPEND CORE_SRC
   core/info/swinfo.cpp
   core/info/hwiddatasource.cpp
   core/info/hwidtranslator.cpp
+  core/components/commonutils.cpp
   core/components/cpuutils.cpp
   core/components/amdutils.cpp
   core/components/gpu.cpp
