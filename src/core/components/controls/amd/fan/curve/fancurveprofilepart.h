@@ -68,12 +68,15 @@ class FanCurveProfilePart final
   std::unique_ptr<IProfilePart> cloneProfilePart() const override;
 
  private:
+  void points(std::vector<FanCurve::Point> const &points);
+  void startValue(units::concentration::percent_t value);
+
   class Initializer;
 
   std::string const id_;
 
   std::vector<FanCurve::Point> points_;
-
+  std::pair<units::temperature::celsius_t, units::temperature::celsius_t> tempRange_;
   bool fanStop_;
   units::concentration::percent_t fanStartValue_;
 

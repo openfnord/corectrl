@@ -17,7 +17,9 @@
 //
 #include "fancurveprofilepart.h"
 
+#include "core/components/commonutils.h"
 #include "core/profilepartprovider.h"
+#include <algorithm>
 
 class AMD::FanCurveProfilePart::Initializer final : public AMD::FanCurve::Exporter
 {
@@ -38,10 +40,8 @@ class AMD::FanCurveProfilePart::Initializer final : public AMD::FanCurve::Export
   takeFanCurvePoints(std::vector<AMD::FanCurve::Point> const &points) override;
   void takeFanCurveFanStop(bool enabled) override;
   void takeFanCurveFanStartValue(units::concentration::percent_t value) override;
-  void takeFanCurveTemperatureRange(units::temperature::celsius_t,
-                                    units::temperature::celsius_t) override
-  {
-  }
+  void takeFanCurveTemperatureRange(units::temperature::celsius_t min,
+                                    units::temperature::celsius_t max) override;
 
  private:
   AMD::FanCurveProfilePart &outer_;
@@ -67,6 +67,12 @@ void AMD::FanCurveProfilePart::Initializer::takeFanCurveFanStartValue(
     units::concentration::percent_t value)
 {
   outer_.fanStartValue_ = value;
+}
+
+void AMD::FanCurveProfilePart::Initializer::takeFanCurveTemperatureRange(
+    units::temperature::celsius_t min, units::temperature::celsius_t max)
+{
+  outer_.tempRange_ = std::make_pair(min, max);
 }
 
 AMD::FanCurveProfilePart::FanCurveProfilePart() noexcept
@@ -121,9 +127,9 @@ AMD::FanCurveProfilePart::provideFanCurveFanStartValue() const
 void AMD::FanCurveProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
   auto &pmfImporter = dynamic_cast<AMD::FanCurveProfilePart::Importer &>(i);
-  points_ = pmfImporter.provideFanCurvePoints();
+  points(pmfImporter.provideFanCurvePoints());
   fanStop_ = pmfImporter.provideFanCurveFanStop();
-  fanStartValue_ = pmfImporter.provideFanCurveFanStartValue();
+  startValue(pmfImporter.provideFanCurveFanStartValue());
 }
 
 void AMD::FanCurveProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
@@ -137,11 +143,24 @@ void AMD::FanCurveProfilePart::exportProfilePart(IProfilePart::Exporter &e) cons
 std::unique_ptr<IProfilePart> AMD::FanCurveProfilePart::cloneProfilePart() const
 {
   auto clone = std::make_unique<AMD::FanCurveProfilePart>();
+  clone->tempRange_ = tempRange_;
   clone->points_ = points_;
   clone->fanStop_ = fanStop_;
   clone->fanStartValue_ = fanStartValue_;
 
   return std::move(clone);
+}
+
+void AMD::FanCurveProfilePart::points(std::vector<FanCurve::Point> const &points)
+{
+  points_ = points;
+  Utils::Common::normalizePoints(points_, tempRange_);
+}
+
+void AMD::FanCurveProfilePart::startValue(units::concentration::percent_t value)
+{
+  fanStartValue_ = std::clamp(value, units::concentration::percent_t(0),
+                              units::concentration::percent_t(100));
 }
 
 bool const AMD::FanCurveProfilePart::registered_ =

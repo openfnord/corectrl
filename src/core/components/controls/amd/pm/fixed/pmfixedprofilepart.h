@@ -59,10 +59,13 @@ class PMFixedProfilePart final
   std::unique_ptr<IProfilePart> cloneProfilePart() const override;
 
  private:
+  void mode(std::string const &mode);
+
   class Initializer;
 
   std::string const id_;
   std::string mode_;
+  std::vector<std::string> modes_;
 
   static bool const registered_;
 };

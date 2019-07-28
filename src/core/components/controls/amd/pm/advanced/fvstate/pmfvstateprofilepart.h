@@ -91,12 +91,45 @@ class PMFVStateProfilePart final
   std::unique_ptr<IProfilePart> cloneProfilePart() const override;
 
  private:
+  void gpuVoltMode(std::string const &mode);
+  void memVoltMode(std::string const &mode);
+  void voltMode(std::string &targetMode, std::string const &mode) const;
+
+  void gpuState(unsigned int index,
+                std::pair<units::frequency::megahertz_t,
+                          units::voltage::millivolt_t> const &value);
+  void memState(unsigned int index,
+                std::pair<units::frequency::megahertz_t,
+                          units::voltage::millivolt_t> const &value);
+  void
+  state(unsigned int index,
+        std::pair<units::frequency::megahertz_t, units::voltage::millivolt_t> const
+            &value,
+        std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
+                               units::voltage::millivolt_t>> &targetStates,
+        std::pair<units::frequency::megahertz_t,
+                  units::frequency::megahertz_t> const &targetFreqRange) const;
+
+  void gpuActivateStates(std::vector<unsigned int> const &states);
+  void memActivateStates(std::vector<unsigned int> const &states);
+  void activateStates(
+      std::vector<unsigned int> &targetStates,
+      std::vector<unsigned int> const &newActiveStates,
+      std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
+                             units::voltage::millivolt_t>> const &availableStates)
+      const;
+
   class Initializer;
 
   std::string const id_;
 
   std::string gpuVoltMode_;
   std::string memVoltMode_;
+  std::vector<std::string> voltModes_;
+
+  std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t> voltRange_;
+  std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t> gpuFreqRange_;
+  std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t> memFreqRange_;
 
   std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
                          units::voltage::millivolt_t>>

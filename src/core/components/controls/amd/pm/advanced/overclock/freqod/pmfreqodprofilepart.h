@@ -63,6 +63,9 @@ class PMFreqOdProfilePart final
   std::unique_ptr<IProfilePart> cloneProfilePart() const override;
 
  private:
+  void sclkOd(unsigned int value);
+  void mclkOd(unsigned int value);
+
   class Initializer;
 
   std::string const id_;
