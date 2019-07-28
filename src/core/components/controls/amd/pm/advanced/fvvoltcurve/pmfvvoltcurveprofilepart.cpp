@@ -34,27 +34,17 @@ class AMD::PMFVVoltCurveProfilePart::Initializer final
     return {};
   }
 
-  void takePMFVVoltCurveVoltModes(std::vector<std::string> const &) override
-  {
-  }
-
+  void takePMFVVoltCurveVoltModes(std::vector<std::string> const &modes) override;
   void takePMFVVoltCurveVoltRange(
       std::vector<std::pair<
           std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>,
           std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>> const
-          &) override
-  {
-  }
+          &pointRanges) override;
 
-  void takePMFVVoltCurveGPURange(units::frequency::megahertz_t,
-                                 units::frequency::megahertz_t) override
-  {
-  }
-
-  void takePMFVVoltCurveMemRange(units::frequency::megahertz_t,
-                                 units::frequency::megahertz_t) override
-  {
-  }
+  void takePMFVVoltCurveGPURange(units::frequency::megahertz_t min,
+                                 units::frequency::megahertz_t max) override;
+  void takePMFVVoltCurveMemRange(units::frequency::megahertz_t min,
+                                 units::frequency::megahertz_t max) override;
 
   void takeActive(bool active) override;
   void takePMFVVoltCurveVoltMode(std::string const &mode) override;
@@ -75,6 +65,33 @@ class AMD::PMFVVoltCurveProfilePart::Initializer final
  private:
   AMD::PMFVVoltCurveProfilePart &outer_;
 };
+
+void AMD::PMFVVoltCurveProfilePart::Initializer::takePMFVVoltCurveVoltModes(
+    std::vector<std::string> const &modes)
+{
+  outer_.voltModes_ = modes;
+}
+
+void AMD::PMFVVoltCurveProfilePart::Initializer::takePMFVVoltCurveVoltRange(
+    std::vector<std::pair<
+        std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>,
+        std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>> const
+        &pointRanges)
+{
+  outer_.voltCurveRange_ = pointRanges;
+}
+
+void AMD::PMFVVoltCurveProfilePart::Initializer::takePMFVVoltCurveGPURange(
+    units::frequency::megahertz_t min, units::frequency::megahertz_t max)
+{
+  outer_.gpuFreqRange_ = std::make_pair(min, max);
+}
+
+void AMD::PMFVVoltCurveProfilePart::Initializer::takePMFVVoltCurveMemRange(
+    units::frequency::megahertz_t min, units::frequency::megahertz_t max)
+{
+  outer_.memFreqRange_ = std::make_pair(min, max);
+}
 
 void AMD::PMFVVoltCurveProfilePart::Initializer::takeActive(bool active)
 {
@@ -109,7 +126,6 @@ void AMD::PMFVVoltCurveProfilePart::Initializer::takePMFVVoltCurveMemStates(
 void AMD::PMFVVoltCurveProfilePart::Initializer::takePMFVVoltCurveGPUActiveStates(
     std::vector<unsigned int> const &indices)
 {
-
   outer_.gpuActiveStates_ = indices;
 }
 
@@ -209,20 +225,22 @@ void AMD::PMFVVoltCurveProfilePart::importProfilePart(IProfilePart::Importer &i)
   auto &pmFVVoltCurveImporter =
       dynamic_cast<AMD::PMFVVoltCurveProfilePart::Importer &>(i);
 
-  voltMode_ = pmFVVoltCurveImporter.providePMFVVoltCurveVoltMode();
+  voltMode(pmFVVoltCurveImporter.providePMFVVoltCurveVoltMode());
 
-  for (size_t i = 0; i < voltCurve_.size(); ++i)
-    voltCurve_.at(i) = pmFVVoltCurveImporter.providePMFVVoltCurveVoltCurvePoint(
+  for (size_t i = 0; i < voltCurve_.size(); ++i) {
+    auto [freq, volt] = pmFVVoltCurveImporter.providePMFVVoltCurveVoltCurvePoint(
         static_cast<unsigned int>(i));
+    voltCurvePoint(static_cast<unsigned int>(i), freq, volt);
+  }
 
-  for (auto &[index, stateFreq] : gpuStates_)
-    stateFreq = pmFVVoltCurveImporter.providePMFVVoltCurveGPUState(index);
+  for (auto [index, _] : gpuStates_)
+    gpuState(index, pmFVVoltCurveImporter.providePMFVVoltCurveGPUState(index));
 
-  for (auto &[index, stateFreq] : memStates_)
-    stateFreq = pmFVVoltCurveImporter.providePMFVVoltCurveMemState(index);
+  for (auto [index, _] : memStates_)
+    memState(index, pmFVVoltCurveImporter.providePMFVVoltCurveMemState(index));
 
-  gpuActiveStates_ = pmFVVoltCurveImporter.providePMFVVoltCurveGPUActiveStates();
-  memActiveStates_ = pmFVVoltCurveImporter.providePMFVVoltCurveMemActiveStates();
+  gpuActivateStates(pmFVVoltCurveImporter.providePMFVVoltCurveGPUActiveStates());
+  memActivateStates(pmFVVoltCurveImporter.providePMFVVoltCurveMemActiveStates());
 }
 
 void AMD::PMFVVoltCurveProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
@@ -241,14 +259,98 @@ void AMD::PMFVVoltCurveProfilePart::exportProfilePart(IProfilePart::Exporter &e)
 std::unique_ptr<IProfilePart> AMD::PMFVVoltCurveProfilePart::cloneProfilePart() const
 {
   auto clone = std::make_unique<AMD::PMFVVoltCurveProfilePart>();
+  clone->voltModes_ = voltModes_;
   clone->voltMode_ = voltMode_;
+
+  clone->voltCurveRange_ = voltCurveRange_;
   clone->voltCurve_ = voltCurve_;
+
+  clone->gpuFreqRange_ = gpuFreqRange_;
+  clone->memFreqRange_ = memFreqRange_;
+
   clone->gpuStates_ = gpuStates_;
   clone->memStates_ = memStates_;
+
   clone->gpuActiveStates_ = gpuActiveStates_;
   clone->memActiveStates_ = memActiveStates_;
 
   return std::move(clone);
+}
+
+void AMD::PMFVVoltCurveProfilePart::voltMode(std::string const &mode)
+{
+  auto iter = std::find_if(
+      voltModes_.cbegin(), voltModes_.cend(),
+      [&](auto &availableMode) { return mode == availableMode; });
+  if (iter != voltModes_.cend())
+    voltMode_ = mode;
+}
+
+void AMD::PMFVVoltCurveProfilePart::voltCurvePoint(
+    unsigned int pointIndex, units::frequency::megahertz_t freq,
+    units::voltage::millivolt_t volt)
+{
+  if (pointIndex < voltCurve_.size()) {
+    auto [pointFreqRange, pointVoltRange] = voltCurveRange_.at(pointIndex);
+    auto &[pointFreq, pointVolt] = voltCurve_.at(pointIndex);
+    pointFreq = std::clamp(freq, pointFreqRange.first, pointFreqRange.second);
+    pointVolt = std::clamp(volt, pointVoltRange.first, pointVoltRange.second);
+  }
+}
+
+void AMD::PMFVVoltCurveProfilePart::gpuState(unsigned int index,
+                                             units::frequency::megahertz_t freq)
+{
+  freqState(index, freq, gpuStates_, gpuFreqRange_);
+}
+
+void AMD::PMFVVoltCurveProfilePart::memState(unsigned int index,
+                                             units::frequency::megahertz_t freq)
+{
+  freqState(index, freq, memStates_, memFreqRange_);
+}
+
+void AMD::PMFVVoltCurveProfilePart::freqState(
+    unsigned int index, units::frequency::megahertz_t freq,
+    std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> &targetStates,
+    std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t> const
+        &targetRange) const
+{
+  if (index < targetStates.size()) {
+    auto &[_, sFreq] = targetStates.at(index);
+    sFreq = std::clamp(freq, targetRange.first, targetRange.second);
+  }
+}
+
+void AMD::PMFVVoltCurveProfilePart::gpuActivateStates(
+    std::vector<unsigned int> const &states)
+{
+  activateStates(gpuActiveStates_, states, gpuStates_);
+}
+
+void AMD::PMFVVoltCurveProfilePart::memActivateStates(
+    std::vector<unsigned int> const &states)
+{
+  activateStates(memActiveStates_, states, memStates_);
+}
+
+void AMD::PMFVVoltCurveProfilePart::activateStates(
+    std::vector<unsigned int> &targetStates,
+    std::vector<unsigned int> const &newActiveStates,
+    std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
+        &availableStates) const
+{
+  std::vector<unsigned int> active;
+  std::copy_if(newActiveStates.cbegin(), newActiveStates.cend(),
+               std::back_inserter(active), [&](unsigned int index) {
+                 // skip unknown state indices
+                 return std::find_if(availableStates.cbegin(),
+                                     availableStates.cend(), [&](auto &state) {
+                                       return state.first == index;
+                                     }) != availableStates.cend();
+               });
+  if (!active.empty()) // at least one state must be active
+    std::swap(active, targetStates);
 }
 
 bool const AMD::PMFVVoltCurveProfilePart::registered_ =
