@@ -101,8 +101,8 @@ class FanCurve : public Control
   std::unique_ptr<IDataSource<unsigned int>> const pwmEnableDataSource_;
   std::unique_ptr<IDataSource<unsigned int>> const pwmDataSource_;
   std::unique_ptr<IDataSource<int>> const tempInputDataSource_;
-  units::temperature::celsius_t const tempMin_;
-  units::temperature::celsius_t const tempMax_;
+  std::pair<units::temperature::celsius_t, units::temperature::celsius_t> const
+      tempRange_;
 
   unsigned int pwmEnable_;
   unsigned int pwm_;

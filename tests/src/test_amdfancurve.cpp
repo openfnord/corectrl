@@ -241,13 +241,24 @@ TEST_CASE("AMD FanCurve tests", "[GPU][AMD][Fan][FanCurve]")
 
   SECTION("Has a default curve")
   {
+    auto tempRange = std::make_pair(units::temperature::celsius_t(0),
+                                    units::temperature::celsius_t(50));
+
     FanCurveTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
                            std::make_unique<UIntDataSourceStub>(),
                            std::make_unique<IntDataSourceStub>(),
-                           units::temperature::celsius_t(0),
-                           units::temperature::celsius_t(100));
+                           tempRange.first, tempRange.second);
 
     REQUIRE(ts.curve().size() > 2);
+
+    SECTION("Default curve points are normalized into temperature range")
+    {
+      REQUIRE_FALSE(
+          std::any_of(ts.curve().cbegin(), ts.curve().cend(), [&](auto &point) {
+            return point.first < tempRange.first ||
+                   point.first > tempRange.second;
+          }));
+    }
   }
 
   SECTION("Computed pwm1 value is clampled in [0, 255] range")
@@ -329,8 +340,8 @@ TEST_CASE("AMD FanCurve tests", "[GPU][AMD][Fan][FanCurve]")
   {
     auto p1 = std::make_pair(units::temperature::celsius_t(0),
                              units::concentration::percent_t(0));
-    auto p2 = std::make_pair(units::temperature::celsius_t(100),
-                             units::concentration::percent_t(100));
+    auto p2 = std::make_pair(units::temperature::celsius_t(200), // out of range
+                             units::concentration::percent_t(200)); // out of range
     std::vector<std::pair<units::temperature::celsius_t, units::concentration::percent_t>>
         curve;
     curve.push_back(p1);
@@ -348,8 +359,13 @@ TEST_CASE("AMD FanCurve tests", "[GPU][AMD][Fan][FanCurve]")
 
     ts.importControl(i);
 
+    auto normalizedCurve = curve;
+    auto &lastPoint = normalizedCurve.back();
+    lastPoint.first = units::temperature::celsius_t(100);
+    lastPoint.second = units::concentration::percent_t(100);
+
     REQUIRE_FALSE(ts.curve().empty());
-    REQUIRE(ts.curve() == curve);
+    REQUIRE(ts.curve() == normalizedCurve);
     REQUIRE(ts.fanStartValue() == 128);
     REQUIRE(ts.fanStop());
   }
