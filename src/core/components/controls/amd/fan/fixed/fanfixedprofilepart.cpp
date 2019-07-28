@@ -18,6 +18,7 @@
 #include "fanfixedprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
 
 class AMD::FanFixedProfilePart::Initializer final : public AMD::FanFixed::Exporter
 {
@@ -115,9 +116,10 @@ AMD::FanFixedProfilePart::provideFanFixedFanStartValue() const
 void AMD::FanFixedProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
   auto &pmfImporter = dynamic_cast<AMD::FanFixedProfilePart::Importer &>(i);
-  value_ = pmfImporter.provideFanFixedValue();
+
+  value(pmfImporter.provideFanFixedValue());
   fanStop_ = pmfImporter.provideFanFixedFanStop();
-  fanStartValue_ = pmfImporter.provideFanFixedFanStartValue();
+  startValue(pmfImporter.provideFanFixedFanStartValue());
 }
 
 void AMD::FanFixedProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
@@ -136,6 +138,18 @@ std::unique_ptr<IProfilePart> AMD::FanFixedProfilePart::cloneProfilePart() const
   clone->fanStartValue_ = fanStartValue_;
 
   return std::move(clone);
+}
+
+void AMD::FanFixedProfilePart::value(units::concentration::percent_t value)
+{
+  value_ = std::clamp(value, units::concentration::percent_t(0),
+                      units::concentration::percent_t(100));
+}
+
+void AMD::FanFixedProfilePart::startValue(units::concentration::percent_t value)
+{
+  fanStartValue_ = std::clamp(value, units::concentration::percent_t(0),
+                              units::concentration::percent_t(100));
 }
 
 bool const AMD::FanFixedProfilePart::registered_ =
