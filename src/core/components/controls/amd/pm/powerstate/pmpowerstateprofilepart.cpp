@@ -36,10 +36,7 @@ class AMD::PMPowerStateProfilePart::Initializer final
 
   void takeActive(bool active) override;
   void takePMPowerStateMode(std::string const &mode) override;
-
-  void takePMPowerStateModes(std::vector<std::string> const &) override
-  {
-  }
+  void takePMPowerStateModes(std::vector<std::string> const &modes) override;
 
  private:
   AMD::PMPowerStateProfilePart &outer_;
@@ -54,6 +51,12 @@ void AMD::PMPowerStateProfilePart::Initializer::takePMPowerStateMode(
     std::string const &mode)
 {
   outer_.mode_ = mode;
+}
+
+void AMD::PMPowerStateProfilePart::Initializer::takePMPowerStateModes(
+    std::vector<std::string> const &modes)
+{
+  outer_.modes_ = modes;
 }
 
 AMD::PMPowerStateProfilePart::PMPowerStateProfilePart() noexcept
@@ -96,7 +99,7 @@ std::string const &AMD::PMPowerStateProfilePart::providePMPowerStateMode() const
 void AMD::PMPowerStateProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
   auto &pmfImporter = dynamic_cast<AMD::PMPowerStateProfilePart::Importer &>(i);
-  mode_ = pmfImporter.providePMPowerStateMode();
+  mode(pmfImporter.providePMPowerStateMode());
 }
 
 void AMD::PMPowerStateProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
@@ -108,9 +111,20 @@ void AMD::PMPowerStateProfilePart::exportProfilePart(IProfilePart::Exporter &e) 
 std::unique_ptr<IProfilePart> AMD::PMPowerStateProfilePart::cloneProfilePart() const
 {
   auto clone = std::make_unique<AMD::PMPowerStateProfilePart>();
+  clone->modes_ = modes_;
   clone->mode_ = mode_;
 
   return std::move(clone);
+}
+
+void AMD::PMPowerStateProfilePart::mode(std::string const &mode)
+{
+  // import known modes
+  auto iter = std::find_if(
+      modes_.cbegin(), modes_.cend(),
+      [&](auto &availableMode) { return mode == availableMode; });
+  if (iter != modes_.cend())
+    mode_ = mode;
 }
 
 bool const AMD::PMPowerStateProfilePart::registered_ =
