@@ -36,9 +36,8 @@ class CPUFreqProfilePart::Initializer final : public CPUFreq::Exporter
   void takeActive(bool active) override;
   void takeCPUFreqScalingGovernor(std::string const &governor) override;
 
-  void takeCPUFreqScalingGovernors(std::vector<std::string> const &) override
-  {
-  }
+  void
+  takeCPUFreqScalingGovernors(std::vector<std::string> const &governors) override;
 
  private:
   CPUFreqProfilePart &outer_;
@@ -52,7 +51,13 @@ void CPUFreqProfilePart::Initializer::takeActive(bool active)
 void CPUFreqProfilePart::Initializer::takeCPUFreqScalingGovernor(
     std::string const &governor)
 {
-  outer_.scalingGovernor_ = governor;
+  outer_.governor_ = governor;
+}
+
+void CPUFreqProfilePart::Initializer::takeCPUFreqScalingGovernors(
+    std::vector<std::string> const &governors)
+{
+  outer_.governors_ = governors;
 }
 
 CPUFreqProfilePart::CPUFreqProfilePart() noexcept
@@ -89,27 +94,38 @@ bool CPUFreqProfilePart::provideActive() const
 
 std::string const &CPUFreqProfilePart::provideCPUFreqScalingGovernor() const
 {
-  return scalingGovernor_;
+  return governor_;
 }
 
 void CPUFreqProfilePart::importProfilePart(IProfilePart::Importer &i)
 {
   auto &cpuFreqImporter = dynamic_cast<CPUFreqProfilePart::Importer &>(i);
-  scalingGovernor_ = cpuFreqImporter.provideCPUFreqScalingGovernor();
+  governor(cpuFreqImporter.provideCPUFreqScalingGovernor());
 }
 
 void CPUFreqProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
 {
   auto &cpuFreqExporter = dynamic_cast<CPUFreqProfilePart::Exporter &>(e);
-  cpuFreqExporter.takeCPUFreqScalingGovernor(scalingGovernor_);
+  cpuFreqExporter.takeCPUFreqScalingGovernor(governor_);
 }
 
 std::unique_ptr<IProfilePart> CPUFreqProfilePart::cloneProfilePart() const
 {
   auto clone = std::make_unique<CPUFreqProfilePart>();
-  clone->scalingGovernor_ = scalingGovernor_;
+  clone->governors_ = governors_;
+  clone->governor_ = governor_;
 
   return std::move(clone);
+}
+
+void CPUFreqProfilePart::governor(std::string const &governor)
+{
+  // only import known governors
+  auto iter = std::find_if(
+      governors_.cbegin(), governors_.cend(),
+      [&](auto &availableGovernor) { return governor == availableGovernor; });
+  if (iter != governors_.cend())
+    governor_ = governor;
 }
 
 bool const CPUFreqProfilePart::registered_ = ProfilePartProvider::registerProvider(

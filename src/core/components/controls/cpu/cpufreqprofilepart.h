@@ -57,10 +57,13 @@ class CPUFreqProfilePart final
   std::unique_ptr<IProfilePart> cloneProfilePart() const override;
 
  private:
+  void governor(std::string const &governor);
+
   class Initializer;
 
   std::string const id_;
-  std::string scalingGovernor_;
+  std::string governor_;
+  std::vector<std::string> governors_;
 
   static bool const registered_;
 };
