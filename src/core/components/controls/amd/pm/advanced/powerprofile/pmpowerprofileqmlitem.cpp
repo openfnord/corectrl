@@ -132,7 +132,7 @@ void AMD::PMPowerProfileQMLItem::takePMPowerProfileMode(std::string const &mode)
 void AMD::PMPowerProfileQMLItem::takePMPowerProfileModes(
     std::vector<std::string> const &modes)
 {
-  QVector<QString> modeText;
+  QList<QString> modeText;
   for (auto &mode : modes) {
     modeText.push_back(QString::fromStdString(mode));
     modeText.push_back(tr(mode.data()));

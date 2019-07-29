@@ -33,7 +33,7 @@ class CPUFreqQMLItem
 
  signals:
   void scalingGovernorChanged(QString const &governor);
-  void scalingGovernorsChanged(QVector<QString> const &governors);
+  void scalingGovernorsChanged(QList<QString> const &governors);
 
  public slots:
   void changeScalingGovernor(QString const &governor);

@@ -139,7 +139,7 @@ std::unique_ptr<Exportable::Exporter> AMD::PMPowerStateQMLItem::initializer(
 void AMD::PMPowerStateQMLItem::takePMPowerStateModes(
     std::vector<std::string> const &modes)
 {
-  QVector<QString> modeTextVector;
+  QList<QString> modeTextVector;
   for (auto mode : modes) {
     modeTextVector.push_back(QString::fromStdString(mode));
     modeTextVector.push_back(tr(mode.data()));

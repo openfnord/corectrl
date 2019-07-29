@@ -35,7 +35,7 @@ class PMPowerStateQMLItem
 
  signals:
   void modeChanged(QString const &mode);
-  void modesChanged(QVector<QString> const &modes);
+  void modesChanged(QList<QString> const &modes);
 
  public slots:
   void changeMode(QString const &mode);

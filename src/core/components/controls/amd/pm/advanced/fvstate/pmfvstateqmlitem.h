@@ -40,8 +40,8 @@ class PMFVStateQMLItem
   void memVoltModeChanged(QString const &mode);
   void gpuStatesChanged(QVariantList const &states);
   void memStatesChanged(QVariantList const &states);
-  void gpuActiveStatesChanged(std::vector<int> const &states);
-  void memActiveStatesChanged(std::vector<int> const &states);
+  void gpuActiveStatesChanged(QVector<int> const &states);
+  void memActiveStatesChanged(QVector<int> const &states);
   void gpuStateChanged(int index, int freq, int volt);
   void memStateChanged(int index, int freq, int volt);
 
@@ -104,8 +104,7 @@ class PMFVStateQMLItem
   void memRange(units::frequency::megahertz_t min,
                 units::frequency::megahertz_t max);
 
-  std::vector<int>
-  activeStatesIndices(std::vector<unsigned int> const &indices) const;
+  QVector<int> activeStatesIndices(std::vector<unsigned int> const &indices) const;
 
   bool active_;
 

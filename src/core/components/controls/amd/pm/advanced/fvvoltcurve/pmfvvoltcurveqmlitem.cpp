@@ -452,12 +452,10 @@ void AMD::PMFVVoltCurveQMLItem::memRange(units::frequency::megahertz_t min,
   emit memFreqRangeChanged(min.to<int>(), max.to<int>());
 }
 
-std::vector<int> AMD::PMFVVoltCurveQMLItem::activeStatesIndices(
+QVector<int> AMD::PMFVVoltCurveQMLItem::activeStatesIndices(
     std::vector<unsigned int> const &indices) const
 {
-  // NOTE Qt doesn't support conversion of std::vector<unsigned int> between
-  // C++ and QML so we need to convert the collection to signed int.
-  std::vector<int> states;
+  QVector<int> states;
   states.reserve(indices.size());
   std::transform(indices.cbegin(), indices.cend(), std::back_inserter(states),
                  [&](unsigned int index) { return static_cast<int>(index); });

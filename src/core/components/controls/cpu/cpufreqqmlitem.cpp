@@ -143,7 +143,7 @@ CPUFreqQMLItem::initializer(IQMLComponentFactory const &qmlComponentFactory,
 void CPUFreqQMLItem::takeCPUFreqScalingGovernors(
     std::vector<std::string> const &governors)
 {
-  QVector<QString> governorTextVector;
+  QList<QString> governorTextVector;
   for (auto governor : governors) {
     governorTextVector.push_back(QString::fromStdString(governor));
     governorTextVector.push_back(tr(governor.data()));
