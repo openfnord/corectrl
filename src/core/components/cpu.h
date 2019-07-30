@@ -45,6 +45,8 @@ class CPU final : public ICPU
   void preInit(ICommandQueue &ctlCmds) override;
   void sync(ICommandQueue &ctlCmds) override;
 
+  void updateSensors() override;
+
   ICPUInfo const &info() const override;
 
   std::string const &ID() const override;

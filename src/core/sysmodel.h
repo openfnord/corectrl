@@ -32,6 +32,7 @@ class SysModel final : public ISysModel
   void init() override;
   void preInit(ICommandQueue &ctlCmds) override;
   void sync(ICommandQueue &ctlCmds) override;
+  void updateSensors() override;
 
   std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>
   info() const override;

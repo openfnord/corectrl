@@ -23,9 +23,10 @@
 #include "isysmodel.h"
 #include "isysmodelsyncer.h"
 #include <QObject>
-#include <QTimer>
+#include <atomic>
 #include <memory>
 #include <mutex>
+#include <thread>
 
 class SysModelSyncer final
 : public QObject
@@ -45,15 +46,17 @@ class SysModelSyncer final
 
   void apply(IProfileView &profileView) override;
 
- private slots:
-  void sync();
-
  private:
+  void updateSensors();
+  void syncModel();
+
   std::unique_ptr<ISysModel> const sysModel_;
   std::unique_ptr<IHelperSysCtl> const helperSysCtl_;
 
-  std::mutex mutex_;
+  std::mutex syncMutex_;
   CommandQueue cmds_;
 
-  QTimer timer_;
+  std::unique_ptr<std::thread> updateThread_;
+  std::unique_ptr<std::thread> syncThread_;
+  std::atomic<bool> stopSignal_{false};
 };

@@ -51,6 +51,12 @@ void SysModel::sync(ICommandQueue &ctlCmds)
     component->sync(ctlCmds);
 }
 
+void SysModel::updateSensors()
+{
+  for (auto &component : components_)
+    component->updateSensors();
+}
+
 std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>
 SysModel::info() const
 {
