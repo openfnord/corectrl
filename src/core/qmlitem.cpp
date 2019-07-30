@@ -41,14 +41,6 @@ void QMLItem::setupChild(QQuickItem *child)
             &QMLItem::settingsChanged, Qt::UniqueConnection);
 }
 
-void QMLItem::visualizeChildItem(std::string const &itemObjectName, bool visible)
-{
-  auto item = findChild<QQuickItem *>(itemObjectName.data());
-  if (item != nullptr) {
-    item->setVisible(visible);
-  }
-}
-
 QMLItem::Initializer::Initializer(IQMLComponentFactory const &qmlComponentFactory,
                                   QQmlApplicationEngine &qmlEngine) noexcept
 : qmlComponentFactory_(qmlComponentFactory)

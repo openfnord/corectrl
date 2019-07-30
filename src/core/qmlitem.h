@@ -57,10 +57,6 @@ class QMLItem : public QQuickItem
   /// Sets the item's name
   void setName(QString const &name);
 
-  /// Sets the visible atributte of the first child item
-  /// identified by itemObjectName
-  void visualizeChildItem(std::string const &itemObjectName, bool visible);
-
  public:
   /// QMLItem specializations should extend this class in their
   /// Initializer specializations

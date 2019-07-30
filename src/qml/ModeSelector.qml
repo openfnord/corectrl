@@ -57,13 +57,8 @@ Page {
   /// Selects a mode.
   /// @param mode key of the mode to be selected
   function select(mode) {
-    for (var i = 0; i < listModel.count; i++) {
-      if (listModel.get(i).mode === mode) {
-        cbMode.lastIndex = i
-        cbMode.currentIndex = i
-        break;
-      }
-    }
+    if (cbMode.currentMode !== mode)
+      cbMode.setMode(mode)
   }
 
   ListModel {
@@ -95,17 +90,25 @@ Page {
         id: cbMode
         model: listModel
 
-        property int lastIndex: 0
+        property string currentMode: ""
+
+        function setMode(mode) {
+          for (var i = 0; i < listModel.count; i++) {
+            if (listModel.get(i).mode === mode) {
+              var lastMode = currentMode
+              currentMode = mode
+              currentIndex = i
+              contentsAnchor.toggleActive(lastMode, currentMode)
+              break;
+            }
+          }
+        }
 
         onActivated: {
-          if (lastIndex !== currentIndex) {
-            var lastMode = model.get(lastIndex).mode
-            var currentMode = model.get(currentIndex).mode
-
+          if (currentMode !== model.get(currentIndex).mode) {
+            var lastMode = currentMode
+            currentMode = model.get(currentIndex).mode
             contentsAnchor.toggleActive(lastMode, currentMode)
-
-            lastIndex = currentIndex
-            modeSelector.selectionChanged(currentMode)
           }
         }
       }
@@ -126,11 +129,15 @@ Page {
       anchors.centerIn: parent
 
       function toggleActive(from, to) {
-        if (childrenAdded[from] !== undefined)
+        if (childrenAdded[from] !== undefined &&
+            childrenAdded[to] !== undefined) {
           childrenAdded[from].activate(false)
+        }
 
-        if (childrenAdded[to] !== undefined)
+        if (childrenAdded[to] !== undefined) {
           childrenAdded[to].activate(true)
+          modeSelector.selectionChanged(to)
+        }
       }
 
       property var childrenAdded: []

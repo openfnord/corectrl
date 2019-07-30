@@ -78,9 +78,6 @@ void ControlModeQMLItem::changeMode(QString const &mode)
 {
   auto newMode = mode.toStdString();
   if (mode_ != newMode) {
-    visualizeChildItem(mode_, false);
-    visualizeChildItem(newMode, true);
-
     std::swap(mode_, newMode);
     emit modeChanged(mode);
     emit settingsChanged();
@@ -127,7 +124,6 @@ void ControlModeQMLItem::takeMode(std::string const &mode)
 {
   if (mode_ != mode) {
     mode_ = mode;
-    visualizeChildItem(mode_, true);
     emit modeChanged(QString::fromUtf8(mode_.data()));
   }
 }
