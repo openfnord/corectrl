@@ -66,6 +66,7 @@ class SysComponentMock : public ISysComponent
   }
 
   MAKE_MOCK1(sync, void(ICommandQueue &), override);
+  MAKE_MOCK0(updateSensors, void(), override);
   MAKE_CONST_MOCK0(ID, std::string const &(), override);
   MAKE_MOCK1(importWith, void(Importable::Importer &), override);
   MAKE_CONST_MOCK1(exportWith, void(Exportable::Exporter &), override);
@@ -118,6 +119,12 @@ TEST_CASE("SysModel tests", "[SysModel]")
   {
     REQUIRE_CALL(componentMock, init());
     ts.init();
+  }
+
+  SECTION("Update component's sensors")
+  {
+    REQUIRE_CALL(componentMock, updateSensors());
+    ts.updateSensors();
   }
 
   SECTION("Sync components")

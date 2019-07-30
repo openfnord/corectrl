@@ -18,15 +18,13 @@
 #include "sysmodelsyncer.h"
 
 #include "iprofileview.h"
-#include <QThread>
+#include <chrono>
 
 SysModelSyncer::SysModelSyncer(std::unique_ptr<ISysModel> &&sysModel,
                                std::unique_ptr<IHelperSysCtl> &&helperSysCtl) noexcept
 : sysModel_(std::move(sysModel))
 , helperSysCtl_(std::move(helperSysCtl))
 {
-  timer_.setInterval(500);
-  connect(&timer_, &QTimer::timeout, this, &SysModelSyncer::sync);
 }
 
 ISysModel &SysModelSyncer::sysModel() const
@@ -43,26 +41,48 @@ void SysModelSyncer::init()
 
   // NOTE give some time to the helper so it applies the pre-init commands
   // before the model initialization.
-  QThread::msleep(500);
+  std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
   sysModel_->init();
-  timer_.start();
+
+  // start the sensor updating thread
+  updateThread_ = std::make_unique<std::thread>([&]() {
+    while (!stopSignal_.load(std::memory_order_relaxed)) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(500));
+      updateSensors();
+    }
+  });
+
+  // start the model syncing thread
+  syncThread_ = std::make_unique<std::thread>([&]() {
+    while (!stopSignal_.load(std::memory_order_relaxed)) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(500));
+      syncModel();
+    }
+  });
 }
 
 void SysModelSyncer::stop()
 {
-  timer_.stop();
+  stopSignal_.store(true, std::memory_order_relaxed);
+  updateThread_->join();
+  syncThread_->join();
 }
 
 void SysModelSyncer::apply(IProfileView &profileView)
 {
-  std::lock_guard<std::mutex> lock(mutex_);
+  std::lock_guard<std::mutex> lock(syncMutex_);
   sysModel_->importWith(profileView);
 }
 
-void SysModelSyncer::sync()
+void SysModelSyncer::updateSensors()
 {
-  std::lock_guard<std::mutex> lock(mutex_);
+  sysModel_->updateSensors();
+}
+
+void SysModelSyncer::syncModel()
+{
+  std::lock_guard<std::mutex> lock(syncMutex_);
   sysModel_->sync(cmds_);
   helperSysCtl_->apply(cmds_);
 }

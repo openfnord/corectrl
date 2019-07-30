@@ -46,6 +46,7 @@ class ISysModel
   virtual void init() = 0;
   virtual void preInit(ICommandQueue &ctlCmds) = 0;
   virtual void sync(ICommandQueue &ctlCmds) = 0;
+  virtual void updateSensors() = 0;
 
   virtual std::vector<
       std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>

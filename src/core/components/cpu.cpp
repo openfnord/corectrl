@@ -79,9 +79,6 @@ void CPU::preInit(ICommandQueue &ctlCmds)
 
 void CPU::sync(ICommandQueue &ctlCmds)
 {
-  for (auto &sensor : sensors_)
-    sensor->update();
-
   if (active_) {
     // NOTE clean and sync commands generation cannot be interleaved.
     // Interleaving them could cause conflicts between clean and sync
@@ -92,6 +89,12 @@ void CPU::sync(ICommandQueue &ctlCmds)
     for (auto &control : controls_)
       control->sync(ctlCmds);
   }
+}
+
+void CPU::updateSensors()
+{
+  for (auto &sensor : sensors_)
+    sensor->update();
 }
 
 ICPUInfo const &CPU::info() const

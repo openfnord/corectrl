@@ -79,9 +79,6 @@ void GPU::preInit(ICommandQueue &ctlCmds)
 
 void GPU::sync(ICommandQueue &ctlCmds)
 {
-  for (auto &sensor : sensors_)
-    sensor->update();
-
   if (active_) {
     // NOTE clean and sync commands generation cannot be interleaved.
     // Interleaving them could cause conflicts between clean and sync
@@ -92,6 +89,12 @@ void GPU::sync(ICommandQueue &ctlCmds)
     for (auto &control : controls_)
       control->sync(ctlCmds);
   }
+}
+
+void GPU::updateSensors()
+{
+  for (auto &sensor : sensors_)
+    sensor->update();
 }
 
 IGPUInfo const &GPU::info() const

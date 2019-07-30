@@ -161,18 +161,10 @@ TEST_CASE("GPU tests", "[GPU]")
     REQUIRE(info == "info_1");
   }
 
-  SECTION("Always sync sensors")
+  SECTION("Update its sensors")
   {
-    ALLOW_CALL(controlMock, clean(trompeloeil::_));
-    ALLOW_CALL(controlMock, sync(trompeloeil::_));
-
-    REQUIRE_CALL(sensorMock, update()).TIMES(AT_MOST(2));
-
-    ts.activate(true);
-    ts.sync(ctlCmds);
-
-    ts.activate(false);
-    ts.sync(ctlCmds);
+    REQUIRE_CALL(sensorMock, update());
+    ts.updateSensors();
   }
 
   SECTION("Pre-init its controls")
