@@ -38,6 +38,8 @@ Page {
     function newInfoComponent(componentName, info) {
       var tab = tabBtnComponent.createObject(tabBar)
       tab.text = componentName
+      tabBar.addItem(tab)
+
       var infoPane = infoPaneComponent.createObject(infoPages)
       infoPane.addInfo(info)
     }
@@ -54,18 +56,6 @@ Page {
 
     TabButton {
       id: tabBtn
-
-      contentItem: Text {
-          id: cText
-          anchors.fill: parent
-
-          text: tabBtn.text
-          font: tabBtn.font
-          color: tabBtn.checked ? Style.Material.accent : Material.foreground
-          horizontalAlignment: Text.AlignHCenter
-          verticalAlignment: Text.AlignVCenter
-          elide: Text.ElideRight
-      }
 
       background: Rectangle {
         color: tabBtn.hovered ? Style.TabButton.bg_color_alt
@@ -89,6 +79,7 @@ Page {
       Component.onCompleted: {
         var aboutTab = tabBtnComponent.createObject(tabBar)
         aboutTab.text = appInfo.name
+        tabBar.addItem(aboutTab)
       }
     }
 
