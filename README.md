@@ -20,6 +20,7 @@ This list may contain unofficial distribution packages. For security reasons, al
 - Fedora: `sudo dnf install corectrl`
 - OpenSUSE: [`corectrl`](https://software.opensuse.org/download.html?project=home%3ADead_Mozay&package=corectrl)
 - Arch Linux (AUR): [`corectrl`](https://aur.archlinux.org/packages/corectrl/)
+- Ubuntu: [`Ernst ppa-mesarc`](https://launchpad.net/~ernstp/+archive/ubuntu/mesarc)
 
 For other installation methods and setup instructions, please go to the [project wiki](https://gitlab.com/corectrl/corectrl/wikis/home).
 
