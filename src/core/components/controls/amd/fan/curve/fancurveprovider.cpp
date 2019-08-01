@@ -23,6 +23,8 @@
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
+#include "easyloggingpp/easylogging++.h"
+#include "fmt/format.h"
 
 #include "fancurve.h"
 
@@ -53,31 +55,67 @@ AMD::FanCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
             Utils::File::isSysFSEntryValid(tempInput) &&
             Utils::File::isSysFSEntryValid(tempCrit)) {
 
-          int tempCritValue;
+          int tempCritValue{0};
           Utils::String::toNumber(tempCritValue,
                                   Utils::File::readFileLines(tempCrit).front());
           tempCritValue = tempCritValue > 0 ? tempCritValue / 1000 : 90;
 
-          return std::make_unique<AMD::FanCurve>(
-              std::make_unique<SysFSDataSource<unsigned int>>(
-                  pwmEnable,
-                  [](std::string const &data, unsigned int &output) {
-                    Utils::String::toNumber<unsigned int>(output, data);
-                  }),
-              std::make_unique<SysFSDataSource<unsigned int>>(
-                  pwm,
-                  [](std::string const &data, unsigned int &output) {
-                    Utils::String::toNumber<unsigned int>(output, data);
-                  }),
-              std::make_unique<SysFSDataSource<int>>(
-                  tempInput,
-                  [](std::string const &data, int &output) {
-                    int value;
-                    Utils::String::toNumber<int>(value, data);
-                    output = value / 1000;
-                  }),
-              units::temperature::celsius_t(0),
-              units::temperature::celsius_t(tempCritValue));
+          unsigned int value;
+
+          auto pwmEnableLines = Utils::File::readFileLines(pwmEnable);
+          auto pwmEnableValid = Utils::String::toNumber<unsigned int>(
+              value, pwmEnableLines.front());
+
+          auto pwmLines = Utils::File::readFileLines(pwm);
+          auto pwmValid = Utils::String::toNumber<unsigned int>(
+              value, pwmLines.front());
+
+          int tempInputValue;
+          auto tempInputLines = Utils::File::readFileLines(tempInput);
+          auto tempInputValid = Utils::String::toNumber<int>(
+              tempInputValue, tempInputLines.front());
+
+          if (pwmEnableValid && pwmValid && tempInputValid) {
+            return std::make_unique<AMD::FanCurve>(
+                std::make_unique<SysFSDataSource<unsigned int>>(
+                    pwmEnable,
+                    [](std::string const &data, unsigned int &output) {
+                      Utils::String::toNumber<unsigned int>(output, data);
+                    }),
+                std::make_unique<SysFSDataSource<unsigned int>>(
+                    pwm,
+                    [](std::string const &data, unsigned int &output) {
+                      Utils::String::toNumber<unsigned int>(output, data);
+                    }),
+                std::make_unique<SysFSDataSource<int>>(
+                    tempInput,
+                    [](std::string const &data, int &output) {
+                      int value;
+                      Utils::String::toNumber<int>(value, data);
+                      output = value / 1000;
+                    }),
+                units::temperature::celsius_t(0),
+                units::temperature::celsius_t(tempCritValue));
+          }
+          else {
+            if (!pwmEnableValid) {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          pwmEnable.string());
+              LOG(ERROR) << pwmEnableLines.front().c_str();
+            }
+
+            if (!pwmValid) {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          pwm.string());
+              LOG(ERROR) << pwmLines.front().c_str();
+            }
+
+            if (!tempInputValid) {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          tempInput.string());
+              LOG(ERROR) << tempInputLines.front().c_str();
+            }
+          }
         }
       }
     }
