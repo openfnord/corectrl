@@ -23,6 +23,8 @@
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
+#include "easyloggingpp/easylogging++.h"
+#include "fmt/format.h"
 
 #include "pmpowercap.h"
 
@@ -50,14 +52,22 @@ AMD::PMPowerCapProvider::provideGPUControl(IGPUInfo const &gpuInfo,
             Utils::File::isSysFSEntryValid(power1CapMinPath) &&
             Utils::File::isSysFSEntryValid(power1CapMaxPath)) {
 
+          auto power1CapLines = Utils::File::readFileLines(power1CapPath);
+          unsigned long power1CapValue;
+          auto valueValid = Utils::String::toNumber<unsigned long>(
+              power1CapValue, power1CapLines.front());
+
           auto power1CapMinLines = Utils::File::readFileLines(power1CapMinPath);
-          auto power1CapMaxLines = Utils::File::readFileLines(power1CapMaxPath);
           unsigned long power1CapMinValue;
+          auto minValueValid = Utils::String::toNumber<unsigned long>(
+              power1CapMinValue, power1CapMinLines.front());
+
+          auto power1CapMaxLines = Utils::File::readFileLines(power1CapMaxPath);
           unsigned long power1CapMaxValue;
-          if (Utils::String::toNumber<unsigned long>(
-                  power1CapMinValue, power1CapMinLines.front()) &&
-              Utils::String::toNumber<unsigned long>(
-                  power1CapMaxValue, power1CapMaxLines.front())) {
+          auto maxValueValid = Utils::String::toNumber<unsigned long>(
+              power1CapMaxValue, power1CapMaxLines.front());
+
+          if (valueValid && minValueValid && maxValueValid) {
 
             return std::make_unique<AMD::PMPowerCap>(
                 std::make_unique<SysFSDataSource<unsigned long>>(
@@ -67,6 +77,25 @@ AMD::PMPowerCapProvider::provideGPUControl(IGPUInfo const &gpuInfo,
                     }),
                 units::power::microwatt_t(power1CapMinValue),
                 units::power::microwatt_t(power1CapMaxValue));
+          }
+          else {
+            if (!valueValid) {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          power1CapPath.string());
+              LOG(ERROR) << power1CapLines.front();
+            }
+
+            if (!minValueValid) {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          power1CapMinPath.string());
+              LOG(ERROR) << power1CapMinLines.front();
+            }
+
+            if (!maxValueValid) {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          power1CapMaxPath.string());
+              LOG(ERROR) << power1CapMaxLines.front();
+            }
           }
         }
       }
