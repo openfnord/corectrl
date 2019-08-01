@@ -48,45 +48,33 @@ void AMD::PMFVState::init()
 {
   if (ppOdClkVoltDataSource_->read(ppOdClkVoltLines_)) {
 
-    auto gpuClkRange = Utils::AMD::parseOdClkVoltStateClkRange(
-        "SCLK", ppOdClkVoltLines_);
-    if (gpuClkRange.has_value())
-      gpuRange_ = *gpuClkRange;
-
-    auto memClkRange = Utils::AMD::parseOdClkVoltStateClkRange(
-        "MCLK", ppOdClkVoltLines_);
-    if (memClkRange.has_value())
-      memRange_ = *memClkRange;
-
-    auto voltageRange =
-        Utils::AMD::parseOdClkVoltStateVoltRange(ppOdClkVoltLines_);
-    if (voltageRange.has_value())
-      voltRange_ = *voltageRange;
+    gpuRange_ =
+        Utils::AMD::parseOdClkVoltStateClkRange("SCLK", ppOdClkVoltLines_).value();
+    memRange_ =
+        Utils::AMD::parseOdClkVoltStateClkRange("MCLK", ppOdClkVoltLines_).value();
+    voltRange_ =
+        Utils::AMD::parseOdClkVoltStateVoltRange(ppOdClkVoltLines_).value();
 
     auto [voltMin, voltMax] = voltRange_;
 
     auto gpuStates = Utils::AMD::parseOdClkVoltStateStates("SCLK",
                                                            ppOdClkVoltLines_);
-    if (gpuStates.has_value()) {
-      auto [gpuMin, gpuMax] = gpuRange_;
-      for (auto [index, freq, volt] : gpuStates.value()) {
-        gpuInitVoltages_.emplace(index, volt);
-        gpuStates_.emplace(index,
-                           std::make_pair(std::clamp(freq, gpuMin, gpuMax),
-                                          std::clamp(volt, voltMin, voltMax)));
-      }
+    auto [gpuMin, gpuMax] = gpuRange_;
+    for (auto [index, freq, volt] : gpuStates.value()) {
+      gpuInitVoltages_.emplace(index, volt);
+      gpuStates_.emplace(index,
+                         std::make_pair(std::clamp(freq, gpuMin, gpuMax),
+                                        std::clamp(volt, voltMin, voltMax)));
     }
 
     auto memStates = Utils::AMD::parseOdClkVoltStateStates("MCLK",
                                                            ppOdClkVoltLines_);
-    if (memStates.has_value()) {
-      auto [memMin, memMax] = memRange_;
-      for (auto [index, freq, volt] : memStates.value()) {
-        memInitVoltages_.emplace(index, volt);
-        memStates_.emplace(index,
-                           std::make_pair(std::clamp(freq, memMin, memMax),
-                                          std::clamp(volt, voltMin, voltMax)));
-      }
+    auto [memMin, memMax] = memRange_;
+    for (auto [index, freq, volt] : memStates.value()) {
+      memInitVoltages_.emplace(index, volt);
+      memStates_.emplace(index,
+                         std::make_pair(std::clamp(freq, memMin, memMax),
+                                        std::clamp(volt, voltMin, voltMax)));
     }
   }
 }
@@ -180,35 +168,31 @@ void AMD::PMFVState::syncControl(ICommandQueue &ctlCmds)
 
       auto gpuStates = Utils::AMD::parseOdClkVoltStateStates("SCLK",
                                                              ppOdClkVoltLines_);
-      if (gpuStates.has_value())
-        for (auto [index, freq, volt] : gpuStates.value()) {
-          auto [targetFreq, sVolt] = gpuStates_.at(index);
-          auto targetVolt = gpuVoltMode_ == AMD::PMFVState::VoltMode::Automatic
-                                ? gpuInitVoltages_.at(index)
-                                : sVolt;
-          if (freq != targetFreq || volt != targetVolt) {
-            ctlCmds.add(
-                {ppOdClkVoltDataSource_->source(),
-                 ppOdClkVoltStateCmd("s", index, targetFreq, targetVolt)});
-            commit = true;
-          }
+      for (auto [index, freq, volt] : gpuStates.value()) {
+        auto [targetFreq, sVolt] = gpuStates_.at(index);
+        auto targetVolt = gpuVoltMode_ == AMD::PMFVState::VoltMode::Automatic
+                              ? gpuInitVoltages_.at(index)
+                              : sVolt;
+        if (freq != targetFreq || volt != targetVolt) {
+          ctlCmds.add({ppOdClkVoltDataSource_->source(),
+                       ppOdClkVoltStateCmd("s", index, targetFreq, targetVolt)});
+          commit = true;
         }
+      }
 
       auto memStates = Utils::AMD::parseOdClkVoltStateStates("MCLK",
                                                              ppOdClkVoltLines_);
-      if (memStates.has_value())
-        for (auto [index, freq, volt] : memStates.value()) {
-          auto [targetFreq, sVolt] = memStates_.at(index);
-          auto targetVolt = memVoltMode_ == AMD::PMFVState::VoltMode::Automatic
-                                ? memInitVoltages_.at(index)
-                                : sVolt;
-          if (freq != targetFreq || volt != targetVolt) {
-            ctlCmds.add(
-                {ppOdClkVoltDataSource_->source(),
-                 ppOdClkVoltStateCmd("m", index, targetFreq, targetVolt)});
-            commit = true;
-          }
+      for (auto [index, freq, volt] : memStates.value()) {
+        auto [targetFreq, sVolt] = memStates_.at(index);
+        auto targetVolt = memVoltMode_ == AMD::PMFVState::VoltMode::Automatic
+                              ? memInitVoltages_.at(index)
+                              : sVolt;
+        if (freq != targetFreq || volt != targetVolt) {
+          ctlCmds.add({ppOdClkVoltDataSource_->source(),
+                       ppOdClkVoltStateCmd("m", index, targetFreq, targetVolt)});
+          commit = true;
         }
+      }
 
       if (commit)
         ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
