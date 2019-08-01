@@ -27,6 +27,8 @@
 #include "core/profilepartprovider.h"
 #include "core/profilepartxmlparserprovider.h"
 #include "core/sysfsdatasource.h"
+#include "easyloggingpp/easylogging++.h"
+#include "fmt/format.h"
 
 namespace CPUFreqPack {
 
@@ -68,13 +70,25 @@ class Provider final : public ICPUSensorProvider::IProvider
         std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
         for (auto &executionUnit : cpuInfo.executionUnits()) {
           auto curFreqPath = executionUnit.sysPath / "cpufreq/scaling_cur_freq";
-          if (Utils::File::isSysFSEntryValid(curFreqPath))
-            dataSources.emplace_back(
-                std::make_unique<SysFSDataSource<unsigned int>>(
-                    curFreqPath,
-                    [](std::string const &data, unsigned int &output) {
-                      Utils::String::toNumber<unsigned int>(output, data);
-                    }));
+          if (Utils::File::isSysFSEntryValid(curFreqPath)) {
+
+            unsigned int value;
+            auto curFreqLines = Utils::File::readFileLines(curFreqPath);
+            if (Utils::String::toNumber<unsigned int>(value,
+                                                      curFreqLines.front())) {
+              dataSources.emplace_back(
+                  std::make_unique<SysFSDataSource<unsigned int>>(
+                      curFreqPath,
+                      [](std::string const &data, unsigned int &output) {
+                        Utils::String::toNumber<unsigned int>(output, data);
+                      }));
+            }
+            else {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          curFreqPath.string());
+              LOG(ERROR) << curFreqLines.front().c_str();
+            }
+          }
         }
 
         if (!dataSources.empty())
