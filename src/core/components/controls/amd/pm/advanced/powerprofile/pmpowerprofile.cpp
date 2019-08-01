@@ -23,32 +23,20 @@
 
 AMD::PMPowerProfile::PMPowerProfile(
     std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
-    std::unique_ptr<IDataSource<std::vector<std::string>>>
-        &&powerProfileDataSource) noexcept
+    std::unique_ptr<IDataSource<std::vector<std::string>>> &&powerProfileDataSource,
+    std::vector<std::pair<std::string, int>> const &modes) noexcept
 : Control(true)
 , id_(AMD::PMPowerProfile::ItemID)
 , perfLevelDataSource_(std::move(perfLevelDataSource))
 , powerProfileDataSource_(std::move(powerProfileDataSource))
-, currentModeIndex_(-1)
-, defaultModeIndex_(-1)
 {
-  if (powerProfileDataSource_->read(dataSourceLines_)) {
-
-    auto modes = Utils::AMD::parsePowerProfileModeModes(dataSourceLines_);
-    if (modes.has_value()) {
-      for (auto &[mode, index] : modes.value()) {
-        modes_.push_back(mode);
-        indexMode_.emplace(index, mode);
-      }
-
-      if (modes_.empty())
-        indexMode_.emplace(currentModeIndex_, "");
-      else {
-        mode(modes_.front());
-        defaultModeIndex_ = currentModeIndex_;
-      }
-    }
+  for (auto &[mode, index] : modes) {
+    modes_.push_back(mode);
+    indexMode_.emplace(index, mode);
   }
+
+  mode(modes_.front());
+  defaultModeIndex_ = currentModeIndex_;
 }
 
 void AMD::PMPowerProfile::preInit(ICommandQueue &ctlCmds)
@@ -80,16 +68,14 @@ void AMD::PMPowerProfile::exportControl(IControl::Exporter &e) const
 
 void AMD::PMPowerProfile::cleanControl(ICommandQueue &ctlCmds)
 {
-  if (!modes_.empty()) {
-    ctlCmds.add({perfLevelDataSource_->source(), "manual"});
-    ctlCmds.add(
-        {powerProfileDataSource_->source(), std::to_string(defaultModeIndex_)});
-  }
+  ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+  ctlCmds.add(
+      {powerProfileDataSource_->source(), std::to_string(defaultModeIndex_)});
 }
 
 void AMD::PMPowerProfile::syncControl(ICommandQueue &ctlCmds)
 {
-  if (!modes_.empty() && perfLevelDataSource_->read(dataSourceEntry_) &&
+  if (perfLevelDataSource_->read(dataSourceEntry_) &&
       powerProfileDataSource_->read(dataSourceLines_)) {
 
     if (dataSourceEntry_ != "manual") {
@@ -119,7 +105,6 @@ void AMD::PMPowerProfile::mode(std::string const &mode)
 
 std::string const &AMD::PMPowerProfile::mode() const
 {
-
   return indexMode_.at(currentModeIndex_);
 }
 

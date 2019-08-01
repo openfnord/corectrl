@@ -20,9 +20,12 @@
 #include "../pmadvancedprovider.h"
 #include "common/fileutils.h"
 #include "common/stringutils.h"
+#include "core/components/amdutils.h"
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
+#include "easyloggingpp/easylogging++.h"
+#include "fmt/format.h"
 
 #include "pmpowerprofile.h"
 
@@ -42,10 +45,21 @@ AMD::PMPowerProfileProvider::provideGPUControl(IGPUInfo const &gpuInfo,
       if (Utils::File::isSysFSEntryValid(perfLevel) &&
           Utils::File::isSysFSEntryValid(profileMode)) {
 
-        return std::make_unique<AMD::PMPowerProfile>(
-            std::make_unique<SysFSDataSource<std::string>>(perfLevel),
-            std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                profileMode));
+        auto modeLines = Utils::File::readFileLines(profileMode);
+        auto modes = Utils::AMD::parsePowerProfileModeModes(modeLines);
+
+        if (modes.has_value())
+          return std::make_unique<AMD::PMPowerProfile>(
+              std::make_unique<SysFSDataSource<std::string>>(perfLevel),
+              std::make_unique<SysFSDataSource<std::vector<std::string>>>(
+                  profileMode),
+              modes.value());
+        else {
+          LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                      profileMode.string());
+          for (auto &line : modeLines)
+            LOG(ERROR) << line.c_str();
+        }
       }
     }
   }

@@ -28,6 +28,8 @@
 #include "core/profilepartprovider.h"
 #include "core/profilepartxmlparserprovider.h"
 #include "core/sysfsdatasource.h"
+#include "easyloggingpp/easylogging++.h"
+#include "fmt/format.h"
 
 namespace fs = std::filesystem;
 
@@ -52,23 +54,34 @@ class Provider final : public IGPUSensorProvider::IProvider
         auto path =
             Utils::File::findHWMonXDirectory(gpuInfo.path().sys / "hwmon");
         if (path.has_value()) {
+
           auto pwm = path.value() / "pwm1";
           if (Utils::File::isSysFSEntryValid(pwm)) {
 
-            std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
-            dataSources.emplace_back(
-                std::make_unique<SysFSDataSource<unsigned int>>(
-                    pwm, [](std::string const &data, unsigned int &output) {
-                      unsigned int value;
-                      Utils::String::toNumber<unsigned int>(value, data);
-                      output = value / 2.55;
-                    }));
+            unsigned int value;
+            auto pwmLines = Utils::File::readFileLines(pwm);
+            if (Utils::String::toNumber<unsigned int>(value, pwmLines.front())) {
 
-            return std::make_unique<
-                Sensor<units::dimensionless::scalar_t, unsigned int>>(
-                AMD::FanSpeedPerc::ItemID, std::move(dataSources),
-                std::make_pair(units::dimensionless::scalar_t(0),
-                               units::dimensionless::scalar_t(100)));
+              std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
+              dataSources.emplace_back(
+                  std::make_unique<SysFSDataSource<unsigned int>>(
+                      pwm, [](std::string const &data, unsigned int &output) {
+                        unsigned int value;
+                        Utils::String::toNumber<unsigned int>(value, data);
+                        output = value / 2.55;
+                      }));
+
+              return std::make_unique<
+                  Sensor<units::dimensionless::scalar_t, unsigned int>>(
+                  AMD::FanSpeedPerc::ItemID, std::move(dataSources),
+                  std::make_pair(units::dimensionless::scalar_t(0),
+                                 units::dimensionless::scalar_t(100)));
+            }
+            else {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          pwm.string());
+              LOG(ERROR) << pwmLines.front().c_str();
+            }
           }
         }
       }
