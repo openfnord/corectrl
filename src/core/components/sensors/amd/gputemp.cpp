@@ -28,6 +28,8 @@
 #include "core/profilepartprovider.h"
 #include "core/profilepartxmlparserprovider.h"
 #include "core/sysfsdatasource.h"
+#include "easyloggingpp/easylogging++.h"
+#include "fmt/format.h"
 
 namespace fs = std::filesystem;
 
@@ -71,16 +73,27 @@ class Provider final : public IGPUSensorProvider::IProvider
           auto tempInput = path.value() / "temp1_input";
           if (Utils::File::isSysFSEntryValid(tempInput)) {
 
-            std::vector<std::unique_ptr<IDataSource<int>>> dataSources;
-            dataSources.emplace_back(std::make_unique<SysFSDataSource<int>>(
-                tempInput, [](std::string const &data, int &output) {
-                  int value;
-                  Utils::String::toNumber<int>(value, data);
-                  output = value / 1000;
-                }));
+            int value;
+            auto tempInputLines = Utils::File::readFileLines(tempInput);
 
-            return std::make_unique<Sensor<units::temperature::celsius_t, int>>(
-                AMD::GPUTemp::ItemID, std::move(dataSources), std::move(range));
+            if (Utils::String::toNumber<int>(value, tempInputLines.front())) {
+
+              std::vector<std::unique_ptr<IDataSource<int>>> dataSources;
+              dataSources.emplace_back(std::make_unique<SysFSDataSource<int>>(
+                  tempInput, [](std::string const &data, int &output) {
+                    int value;
+                    Utils::String::toNumber<int>(value, data);
+                    output = value / 1000;
+                  }));
+
+              return std::make_unique<Sensor<units::temperature::celsius_t, int>>(
+                  AMD::GPUTemp::ItemID, std::move(dataSources), std::move(range));
+            }
+            else {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          tempInput.string());
+              LOG(ERROR) << tempInputLines.front().c_str();
+            }
           }
         }
       }

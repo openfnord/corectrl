@@ -20,10 +20,13 @@
 #include "../freqmode/pmfreqmodeprovider.h"
 #include "common/fileutils.h"
 #include "common/stringutils.h"
+#include "core/components/amdutils.h"
 #include "core/components/controls/amd/pm/handlers/ppdpmhandler.h"
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
+#include "easyloggingpp/easylogging++.h"
+#include "fmt/format.h"
 
 #include "pmfixedfreq.h"
 
@@ -45,14 +48,38 @@ AMD::PMFixedFreqProvider::provideGPUControl(IGPUInfo const &gpuInfo,
           Utils::File::isSysFSEntryValid(dpmSclk) &&
           Utils::File::isSysFSEntryValid(dpmMclk)) {
 
-        return std::make_unique<AMD::PMFixedFreq>(
-            std::make_unique<SysFSDataSource<std::string>>(perfLevel),
-            std::make_unique<PpDpmHandler>(
-                std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                    dpmSclk)),
-            std::make_unique<PpDpmHandler>(
-                std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                    dpmMclk)));
+        auto dpmSclkLines = Utils::File::readFileLines(dpmSclk);
+        auto dpmSclkValid = Utils::AMD::parseDPMStates(dpmSclkLines).has_value();
+
+        auto dpmMclkLines = Utils::File::readFileLines(dpmMclk);
+        auto dpmMclkValid = Utils::AMD::parseDPMStates(dpmMclkLines).has_value();
+
+        if (dpmSclkValid && dpmMclkValid) {
+
+          return std::make_unique<AMD::PMFixedFreq>(
+              std::make_unique<SysFSDataSource<std::string>>(perfLevel),
+              std::make_unique<PpDpmHandler>(
+                  std::make_unique<SysFSDataSource<std::vector<std::string>>>(
+                      dpmSclk)),
+              std::make_unique<PpDpmHandler>(
+                  std::make_unique<SysFSDataSource<std::vector<std::string>>>(
+                      dpmMclk)));
+        }
+        else {
+          if (!dpmSclkValid) {
+            LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                        dpmSclk.string());
+            for (auto &line : dpmSclkLines)
+              LOG(ERROR) << line.c_str();
+          }
+
+          if (!dpmMclkValid) {
+            LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                        dpmMclk.string());
+            for (auto &line : dpmMclkLines)
+              LOG(ERROR) << line.c_str();
+          }
+        }
       }
     }
   }

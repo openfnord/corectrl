@@ -24,8 +24,10 @@
 AMD::PMFreqOd::PMFreqOd(
     std::unique_ptr<IDataSource<unsigned int>> &&sclkOdDataSource,
     std::unique_ptr<IDataSource<unsigned int>> &&mclkOdDataSource,
-    std::unique_ptr<IDataSource<std::vector<std::string>>> &&sclkDataSource,
-    std::unique_ptr<IDataSource<std::vector<std::string>>> &&mclkDataSource) noexcept
+    std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
+        &sclkStates,
+    std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
+        &mclkStates) noexcept
 : Control(true)
 , id_(AMD::PMFreqOd::ItemID)
 , sclkOdDataSource_(std::move(sclkOdDataSource))
@@ -35,30 +37,19 @@ AMD::PMFreqOd::PMFreqOd(
 , sclkOd_(0)
 , mclkOd_(0)
 {
-  std::vector<std::string> sclkSourceLines;
-  std::vector<std::string> mclkSourceLines;
-
-  if (sclkDataSource->read(sclkSourceLines) &&
-      mclkDataSource->read(mclkSourceLines) &&
-      sclkOdDataSource_->read(sclkOdDataSourceEntry_) &&
+  if (sclkOdDataSource_->read(sclkOdDataSourceEntry_) &&
       mclkOdDataSource_->read(mclkOdDataSourceEntry_)) {
 
-    auto sclkStates = Utils::AMD::parseDPMStates(sclkSourceLines);
-    if (sclkStates.has_value()) {
-      baseSclk_ = sclkStates->back().second;
-      if (sclkOdDataSourceEntry_ > 0) {
-        baseSclk_ = units::frequency::megahertz_t(std::round(
-            baseSclk_.to<double>() * (100.0 / (sclkOdDataSourceEntry_ + 100))));
-      }
+    baseSclk_ = sclkStates.back().second;
+    if (sclkOdDataSourceEntry_ > 0) {
+      baseSclk_ = units::frequency::megahertz_t(std::round(
+          baseSclk_.to<double>() * (100.0 / (sclkOdDataSourceEntry_ + 100))));
     }
 
-    auto mclkStates = Utils::AMD::parseDPMStates(mclkSourceLines);
-    if (mclkStates.has_value()) {
-      baseMclk_ = mclkStates->back().second;
-      if (mclkOdDataSourceEntry_ > 0) {
-        baseMclk_ = units::frequency::megahertz_t(std::round(
-            baseMclk_.to<double>() * (100.0 / (mclkOdDataSourceEntry_ + 100))));
-      }
+    baseMclk_ = mclkStates.back().second;
+    if (mclkOdDataSourceEntry_ > 0) {
+      baseMclk_ = units::frequency::megahertz_t(std::round(
+          baseMclk_.to<double>() * (100.0 / (mclkOdDataSourceEntry_ + 100))));
     }
   }
 }

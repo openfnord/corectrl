@@ -23,6 +23,8 @@
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
+#include "easyloggingpp/easylogging++.h"
+#include "fmt/format.h"
 
 #include "fanfixed.h"
 
@@ -49,16 +51,42 @@ AMD::FanFixedProvider::provideGPUControl(IGPUInfo const &gpuInfo,
         if (Utils::File::isSysFSEntryValid(pwm) &&
             Utils::File::isSysFSEntryValid(pwmEnable)) {
 
-          return std::make_unique<AMD::FanFixed>(
-              std::make_unique<SysFSDataSource<unsigned int>>(
-                  pwmEnable,
-                  [](std::string const &data, unsigned int &output) {
-                    Utils::String::toNumber<unsigned int>(output, data);
-                  }),
-              std::make_unique<SysFSDataSource<unsigned int>>(
-                  pwm, [](std::string const &data, unsigned int &output) {
-                    Utils::String::toNumber<unsigned int>(output, data);
-                  }));
+          unsigned int value;
+
+          auto pwmEnableLines = Utils::File::readFileLines(pwmEnable);
+          auto pwmEnableValid = Utils::String::toNumber<unsigned int>(
+              value, pwmEnableLines.front());
+
+          auto pwmLines = Utils::File::readFileLines(pwm);
+          auto pwmValid = Utils::String::toNumber<unsigned int>(
+              value, pwmLines.front());
+
+          if (pwmEnableValid && pwmValid) {
+
+            return std::make_unique<AMD::FanFixed>(
+                std::make_unique<SysFSDataSource<unsigned int>>(
+                    pwmEnable,
+                    [](std::string const &data, unsigned int &output) {
+                      Utils::String::toNumber<unsigned int>(output, data);
+                    }),
+                std::make_unique<SysFSDataSource<unsigned int>>(
+                    pwm, [](std::string const &data, unsigned int &output) {
+                      Utils::String::toNumber<unsigned int>(output, data);
+                    }));
+          }
+          else {
+            if (!pwmEnableValid) {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          pwmEnable.string());
+              LOG(ERROR) << pwmEnableLines.front().c_str();
+            }
+
+            if (!pwmValid) {
+              LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          pwm.string());
+              LOG(ERROR) << pwmLines.front().c_str();
+            }
+          }
         }
       }
     }

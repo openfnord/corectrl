@@ -79,24 +79,48 @@ class Provider final : public IGPUSensorProvider::IProvider
               }
             }
 
-            std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
-            dataSources.emplace_back(
-                std::make_unique<SysFSDataSource<unsigned int>>(
-                    fanInput, [](std::string const &data, unsigned int &output) {
-                      Utils::String::toNumber<unsigned int>(output, data);
-                    }));
-            dataSources.emplace_back(
-                std::make_unique<SysFSDataSource<unsigned int>>(
-                    pwm, [](std::string const &data, unsigned int &output) {
-                      Utils::String::toNumber<unsigned int>(output, data);
-                    }));
+            unsigned int value;
+            auto fanInputLines = Utils::File::readFileLines(pwm);
+            auto fanInputValid = Utils::String::toNumber<unsigned int>(
+                value, fanInputLines.front());
+            auto pwmLines = Utils::File::readFileLines(pwm);
+            auto pwmValid = Utils::String::toNumber<unsigned int>(
+                value, pwmLines.front());
 
-            return std::make_unique<Sensor<
-                units::angular_velocity::revolutions_per_minute_t, unsigned int>>(
-                AMD::FanSpeedRPM::ItemID, std::move(dataSources),
-                std::move(range), [](std::vector<unsigned int> const &input) {
-                  return input[1] > 0 ? input[0] : 0;
-                });
+            if (fanInputValid && pwmValid) {
+
+              std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
+              dataSources.emplace_back(
+                  std::make_unique<SysFSDataSource<unsigned int>>(
+                      fanInput, [](std::string const &data, unsigned int &output) {
+                        Utils::String::toNumber<unsigned int>(output, data);
+                      }));
+              dataSources.emplace_back(
+                  std::make_unique<SysFSDataSource<unsigned int>>(
+                      pwm, [](std::string const &data, unsigned int &output) {
+                        Utils::String::toNumber<unsigned int>(output, data);
+                      }));
+
+              return std::make_unique<Sensor<
+                  units::angular_velocity::revolutions_per_minute_t, unsigned int>>(
+                  AMD::FanSpeedRPM::ItemID, std::move(dataSources),
+                  std::move(range), [](std::vector<unsigned int> const &input) {
+                    return input[1] > 0 ? input[0] : 0;
+                  });
+            }
+            else {
+              if (!fanInputValid) {
+                LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                            fanInput.string());
+                LOG(ERROR) << fanInputLines.front().c_str();
+              }
+
+              if (!pwmValid) {
+                LOG(WARNING)
+                    << fmt::format("Unknown data format on {}", pwm.string());
+                LOG(ERROR) << pwmLines.front().c_str();
+              }
+            }
           }
         }
       }

@@ -20,9 +20,12 @@
 #include "../pmoverclockprovider.h"
 #include "common/fileutils.h"
 #include "common/stringutils.h"
+#include "core/components/amdutils.h"
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
+#include "easyloggingpp/easylogging++.h"
+#include "fmt/format.h"
 
 #include "pmfreqod.h"
 
@@ -47,19 +50,65 @@ AMD::PMFreqOdProvider::provideGPUControl(IGPUInfo const &gpuInfo,
           Utils::File::isSysFSEntryValid(dpmSclk) &&
           Utils::File::isSysFSEntryValid(dpmMclk)) {
 
-        return std::make_unique<AMD::PMFreqOd>(
-            std::make_unique<SysFSDataSource<unsigned int>>(
-                sclkOd,
-                [](std::string const &data, unsigned int &output) {
-                  Utils::String::toNumber<unsigned int>(output, data);
-                }),
-            std::make_unique<SysFSDataSource<unsigned int>>(
-                mclkOd,
-                [](std::string const &data, unsigned int &output) {
-                  Utils::String::toNumber<unsigned int>(output, data);
-                }),
-            std::make_unique<SysFSDataSource<std::vector<std::string>>>(dpmSclk),
-            std::make_unique<SysFSDataSource<std::vector<std::string>>>(dpmMclk));
+        unsigned int odValue;
+
+        auto sclkOdLines = Utils::File::readFileLines(sclkOd);
+        auto sclkOdValid = Utils::String::toNumber<unsigned int>(
+            odValue, sclkOdLines.front());
+
+        auto mclkOdLines = Utils::File::readFileLines(mclkOd);
+        auto mclkOdValid = Utils::String::toNumber<unsigned int>(
+            odValue, mclkOdLines.front());
+
+        auto dpmSclkLines = Utils::File::readFileLines(dpmSclk);
+        auto sclkStates = Utils::AMD::parseDPMStates(dpmSclkLines);
+
+        auto dpmMclkLines = Utils::File::readFileLines(dpmMclk);
+        auto mclkStates = Utils::AMD::parseDPMStates(dpmMclkLines);
+
+        if (sclkOdValid && mclkOdValid && sclkStates.has_value() &&
+            mclkStates.has_value()) {
+
+          return std::make_unique<AMD::PMFreqOd>(
+              std::make_unique<SysFSDataSource<unsigned int>>(
+                  sclkOd,
+                  [](std::string const &data, unsigned int &output) {
+                    Utils::String::toNumber<unsigned int>(output, data);
+                  }),
+              std::make_unique<SysFSDataSource<unsigned int>>(
+                  mclkOd,
+                  [](std::string const &data, unsigned int &output) {
+                    Utils::String::toNumber<unsigned int>(output, data);
+                  }),
+              sclkStates.value(), mclkStates.value());
+        }
+        else {
+          if (!sclkOdValid) {
+            LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          sclkOd.string());
+            LOG(ERROR) << sclkOdLines.front().c_str();
+          }
+
+          if (!mclkOdValid) {
+            LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          mclkOd.string());
+            LOG(ERROR) << mclkOdLines.front().c_str();
+          }
+
+          if (!sclkStates.has_value()) {
+            LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          dpmSclk.string());
+            for (auto &line : dpmSclkLines)
+              LOG(ERROR) << line.c_str();
+          }
+
+          if (!mclkStates.has_value()) {
+            LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                          dpmMclk.string());
+            for (auto &line : dpmMclkLines)
+              LOG(ERROR) << line.c_str();
+          }
+        }
       }
     }
   }

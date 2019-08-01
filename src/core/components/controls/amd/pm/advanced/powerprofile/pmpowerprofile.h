@@ -48,7 +48,8 @@ class PMPowerProfile : public Control
 
   PMPowerProfile(std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
                  std::unique_ptr<IDataSource<std::vector<std::string>>>
-                     &&powerProfileDataSource) noexcept;
+                     &&powerProfileDataSource,
+                 std::vector<std::pair<std::string, int>> const &modes) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
   void init() final override;

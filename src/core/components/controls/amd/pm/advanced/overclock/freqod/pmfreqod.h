@@ -50,9 +50,10 @@ class PMFreqOd : public Control
 
   PMFreqOd(std::unique_ptr<IDataSource<unsigned int>> &&sclkOdDataSource,
            std::unique_ptr<IDataSource<unsigned int>> &&mclkOdDataSource,
-           std::unique_ptr<IDataSource<std::vector<std::string>>> &&sclkDataSource,
-           std::unique_ptr<IDataSource<std::vector<std::string>>>
-               &&mclkDataSource) noexcept;
+           std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
+               &sclkStates,
+           std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
+               &mclkStates) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
   void init() final override;

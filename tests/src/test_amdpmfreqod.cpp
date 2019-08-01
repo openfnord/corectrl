@@ -20,7 +20,6 @@
 
 #include "common/commandqueuestub.h"
 #include "common/uintdatasourcestub.h"
-#include "common/vectorstringdatasourcestub.h"
 #include "core/components/controls/amd/pm/advanced/overclock/freqod/pmfreqod.h"
 
 extern template struct trompeloeil::reporter<trompeloeil::specialized>;
@@ -97,54 +96,49 @@ TEST_CASE("AMD PMFreqOd tests",
           "[GPU][AMD][PM][PMAdvanced][PMOverclock][PMFreqOd]")
 {
   CommandQueueStub ctlCmds;
-  std::vector<std::string> ppDpmData{"0: 300Mhz", "1: 2000Mhz *"};
+  std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const states{
+      std::make_pair(0u, units::frequency::megahertz_t(300)),
+      std::make_pair(1u, units::frequency::megahertz_t(2000))};
 
   SECTION("Has PMFreqOd ID")
   {
     PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>());
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     REQUIRE(ts.ID() == ::AMD::PMFreqOd::ItemID);
   }
 
   SECTION("Is active by default")
   {
     PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>());
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     REQUIRE(ts.active());
   }
 
   SECTION("Has 0 as sclk & mclk od values by default")
   {
     PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>());
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     REQUIRE(ts.sclkOd() == 0);
     REQUIRE(ts.mclkOd() == 0);
   }
 
-  SECTION("Initializes base sclk from dpm sclk data source on construction")
+  SECTION("Initializes base sclk from sclk states on construction")
   {
-    PMFreqOdTestAdapter ts(
-        std::make_unique<UIntDataSourceStub>(),
-        std::make_unique<UIntDataSourceStub>(),
-        std::make_unique<VectorStringDataSourceStub>("pp_dpm_sclk", ppDpmData),
-        std::make_unique<VectorStringDataSourceStub>());
+    PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     ts.init();
     REQUIRE(ts.baseSclk() == units::frequency::megahertz_t(2000));
   }
 
-  SECTION("Initializes base mclk from dpm mclk data source on construction")
+  SECTION("Initializes base mclk from mclk states on construction")
   {
-    PMFreqOdTestAdapter ts(
-        std::make_unique<UIntDataSourceStub>(),
-        std::make_unique<UIntDataSourceStub>(),
-        std::make_unique<VectorStringDataSourceStub>(),
-        std::make_unique<VectorStringDataSourceStub>("pp_dpm_mclk", ppDpmData));
+    PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     ts.init();
     REQUIRE(ts.baseMclk() == units::frequency::megahertz_t(2000));
   }
@@ -152,9 +146,8 @@ TEST_CASE("AMD PMFreqOd tests",
   SECTION("Clamps sclkOd in [0, 20] range")
   {
     PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>());
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     ts.sclkOd(21);
     REQUIRE(ts.sclkOd() == 20);
   }
@@ -162,19 +155,17 @@ TEST_CASE("AMD PMFreqOd tests",
   SECTION("Clamps mclkOd in [0, 20] range")
   {
     PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<UIntDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>());
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     ts.mclkOd(21);
     REQUIRE(ts.mclkOd() == 20);
   }
 
   SECTION("Generate pre-init control commands")
   {
-    PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>("pp_sclk_od", 0),
-                           std::make_unique<UIntDataSourceStub>("pp_mclk_od", 0),
-                           std::make_unique<VectorStringDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>());
+    PMFreqOdTestAdapter ts(
+        std::make_unique<UIntDataSourceStub>("pp_sclk_od", 0),
+        std::make_unique<UIntDataSourceStub>("pp_mclk_od", 0), states, states);
     ts.preInit(ctlCmds);
 
     auto &commands = ctlCmds.commands();
@@ -191,11 +182,9 @@ TEST_CASE("AMD PMFreqOd tests",
 
   SECTION("Import its state")
   {
-    PMFreqOdTestAdapter ts(
-        std::make_unique<UIntDataSourceStub>(),
-        std::make_unique<UIntDataSourceStub>(),
-        std::make_unique<VectorStringDataSourceStub>("pp_dpm_sclk", ppDpmData),
-        std::make_unique<VectorStringDataSourceStub>("pp_dpm_mclk", ppDpmData));
+    PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     ts.init();
     PMFreqOdImporterStub i(2, 3);
     ts.importControl(i);
@@ -206,11 +195,9 @@ TEST_CASE("AMD PMFreqOd tests",
 
   SECTION("Export its state and available states")
   {
-    PMFreqOdTestAdapter ts(
-        std::make_unique<UIntDataSourceStub>(),
-        std::make_unique<UIntDataSourceStub>(),
-        std::make_unique<VectorStringDataSourceStub>("pp_dpm_sclk", ppDpmData),
-        std::make_unique<VectorStringDataSourceStub>("pp_dpm_mclk", ppDpmData));
+    PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     ts.init();
 
     trompeloeil::sequence seq;
@@ -229,10 +216,9 @@ TEST_CASE("AMD PMFreqOd tests",
 
   SECTION("Generate clean control commands unconditionally")
   {
-    PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>("pp_sclk_od", 0),
-                           std::make_unique<UIntDataSourceStub>("pp_mclk_od", 0),
-                           std::make_unique<VectorStringDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>());
+    PMFreqOdTestAdapter ts(
+        std::make_unique<UIntDataSourceStub>("pp_sclk_od", 0),
+        std::make_unique<UIntDataSourceStub>("pp_mclk_od", 0), states, states);
     ts.init();
     ts.cleanControl(ctlCmds);
 
@@ -250,10 +236,9 @@ TEST_CASE("AMD PMFreqOd tests",
 
   SECTION("Does not generate sync control commands when is synced")
   {
-    PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>("pp_sclk_od", 1),
-                           std::make_unique<UIntDataSourceStub>("pp_mclk_od", 2),
-                           std::make_unique<VectorStringDataSourceStub>(),
-                           std::make_unique<VectorStringDataSourceStub>());
+    PMFreqOdTestAdapter ts(
+        std::make_unique<UIntDataSourceStub>("pp_sclk_od", 1),
+        std::make_unique<UIntDataSourceStub>("pp_mclk_od", 2), states, states);
     ts.init();
     ts.sclkOd(1);
     ts.mclkOd(2);
@@ -268,9 +253,7 @@ TEST_CASE("AMD PMFreqOd tests",
     {
       PMFreqOdTestAdapter ts(
           std::make_unique<UIntDataSourceStub>("pp_sclk_od", 0),
-          std::make_unique<UIntDataSourceStub>("pp_mclk_od", 0),
-          std::make_unique<VectorStringDataSourceStub>(),
-          std::make_unique<VectorStringDataSourceStub>());
+          std::make_unique<UIntDataSourceStub>("pp_mclk_od", 0), states, states);
       ts.init();
       ts.sclkOd(1);
       ts.mclkOd(0);
@@ -286,9 +269,7 @@ TEST_CASE("AMD PMFreqOd tests",
     {
       PMFreqOdTestAdapter ts(
           std::make_unique<UIntDataSourceStub>("pp_sclk_od", 0),
-          std::make_unique<UIntDataSourceStub>("pp_mclk_od", 0),
-          std::make_unique<VectorStringDataSourceStub>(),
-          std::make_unique<VectorStringDataSourceStub>());
+          std::make_unique<UIntDataSourceStub>("pp_mclk_od", 0), states, states);
       ts.init();
       ts.sclkOd(0);
       ts.mclkOd(1);
