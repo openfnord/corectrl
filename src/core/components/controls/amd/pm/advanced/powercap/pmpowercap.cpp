@@ -27,6 +27,7 @@ AMD::PMPowerCap::PMPowerCap(
 : Control(true)
 , id_(AMD::PMPowerCap::ItemID)
 , powerCapDataSource_(std::move(powerCapDataSource))
+, powerCapPreInitValue_{0u}
 , min_(min)
 , max_(max)
 , value_(1)
@@ -37,14 +38,21 @@ AMD::PMPowerCap::PMPowerCap(
 
 void AMD::PMPowerCap::preInit(ICommandQueue &ctlCmds)
 {
+  powerCapDataSource_->read(powerCapPreInitValue_);
   cleanControl(ctlCmds);
+}
+
+void AMD::PMPowerCap::postInit(ICommandQueue &ctlCmds)
+{
+  ctlCmds.add(
+      {powerCapDataSource_->source(), std::to_string(powerCapPreInitValue_)});
 }
 
 void AMD::PMPowerCap::init()
 {
   unsigned long powerCapValue;
   if (powerCapDataSource_->read(powerCapValue))
-    value_ = units::power::microwatt_t(powerCapValue);
+    value(units::power::microwatt_t(powerCapValue));
 }
 
 std::string const &AMD::PMPowerCap::ID() const

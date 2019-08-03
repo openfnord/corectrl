@@ -26,9 +26,12 @@ AMD::PMFixed::PMFixed(std::string_view mode) noexcept
 {
 }
 
-void AMD::PMFixed::preInit(ICommandQueue &ctlCmds)
+void AMD::PMFixed::preInit(ICommandQueue &)
 {
-  cleanControl(ctlCmds);
+}
+
+void AMD::PMFixed::postInit(ICommandQueue &)
+{
 }
 
 void AMD::PMFixed::init()

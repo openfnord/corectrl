@@ -143,25 +143,28 @@ TEST_CASE("AMD PMFixedFreq tests", "[GPU][AMD][PM][PMAdvanced][PMFixedFreq]")
                               std::move(ppDpmMclkMock));
   }
 
-  SECTION("Generate pre-init control commands")
+  SECTION("Does not generate pre-init control commands")
   {
     REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
     REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
-    REQUIRE_CALL(*ppDpmSclkMock, reset(trompeloeil::_));
-    REQUIRE_CALL(*ppDpmMclkMock, reset(trompeloeil::_));
 
-    PMFixedFreqTestAdapter ts(
-        std::make_unique<StringDataSourceStub>(
-            "power_dpm_force_performance_level", "manual"),
-        std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
-
+    PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
+                              std::move(ppDpmSclkMock),
+                              std::move(ppDpmMclkMock));
     ts.preInit(ctlCmds);
+    REQUIRE(ctlCmds.commands().empty());
+  }
 
-    auto &commands = ctlCmds.commands();
-    REQUIRE(commands.size() == 1);
-    auto &[cmdPath, cmdValue] = commands.front();
-    REQUIRE(cmdPath == "power_dpm_force_performance_level");
-    REQUIRE(cmdValue == "manual");
+  SECTION("Does not generate post-init control commands")
+  {
+    REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+
+    PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
+                              std::move(ppDpmSclkMock),
+                              std::move(ppDpmMclkMock));
+    ts.preInit(ctlCmds);
+    REQUIRE(ctlCmds.commands().empty());
   }
 
   SECTION("Import its state")

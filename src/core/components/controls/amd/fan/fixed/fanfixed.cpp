@@ -35,9 +35,12 @@ AMD::FanFixed::FanFixed(
 {
 }
 
-void AMD::FanFixed::preInit(ICommandQueue &ctlCmds)
+void AMD::FanFixed::preInit(ICommandQueue &)
 {
-  cleanControl(ctlCmds);
+}
+
+void AMD::FanFixed::postInit(ICommandQueue &)
+{
 }
 
 void AMD::FanFixed::init()

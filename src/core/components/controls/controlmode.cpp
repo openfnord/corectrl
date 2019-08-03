@@ -34,6 +34,12 @@ void ControlMode::preInit(ICommandQueue &ctlCmds)
     control->preInit(ctlCmds);
 }
 
+void ControlMode::postInit(ICommandQueue &ctlCmds)
+{
+  for (auto &control : controls_)
+    control->postInit(ctlCmds);
+}
+
 void ControlMode::init()
 {
   // Set the first active control as the active mode

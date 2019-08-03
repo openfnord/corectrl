@@ -23,9 +23,12 @@ AMD::PMAuto::PMAuto() noexcept
 {
 }
 
-void AMD::PMAuto::preInit(ICommandQueue &ctlCmds)
+void AMD::PMAuto::preInit(ICommandQueue &)
 {
-  cleanControl(ctlCmds);
+}
+
+void AMD::PMAuto::postInit(ICommandQueue &)
+{
 }
 
 void AMD::PMAuto::init()

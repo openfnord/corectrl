@@ -66,6 +66,18 @@ void AMD::PpDpmHandler::activate(std::vector<unsigned int> const &states)
   }
 }
 
+void AMD::PpDpmHandler::saveState()
+{
+  // NOTE At the moment, there is no way to get the active states
+  // from pp_dpm_* files. The data source state cannot be saved.
+}
+
+void AMD::PpDpmHandler::restoreState(ICommandQueue &)
+{
+  // NOTE At the moment, there is no way to get the active states
+  // from pp_dpm_* files. The data source state cannot be restored.
+}
+
 void AMD::PpDpmHandler::reset(ICommandQueue &ctlCmds)
 {
   std::string activeStatesStr;

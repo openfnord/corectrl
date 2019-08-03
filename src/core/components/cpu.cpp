@@ -77,6 +77,12 @@ void CPU::preInit(ICommandQueue &ctlCmds)
     control->preInit(ctlCmds);
 }
 
+void CPU::postInit(ICommandQueue &ctlCmds)
+{
+  for (auto &control : controls_)
+    control->postInit(ctlCmds);
+}
+
 void CPU::sync(ICommandQueue &ctlCmds)
 {
   if (active_) {

@@ -59,9 +59,12 @@ AMD::FanCurve::FanCurve(
   fanStartTemp_ = evaluatePwm(std::round(fanStartValue_ / 2.55));
 }
 
-void AMD::FanCurve::preInit(ICommandQueue &ctlCmds)
+void AMD::FanCurve::preInit(ICommandQueue &)
 {
-  cleanControl(ctlCmds);
+}
+
+void AMD::FanCurve::postInit(ICommandQueue &)
+{
 }
 
 void AMD::FanCurve::init()

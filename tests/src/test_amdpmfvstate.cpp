@@ -228,6 +228,8 @@ TEST_CASE("AMD PMFVState tests", "[GPU][AMD][PM][PMAdvanced][PMFVState]")
 
   SECTION("Generate pre-init control commands")
   {
+    REQUIRE_CALL(*ppDpmSclkMock, saveState());
+    REQUIRE_CALL(*ppDpmMclkMock, saveState());
     REQUIRE_CALL(*ppDpmSclkMock, reset(trompeloeil::_));
     REQUIRE_CALL(*ppDpmMclkMock, reset(trompeloeil::_));
 
@@ -252,6 +254,83 @@ TEST_CASE("AMD PMFVState tests", "[GPU][AMD][PM][PMAdvanced][PMFVState]")
     auto &[cmd2Path, cmd2Value] = commands.at(2);
     REQUIRE(cmd2Path == "pp_od_clk_voltage");
     REQUIRE(cmd2Value == "c");
+  }
+
+  SECTION("Generate post-init control commands...")
+  {
+    REQUIRE_CALL(*ppDpmSclkMock, saveState());
+    REQUIRE_CALL(*ppDpmMclkMock, saveState());
+    REQUIRE_CALL(*ppDpmSclkMock, reset(trompeloeil::_));
+    REQUIRE_CALL(*ppDpmMclkMock, reset(trompeloeil::_));
+
+    SECTION("To only restore power_dpm_force_performance_level value when it "
+            "was not 'manual'")
+    {
+      PMFVStateTestAdapter ts(std::make_unique<StringDataSourceStub>(
+                                  "power_dpm_force_performance_level", "auto"),
+                              std::make_unique<VectorStringDataSourceStub>(
+                                  "pp_od_clk_voltage", ppOdClkVoltageData),
+                              std::move(ppDpmSclkMock),
+                              std::move(ppDpmMclkMock));
+      ts.preInit(ctlCmds);
+      ctlCmds.clear();
+      ts.postInit(ctlCmds);
+
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 1);
+
+      auto &[cmd0Path, cmd0Value] = commands.at(0);
+      REQUIRE(cmd0Path == "power_dpm_force_performance_level");
+      REQUIRE(cmd0Value == "auto");
+    }
+
+    SECTION("To restore reseted values when power_dpm_force_performance_level "
+            "value was 'manual'")
+    {
+      REQUIRE_CALL(*ppDpmSclkMock, restoreState(trompeloeil::_));
+      REQUIRE_CALL(*ppDpmMclkMock, restoreState(trompeloeil::_));
+
+      PMFVStateTestAdapter ts(
+          std::make_unique<StringDataSourceStub>(
+              "power_dpm_force_performance_level", "manual"),
+          std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
+                                                       ppOdClkVoltageData),
+          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+      ts.preInit(ctlCmds);
+      ctlCmds.clear();
+      ts.postInit(ctlCmds);
+
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 7);
+
+      auto &[cmd0Path, cmd0Value] = commands.at(0);
+      REQUIRE(cmd0Path == "power_dpm_force_performance_level");
+      REQUIRE(cmd0Value == "manual");
+
+      auto &[cmd1Path, cmd1Value] = commands.at(1);
+      REQUIRE(cmd1Path == "pp_od_clk_voltage");
+      REQUIRE(cmd1Value == "s 0 200 800");
+
+      auto &[cmd2Path, cmd2Value] = commands.at(2);
+      REQUIRE(cmd2Path == "pp_od_clk_voltage");
+      REQUIRE(cmd2Value == "s 1 1000 850");
+
+      auto &[cmd3Path, cmd3Value] = commands.at(3);
+      REQUIRE(cmd3Path == "pp_od_clk_voltage");
+      REQUIRE(cmd3Value == "s 2 2000 900");
+
+      auto &[cmd4Path, cmd4Value] = commands.at(4);
+      REQUIRE(cmd4Path == "pp_od_clk_voltage");
+      REQUIRE(cmd4Value == "m 0 300 800");
+
+      auto &[cmd5Path, cmd5Value] = commands.at(5);
+      REQUIRE(cmd5Path == "pp_od_clk_voltage");
+      REQUIRE(cmd5Value == "m 1 3000 900");
+
+      auto &[cmd6Path, cmd6Value] = commands.at(6);
+      REQUIRE(cmd6Path == "pp_od_clk_voltage");
+      REQUIRE(cmd6Value == "c");
+    }
   }
 
   SECTION("Initializes gpu/mem states and ranges from pp_od_clk_voltage data "

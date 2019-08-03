@@ -54,9 +54,12 @@ AMD::PMFreqOd::PMFreqOd(
   }
 }
 
-void AMD::PMFreqOd::preInit(ICommandQueue &ctlCmds)
+void AMD::PMFreqOd::preInit(ICommandQueue &)
 {
-  cleanControl(ctlCmds);
+}
+
+void AMD::PMFreqOd::postInit(ICommandQueue &)
+{
 }
 
 void AMD::PMFreqOd::init()

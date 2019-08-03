@@ -35,6 +35,7 @@ class ControlMock : public ::Control
   }
 
   MAKE_MOCK1(preInit, void(ICommandQueue &), override);
+  MAKE_MOCK1(postInit, void(ICommandQueue &), override);
   MAKE_MOCK0(init, void(), override);
   MAKE_MOCK1(importControl, void(IControl::Importer &), override);
   MAKE_CONST_MOCK1(exportControl, void(IControl::Exporter &), override);

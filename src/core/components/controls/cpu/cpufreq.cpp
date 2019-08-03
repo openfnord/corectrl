@@ -38,6 +38,10 @@ void CPUFreq::preInit(ICommandQueue &)
 {
 }
 
+void CPUFreq::postInit(ICommandQueue &)
+{
+}
+
 void CPUFreq::init()
 {
 }

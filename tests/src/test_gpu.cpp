@@ -173,6 +173,12 @@ TEST_CASE("GPU tests", "[GPU]")
     ts.preInit(ctlCmds);
   }
 
+  SECTION("Post-init its controls")
+  {
+    REQUIRE_CALL(controlMock, postInit(trompeloeil::_));
+    ts.postInit(ctlCmds);
+  }
+
   SECTION("Init controls")
   {
     REQUIRE_CALL(controlMock, init());

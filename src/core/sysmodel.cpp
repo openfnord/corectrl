@@ -45,6 +45,12 @@ void SysModel::preInit(ICommandQueue &ctlCmds)
     component->preInit(ctlCmds);
 }
 
+void SysModel::postInit(ICommandQueue &ctlCmds)
+{
+  for (auto &component : components_)
+    component->postInit(ctlCmds);
+}
+
 void SysModel::sync(ICommandQueue &ctlCmds)
 {
   for (auto &component : components_)

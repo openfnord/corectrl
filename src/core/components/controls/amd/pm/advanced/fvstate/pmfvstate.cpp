@@ -41,7 +41,39 @@ AMD::PMFVState::PMFVState(
 
 void AMD::PMFVState::preInit(ICommandQueue &ctlCmds)
 {
+  perfLevelDataSource_->read(perfLevelPreInitValue_);
+
+  ppOdClkVoltDataSource_->read(ppOdClkVoltLines_);
+  gpuPreInitStates_ =
+      Utils::AMD::parseOdClkVoltStateStates("SCLK", ppOdClkVoltLines_).value();
+  memPreInitStates_ =
+      Utils::AMD::parseOdClkVoltStateStates("MCLK", ppOdClkVoltLines_).value();
+
+  ppDpmSclkHandler_->saveState();
+  ppDpmMclkHandler_->saveState();
+
   cleanControl(ctlCmds);
+}
+
+void AMD::PMFVState::postInit(ICommandQueue &ctlCmds)
+{
+  ctlCmds.add({perfLevelDataSource_->source(), perfLevelPreInitValue_});
+
+  if (perfLevelPreInitValue_ == "manual") {
+
+    for (auto [index, freq, volt] : gpuPreInitStates_)
+      ctlCmds.add({ppOdClkVoltDataSource_->source(),
+                   ppOdClkVoltStateCmd("s", index, freq, volt)});
+
+    for (auto [index, freq, volt] : memPreInitStates_)
+      ctlCmds.add({ppOdClkVoltDataSource_->source(),
+                   ppOdClkVoltStateCmd("m", index, freq, volt)});
+
+    ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
+
+    ppDpmSclkHandler_->restoreState(ctlCmds);
+    ppDpmMclkHandler_->restoreState(ctlCmds);
+  }
 }
 
 void AMD::PMFVState::init()
@@ -142,10 +174,10 @@ void AMD::PMFVState::cleanControl(ICommandQueue &ctlCmds)
 
 void AMD::PMFVState::syncControl(ICommandQueue &ctlCmds)
 {
-  if (perfLevelDataSource_->read(perfLevelEntry_) &&
+  if (perfLevelDataSource_->read(perfLevelValue_) &&
       ppOdClkVoltDataSource_->read(ppOdClkVoltLines_)) {
 
-    if (perfLevelEntry_ != "manual") {
+    if (perfLevelValue_ != "manual") {
       ctlCmds.add({perfLevelDataSource_->source(), "manual"});
 
       // sclk states

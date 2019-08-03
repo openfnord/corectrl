@@ -56,6 +56,7 @@ class ISysComponent
 
   virtual void init() = 0;
   virtual void preInit(ICommandQueue &ctlCmds) = 0;
+  virtual void postInit(ICommandQueue &ctlCmds) = 0;
   virtual void sync(ICommandQueue &ctlCmds) = 0;
   virtual void updateSensors() = 0;
 

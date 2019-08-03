@@ -43,6 +43,7 @@ class GPU final : public IGPU
 
   void init() override;
   void preInit(ICommandQueue &ctlCmds) override;
+  void postInit(ICommandQueue &ctlCmds) override;
   void sync(ICommandQueue &ctlCmds) override;
 
   void updateSensors() override;

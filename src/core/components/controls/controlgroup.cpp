@@ -32,6 +32,12 @@ void ControlGroup::preInit(ICommandQueue &ctlCmds)
     control->preInit(ctlCmds);
 }
 
+void ControlGroup::postInit(ICommandQueue &ctlCmds)
+{
+  for (auto &control : controls_)
+    control->postInit(ctlCmds);
+}
+
 void ControlGroup::init()
 {
   if (!controls_.empty()) {

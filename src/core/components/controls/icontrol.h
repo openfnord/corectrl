@@ -43,6 +43,7 @@ class IControl
   };
 
   virtual void preInit(ICommandQueue &ctlCmds) = 0;
+  virtual void postInit(ICommandQueue &ctlCmds) = 0;
   virtual void init() = 0;
 
   virtual bool active() const = 0;

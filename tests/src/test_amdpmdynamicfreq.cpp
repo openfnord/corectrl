@@ -60,6 +60,14 @@ TEST_CASE("AMD PMDynamicFreq tests",
     REQUIRE(ctlCmds.commands().empty());
   }
 
+  SECTION("Does not generate post-init control commands")
+  {
+    PMDynamicFreqTestAdapter ts(std::make_unique<StringDataSourceStub>());
+    ts.postInit(ctlCmds);
+
+    REQUIRE(ctlCmds.commands().empty());
+  }
+
   SECTION("Does not generate clean control commands")
   {
     PMDynamicFreqTestAdapter ts(std::make_unique<StringDataSourceStub>());

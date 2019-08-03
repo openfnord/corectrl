@@ -51,6 +51,7 @@ class SysComponentMock : public ISysComponent
  public:
   MAKE_MOCK0(init, void(), override);
   MAKE_MOCK1(preInit, void(ICommandQueue &), override);
+  MAKE_MOCK1(postInit, void(ICommandQueue &), override);
 
   MAKE_CONST_MOCK0(active, bool(), override);
   MAKE_MOCK1(activate, void(bool), override);
@@ -119,6 +120,12 @@ TEST_CASE("SysModel tests", "[SysModel]")
   {
     REQUIRE_CALL(componentMock, init());
     ts.init();
+  }
+
+  SECTION("Post-init components")
+  {
+    REQUIRE_CALL(componentMock, postInit(trompeloeil::_));
+    ts.postInit(ctlCmds);
   }
 
   SECTION("Update component's sensors")
