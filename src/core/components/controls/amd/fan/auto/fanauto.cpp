@@ -27,9 +27,12 @@ AMD::FanAuto::FanAuto(std::unique_ptr<IDataSource<unsigned int>> &&dataSource) n
 {
 }
 
-void AMD::FanAuto::preInit(ICommandQueue &ctlCmds)
+void AMD::FanAuto::preInit(ICommandQueue &)
 {
-  cleanControl(ctlCmds);
+}
+
+void AMD::FanAuto::postInit(ICommandQueue &)
+{
 }
 
 void AMD::FanAuto::init()

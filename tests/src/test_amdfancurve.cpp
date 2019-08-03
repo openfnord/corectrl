@@ -336,6 +336,18 @@ TEST_CASE("AMD FanCurve tests", "[GPU][AMD][Fan][FanCurve]")
     REQUIRE(ctlCmds.commands().empty());
   }
 
+  SECTION("Does not generate post-init control commands")
+  {
+    FanCurveTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
+                           std::make_unique<UIntDataSourceStub>(),
+                           std::make_unique<IntDataSourceStub>(),
+                           units::temperature::celsius_t(0),
+                           units::temperature::celsius_t(100));
+    ts.postInit(ctlCmds);
+
+    REQUIRE(ctlCmds.commands().empty());
+  }
+
   SECTION("Imports its state")
   {
     auto p1 = std::make_pair(units::temperature::celsius_t(0),

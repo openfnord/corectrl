@@ -43,6 +43,7 @@ class CPU final : public ICPU
 
   void init() override;
   void preInit(ICommandQueue &ctlCmds) override;
+  void postInit(ICommandQueue &ctlCmds) override;
   void sync(ICommandQueue &ctlCmds) override;
 
   void updateSensors() override;

@@ -39,9 +39,12 @@ AMD::PMPowerProfile::PMPowerProfile(
   defaultModeIndex_ = currentModeIndex_;
 }
 
-void AMD::PMPowerProfile::preInit(ICommandQueue &ctlCmds)
+void AMD::PMPowerProfile::preInit(ICommandQueue &)
 {
-  cleanControl(ctlCmds);
+}
+
+void AMD::PMPowerProfile::postInit(ICommandQueue &)
+{
 }
 
 void AMD::PMPowerProfile::init()

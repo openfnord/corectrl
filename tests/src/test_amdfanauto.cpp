@@ -60,6 +60,14 @@ TEST_CASE("AMD FanAuto tests", "[GPU][AMD][Fan][FanAuto]")
     REQUIRE(ctlCmds.commands().empty());
   }
 
+  SECTION("Does not generate post-init control commands")
+  {
+    FanAutoTestAdapter ts(std::make_unique<UIntDataSourceStub>());
+    ts.postInit(ctlCmds);
+
+    REQUIRE(ctlCmds.commands().empty());
+  }
+
   SECTION("Does not generate clean control commands")
   {
     FanAutoTestAdapter ts(std::make_unique<UIntDataSourceStub>());

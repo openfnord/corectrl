@@ -29,6 +29,7 @@ class ControlGroup : public Control
                bool active) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
+  void postInit(ICommandQueue &ctlCmds) final override;
   void init() final override;
   std::string const &ID() const final override;
 

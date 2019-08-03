@@ -28,9 +28,12 @@ AMD::PMDynamicFreq::PMDynamicFreq(
 {
 }
 
-void AMD::PMDynamicFreq::preInit(ICommandQueue &ctlCmds)
+void AMD::PMDynamicFreq::preInit(ICommandQueue &)
 {
-  cleanControl(ctlCmds);
+}
+
+void AMD::PMDynamicFreq::postInit(ICommandQueue &)
+{
 }
 
 void AMD::PMDynamicFreq::init()

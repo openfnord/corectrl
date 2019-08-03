@@ -75,6 +75,13 @@ TEST_CASE("AMD PpDpmHandler tests",
     }
   }
 
+  SECTION("Saving and restoring data source state are not supported")
+  {
+    ts.saveState();
+    ts.restoreState(ctlCmds);
+    REQUIRE(ctlCmds.commands().empty());
+  }
+
   SECTION("Queue reset control commands unconditionally")
   {
     ts.reset(ctlCmds);

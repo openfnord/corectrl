@@ -77,6 +77,12 @@ void GPU::preInit(ICommandQueue &ctlCmds)
     control->preInit(ctlCmds);
 }
 
+void GPU::postInit(ICommandQueue &ctlCmds)
+{
+  for (auto &control : controls_)
+    control->postInit(ctlCmds);
+}
+
 void GPU::sync(ICommandQueue &ctlCmds)
 {
   if (active_) {

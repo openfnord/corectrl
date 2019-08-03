@@ -43,6 +43,8 @@ class PpDpmHandlerMock : public ::AMD::IPpDpmHandler
 
   MAKE_CONST_MOCK0(active, std::vector<unsigned int> const &(), override);
   MAKE_MOCK1(activate, void(std::vector<unsigned int> const &), override);
+  MAKE_MOCK0(saveState, void(), override);
+  MAKE_MOCK1(restoreState, void(ICommandQueue &), override);
   MAKE_MOCK1(reset, void(ICommandQueue &), override);
   MAKE_MOCK1(apply, void(ICommandQueue &), override);
   MAKE_MOCK1(sync, void(ICommandQueue &), override);

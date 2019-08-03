@@ -129,12 +129,22 @@ TEST_CASE("AMD PMPowerState tests", "[GPU][AMD][PM][PMPowerState]")
     REQUIRE(ts.mode() == "performance");
   }
 
-  SECTION("Does not clean control on pre-init")
+  SECTION("Does not generate pre-init control commands")
   {
     PMPowerStateTestAdapter ts(std::make_unique<StringDataSourceStub>());
 
     CommandQueueStub cmds;
     ts.preInit(cmds);
+
+    REQUIRE(ctlCmds.commands().empty());
+  }
+
+  SECTION("Does not generate post-init control commands")
+  {
+    PMPowerStateTestAdapter ts(std::make_unique<StringDataSourceStub>());
+
+    CommandQueueStub cmds;
+    ts.postInit(cmds);
 
     REQUIRE(ctlCmds.commands().empty());
   }

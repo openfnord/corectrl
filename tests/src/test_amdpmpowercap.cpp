@@ -159,7 +159,7 @@ TEST_CASE("AMD PMPowerCap tests", "[GPU][AMD][PM][PMPowerCap]")
   SECTION("Generate pre-init control commands")
   {
     PMPowerCapTestAdapter ts(
-        std::make_unique<ULongDataSourceStub>("power1_cap"), min, max);
+        std::make_unique<ULongDataSourceStub>("power1_cap", 10000000), min, max);
     ts.preInit(ctlCmds);
 
     auto &commands = ctlCmds.commands();
@@ -168,6 +168,19 @@ TEST_CASE("AMD PMPowerCap tests", "[GPU][AMD][PM][PMPowerCap]")
     auto &[cmdPath, cmdValue] = commands.at(0);
     REQUIRE(cmdPath == "power1_cap");
     REQUIRE(cmdValue == "0");
+
+    SECTION("Generate post-init control commands")
+    {
+      ctlCmds.clear();
+      ts.postInit(ctlCmds);
+
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 1);
+
+      auto &[cmdPath, cmdValue] = commands.at(0);
+      REQUIRE(cmdPath == "power1_cap");
+      REQUIRE(cmdValue == "10000000"); // restore pre-init value
+    }
   }
 
   SECTION("Initializes power cap value from power1_cap data source")

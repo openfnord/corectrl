@@ -135,13 +135,24 @@ TEST_CASE("AMD CPUFreq tests", "[CPU][CPUFreq]")
     REQUIRE(ts.scalingGovernor() == "performance");
   }
 
-  SECTION("Does not clean control on pre-init")
+  SECTION("Does not generate pre-init control commands")
   {
     CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
                           std::move(scalingGovernorDataSources));
 
     CommandQueueStub cmds;
     ts.preInit(cmds);
+
+    REQUIRE(ctlCmds.commands().empty());
+  }
+
+  SECTION("Does not generate post-init control commands")
+  {
+    CPUFreqTestAdapter ts(std::move(availableGovernors), defaultGovernor,
+                          std::move(scalingGovernorDataSources));
+
+    CommandQueueStub cmds;
+    ts.postInit(cmds);
 
     REQUIRE(ctlCmds.commands().empty());
   }

@@ -48,12 +48,18 @@ TEST_CASE("AMD PMAuto tests", "[GPU][AMD][PM][PMAuto]")
     REQUIRE(ts.active());
   }
 
-  SECTION("Clean control on pre-init")
+  SECTION("Does not generate pre-init control commands")
   {
-    REQUIRE_CALL(ts, cleanControl(trompeloeil::_));
-
     CommandQueueStub cmds;
     ts.preInit(cmds);
+    REQUIRE(cmds.commands().empty());
+  }
+
+  SECTION("Does not generate post-init control commands")
+  {
+    CommandQueueStub cmds;
+    ts.postInit(cmds);
+    REQUIRE(cmds.commands().empty());
   }
 }
 } // namespace PMAuto

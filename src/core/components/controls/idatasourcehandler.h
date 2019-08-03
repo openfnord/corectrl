@@ -22,6 +22,12 @@ class ICommandQueue;
 class IDataSourceHandler
 {
  public:
+  /// Save the state of the data source.
+  virtual void saveState() = 0;
+
+  /// Queue commands to restore the saved data surce state.
+  virtual void restoreState(ICommandQueue &ctlCmds) = 0;
+
   /// Queue commands to reset the data source.
   virtual void reset(ICommandQueue &ctlCmds) = 0;
 

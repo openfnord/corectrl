@@ -87,6 +87,7 @@ class PMFVState : public Control
             std::unique_ptr<IPpDpmHandler> &&ppDpmMclkHandler) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
+  void postInit(ICommandQueue &ctlCmds) final override;
   void init() final override;
 
   std::string const &ID() const final override;
@@ -137,13 +138,21 @@ class PMFVState : public Control
   std::unique_ptr<IPpDpmHandler> const ppDpmSclkHandler_;
   std::unique_ptr<IPpDpmHandler> const ppDpmMclkHandler_;
 
+  std::string perfLevelPreInitValue_;
+  std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
+                         units::voltage::millivolt_t>>
+      gpuPreInitStates_;
+  std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
+                         units::voltage::millivolt_t>>
+      memPreInitStates_;
+
   std::vector<std::string> const voltModes_;
 
   enum class VoltMode { Automatic, Manual };
   VoltMode gpuVoltMode_;
   VoltMode memVoltMode_;
 
-  std::string perfLevelEntry_;
+  std::string perfLevelValue_;
   std::vector<std::string> ppOdClkVoltLines_;
 
   std::map<unsigned int,

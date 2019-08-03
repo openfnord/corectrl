@@ -40,7 +40,48 @@ AMD::PMFVVoltCurve::PMFVVoltCurve(
 
 void AMD::PMFVVoltCurve::preInit(ICommandQueue &ctlCmds)
 {
+  perfLevelDataSource_->read(perfLevelPreInitValue_);
+
+  ppOdClkVoltDataSource_->read(ppOdClkVoltLines_);
+  gpuPreInitStates_ =
+      Utils::AMD::parseOdClkVoltCurveStates("SCLK", ppOdClkVoltLines_).value();
+  memPreInitStates_ =
+      Utils::AMD::parseOdClkVoltCurveStates("MCLK", ppOdClkVoltLines_).value();
+  voltCurvePreInitPoints_ =
+      Utils::AMD::parseOdClkVoltCurvePoints(ppOdClkVoltLines_).value();
+
+  ppDpmSclkHandler_->saveState();
+  ppDpmMclkHandler_->saveState();
+
   cleanControl(ctlCmds);
+}
+
+void AMD::PMFVVoltCurve::postInit(ICommandQueue &ctlCmds)
+{
+  ctlCmds.add({perfLevelDataSource_->source(), perfLevelPreInitValue_});
+
+  if (perfLevelPreInitValue_ == "manual") {
+
+    for (auto [index, freq] : gpuPreInitStates_)
+      ctlCmds.add({ppOdClkVoltDataSource_->source(),
+                   ppOdClkVoltStateCmd("s", index, freq)});
+
+    for (auto [index, freq] : memPreInitStates_)
+      ctlCmds.add({ppOdClkVoltDataSource_->source(),
+                   ppOdClkVoltStateCmd("m", index, freq)});
+
+    for (size_t i = 0; i < voltCurvePreInitPoints_.size(); ++i) {
+      auto [freq, volt] = voltCurvePreInitPoints_.at(i);
+      ctlCmds.add(
+          {ppOdClkVoltDataSource_->source(),
+           ppOdClkVoltCurveCmd(static_cast<unsigned int>(i), freq, volt)});
+    }
+
+    ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
+
+    ppDpmSclkHandler_->restoreState(ctlCmds);
+    ppDpmMclkHandler_->restoreState(ctlCmds);
+  }
 }
 
 void AMD::PMFVVoltCurve::init()

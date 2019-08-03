@@ -40,9 +40,12 @@ AMD::PMFixedFreq::PMFixedFreq(
     ppDpmMclkHandler_->activate({mclkStates.front().first});
 }
 
-void AMD::PMFixedFreq::preInit(ICommandQueue &ctlCmds)
+void AMD::PMFixedFreq::preInit(ICommandQueue &)
 {
-  cleanControl(ctlCmds);
+}
+
+void AMD::PMFixedFreq::postInit(ICommandQueue &)
+{
 }
 
 void AMD::PMFixedFreq::init()

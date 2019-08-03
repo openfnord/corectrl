@@ -130,26 +130,22 @@ TEST_CASE("AMD PMPowerProfile tests",
     REQUIRE(ts.mode() == "3D_FULL_SCREEN");
   }
 
-  SECTION("Generate pre-init control commands")
+  SECTION("Does not generate pre-init control commands")
   {
-    PMPowerProfileTestAdapter ts(
-        std::make_unique<StringDataSourceStub>(
-            "power_dpm_force_performance_level", "manual"),
-        std::make_unique<VectorStringDataSourceStub>("pp_power_profile_mode",
-                                                     ppPowerProfileModeData),
-        modes);
+    PMPowerProfileTestAdapter ts(std::make_unique<StringDataSourceStub>(),
+                                 std::make_unique<VectorStringDataSourceStub>(),
+                                 modes);
     ts.preInit(ctlCmds);
+    REQUIRE(ctlCmds.commands().empty());
+  }
 
-    auto &commands = ctlCmds.commands();
-    REQUIRE(commands.size() == 2);
-
-    auto &[cmd0Path, cmd0Value] = commands[0];
-    REQUIRE(cmd0Path == "power_dpm_force_performance_level");
-    REQUIRE(cmd0Value == "manual");
-
-    auto &[cmd1Path, cmd1Value] = commands[1];
-    REQUIRE(cmd1Path == "pp_power_profile_mode");
-    REQUIRE(cmd1Value == "0");
+  SECTION("Does not generate post-init control commands")
+  {
+    PMPowerProfileTestAdapter ts(std::make_unique<StringDataSourceStub>(),
+                                 std::make_unique<VectorStringDataSourceStub>(),
+                                 modes);
+    ts.postInit(ctlCmds);
+    REQUIRE(ctlCmds.commands().empty());
   }
 
   SECTION("Import its mode")

@@ -98,6 +98,7 @@ class PMFVVoltCurve : public Control
                 std::unique_ptr<IPpDpmHandler> &&ppDpmMclkHandler) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
+  void postInit(ICommandQueue &ctlCmds) final override;
   void init() final override;
 
   std::string const &ID() const final override;
@@ -151,6 +152,12 @@ class PMFVVoltCurve : public Control
   std::unique_ptr<IDataSource<std::vector<std::string>>> const ppOdClkVoltDataSource_;
   std::unique_ptr<IPpDpmHandler> const ppDpmSclkHandler_;
   std::unique_ptr<IPpDpmHandler> const ppDpmMclkHandler_;
+
+  std::string perfLevelPreInitValue_;
+  std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> gpuPreInitStates_;
+  std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> memPreInitStates_;
+  std::vector<std::pair<units::frequency::megahertz_t, units::voltage::millivolt_t>>
+      voltCurvePreInitPoints_;
 
   std::vector<std::string> const voltModes_;
 

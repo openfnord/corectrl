@@ -49,6 +49,7 @@ class PMPowerCap : public Control
              units::power::watt_t min, units::power::watt_t max) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
+  void postInit(ICommandQueue &ctlCmds) final override;
   void init() final override;
 
   std::string const &ID() const final override;
@@ -70,6 +71,8 @@ class PMPowerCap : public Control
   std::string const id_;
 
   std::unique_ptr<IDataSource<unsigned long>> const powerCapDataSource_;
+  unsigned long powerCapPreInitValue_;
+
   units::power::microwatt_t min_;
   units::power::microwatt_t const max_;
   units::power::microwatt_t value_;

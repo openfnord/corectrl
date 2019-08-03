@@ -33,6 +33,10 @@ void AMD::PMPowerState::preInit(ICommandQueue &)
 {
 }
 
+void AMD::PMPowerState::postInit(ICommandQueue &)
+{
+}
+
 void AMD::PMPowerState::init()
 {
 }

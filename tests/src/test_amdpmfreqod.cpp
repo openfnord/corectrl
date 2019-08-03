@@ -161,23 +161,22 @@ TEST_CASE("AMD PMFreqOd tests",
     REQUIRE(ts.mclkOd() == 20);
   }
 
-  SECTION("Generate pre-init control commands")
+  SECTION("Does not generate pre-init control commands")
   {
-    PMFreqOdTestAdapter ts(
-        std::make_unique<UIntDataSourceStub>("pp_sclk_od", 0),
-        std::make_unique<UIntDataSourceStub>("pp_mclk_od", 0), states, states);
+    PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
     ts.preInit(ctlCmds);
+    REQUIRE(ctlCmds.commands().empty());
+  }
 
-    auto &commands = ctlCmds.commands();
-    REQUIRE(commands.size() == 2);
-
-    auto &[cmd0Path, cmd0Value] = commands.front();
-    REQUIRE(cmd0Path == "pp_sclk_od");
-    REQUIRE(cmd0Value == "0");
-
-    auto &[cmd1Path, cmd1Value] = commands.back();
-    REQUIRE(cmd1Path == "pp_mclk_od");
-    REQUIRE(cmd1Value == "0");
+  SECTION("Does not generate post-init control commands")
+  {
+    PMFreqOdTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
+                           std::make_unique<UIntDataSourceStub>(), states,
+                           states);
+    ts.postInit(ctlCmds);
+    REQUIRE(ctlCmds.commands().empty());
   }
 
   SECTION("Import its state")

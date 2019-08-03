@@ -184,6 +184,15 @@ TEST_CASE("AMD FanFixed tests", "[GPU][AMD][Fan][FanFixed]")
     REQUIRE(ctlCmds.commands().empty());
   }
 
+  SECTION("Does not generate post-init control commands")
+  {
+    FanFixedTestAdapter ts(std::make_unique<UIntDataSourceStub>(),
+                           std::make_unique<UIntDataSourceStub>());
+    ts.postInit(ctlCmds);
+
+    REQUIRE(ctlCmds.commands().empty());
+  }
+
   SECTION("Imports its state")
   {
     FanFixedTestAdapter ts(std::make_unique<UIntDataSourceStub>(),

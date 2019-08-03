@@ -41,6 +41,7 @@ class ControlMock : public IControl
 {
  public:
   MAKE_MOCK1(preInit, void(ICommandQueue &), override);
+  MAKE_MOCK1(postInit, void(ICommandQueue &), override);
   MAKE_MOCK0(init, void(), override);
   MAKE_CONST_MOCK0(active, bool(), override);
   MAKE_MOCK1(activate, void(bool), override);
@@ -96,6 +97,17 @@ TEST_CASE("ControlGroup tests", "[GPU][ControlGroup]")
     ControlGroupTestAdapter ts(id, std::move(controlMocks), true);
     CommandQueueStub ctlCmds;
     ts.preInit(ctlCmds);
+  }
+
+  SECTION("Post-init its controls")
+  {
+    controlMocks.emplace_back(std::make_unique<ControlMock>());
+    ControlMock *controlMock = static_cast<ControlMock *>(controlMocks[0].get());
+    REQUIRE_CALL(*controlMock, postInit(trompeloeil::_));
+
+    ControlGroupTestAdapter ts(id, std::move(controlMocks), true);
+    CommandQueueStub ctlCmds;
+    ts.postInit(ctlCmds);
   }
 
   SECTION("On initialization...")

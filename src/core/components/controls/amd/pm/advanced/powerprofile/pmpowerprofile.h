@@ -52,6 +52,7 @@ class PMPowerProfile : public Control
                  std::vector<std::pair<std::string, int>> const &modes) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
+  void postInit(ICommandQueue &ctlCmds) final override;
   void init() final override;
 
   std::string const &ID() const final override;

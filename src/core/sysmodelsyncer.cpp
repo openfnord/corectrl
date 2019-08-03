@@ -45,6 +45,9 @@ void SysModelSyncer::init()
 
   sysModel_->init();
 
+  sysModel_->postInit(cmds_);
+  helperSysCtl_->apply(cmds_);
+
   // start the sensor updating thread
   updateThread_ = std::make_unique<std::thread>([&]() {
     while (!stopSignal_.load(std::memory_order_relaxed)) {

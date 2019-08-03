@@ -38,6 +38,9 @@ class PpDpmHandler : public IPpDpmHandler
   std::vector<unsigned int> const &active() const override;
   void activate(std::vector<unsigned int> const &states) override;
 
+  void saveState() override;
+  void restoreState(ICommandQueue &ctlCmds) override;
+
   void reset(ICommandQueue &ctlCmds) override;
   void apply(ICommandQueue &ctlCmds) override;
   void sync(ICommandQueue &ctlCmds) override;

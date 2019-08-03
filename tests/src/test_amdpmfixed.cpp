@@ -108,12 +108,18 @@ TEST_CASE("AMD PMFixed tests", "[GPU][AMD][PM][PMFixed]")
     REQUIRE(ts.mode() == "_mode_1_");
   }
 
-  SECTION("Clean control on pre-init")
+  SECTION("Does not generate pre-init control commands")
   {
-    REQUIRE_CALL(ts, cleanControl(trompeloeil::_));
-
     CommandQueueStub cmds;
     ts.preInit(cmds);
+    REQUIRE(cmds.commands().empty());
+  }
+
+  SECTION("Does not generate post-init control commands")
+  {
+    CommandQueueStub cmds;
+    ts.postInit(cmds);
+    REQUIRE(cmds.commands().empty());
   }
 
   SECTION("Imports its mode")
