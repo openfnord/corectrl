@@ -23,7 +23,8 @@ list(APPEND TARGET_COMMON_COMPILE_FEATURES
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_definitions("-D_DEBUG")
-  add_compile_options("-W;-Wall;-Wextra;-Wpedantic")
+  add_compile_options("-W;-Wall;-Wextra")
+  add_compile_options("-Wno-redundant-move;-Wno-sign-compare")
 endif()
 
 find_package(ECM REQUIRED NO_MODULE)
