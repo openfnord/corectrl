@@ -21,10 +21,16 @@ list(APPEND TARGET_COMMON_COMPILE_FEATURES
   cxx_std_17              # C++17
 )
 
+option (WITH_DEBUG_INFO "Add debug information (to Debug builds)" OFF)
+
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_definitions("-D_DEBUG")
   add_compile_options("-W;-Wall;-Wextra")
   add_compile_options("-Wno-redundant-move;-Wno-sign-compare")
+
+  if (WITH_DEBUG_INFO)
+    add_compile_options("-ggdb;-fno-omit-frame-pointer")
+  endif()
 endif()
 
 find_package(ECM REQUIRED NO_MODULE)
