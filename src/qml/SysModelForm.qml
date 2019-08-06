@@ -94,21 +94,29 @@ SYS_MODEL {
       objectName: "SYS_MODEL_Plug"
       currentIndex: tabBar.currentIndex
 
-      onChildrenChanged: { // recreate tabs
-        while (tabBar.count > 0) {
-          var oldTab = tabBar.itemAt(0)
-          oldTab.component = null
-          tabBar.removeItem(oldTab)
-        }
+      property var childrenAdded: []
+      function isNewChild(child) {
+        for (var i = 0; i < childrenAdded.length; ++i)
+          if (childrenAdded[i] === child)
+            return false
 
-        for (var i = 0; i < sysModelplug.children.length; ++i) {
-          var sysComponent = sysModelplug.children[i]
+        return true
+      }
 
-          var tab = tabButtonComponent.createObject(tabBar)
-          tab.component = sysComponent
+      onChildrenChanged: {
+        for (var i = 0; i < children.length; ++i) {
 
-          tabBar.addItem(tab)
-          sysModel.setupChild(sysComponent)
+          var sysComponent = children[i]
+          if (isNewChild(sysComponent)) {
+            childrenAdded.push(sysComponent)
+
+            // create and setup the new component
+            var tab = tabButtonComponent.createObject(tabBar)
+            tab.component = sysComponent
+
+            tabBar.addItem(tab)
+            sysModel.setupChild(sysComponent)
+          }
         }
       }
     }
