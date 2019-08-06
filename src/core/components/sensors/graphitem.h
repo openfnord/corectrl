@@ -68,6 +68,7 @@ class GraphItem
   void configure(QAbstractSeries *series, QAbstractAxis *xAxis,
                  QAbstractAxis *yAxis);
   void updateYAxisRange(qreal min, qreal max);
+  void refreshSeriePoints();
 
   virtual void update() = 0;
 
