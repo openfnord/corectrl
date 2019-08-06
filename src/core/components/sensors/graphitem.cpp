@@ -17,6 +17,7 @@
 //
 #include "graphitem.h"
 
+#include <QTimer>
 #include <QtCharts/QValueAxis>
 #include <limits>
 
@@ -31,6 +32,8 @@ GraphItem::GraphItem(std::string_view name, std::string_view unit)
 {
   setObjectName(name_);
   points_.reserve(GraphItem::PointsCount);
+
+  connect(this, &GraphItem::visibleChanged, this, &GraphItem::refreshSeriePoints);
 }
 
 QString const &GraphItem::name() const
@@ -82,7 +85,7 @@ void GraphItem::updateGraph(qreal value)
     }
 
     points_.append(QPointF(newX, value));
-    series_->replace(points_);
+    QTimer::singleShot(0, this, &GraphItem::refreshSeriePoints);
 
     // update axes
     xAxis_->setRange(newX - PointsCount + 1, newX);
@@ -160,6 +163,12 @@ void GraphItem::updateYAxisRange(qreal min, qreal max)
   yMax_ = std::max(yMax_, (max > yMin_) ? max : yMin_ + 1);
 
   yAxis_->setRange(yMin_, yMax_);
+}
+
+void GraphItem::refreshSeriePoints()
+{
+  if (isVisible() && series_ != nullptr)
+    series_->replace(points_);
 }
 
 bool GraphItem::active() const

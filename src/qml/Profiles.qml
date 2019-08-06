@@ -195,9 +195,16 @@ Page {
 
     function exitProfileSettings() {
       stack.pop()
+      sysModelView.visible = false
+
       unappliedSettings = false
       unsavedSettings = false
       editedProfileBtn = undefined
+    }
+
+    function goToProfileSettingsView() {
+      sysModelView.visible = true
+      stack.push(sysModelView)
     }
   }
 
@@ -222,7 +229,7 @@ Page {
         p.editedProfileBtn = pBtn
         p.updateToolBarProfileInfo(label, icon, profileActivated)
         profileManager.loadSettings(name)
-        stack.push(sysModelView)
+        p.goToProfileSettingsView()
 
         if (profileManager.isProfileUnsaved(name))
           p.unsavedSettings = true
@@ -579,6 +586,7 @@ Page {
     Item {
       id: sysModelView
       objectName: "PROFILE_SYS_MODEL_Plug"
+      visible: false
 
       onChildrenChanged: {
         for (var i = 0; i < children.length; ++i) {

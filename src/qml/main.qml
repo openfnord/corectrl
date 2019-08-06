@@ -38,15 +38,16 @@ ApplicationWindow {
   Material.accent: Style.Material.accent
 
   StackLayout {
+    id: components
+
     anchors.fill: parent
     currentIndex: tabBar.currentIndex
 
-    Profiles {
-    }
-
-    System {
-    }
+    Profiles {}
+    System {}
   }
+
+  onVisibleChanged: components.visible = visible
 
   footer: TabBar {
     id: tabBar
@@ -78,7 +79,6 @@ ApplicationWindow {
       Qt.quit()
     }
   }
-
 
   onClosing: {
     if (!systemTray.isAvailable() || !systemTray.isVisible())
