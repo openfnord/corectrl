@@ -45,6 +45,7 @@
         <file alias="lang_en_EN">translations/lang_en_EN.qm</file>
         <file alias="lang_es_ES">translations/lang_es_ES.qm</file>
         <file alias="lang_ru_RU">translations/lang_ru_RU.qm</file>
+        <file alias="lang_fr_FR">translations/lang_fr_FR.qm</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="GlobalIcon">images/GlobalProfile.svg</file>
