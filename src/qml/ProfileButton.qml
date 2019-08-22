@@ -124,8 +124,8 @@ Pane {
       ToolButton {
         id: editBtn
 
-        text: "\uFE19" // ︙
         font.bold: true
+        text: Style.g_icon.MENU;
         font.pointSize: Style.g_text.icon_size
 
         anchors.centerIn: parent

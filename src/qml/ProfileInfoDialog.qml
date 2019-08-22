@@ -140,7 +140,7 @@ Dialog {
       }
 
       Button {
-        text: "\u22EF" // ⋯
+        text: Style.g_icon.MORE
         font.pointSize: Style.g_text.icon_size
         implicitWidth: 25
         implicitHeight: 35

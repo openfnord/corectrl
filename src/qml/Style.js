@@ -30,7 +30,14 @@ var g_text = {
 
 var g_icon = {
   size: 32,
-  source_size: 64
+  source_size: 64,
+
+  // unicode button icons
+  MENU:    "\uFE19", // ︙
+  MORE:    "\u22EF", // ⋯
+  BACK:    "\u2190", // ←
+  ADD:     "+",
+  SPLIT:   "|",
 };
 
 var ToolBar = {
