@@ -33,7 +33,7 @@ var g_icon = {
   source_size: 64,
 
   // unicode button icons
-  MENU:    "\uFE19", // ︙
+  MENU:    "\u22EE", // ⋮
   MORE:    "\u22EF", // ⋯
   BACK:    "\u2190", // ←
   ADD:     "+",

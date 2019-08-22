@@ -124,7 +124,6 @@ Pane {
       ToolButton {
         id: editBtn
 
-        font.bold: true
         text: Style.g_icon.MENU;
         font.pointSize: Style.g_text.icon_size
 
