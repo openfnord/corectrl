@@ -485,7 +485,7 @@ Page {
       }
 
       ToolButton {
-        text: "\u2190" // ←
+        text: Style.g_icon.BACK
         font.pointSize: Style.g_text.icon_size_tabbar
         visible: stack.depth > 1
         onClicked: p.goToProfileView()
@@ -519,7 +519,7 @@ Page {
       }
 
       ToolButton {
-        text: "+"
+        text: Style.g_icon.ADD
         font.pointSize: Style.g_text.icon_size_tabbar
         visible: stack.depth === 1
         onClicked: infoDlg.openNewProfileDialog()
@@ -544,7 +544,7 @@ Page {
       }
 
       Label {
-        text: "|"
+        text: Style.g_icon.SPLIT
         font.pointSize: Style.g_text.icon_size
         visible: stack.depth > 1
       }
