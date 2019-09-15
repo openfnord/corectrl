@@ -35,10 +35,22 @@ Rectangle {
     p.addGrapItem(item)
   }
 
+  function ignoredSensors(sensors) {
+    p.refreshIgnored(sensors)
+  }
+
   QtObject { // private stuff
     id: p
 
     property var itemsArray: []
+
+    function refreshIgnored(sensors) {
+      for (var i = 0; i < itemsArray.length; ++i) {
+        itemsArray[i].ignored = sensors.some(function(item) {
+          return itemsArray[i].name === item
+        })
+      }
+    }
 
     function updateItems() {
       for (var i = 0; i < itemsArray.length; ++i)
@@ -80,6 +92,10 @@ Rectangle {
         controlsModel.set(itemIndex, { "_color": color })
       })
 
+      item.ignoredChanged.connect(function (ignored) {
+        controlsModel.set(itemIndex, { "_ignored": ignored})
+      })
+
       item.yAxisRangeChanged.connect(function (min, max) {
         for (var i = 0; i < itemsArray.length; ++i)
           if (itemsArray[i] !== item && itemsArray[i].unit === item.unit)
@@ -92,7 +108,8 @@ Rectangle {
                              "_value": item.value,
                              "_unit": item.unit,
                              "_color": item.color,
-                             "_active": true })
+                             "_active": true,
+                             "_ignored": false })
     }
   }
 
@@ -107,6 +124,7 @@ Rectangle {
     RowLayout {
       property var index: _index
       spacing: 0
+      enabled: !_ignored
 
       CheckBox {
         checked: _active
@@ -129,13 +147,14 @@ Rectangle {
       }
 
       Label {
-        text: _value
+        text: _ignored ? qsTr("n/a") : _value
         font.pointSize: Style.g_text.size - 1
         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
       }
 
       Label {
         text: " " + _unit
+        visible: !_ignored
         font.pointSize: Style.g_text.size - 1
         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
       }

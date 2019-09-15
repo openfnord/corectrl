@@ -36,6 +36,7 @@ class GraphItem
   Q_PROPERTY(QString name READ name NOTIFY nameChanged)
   Q_PROPERTY(qreal value READ value NOTIFY valueChanged)
   Q_PROPERTY(bool active READ active WRITE active NOTIFY activeChanged)
+  Q_PROPERTY(bool ignored READ ignored WRITE ignored NOTIFY ignoredChanged)
   Q_PROPERTY(QString unit READ unit)
   Q_PROPERTY(QString color READ color)
 
@@ -78,11 +79,14 @@ class GraphItem
   void valueChanged(qreal value);
   void activeChanged(bool active);
   void colorChanged(QString const &color);
+  void ignoredChanged(bool ignored);
   void yAxisRangeChanged(qreal min, qreal max);
 
  private:
   bool active() const;
   void active(bool active);
+  bool ignored() const;
+  void ignored(bool ignored);
   void updateYAxis(qreal value);
   void restartXPoints();
 
@@ -93,6 +97,7 @@ class GraphItem
 
   std::string color_{"white"};
   bool active_{true};
+  bool ignored_{false};
 
   qreal value_{0};
 
