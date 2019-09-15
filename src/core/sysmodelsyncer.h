@@ -40,6 +40,7 @@ class SysModelSyncer final
                  std::unique_ptr<IHelperSysCtl> &&helperSysCtl) noexcept;
 
   ISysModel &sysModel() const override;
+  void settingChanged(QString const &key, QVariant const &value) override;
 
   void init() override;
   void stop() override;
@@ -55,6 +56,9 @@ class SysModelSyncer final
 
   std::mutex syncMutex_;
   CommandQueue cmds_;
+
+  std::mutex sensorsMutex_;
+  std::unordered_map<std::string, std::unordered_set<std::string>> ignoredSensors_;
 
   std::unique_ptr<std::thread> updateThread_;
   std::unique_ptr<std::thread> syncThread_;

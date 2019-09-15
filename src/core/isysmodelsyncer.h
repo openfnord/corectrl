@@ -18,11 +18,14 @@
 #pragma once
 
 class ISysModel;
+class QString;
+class QVariant;
 
 class ISysModelSyncer
 {
  public:
   virtual ISysModel &sysModel() const = 0;
+  virtual void settingChanged(QString const &key, QVariant const &value) = 0;
 
   virtual void init() = 0;
   virtual void stop() = 0;

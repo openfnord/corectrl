@@ -66,7 +66,7 @@ void GraphItem::initialRange(qreal min, qreal max)
 
 void GraphItem::updateGraph(qreal value)
 {
-  if (series_ != nullptr) {
+  if (series_ != nullptr && !ignored()) {
 
     if (points_.size() == PointsCount)
       points_.removeFirst();
@@ -90,11 +90,10 @@ void GraphItem::updateGraph(qreal value)
     // update axes
     xAxis_->setRange(newX - PointsCount + 1, newX);
     updateYAxis(value);
-  }
 
-  // always update the value of the item
-  value_ = value;
-  emit valueChanged(value);
+    value_ = value;
+    emit valueChanged(value);
+  }
 }
 
 std::optional<std::reference_wrapper<Importable::Importer>>
@@ -185,6 +184,23 @@ void GraphItem::active(bool active)
       series_->setVisible(active);
 
     emit settingsChanged();
+  }
+}
+
+bool GraphItem::ignored() const
+{
+  return ignored_;
+}
+
+void GraphItem::ignored(bool ignored)
+{
+  if (ignored_ != ignored) {
+    ignored_ = ignored;
+
+    if (series_ != nullptr)
+      series_->setVisible(active_ && !ignored_);
+
+    emit ignoredChanged(ignored);
   }
 }
 

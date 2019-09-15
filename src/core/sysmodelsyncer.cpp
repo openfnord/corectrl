@@ -18,6 +18,7 @@
 #include "sysmodelsyncer.h"
 
 #include "iprofileview.h"
+#include <QVariant>
 #include <chrono>
 
 SysModelSyncer::SysModelSyncer(std::unique_ptr<ISysModel> &&sysModel,
@@ -30,6 +31,28 @@ SysModelSyncer::SysModelSyncer(std::unique_ptr<ISysModel> &&sysModel,
 ISysModel &SysModelSyncer::sysModel() const
 {
   return *sysModel_;
+}
+
+void SysModelSyncer::settingChanged(QString const &key, QVariant const &value)
+{
+  if (key == "Workarounds/ignoredSensors") {
+    std::lock_guard<std::mutex> lock(sensorsMutex_);
+    ignoredSensors_.clear();
+
+    auto sensorList = value.toStringList();
+    for (auto &sensor : sensorList) {
+      auto componentSensorIdList = sensor.split('/');
+      if (componentSensorIdList.size() == 2) {
+        auto component = componentSensorIdList.at(0).toStdString();
+        auto sensorId = componentSensorIdList.at(1).toStdString();
+
+        if (ignoredSensors_.count(component) == 0)
+          ignoredSensors_[component] = {};
+
+        ignoredSensors_[component].emplace(sensorId);
+      }
+    }
+  }
 }
 
 void SysModelSyncer::init()
@@ -80,7 +103,8 @@ void SysModelSyncer::apply(IProfileView &profileView)
 
 void SysModelSyncer::updateSensors()
 {
-  sysModel_->updateSensors();
+  std::lock_guard<std::mutex> lock(sensorsMutex_);
+  sysModel_->updateSensors(ignoredSensors_);
 }
 
 void SysModelSyncer::syncModel()

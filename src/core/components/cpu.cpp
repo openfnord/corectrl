@@ -97,10 +97,15 @@ void CPU::sync(ICommandQueue &ctlCmds)
   }
 }
 
-void CPU::updateSensors()
+void CPU::updateSensors(
+    std::unordered_map<std::string, std::unordered_set<std::string>> const &ignored)
 {
-  for (auto &sensor : sensors_)
+  for (auto &sensor : sensors_) {
+    if (ignored.count(key_) > 0 && ignored.at(key_).count(sensor->ID()) > 0)
+      continue; // skip ignored sensors
+
     sensor->update();
+  }
 }
 
 ICPUInfo const &CPU::info() const

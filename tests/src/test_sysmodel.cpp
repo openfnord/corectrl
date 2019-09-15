@@ -67,7 +67,10 @@ class SysComponentMock : public ISysComponent
   }
 
   MAKE_MOCK1(sync, void(ICommandQueue &), override);
-  MAKE_MOCK0(updateSensors, void(), override);
+  MAKE_MOCK1(updateSensors,
+             void(std::unordered_map<std::string,
+                                     std::unordered_set<std::string>> const &),
+             override);
   MAKE_CONST_MOCK0(ID, std::string const &(), override);
   MAKE_MOCK1(importWith, void(Importable::Importer &), override);
   MAKE_CONST_MOCK1(exportWith, void(Exportable::Exporter &), override);
@@ -130,8 +133,10 @@ TEST_CASE("SysModel tests", "[SysModel]")
 
   SECTION("Update component's sensors")
   {
-    REQUIRE_CALL(componentMock, updateSensors());
-    ts.updateSensors();
+    std::unordered_map<std::string, std::unordered_set<std::string>> ignored;
+    REQUIRE_CALL(componentMock, updateSensors(trompeloeil::_))
+        .LR_WITH(&_1 == &ignored);
+    ts.updateSensors(ignored);
   }
 
   SECTION("Sync components")

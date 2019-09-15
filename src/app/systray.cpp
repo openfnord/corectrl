@@ -56,7 +56,7 @@ void SysTray::hide()
   sysTray_->hide();
 }
 
-void SysTray::onSettingChanged(QString const &key, QVariant const &value)
+void SysTray::settingChanged(QString const &key, QVariant const &value)
 {
   if (key == "sysTray")
     sysTray_->setVisible(value.toBool());

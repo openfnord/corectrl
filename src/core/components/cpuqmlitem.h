@@ -28,6 +28,7 @@ class CPUQMLItem
 , public ICPUProfilePart::Exporter
 {
   Q_OBJECT
+  Q_PROPERTY(int socketId READ provideSocketId)
 
  public:
   void activate(bool active) override;

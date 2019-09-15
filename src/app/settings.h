@@ -30,6 +30,12 @@ class Settings final : public QSettings
   Q_INVOKABLE QVariant getValue(QString const &key,
                                 QVariant const &defaultValue) const;
 
+  Q_INVOKABLE void setStringList(QString const &key, QStringList const &list);
+  Q_INVOKABLE QVariant getStringList(QString const &key,
+                                     QStringList const &defaultList) const;
+
+  void signalSettings();
+
  signals:
   void settingChanged(QString const &key, QVariant const &value);
 };

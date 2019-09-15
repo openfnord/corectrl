@@ -81,6 +81,7 @@ class App final : public QObject
  private slots:
   void exit();
   void showMainWindow();
+  void onSettingChanged(QString const &key, QVariant const &value);
 
  private:
   void buildUI(QQmlApplicationEngine &qmlEngine);

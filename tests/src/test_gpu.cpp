@@ -163,8 +163,24 @@ TEST_CASE("GPU tests", "[GPU]")
 
   SECTION("Update its sensors")
   {
+    std::string const sensorid("sensorid");
+    ALLOW_CALL(sensorMock, ID()).LR_RETURN(sensorid);
     REQUIRE_CALL(sensorMock, update());
-    ts.updateSensors();
+
+    std::unordered_map<std::string, std::unordered_set<std::string>> ignored;
+    ts.updateSensors(ignored);
+  }
+
+  SECTION("Does not update ignored sensors")
+  {
+    std::string const sensorid("sensorid");
+    std::unordered_map<std::string, std::unordered_set<std::string>> ignored;
+    ignored[ts.key()] = {};
+    ignored[ts.key()].emplace(sensorid);
+
+    ALLOW_CALL(sensorMock, ID()).LR_RETURN(sensorid);
+    FORBID_CALL(sensorMock, update());
+    ts.updateSensors(ignored);
   }
 
   SECTION("Pre-init its controls")

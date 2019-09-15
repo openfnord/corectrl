@@ -144,3 +144,20 @@ var FanCurve = {
 var FVControl = {
   border_color: "#40666666",
 };
+
+var Dialog = {
+  bg_list_color: "#FF343434",
+  tabs: {
+    bg_color: "#FF525252",
+    bg_color_alt: "#FF626262",
+  },
+};
+
+var GroupBox = {
+  text_size: 11,
+  text_bold: true,
+  bg_color: "transparent",
+  bg_border_color: "#FF747474",
+  bg_border_color_alt: "#40747474",
+  bg_radius: 2
+};

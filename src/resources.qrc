@@ -2,11 +2,12 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/Style.js</file>
-        <file>qml/Global.js</file>
+        <file>qml/Settings.js</file>
         <file>qml/main.qml</file>
         <file>qml/Profiles.qml</file>
         <file>qml/System.qml</file>
         <file>qml/CComboBox.qml</file>
+        <file>qml/CGroupBox.qml</file>
         <file>qml/CIntInput.qml</file>
         <file>qml/CurveControl.qml</file>
         <file>qml/FVControl.qml</file>
@@ -40,6 +41,8 @@
         <file>qml/About.qml</file>
         <file>qml/InfoPane.qml</file>
         <file>qml/SettingsDialog.qml</file>
+        <file>qml/SettingsWorkarounds.qml</file>
+        <file>qml/SettingsGeneral.qml</file>
     </qresource>
     <qresource prefix="/translations">
         <file alias="lang_en_EN">translations/lang_en_EN.qm</file>

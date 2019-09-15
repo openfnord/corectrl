@@ -15,9 +15,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Distributed under the GPL version 3 or any later version.
 //
-.pragma library;
+import QtQuick 2.0
+import QtQuick.Controls 2.2
+import "Style.js" as Style
 
-var SysemTrayDefaults = {
-  enabled: true,
-  startMinimized: false,
-};
+GroupBox {
+  id: control
+
+  property alias showLine: bg.visible
+
+  label: Label {
+    text: control.title
+    font.pointSize: Style.GroupBox.text_size
+    font.bold: Style.GroupBox.text_bold
+    width: control.width
+    horizontalAlignment: Text.AlignHCenter
+    y: control.padding / 2
+  }
+
+  background: Rectangle {
+    id: bg
+
+    color: Style.GroupBox.bg_color
+    border.color: enabled ? Style.GroupBox.bg_border_color
+                          : Style.GroupBox.bg_border_color_alt
+    radius: Style.GroupBox.bg_radius
+  }
+}

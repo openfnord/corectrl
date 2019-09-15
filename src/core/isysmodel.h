@@ -21,6 +21,8 @@
 #include "core/importable.h"
 #include "core/item.h"
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 class ICommandQueue;
@@ -47,7 +49,9 @@ class ISysModel
   virtual void preInit(ICommandQueue &ctlCmds) = 0;
   virtual void postInit(ICommandQueue &ctlCmds) = 0;
   virtual void sync(ICommandQueue &ctlCmds) = 0;
-  virtual void updateSensors() = 0;
+  virtual void updateSensors(
+      std::unordered_map<std::string, std::unordered_set<std::string>> const
+          &ignored) = 0;
 
   virtual std::vector<
       std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>
