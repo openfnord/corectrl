@@ -41,6 +41,7 @@
         <file>qml/About.qml</file>
         <file>qml/InfoPane.qml</file>
         <file>qml/SettingsDialog.qml</file>
+        <file>qml/SettingsWorkarounds.qml</file>
         <file>qml/SettingsGeneral.qml</file>
     </qresource>
     <qresource prefix="/translations">

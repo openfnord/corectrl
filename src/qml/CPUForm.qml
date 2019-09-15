@@ -21,12 +21,18 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import Radman.UIComponents 1.0
 import "Style.js" as Style
+import "Settings.js" as Settings
 
 CPU {
   id: cpu
   objectName: "CPU"
 
-  onNewGraphItem: sensorGraph.addItem(item)
+  onNewGraphItem: {
+    sensorGraph.addItem(item)
+    Settings.addComponentData("CPU" + cpu.socketId, "CPU " + cpu.socketId,
+                              item.name,
+                              qsTranslate("SensorGraph", item.name))
+  }
 
   ColumnLayout {
     spacing: 0
@@ -35,6 +41,18 @@ CPU {
     SensorGraph {
       id: sensorGraph
       Layout.fillWidth: true
+
+      Connections {
+        target: settings
+
+        onSettingChanged: {
+          if (key === "Workarounds/ignoredSensors") {
+            var sensors = Settings.componentIgnoredSensors("CPU" + cpu.socketId,
+                                                            value)
+            sensorGraph.ignoredSensors(sensors)
+          }
+        }
+      }
     }
 
     Pane {

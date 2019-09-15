@@ -269,6 +269,8 @@ list (APPEND TRANSLATABLE_FILES
   qml/System.qml
   qml/About.qml
   qml/SettingsDialog.qml
+  qml/SettingsGeneral.qml
+  qml/SettingsWorkarounds.qml
   qml/SysModelForm.qml
   qml/CPUForm.qml
   qml/GPUForm.qml

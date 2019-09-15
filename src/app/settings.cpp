@@ -35,6 +35,23 @@ QVariant Settings::getValue(QString const &key, QVariant const &defaultValue) co
   return value;
 }
 
+void Settings::setStringList(QString const &key, QStringList const &list)
+{
+  if (list.empty())
+    QSettings::remove(key);
+  else
+    QSettings::setValue(key, list);
+
+  emit settingChanged(key, list);
+}
+
+QVariant Settings::getStringList(QString const &key,
+                                 QStringList const &defaultValue) const
+{
+  auto value = QSettings::value(key, defaultValue);
+  return value.toStringList();
+}
+
 void Settings::signalSettings()
 {
   auto keys = QSettings::allKeys();

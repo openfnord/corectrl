@@ -146,6 +146,7 @@ var FVControl = {
 };
 
 var Dialog = {
+  bg_list_color: "#FF343434",
   tabs: {
     bg_color: "#FF525252",
     bg_color_alt: "#FF626262",

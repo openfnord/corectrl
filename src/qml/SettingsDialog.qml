@@ -43,7 +43,7 @@ Dialog {
       hoverEnabled: Style.g_hover
 
       Repeater {
-        model: [qsTr("General")]
+        model: [qsTr("General"), qsTr("Workarounds")]
 
         TabButton {
           text: modelData
@@ -63,17 +63,24 @@ Dialog {
         id: general
         onSettingsChanged: footer.standardButton(Dialog.Ok).enabled = true
       }
+
+      SettingsWorkarounds {
+        id: workarounds
+        onSettingsChanged: footer.standardButton(Dialog.Ok).enabled = true
+      }
     }
   }
 
   onOpened: {
     general.opened()
+    workarounds.opened()
 
     footer.standardButton(Dialog.Ok).enabled = false
   }
 
   onAccepted: {
     general.accepted()
+    workarounds.accepted()
 
     close()
   }

@@ -28,6 +28,7 @@ class GPUQMLItem
 , public IGPUProfilePart::Exporter
 {
   Q_OBJECT
+  Q_PROPERTY(int index READ provideIndex)
 
  public:
   void activate(bool active) override;
