@@ -20,7 +20,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import "Style.js" as Style
-import "Global.js" as Global
+import "Settings.js" as Settings
 
 ApplicationWindow {
   id: appWindow
@@ -88,6 +88,6 @@ ApplicationWindow {
   Component.onCompleted: {
     if (systemTray.isAvailable() && systemTray.isVisible())
       appWindow.visible = !settings.getValue("startOnSysTray",
-                                             Global.SysemTrayDefaults.startMinimized)
+                                             Settings.SysemTrayDefaults.startMinimized)
   }
 }

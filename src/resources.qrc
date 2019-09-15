@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/Style.js</file>
-        <file>qml/Global.js</file>
+        <file>qml/Settings.js</file>
         <file>qml/main.qml</file>
         <file>qml/Profiles.qml</file>
         <file>qml/System.qml</file>
