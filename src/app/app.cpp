@@ -127,6 +127,9 @@ int App::exec(int argc, char **argv)
         QQmlApplicationEngine qmlEngine;
         buildUI(qmlEngine);
 
+        // Load and apply stored settings
+        settings_->signalSettings();
+
         return app.exec();
       }
       catch (std::exception const &e) {

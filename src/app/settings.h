@@ -30,6 +30,9 @@ class Settings final : public QSettings
   Q_INVOKABLE QVariant getValue(QString const &key,
                                 QVariant const &defaultValue) const;
 
+
+  void signalSettings();
+
  signals:
   void settingChanged(QString const &key, QVariant const &value);
 };
