@@ -36,7 +36,7 @@ class SysTray : public QObject
  public slots:
   void show();
   void hide();
-  void onSettingChanged(QString const &key, QVariant const &value);
+  void settingChanged(QString const &key, QVariant const &value);
 
  private slots:
   void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);

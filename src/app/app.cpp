@@ -158,17 +158,22 @@ void App::showMainWindow()
   }
 }
 
+void App::onSettingChanged(QString const &key, QVariant const &value)
+{
+  sysTray_->settingChanged(key, value);
+}
+
 void App::buildUI(QQmlApplicationEngine &qmlEngine)
 {
   connect(&qmlEngine, &QQmlApplicationEngine::quit, QApplication::instance(),
           &QApplication::quit);
   connect(QApplication::instance(), &QApplication::aboutToQuit, this, &App::exit);
+  connect(settings_.get(), &Settings::settingChanged, this,
+          &App::onSettingChanged);
 
   sysTray_ = std::make_unique<SysTray>(this);
   if (settings_->getValue("sysTray", true).toBool())
     sysTray_->show();
-  connect(settings_.get(), &Settings::settingChanged, sysTray_.get(),
-          &SysTray::onSettingChanged);
 
   qmlEngine.rootContext()->setContextProperty("appInfo", &appInfo_);
   qmlEngine.rootContext()->setContextProperty("settings", settings_.get());
