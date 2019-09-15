@@ -29,7 +29,7 @@
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="26"/>
         <source>POWER_SAVING</source>
-        <translation>Économie d'énergie</translation>
+        <translation>Économie d&apos;énergie</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="27"/>
@@ -94,7 +94,7 @@
 <context>
     <name>AMDFanModeForm</name>
     <message>
-        <location filename="../qml/AMDFanModeForm.qml" line="34"/>
+        <location filename="../qml/AMDFanModeForm.qml" line="33"/>
         <source>Ventilation</source>
         <translation>Ventilation</translation>
     </message>
@@ -173,7 +173,7 @@
 <context>
     <name>AMDPMPerfModeForm</name>
     <message>
-        <location filename="../qml/AMDPMPerfModeForm.qml" line="34"/>
+        <location filename="../qml/AMDPMPerfModeForm.qml" line="33"/>
         <source>Performance mode</source>
         <translation>Mode Performance</translation>
     </message>
@@ -207,7 +207,7 @@
     <message>
         <location filename="../qml/About.qml" line="53"/>
         <source>Control your hardware with ease using application profiles</source>
-        <translation>Contrôlez aisément votre matériel à l'aide de profils applicatifs</translation>
+        <translation>Contrôlez aisément votre matériel à l&apos;aide de profils applicatifs</translation>
     </message>
     <message>
         <location filename="../qml/About.qml" line="58"/>
@@ -247,7 +247,7 @@
     <message>
         <location filename="../qml/About.qml" line="94"/>
         <source>Developing this program takes a big amount of time and effort.</source>
-        <translation>Développer ce programme prend beaucoup de temps et d'efforts.</translation>
+        <translation>Développer ce programme prend beaucoup de temps et d&apos;efforts.</translation>
     </message>
     <message>
         <location filename="../qml/About.qml" line="95"/>
@@ -283,7 +283,7 @@
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="27"/>
         <source>powersave</source>
-        <translation>Économies d'énergie</translation>
+        <translation>Économies d&apos;énergie</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
@@ -293,7 +293,7 @@
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
         <source>schedutil</source>
-        <translation>En fonction de l'utilisation du CPU</translation>
+        <translation>En fonction de l&apos;utilisation du CPU</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
@@ -375,32 +375,32 @@
 <context>
     <name>ProfileButton</name>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="139"/>
+        <location filename="../qml/ProfileButton.qml" line="138"/>
         <source>Disable</source>
         <translation>Désactiver</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="139"/>
+        <location filename="../qml/ProfileButton.qml" line="138"/>
         <source>Enable</source>
         <translation>Activer</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="150"/>
+        <location filename="../qml/ProfileButton.qml" line="149"/>
         <source>Edit...</source>
         <translation>Éditer...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="158"/>
+        <location filename="../qml/ProfileButton.qml" line="157"/>
         <source>Clone...</source>
         <translation>Cloner...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="165"/>
+        <location filename="../qml/ProfileButton.qml" line="164"/>
         <source>Export to...</source>
         <translation>Exporter vers...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="174"/>
+        <location filename="../qml/ProfileButton.qml" line="173"/>
         <source>Remove</source>
         <translation>Effacer</translation>
     </message>
@@ -425,7 +425,7 @@
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="137"/>
         <source>Executable name</source>
-        <translation>Nom de l'exécutable</translation>
+        <translation>Nom de l&apos;exécutable</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="154"/>
@@ -464,124 +464,124 @@
         <translation>Désactivé</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="238"/>
+        <location filename="../qml/Profiles.qml" line="245"/>
         <source>Profile properties</source>
         <translation>Propriétés du profil</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="251"/>
-        <location filename="../qml/Profiles.qml" line="295"/>
+        <location filename="../qml/Profiles.qml" line="258"/>
+        <location filename="../qml/Profiles.qml" line="302"/>
         <source>New profile properties</source>
         <translation>Propriétés du nouveau profil</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="324"/>
+        <location filename="../qml/Profiles.qml" line="331"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="345"/>
-        <location filename="../qml/Profiles.qml" line="375"/>
-        <location filename="../qml/Profiles.qml" line="410"/>
-        <location filename="../qml/Profiles.qml" line="439"/>
+        <location filename="../qml/Profiles.qml" line="352"/>
+        <location filename="../qml/Profiles.qml" line="382"/>
+        <location filename="../qml/Profiles.qml" line="417"/>
+        <location filename="../qml/Profiles.qml" line="446"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="360"/>
+        <location filename="../qml/Profiles.qml" line="367"/>
         <source>This action is permantent.
 Do you really want to remove %1?</source>
         <translation>Cette action est définitive.
 Voulez-vous vraiment effacer %1?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="387"/>
+        <location filename="../qml/Profiles.qml" line="394"/>
         <source>Unapplied settings will be lost.
 Do you want to apply them now?</source>
         <translation>Les paramètres non-appliqués seront perdus.
 Voulez-vous les appliquer dès maintenant ?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="474"/>
+        <location filename="../qml/Profiles.qml" line="481"/>
         <source>Manage profiles for your applications...</source>
         <translation>Gérez les profils pour vos applications...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="546"/>
+        <location filename="../qml/Profiles.qml" line="553"/>
         <source>Load from...</source>
         <translation>Charger depuis...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="551"/>
+        <location filename="../qml/Profiles.qml" line="558"/>
         <source>Load settings from...</source>
         <translation>Charger les paramètres depuis...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="557"/>
+        <location filename="../qml/Profiles.qml" line="564"/>
         <source>Cannot load profile.
 Invalid or corrupted file.</source>
         <translation>Impossible de charger le profil.
 Fichier invalide ou corrompu.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="422"/>
+        <location filename="../qml/Profiles.qml" line="429"/>
         <source>Unsaved settings will be lost.
 </source>
         <translation>Les paramètres non-appliqués seront perdus.
 </translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="423"/>
+        <location filename="../qml/Profiles.qml" line="430"/>
         <source>Do you want to load the default settings?</source>
         <translation>Voulez-vous charger les paramètres par défaut ?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="451"/>
+        <location filename="../qml/Profiles.qml" line="458"/>
         <source>Current settings will be discarded.
 </source>
         <translation>Les paramètres actuels seront annulés.
 </translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="452"/>
+        <location filename="../qml/Profiles.qml" line="459"/>
         <source>Do you want to load the saved settings?</source>
         <translation>Voulez-vous charger les paramètres enregistrés ?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="522"/>
+        <location filename="../qml/Profiles.qml" line="529"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="528"/>
+        <location filename="../qml/Profiles.qml" line="535"/>
         <source>Apply</source>
         <translation>Appliquer</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="534"/>
+        <location filename="../qml/Profiles.qml" line="541"/>
         <source>Restore</source>
         <translation>Restaurer</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="276"/>
+        <location filename="../qml/Profiles.qml" line="283"/>
         <source>Export profile to...</source>
         <translation>Exporter le profil vers...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="277"/>
-        <location filename="../qml/Profiles.qml" line="552"/>
+        <location filename="../qml/Profiles.qml" line="284"/>
+        <location filename="../qml/Profiles.qml" line="559"/>
         <source>CoreCtrl profile</source>
         <translation>Profil de CoreCtrl</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="285"/>
+        <location filename="../qml/Profiles.qml" line="292"/>
         <source>Cannot export profile.
 Check the permissions of the destination file and directory.</source>
-        <translation>Impossible d'exporter le profil.
+        <translation>Impossible d&apos;exporter le profil.
 Vérifiez les droits sur les fichier et répertoire de destination.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="566"/>
+        <location filename="../qml/Profiles.qml" line="573"/>
         <source>Reset</source>
         <translation>Réinitialiser</translation>
     </message>
@@ -633,23 +633,59 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
         <source>CPU_FREQ_PACK</source>
         <translation>CPU </translation>
     </message>
+    <message>
+        <location filename="../qml/SensorGraph.qml" line="150"/>
+        <source>n/a</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../qml/SettingsDialog.qml" line="25"/>
+        <location filename="../qml/SettingsDialog.qml" line="26"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsDialog.qml" line="39"/>
-        <source>Show system tray icon</source>
-        <translation>Afficher l'icône dans la zone de notification</translation>
+        <location filename="../qml/SettingsDialog.qml" line="46"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsDialog.qml" line="47"/>
+        <location filename="../qml/SettingsDialog.qml" line="46"/>
+        <source>Workarounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsGeneral</name>
+    <message>
+        <location filename="../qml/SettingsGeneral.qml" line="53"/>
+        <source>Show system tray icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsGeneral.qml" line="68"/>
         <source>Start minimized on system tray</source>
-        <translation>Démarrer minimisé dans la zone de notification</translation>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsWorkarounds</name>
+    <message>
+        <location filename="../qml/SettingsWorkarounds.qml" line="109"/>
+        <source>Sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsWorkarounds.qml" line="120"/>
+        <source>Disabled sensors won&apos;t be updated from hardware</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsWorkarounds.qml" line="130"/>
+        <source>Device</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -663,17 +699,17 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
 <context>
     <name>System</name>
     <message>
-        <location filename="../qml/System.qml" line="111"/>
+        <location filename="../qml/System.qml" line="102"/>
         <source>Information and application settings...</source>
-        <translation>Informations et paramètres de l'application...</translation>
+        <translation>Informations et paramètres de l&apos;application...</translation>
     </message>
     <message>
-        <location filename="../qml/System.qml" line="121"/>
+        <location filename="../qml/System.qml" line="112"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location filename="../qml/System.qml" line="127"/>
+        <location filename="../qml/System.qml" line="118"/>
         <source>Copy all</source>
         <translation>Tout copier</translation>
     </message>
@@ -693,17 +729,17 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
     <message>
         <location filename="../core/systeminfoui.cpp" line="31"/>
         <source>vkapiv</source>
-        <translation>Version de l'API Vulkan</translation>
+        <translation>Version de l&apos;API Vulkan</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="32"/>
         <source>glcorev</source>
-        <translation>Version d'OpenGL (core)</translation>
+        <translation>Version d&apos;OpenGL (core)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="33"/>
         <source>glcompv</source>
-        <translation>Version d'OpenGL (compat)</translation>
+        <translation>Version d&apos;OpenGL (compat)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="34"/>
@@ -828,7 +864,7 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
     <message>
         <location filename="../core/systeminfoui.cpp" line="59"/>
         <source>opmode</source>
-        <translation>Modes d'opération</translation>
+        <translation>Modes d&apos;opération</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="60"/>
@@ -858,18 +894,18 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
     <message>
         <location filename="../core/systeminfoui.cpp" line="53"/>
         <source>exeunits</source>
-        <translation>Unités d'exécution</translation>
+        <translation>Unités d&apos;exécution</translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="58"/>
+        <location filename="../qml/main.qml" line="60"/>
         <source>Profiles</source>
         <translation>Profils</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="61"/>
+        <location filename="../qml/main.qml" line="63"/>
         <source>System</source>
         <translation>Système</translation>
     </message>
