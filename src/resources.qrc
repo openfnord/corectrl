@@ -7,6 +7,7 @@
         <file>qml/Profiles.qml</file>
         <file>qml/System.qml</file>
         <file>qml/CComboBox.qml</file>
+        <file>qml/CGroupBox.qml</file>
         <file>qml/CIntInput.qml</file>
         <file>qml/CurveControl.qml</file>
         <file>qml/FVControl.qml</file>
