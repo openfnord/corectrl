@@ -164,6 +164,7 @@ void App::showMainWindow()
 void App::onSettingChanged(QString const &key, QVariant const &value)
 {
   sysTray_->settingChanged(key, value);
+  sysSyncer_->settingChanged(key, value);
 }
 
 void App::buildUI(QQmlApplicationEngine &qmlEngine)

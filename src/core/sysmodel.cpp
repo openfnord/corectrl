@@ -57,10 +57,11 @@ void SysModel::sync(ICommandQueue &ctlCmds)
     component->sync(ctlCmds);
 }
 
-void SysModel::updateSensors()
+void SysModel::updateSensors(
+    std::unordered_map<std::string, std::unordered_set<std::string>> const &ignored)
 {
   for (auto &component : components_)
-    component->updateSensors();
+    component->updateSensors(ignored);
 }
 
 std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>

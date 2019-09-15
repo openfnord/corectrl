@@ -46,7 +46,9 @@ class GPU final : public IGPU
   void postInit(ICommandQueue &ctlCmds) override;
   void sync(ICommandQueue &ctlCmds) override;
 
-  void updateSensors() override;
+  void updateSensors(
+      std::unordered_map<std::string, std::unordered_set<std::string>> const
+          &ignored) override;
 
   IGPUInfo const &info() const override;
 
