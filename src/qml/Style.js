@@ -145,6 +145,13 @@ var FVControl = {
   border_color: "#40666666",
 };
 
+var Dialog = {
+  tabs: {
+    bg_color: "#FF525252",
+    bg_color_alt: "#FF626262",
+  },
+};
+
 var GroupBox = {
   text_size: 11,
   text_bold: true,

@@ -17,8 +17,8 @@
 //
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.3
 import "Style.js" as Style
-import "Settings.js" as Settings
 
 Dialog {
   id: settingsDlg
@@ -34,36 +34,47 @@ Dialog {
   x: (parent.width - width) / 2
   y: (parent.height - height) / 2
 
-  Column {
-    CheckBox {
-      id: sysTrayIcon
-      text: qsTr("Show system tray icon")
+  ColumnLayout {
+    anchors.fill: parent
 
-      onToggled: footer.standardButton(Dialog.Ok).enabled = true
+    TabBar {
+      id: tabBar
+      Layout.fillWidth: true
+      hoverEnabled: Style.g_hover
+
+      Repeater {
+        model: [qsTr("General")]
+
+        TabButton {
+          text: modelData
+
+          background: Rectangle {
+            color: hovered ? Style.Dialog.tabs.bg_color_alt
+                           : Style.Dialog.tabs.bg_color
+          }
+        }
+      }
     }
 
-    CheckBox {
-      id: startOnSysTray
-      enabled: sysTrayIcon.enabled && sysTrayIcon.checked
-      text: qsTr("Start minimized on system tray")
+    StackLayout {
+      currentIndex: tabBar.currentIndex
 
-      onToggled: footer.standardButton(Dialog.Ok).enabled = true
+      SettingsGeneral {
+        id: general
+        onSettingsChanged: footer.standardButton(Dialog.Ok).enabled = true
+      }
     }
   }
 
   onOpened: {
-    footer.standardButton(Dialog.Ok).enabled = false
+    general.opened()
 
-    sysTrayIcon.enabled = systemTray.isAvailable()
-    sysTrayIcon.checked = settings.getValue("sysTray",
-                                            Settings.SysemTrayDefaults.enabled)
-    startOnSysTray.checked = settings.getValue("startOnSysTray",
-                                               Settings.SysemTrayDefaults.startMinimized)
+    footer.standardButton(Dialog.Ok).enabled = false
   }
 
   onAccepted: {
-    settings.setValue("sysTray", sysTrayIcon.checked)
-    settings.setValue("startOnSysTray", startOnSysTray.checked)
+    general.accepted()
+
     close()
   }
 
