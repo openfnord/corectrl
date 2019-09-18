@@ -55,7 +55,7 @@ class Provider final : public IGPUSensorProvider::IProvider
 
       if (driver == "amdgpu" && kernel >= std::make_tuple(4, 2, 0)) {
 
-#if defined(AMDGPU_INFO_SENSOR_GPU_LOAD)
+#if defined(AMDGPU_INFO_VRAM_USAGE)
 
         std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
         dataSources.emplace_back(std::make_unique<DevFSDataSource<unsigned int>>(
