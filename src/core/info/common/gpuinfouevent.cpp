@@ -111,32 +111,36 @@ GPUInfoUevent::provideInfo(Vendor, int, IGPUInfo::Path const &path,
     if (driver.empty())
       LOG(ERROR) << "Cannot retrieve driver";
 
-    // clang-format off
     // ensure that all ids are in uppercase
-    std::transform(vendorId.cbegin(), vendorId.cend(),
-                   vendorId.begin(), ::toupper);
-    std::transform(deviceId.cbegin(), deviceId.cend(),
-                   deviceId.begin(), ::toupper);
+    std::transform(vendorId.cbegin(), vendorId.cend(), vendorId.begin(),
+                   ::toupper);
+    std::transform(deviceId.cbegin(), deviceId.cend(), deviceId.begin(),
+                   ::toupper);
     std::transform(subvendorId.cbegin(), subvendorId.cend(),
                    subvendorId.begin(), ::toupper);
     std::transform(subdeviceId.cbegin(), subdeviceId.cend(),
                    subdeviceId.begin(), ::toupper);
 
     // populate info
-    info.emplace_back(IGPUInfo::Keys::vendorName,
-                      hwIDTranslator.vendor(vendorId));
-    info.emplace_back(IGPUInfo::Keys::deviceName,
-                      hwIDTranslator.device(vendorId, deviceId));
-    info.emplace_back(IGPUInfo::Keys::subdeviceName,
-                      hwIDTranslator.subdevice(vendorId, deviceId,
-                                               subvendorId, subdeviceId));
+    auto vendorName = hwIDTranslator.vendor(vendorId);
+    if (!vendorName.empty())
+      info.emplace_back(IGPUInfo::Keys::vendorName, std::move(vendorName));
+
+    auto deviceName = hwIDTranslator.device(vendorId, deviceId);
+    if (!deviceName.empty())
+      info.emplace_back(IGPUInfo::Keys::deviceName, std::move(deviceName));
+
+    auto subdeviceName = hwIDTranslator.subdevice(vendorId, deviceId,
+                                                  subvendorId, subdeviceId);
+    if (!subdeviceName.empty())
+      info.emplace_back(IGPUInfo::Keys::subdeviceName, std::move(subdeviceName));
+
     info.emplace_back(IGPUInfo::Keys::driver, std::move(driver));
     info.emplace_back(IGPUInfo::Keys::pciSlot, std::move(pciSlot));
     info.emplace_back(IGPUInfo::Keys::vendorID, std::move(vendorId));
     info.emplace_back(IGPUInfo::Keys::deviceID, std::move(deviceId));
     info.emplace_back(IGPUInfo::Keys::subvendorID, std::move(subvendorId));
     info.emplace_back(IGPUInfo::Keys::subdeviceID, std::move(subdeviceId));
-    // clang-format on
   }
 
   return info;
