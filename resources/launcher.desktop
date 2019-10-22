@@ -14,3 +14,6 @@ Keywords=core;control;system;hardware;
 # Translations
 GenericName[es_ES]=Control central
 Comment[es_ES]=Controle su computadora fácilmente usando perfiles de aplicaciones
+
+GenericName[bg]=Централен Контрол
+Comment[bg]=Управлявайте компютъра си с лекота, изполвайки профили за програмите ви
