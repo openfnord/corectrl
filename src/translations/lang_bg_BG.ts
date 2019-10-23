@@ -226,7 +226,7 @@
     </message>
     <message>
         <location filename="../qml/About.qml" line="69"/>
-        <source>Слеване на проблеми</source>
+        <source>Следване на проблеми</source>
         <translation>Issue tracker</translation>
     </message>
     <message>
@@ -265,12 +265,12 @@
     <message>
         <location filename="../qml/CPUFreqForm.qml" line="75"/>
         <source>CPU performance scaling</source>
-        <translation>CPU performance scaling</translation>
+        <translation>Мащабиране на мощността на процесора</translation>
     </message>
     <message>
         <location filename="../qml/CPUFreqForm.qml" line="85"/>
         <source>Frequency governor</source>
-        <translation>Frequency governor</translation>
+        <translation>Управление на честотата</translation>
     </message>
 </context>
 <context>
@@ -278,32 +278,32 @@
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="26"/>
         <source>performance</source>
-        <translation>Performance</translation>
+        <translation>Мощност</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="27"/>
         <source>powersave</source>
-        <translation>Powersave</translation>
+        <translation>Икономия на енергия</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
         <source>userspace</source>
-        <translation>Custom frequency</translation>
+        <translation>Различна честота</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
         <source>schedutil</source>
-        <translation>CPU utilization</translation>
+        <translation>Изполваемост на процесора</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
         <source>ondemand</source>
-        <translation>Ondemand</translation>
+        <translation>При нужда</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
         <source>conservative</source>
-        <translation>Conservative</translation>
+        <translation> Консервативно</translation>
     </message>
 </context>
 <context>
@@ -311,42 +311,42 @@
     <message>
         <location filename="../core/components/controls/amd/pm/auto/pmautoqmlitem.cpp" line="25"/>
         <source>AMD_PM_AUTO</source>
-        <translation>Automatic</translation>
+        <translation>Автоматично</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="25"/>
         <source>AMD_PM_FIXED</source>
-        <translation>Fixed</translation>
+        <translation>Определено</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/fan/auto/fanautoqmlitem.cpp" line="25"/>
         <source>AMD_FAN_AUTO</source>
-        <translation>Automatic</translation>
+        <translation>Автоматично</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/fan/fixed/fanfixedqmlitem.cpp" line="25"/>
         <source>AMD_FAN_FIXED</source>
-        <translation>Fixed</translation>
+        <translation>Определено</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/fan/curve/fancurveqmlitem.cpp" line="25"/>
         <source>AMD_FAN_CURVE</source>
-        <translation>Curve</translation>
+        <translation>Извивка</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/pmadvancedqmlitem.cpp" line="25"/>
         <source>AMD_PM_ADVANCED</source>
-        <translation>Advanced</translation>
+        <translation>Напраденало</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/fixedfreq/pmfixedfreqqmlitem.cpp" line="25"/>
         <source>AMD_PM_FIXED_FREQ</source>
-        <translation>Fixed</translation>
+        <translation>Определено</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/dynamicfreq/pmdynamicfreqqmlitem.cpp" line="25"/>
         <source>AMD_PM_DYNAMIC_FREQ</source>
-        <translation>Dynamic</translation>
+        <translation>Динамично</translation>
     </message>
 </context>
 <context>
@@ -354,22 +354,22 @@
     <message>
         <location filename="../qml/FVControl.qml" line="152"/>
         <source>STATE</source>
-        <translation>STATE</translation>
+        <translation>Състояние</translation>
     </message>
     <message>
         <location filename="../qml/FVControl.qml" line="213"/>
         <source>Auto</source>
-        <translation>Auto</translation>
+        <translation>Авто</translation>
     </message>
     <message>
         <location filename="../qml/FVControl.qml" line="244"/>
         <source>Frequency</source>
-        <translation>Frequency</translation>
+        <translation>Честота</translation>
     </message>
     <message>
         <location filename="../qml/FVControl.qml" line="269"/>
         <source>Voltage</source>
-        <translation>Voltage</translation>
+        <translation>Волтове</translation>
     </message>
 </context>
 <context>
@@ -377,32 +377,32 @@
     <message>
         <location filename="../qml/ProfileButton.qml" line="138"/>
         <source>Disable</source>
-        <translation>Disable</translation>
+        <translation>Излкючи</translation>
     </message>
     <message>
         <location filename="../qml/ProfileButton.qml" line="138"/>
         <source>Enable</source>
-        <translation>Enable</translation>
+        <translation>Включи</translation>
     </message>
     <message>
         <location filename="../qml/ProfileButton.qml" line="149"/>
         <source>Edit...</source>
-        <translation>Edit...</translation>
+        <translation>Редактирай...</translation>
     </message>
     <message>
         <location filename="../qml/ProfileButton.qml" line="157"/>
         <source>Clone...</source>
-        <translation>Clone...</translation>
+        <translation>Дубликирай...</translation>
     </message>
     <message>
         <location filename="../qml/ProfileButton.qml" line="164"/>
         <source>Export to...</source>
-        <translation>Export to...</translation>
+        <translation>Запази до...</translation>
     </message>
     <message>
         <location filename="../qml/ProfileButton.qml" line="173"/>
         <source>Remove</source>
-        <translation>Remove</translation>
+        <translation>Премахни</translation>
     </message>
 </context>
 <context>
@@ -410,42 +410,42 @@
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="112"/>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation>Име:</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="121"/>
         <source>Profile name</source>
-        <translation>Profile name</translation>
+        <translation>Име на профила</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="127"/>
         <source>Executable:</source>
-        <translation>Executable:</translation>
+        <translation>Изпълним фаил:</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="137"/>
         <source>Executable name</source>
-        <translation>Executable name</translation>
+        <translation>Име на изпълним файл</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="154"/>
         <source>Select an executable file</source>
-        <translation>Select an executable file</translation>
+        <translation>Изберете изпълним файл</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="168"/>
         <source>Icon:</source>
-        <translation>Icon:</translation>
+        <translation>Икона:</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
         <source>Select an icon</source>
-        <translation>Select an icon</translation>
+        <translation>Изберете икона</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="197"/>
         <source>Images</source>
-        <translation>Images</translation>
+        <translation>Снимки</translation>
     </message>
 </context>
 <context>
@@ -453,7 +453,7 @@
     <message>
         <location filename="../core/profilemanagerui.cpp" line="27"/>
         <source>_global_</source>
-        <translation>Global Profile</translation>
+        <translation>Общ профил</translation>
     </message>
 </context>
 <context>
@@ -461,23 +461,23 @@
     <message>
         <location filename="../qml/Profiles.qml" line="153"/>
         <source>Disabled</source>
-        <translation>Disabled</translation>
+        <translation>Изключено</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="245"/>
         <source>Profile properties</source>
-        <translation>Profile properties</translation>
+        <translation>Свойства на профила</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="258"/>
         <location filename="../qml/Profiles.qml" line="302"/>
         <source>New profile properties</source>
-        <translation>New profile properties</translation>
+        <translation>Нови свойства на профила</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="331"/>
         <source>Error</source>
-        <translation>Error</translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="352"/>
@@ -485,105 +485,105 @@
         <location filename="../qml/Profiles.qml" line="417"/>
         <location filename="../qml/Profiles.qml" line="446"/>
         <source>Warning</source>
-        <translation>Warning</translation>
+        <translation>Предупреждение</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="367"/>
         <source>This action is permantent.
 Do you really want to remove %1?</source>
-        <translation>This action is permantent.
-Do you really want to remove %1?</translation>
+        <translation>Това действие е постоянно.
+Сигурни ли сте, че искате да премахнете %1?</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="394"/>
         <source>Unapplied settings will be lost.
 Do you want to apply them now?</source>
-        <translation>Unapplied settings will be lost.
-Do you want to apply them now?</translation>
+        <translation>Незапазените настройки ще бъдат премахнати.
+Искате ли да ги приложите сега?</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="481"/>
         <source>Manage profiles for your applications...</source>
-        <translation>Manage profiles for your applications...</translation>
+        <translation>Управлявайте профили за приложенията ви...</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="553"/>
         <source>Load from...</source>
-        <translation>Load from...</translation>
+        <translation>Заредете...</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="558"/>
         <source>Load settings from...</source>
-        <translation>Load settings from...</translation>
+        <translation>Заредете настройки от...</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="564"/>
         <source>Cannot load profile.
 Invalid or corrupted file.</source>
-        <translation>Cannot load profile.
-Invalid or corrupted file.</translation>
+        <translation>Неможе да се зареди файла.
+Невалиден или повреден файл.</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="429"/>
         <source>Unsaved settings will be lost.
 </source>
-        <translation>Unsaved settings will be lost.
+        <translation>Незапазените настрой ще бъдат премахнати.
 </translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="430"/>
         <source>Do you want to load the default settings?</source>
-        <translation>Do you want to load the default settings?</translation>
+        <translation>Искате ли да заредите настройките по подразбиране?</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="458"/>
         <source>Current settings will be discarded.
 </source>
-        <translation>Current settings will be discarded.
+        <translation>Сегашните настройки ще бъдат премахнати.
 </translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="459"/>
         <source>Do you want to load the saved settings?</source>
-        <translation>Do you want to load the saved settings?</translation>
+        <translation>Искате ли да заредите запазените настройки?</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="529"/>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>Запазване</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="535"/>
         <source>Apply</source>
-        <translation>Apply</translation>
+        <translation>Прилагане</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="541"/>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation>Възстановяване</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="283"/>
         <source>Export profile to...</source>
-        <translation>Export profile to...</translation>
+        <translation>Запазете профила до...</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="284"/>
         <location filename="../qml/Profiles.qml" line="559"/>
         <source>CoreCtrl profile</source>
-        <translation>CoreCtrl profile</translation>
+        <translation>CoreCtrl профил</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="292"/>
         <source>Cannot export profile.
 Check the permissions of the destination file and directory.</source>
-        <translation>Cannot export profile.
-Check the permissions of the destination file and directory.</translation>
+        <translation>Неможе да бъде запазен файла.
+Проверете правомощията на файла и папката.</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="573"/>
         <source>Reset</source>
-        <translation>Reset</translation>
+        <translation>Рестартирай</translation>
     </message>
 </context>
 <context>
@@ -591,52 +591,52 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../core/components/sensors/amd/memfreqgraphitem.cpp" line="33"/>
         <source>AMD_MEM_FREQ</source>
-        <translation>Memory</translation>
+        <translation>Памет</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/gpufreqgraphitem.cpp" line="33"/>
         <source>AMD_GPU_FREQ</source>
-        <translation>GPU</translation>
+        <translation>Видео Карта</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/gputempgraphitem.cpp" line="33"/>
         <source>AMD_GPU_TEMP</source>
-        <translation>Temperature</translation>
+        <translation>Температура</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/powergraphitem.cpp" line="33"/>
         <source>AMD_POWER</source>
-        <translation>Power</translation>
+        <translation>Енергия</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/activitygraphitem.cpp" line="33"/>
         <source>AMD_ACTIVITY</source>
-        <translation>Activity</translation>
+        <translation>Активност</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/memusagegraphitem.cpp" line="33"/>
         <source>AMD_MEM_USAGE</source>
-        <translation>Used memory</translation>
+        <translation>Използвана памет</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/fanspeedpercgraphitem.cpp" line="33"/>
         <source>AMD_FAN_SPEED_PERC</source>
-        <translation>Fan</translation>
+        <translation>Вентилатор</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/fanspeedrpmgraphitem.cpp" line="35"/>
         <source>AMD_FAN_SPEED_RPM</source>
-        <translation>Fan</translation>
+        <translation>Вентилатор</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/cpu/cpufreqpackgraphitem.cpp" line="32"/>
         <source>CPU_FREQ_PACK</source>
-        <translation>CPU</translation>
+        <translation>Процесор</translation>
     </message>
     <message>
         <location filename="../qml/SensorGraph.qml" line="150"/>
         <source>n/a</source>
-        <translation>n/a</translation>
+        <translation>недостъпно</translation>
     </message>
 </context>
 <context>
@@ -644,17 +644,17 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../qml/SettingsDialog.qml" line="26"/>
         <source>Settings</source>
-        <translation>Settings</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../qml/SettingsDialog.qml" line="46"/>
         <source>General</source>
-        <translation>General</translation>
+        <translation>Общи</translation>
     </message>
     <message>
         <location filename="../qml/SettingsDialog.qml" line="46"/>
         <source>Workarounds</source>
-        <translation>Workarounds</translation>
+        <translation>Забиколки</translation>
     </message>
 </context>
 <context>
@@ -662,12 +662,12 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../qml/SettingsGeneral.qml" line="53"/>
         <source>Show system tray icon</source>
-        <translation>Show system tray icon</translation>
+        <translation>Показване на иконата в панела</translation>
     </message>
     <message>
         <location filename="../qml/SettingsGeneral.qml" line="68"/>
         <source>Start minimized on system tray</source>
-        <translation>Start minimized on system tray</translation>
+        <translation>Започни минимизира</translation>
     </message>
 </context>
 <context>
@@ -675,7 +675,7 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="109"/>
         <source>Sensors</source>
-        <translation>Sensors</translation>
+        <translation>Сензори</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="120"/>
@@ -685,7 +685,7 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="130"/>
         <source>Device</source>
-        <translation>Device</translation>
+        <translation>Устройство</translation>
     </message>
 </context>
 <context>
@@ -693,7 +693,7 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../app/systray.cpp" line="32"/>
         <source>Quit</source>
-        <translation>Quit</translation>
+        <translation>Затваряне</translation>
     </message>
 </context>
 <context>
@@ -701,17 +701,17 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../qml/System.qml" line="102"/>
         <source>Information and application settings...</source>
-        <translation>Information and application settings...</translation>
+        <translation>Информация и настройки на приложенията...</translation>
     </message>
     <message>
         <location filename="../qml/System.qml" line="112"/>
         <source>Settings</source>
-        <translation>Settings</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../qml/System.qml" line="118"/>
         <source>Copy all</source>
-        <translation>Copy all</translation>
+        <translation>Копиране на всичко</translation>
     </message>
 </context>
 <context>
@@ -719,107 +719,107 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../core/systeminfoui.cpp" line="29"/>
         <source>kernelv</source>
-        <translation>Kernel version</translation>
+        <translation>Версия на кърнъла</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="30"/>
         <source>mesav</source>
-        <translation>Mesa version</translation>
+        <translation>Версия на Mesa</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="31"/>
         <source>vkapiv</source>
-        <translation>Vulkan API version</translation>
+        <translation>Версия на Vulkan API</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="32"/>
         <source>glcorev</source>
-        <translation>OpenGL version (core)</translation>
+        <translation>Версия на OpenGL (core)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="33"/>
         <source>glcompv</source>
-        <translation>OpenGL version (compat)</translation>
+        <translation>Версия на OpenGL (compat)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="34"/>
         <source>vendorid</source>
-        <translation>Vendor ID</translation>
+        <translation>ИД на Производителя</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="35"/>
         <source>deviceid</source>
-        <translation>Device ID</translation>
+        <translation>ИД на Устройстовото</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="36"/>
         <source>svendorid</source>
-        <translation>Vendor model ID</translation>
+        <translation>ИД на модела на производителя</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="37"/>
         <source>sdeviceid</source>
-        <translation>Device model ID</translation>
+        <translation>ИД на модела на устройсвото</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="38"/>
         <source>vendor</source>
-        <translation>Vendor</translation>
+        <translation>Производител</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="39"/>
         <source>device</source>
-        <translation>Device</translation>
+        <translation>Устройство</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="40"/>
         <source>sdevice</source>
-        <translation>Device model</translation>
+        <translation>Модел на устройството</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="41"/>
         <source>pcislot</source>
-        <translation>PCI Slot</translation>
+        <translation>PCI Прорез</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="42"/>
         <source>driver</source>
-        <translation>Driver</translation>
+        <translation>Драйвер</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="43"/>
         <source>revision</source>
-        <translation>Revision</translation>
+        <translation>Ревизия</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="44"/>
         <source>memory</source>
-        <translation>Memory</translation>
+        <translation>Памет</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="45"/>
         <source>gputype</source>
-        <translation>GPU Type</translation>
+        <translation>Вид на Видео Картата</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="46"/>
         <source>biosv</source>
-        <translation>BIOS version</translation>
+        <translation>Версия на BIOS</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="47"/>
         <source>cpufamily</source>
-        <translation>CPU Family</translation>
+        <translation>Семейство на Процесора</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="48"/>
         <source>model</source>
-        <translation>Model</translation>
+        <translation>Модел</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="49"/>
         <source>modname</source>
-        <translation>Model Name</translation>
+        <translation>Име на Модел</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="50"/>
@@ -829,27 +829,27 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../core/systeminfoui.cpp" line="51"/>
         <source>ucodev</source>
-        <translation>Microcode version</translation>
+        <translation>Версия на Microcode</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="52"/>
         <source>l3cache</source>
-        <translation>L3 cache</translation>
+        <translation>L3 кеш</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="54"/>
         <source>cores</source>
-        <translation>Cores</translation>
+        <translation>Ядра</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="55"/>
         <source>flags</source>
-        <translation>Flags</translation>
+        <translation>Знамена</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="56"/>
         <source>bugs</source>
-        <translation>Bugs</translation>
+        <translation>Бъгове</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="57"/>
@@ -859,42 +859,42 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../core/systeminfoui.cpp" line="58"/>
         <source>arch</source>
-        <translation>Architecture</translation>
+        <translation>Архитектура</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="59"/>
         <source>opmode</source>
-        <translation>Operation modes</translation>
+        <translation>Режими на работа</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="60"/>
         <source>byteorder</source>
-        <translation>Byte order</translation>
+        <translation>Ред на Байтовете</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="61"/>
         <source>virt</source>
-        <translation>Virtualization</translation>
+        <translation>Витруализация</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="62"/>
         <source>l1dcache</source>
-        <translation>L1 cache (data)</translation>
+        <translation>L1 кеш (информация)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="63"/>
         <source>l1icache</source>
-        <translation>L1 cache (instructions)</translation>
+        <translation>L1 кеш (инструкции)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="64"/>
         <source>l2cache</source>
-        <translation>L2 cache</translation>
+        <translation>L2 кеш</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="53"/>
         <source>exeunits</source>
-        <translation>Execution units</translation>
+        <translation>Изпълними единици</translation>
     </message>
 </context>
 <context>
@@ -902,12 +902,12 @@ Check the permissions of the destination file and directory.</translation>
     <message>
         <location filename="../qml/main.qml" line="60"/>
         <source>Profiles</source>
-        <translation>Profiles</translation>
+        <translation>Профили</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="63"/>
         <source>System</source>
-        <translation>System</translation>
+        <translation>Система</translation>
     </message>
 </context>
 </TS>
