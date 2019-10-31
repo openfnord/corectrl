@@ -19,47 +19,67 @@
 
 #include "app.h"
 #include <QMenu>
+#include <QTimer>
 
 SysTray::SysTray(QObject *parent)
 : QObject(parent)
 {
-  sysTray_ = new QSystemTrayIcon(this);
-  sysTray_->setIcon(QIcon::fromTheme(QString(App::Name.data()).toLower()));
-  connect(sysTray_, &QSystemTrayIcon::activated, this,
-          &SysTray::onTrayIconActivated);
-
-  QMenu *menu = new QMenu();
-  QAction *quitAction = new QAction(tr("Quit"), sysTray_);
-  connect(quitAction, &QAction::triggered, this, &SysTray::quit);
-  menu->addAction(quitAction);
-
-  sysTray_->setContextMenu(menu);
+  createSysTrayIcon();
 }
 
 bool SysTray::isAvailable() const
 {
-  return sysTray_->isSystemTrayAvailable();
+  return sysTray_ != nullptr;
 }
 
 bool SysTray::isVisible() const
 {
-  return sysTray_->isVisible();
+  return sysTray_ != nullptr && sysTray_->isVisible();
 }
 
 void SysTray::show()
 {
-  sysTray_->show();
+  if (sysTray_ != nullptr)
+    sysTray_->show();
 }
 
 void SysTray::hide()
 {
-  sysTray_->hide();
+  if (sysTray_ != nullptr)
+    sysTray_->hide();
 }
 
 void SysTray::settingChanged(QString const &key, QVariant const &value)
 {
-  if (key == "sysTray")
-    sysTray_->setVisible(value.toBool());
+  if (sysTray_ != nullptr) {
+    if (key == "sysTray")
+      sysTray_->setVisible(value.toBool());
+  }
+}
+
+void SysTray::createSysTrayIcon()
+{
+  if (QSystemTrayIcon::isSystemTrayAvailable()) {
+    sysTray_ = std::make_unique<QSystemTrayIcon>(this);
+    sysTray_->setIcon(QIcon::fromTheme(QString(App::Name.data()).toLower()));
+    connect(sysTray_.get(), &QSystemTrayIcon::activated, this,
+            &SysTray::onTrayIconActivated);
+
+    QMenu *menu = new QMenu();
+    QAction *quitAction = new QAction(tr("Quit"), sysTray_.get());
+    connect(quitAction, &QAction::triggered, this, &SysTray::quit);
+    menu->addAction(quitAction);
+    sysTray_->setContextMenu(menu);
+
+    emit available();
+  }
+  else { // deferred creation
+    static int retries{30};
+    if (retries > 0) {
+      --retries;
+      QTimer::singleShot(2000, this, &SysTray::createSysTrayIcon);
+    }
+  }
 }
 
 void SysTray::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)

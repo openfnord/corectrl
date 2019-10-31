@@ -67,6 +67,16 @@ ApplicationWindow {
   Connections {
     target: systemTray
 
+    onAvailable: {
+      var showSysTray = settings.getValue("sysTray",
+                                          Settings.SysemTrayDefaults.enabled)
+      if (showSysTray) {
+        systemTray.show()
+        appWindow.visible = !settings.getValue("startOnSysTray",
+                                               Settings.SysemTrayDefaults.startMinimized)
+      }
+    }
+
     onActivated: {
       if (!appWindow.visible)
         appWindow.show()
