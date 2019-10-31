@@ -19,6 +19,7 @@
 
 #include <QObject>
 #include <QSystemTrayIcon>
+#include <memory>
 
 class SysTray : public QObject
 {
@@ -30,6 +31,7 @@ class SysTray : public QObject
   Q_INVOKABLE bool isVisible() const;
 
  signals:
+  void available();
   void activated();
   void quit();
 
@@ -39,8 +41,9 @@ class SysTray : public QObject
   void onSettingChanged(QString const &key, QVariant const &value);
 
  private slots:
+  void createSysTrayIcon();
   void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
  private:
-  QSystemTrayIcon *sysTray_;
+  std::unique_ptr<QSystemTrayIcon> sysTray_;
 };
