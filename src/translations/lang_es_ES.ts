@@ -94,7 +94,7 @@
 <context>
     <name>AMDFanModeForm</name>
     <message>
-        <location filename="../qml/AMDFanModeForm.qml" line="34"/>
+        <location filename="../qml/AMDFanModeForm.qml" line="33"/>
         <source>Ventilation</source>
         <translation>Ventilación</translation>
     </message>
@@ -173,7 +173,7 @@
 <context>
     <name>AMDPMPerfModeForm</name>
     <message>
-        <location filename="../qml/AMDPMPerfModeForm.qml" line="34"/>
+        <location filename="../qml/AMDPMPerfModeForm.qml" line="33"/>
         <source>Performance mode</source>
         <translation>Modo de rendimiento</translation>
     </message>
@@ -238,26 +238,6 @@
         <location filename="../qml/About.qml" line="71"/>
         <source>FAQ</source>
         <translation>Preguntas frecuentes</translation>
-    </message>
-    <message>
-        <location filename="../qml/About.qml" line="88"/>
-        <source>This project needs you!</source>
-        <translation>¡Este proyecto te necesita!</translation>
-    </message>
-    <message>
-        <location filename="../qml/About.qml" line="94"/>
-        <source>Developing this program takes a big amount of time and effort.</source>
-        <translation>El desarrollo de este programa requiere una enorme cantidad de tiempo y esfuerzo.</translation>
-    </message>
-    <message>
-        <location filename="../qml/About.qml" line="95"/>
-        <source>There is always new hardware to support and new features to implement.</source>
-        <translation>Siempre hay nuevo hardware que soportar y nueva funcionalidad que implementar.</translation>
-    </message>
-    <message>
-        <location filename="../qml/About.qml" line="96"/>
-        <source>Please, consider to sustain the work on this project through</source>
-        <translation>Por favor, considere apoyar el trabajo en este proyecto a través de</translation>
     </message>
 </context>
 <context>
@@ -375,32 +355,32 @@
 <context>
     <name>ProfileButton</name>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="139"/>
+        <location filename="../qml/ProfileButton.qml" line="138"/>
         <source>Disable</source>
         <translation>Deshabilitar</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="139"/>
+        <location filename="../qml/ProfileButton.qml" line="138"/>
         <source>Enable</source>
         <translation>Habilitar</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="150"/>
+        <location filename="../qml/ProfileButton.qml" line="149"/>
         <source>Edit...</source>
         <translation>Editar...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="158"/>
+        <location filename="../qml/ProfileButton.qml" line="157"/>
         <source>Clone...</source>
         <translation>Duplicar...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="165"/>
+        <location filename="../qml/ProfileButton.qml" line="164"/>
         <source>Export to...</source>
         <translation>Exportar a...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="174"/>
+        <location filename="../qml/ProfileButton.qml" line="173"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
@@ -464,124 +444,124 @@
         <translation>Deshabilitado</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="238"/>
+        <location filename="../qml/Profiles.qml" line="245"/>
         <source>Profile properties</source>
         <translation>Propiedades del perfil</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="251"/>
-        <location filename="../qml/Profiles.qml" line="295"/>
+        <location filename="../qml/Profiles.qml" line="258"/>
+        <location filename="../qml/Profiles.qml" line="302"/>
         <source>New profile properties</source>
         <translation>Propiedades del nuevo perfil</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="324"/>
+        <location filename="../qml/Profiles.qml" line="331"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="345"/>
-        <location filename="../qml/Profiles.qml" line="375"/>
-        <location filename="../qml/Profiles.qml" line="410"/>
-        <location filename="../qml/Profiles.qml" line="439"/>
+        <location filename="../qml/Profiles.qml" line="352"/>
+        <location filename="../qml/Profiles.qml" line="382"/>
+        <location filename="../qml/Profiles.qml" line="417"/>
+        <location filename="../qml/Profiles.qml" line="446"/>
         <source>Warning</source>
         <translation>Atención</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="360"/>
+        <location filename="../qml/Profiles.qml" line="367"/>
         <source>This action is permantent.
 Do you really want to remove %1?</source>
         <translation>Esta acción es permanente.
 ¿Seguro que quieres eliminar %1?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="387"/>
+        <location filename="../qml/Profiles.qml" line="394"/>
         <source>Unapplied settings will be lost.
 Do you want to apply them now?</source>
         <translation>Los ajustes sin aplicar se perderán.
 ¿Quieres aplicarlos ahora?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="474"/>
+        <location filename="../qml/Profiles.qml" line="481"/>
         <source>Manage profiles for your applications...</source>
         <translation>Gestiona perfiles para tus aplicaciones...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="546"/>
+        <location filename="../qml/Profiles.qml" line="553"/>
         <source>Load from...</source>
         <translation>Cargar desde...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="551"/>
+        <location filename="../qml/Profiles.qml" line="558"/>
         <source>Load settings from...</source>
         <translation>Cargar ajustes desde...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="557"/>
+        <location filename="../qml/Profiles.qml" line="564"/>
         <source>Cannot load profile.
 Invalid or corrupted file.</source>
         <translation>No se puede cargar el perfil.
 Archivo erróneo o corrompido.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="422"/>
+        <location filename="../qml/Profiles.qml" line="429"/>
         <source>Unsaved settings will be lost.
 </source>
         <translation>Los ajustes sin guardar se perderán.
 </translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="423"/>
+        <location filename="../qml/Profiles.qml" line="430"/>
         <source>Do you want to load the default settings?</source>
         <translation>¿Quieres cargar los ajustes por defecto?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="451"/>
+        <location filename="../qml/Profiles.qml" line="458"/>
         <source>Current settings will be discarded.
 </source>
         <translation>Los ajustes actuales serán descartados.
 </translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="452"/>
+        <location filename="../qml/Profiles.qml" line="459"/>
         <source>Do you want to load the saved settings?</source>
         <translation>¿Quieres cargar los ajustes guardados?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="522"/>
+        <location filename="../qml/Profiles.qml" line="529"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="528"/>
+        <location filename="../qml/Profiles.qml" line="535"/>
         <source>Apply</source>
         <translation>Aplicar</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="534"/>
+        <location filename="../qml/Profiles.qml" line="541"/>
         <source>Restore</source>
         <translation>Restaurar</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="276"/>
+        <location filename="../qml/Profiles.qml" line="283"/>
         <source>Export profile to...</source>
         <translation>Exportar perfil a...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="277"/>
-        <location filename="../qml/Profiles.qml" line="552"/>
+        <location filename="../qml/Profiles.qml" line="284"/>
+        <location filename="../qml/Profiles.qml" line="559"/>
         <source>CoreCtrl profile</source>
         <translation>Perfil de CoreCtrl</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="285"/>
+        <location filename="../qml/Profiles.qml" line="292"/>
         <source>Cannot export profile.
 Check the permissions of the destination file and directory.</source>
         <translation>El perfil no se puede exportar.
 Comprueba los permisos del fichero y el directorio de destino.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="566"/>
+        <location filename="../qml/Profiles.qml" line="573"/>
         <source>Reset</source>
         <translation>Reinicializar</translation>
     </message>
@@ -637,17 +617,17 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../qml/SettingsDialog.qml" line="25"/>
+        <location filename="../qml/SettingsDialog.qml" line="26"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsDialog.qml" line="39"/>
+        <location filename="../qml/SettingsDialog.qml" line="40"/>
         <source>Show system tray icon</source>
         <translation>Mostrar icono en la bandeja del sistema</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsDialog.qml" line="47"/>
+        <location filename="../qml/SettingsDialog.qml" line="48"/>
         <source>Start minimized on system tray</source>
         <translation>Iniciar minimizado en la bandeja del sistema</translation>
     </message>
@@ -655,7 +635,7 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="32"/>
+        <location filename="../app/systray.cpp" line="69"/>
         <source>Quit</source>
         <translation>Salir</translation>
     </message>
@@ -663,17 +643,17 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
 <context>
     <name>System</name>
     <message>
-        <location filename="../qml/System.qml" line="111"/>
+        <location filename="../qml/System.qml" line="102"/>
         <source>Information and application settings...</source>
         <translation>Información y ajustes de la aplicación...</translation>
     </message>
     <message>
-        <location filename="../qml/System.qml" line="121"/>
+        <location filename="../qml/System.qml" line="112"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location filename="../qml/System.qml" line="127"/>
+        <location filename="../qml/System.qml" line="118"/>
         <source>Copy all</source>
         <translation>Copiar todo</translation>
     </message>
@@ -864,12 +844,12 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="58"/>
+        <location filename="../qml/main.qml" line="60"/>
         <source>Profiles</source>
         <translation>Perfiles</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="61"/>
+        <location filename="../qml/main.qml" line="63"/>
         <source>System</source>
         <translation>Sistema</translation>
     </message>
