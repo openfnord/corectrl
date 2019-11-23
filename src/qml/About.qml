@@ -82,35 +82,5 @@ Pane {
         }
       }
     }
-
-    ColumnLayout {
-      Label {
-        text: qsTr("This project needs you!")
-        font.pointSize: Style.g_text.size + 1
-        font.bold: true
-      }
-
-      Label {
-        text: qsTr("Developing this program takes a big amount of time and effort.") + "\n" +
-              qsTr("There is always new hardware to support and new features to implement.") + "\n" +
-              qsTr("Please, consider to sustain the work on this project through") + ":"
-      }
-
-      RowLayout {
-        Image {
-          source: "qrc:/images/Patreon"
-          sourceSize.width: 150
-
-          MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
-
-            onClicked: Qt.openUrlExternally("https://www.patreon.com/jpalaciosdev")
-          }
-        }
-      }
-    }
-
   }
 }

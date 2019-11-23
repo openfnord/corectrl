@@ -54,6 +54,5 @@
         <file alias="GlobalIcon">images/GlobalProfile.svg</file>
         <file alias="DefaultIcon">images/DefaultIcon.svg</file>
         <file alias="AppIcon">images/AppIcon.svg</file>
-        <file alias="Patreon">images/patreon.png</file>
     </qresource>
 </RCC>
