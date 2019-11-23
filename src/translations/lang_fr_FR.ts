@@ -239,26 +239,6 @@
         <source>FAQ</source>
         <translation>FAQ</translation>
     </message>
-    <message>
-        <location filename="../qml/About.qml" line="88"/>
-        <source>This project needs you!</source>
-        <translation>Ce projet a besoin de vous !</translation>
-    </message>
-    <message>
-        <location filename="../qml/About.qml" line="94"/>
-        <source>Developing this program takes a big amount of time and effort.</source>
-        <translation>Développer ce programme prend beaucoup de temps et d&apos;efforts.</translation>
-    </message>
-    <message>
-        <location filename="../qml/About.qml" line="95"/>
-        <source>There is always new hardware to support and new features to implement.</source>
-        <translation>Il y a sans cesse de nouveaux matériels et de nouvelles fonctionnalités à implémenter.</translation>
-    </message>
-    <message>
-        <location filename="../qml/About.qml" line="96"/>
-        <source>Please, consider to sustain the work on this project through</source>
-        <translation>Merci de penser à soutenir le projet  </translation>
-    </message>
 </context>
 <context>
     <name>CPUFreqForm</name>
@@ -691,7 +671,7 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="32"/>
+        <location filename="../app/systray.cpp" line="69"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
