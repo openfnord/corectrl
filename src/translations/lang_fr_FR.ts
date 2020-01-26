@@ -629,12 +629,12 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
     <message>
         <location filename="../qml/SettingsDialog.qml" line="46"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Général</translation>
     </message>
     <message>
         <location filename="../qml/SettingsDialog.qml" line="46"/>
         <source>Workarounds</source>
-        <translation type="unfinished"></translation>
+        <translation>Contournements</translation>
     </message>
 </context>
 <context>
@@ -642,12 +642,12 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
     <message>
         <location filename="../qml/SettingsGeneral.qml" line="53"/>
         <source>Show system tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher l&apos;icône dans la zone de notification</translation>
     </message>
     <message>
         <location filename="../qml/SettingsGeneral.qml" line="68"/>
         <source>Start minimized on system tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer minimisé dans la zone de notification</translation>
     </message>
 </context>
 <context>
@@ -655,17 +655,17 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="109"/>
         <source>Sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Capteurs</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="120"/>
         <source>Disabled sensors won&apos;t be updated from hardware</source>
-        <translation type="unfinished"></translation>
+        <translation>Les valeurs des capteurs désactivés ne seront pas mises à jour</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="130"/>
         <source>Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Périphérique</translation>
     </message>
 </context>
 <context>
