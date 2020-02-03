@@ -6,17 +6,17 @@
     <message>
         <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="26"/>
         <source>low</source>
-        <translation>Ниско</translation>
+        <translation>ниско</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="27"/>
         <source>mid</source>
-        <translation>Средно</translation>
+        <translation>средно</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="28"/>
         <source>high</source>
-        <translation>Високо</translation>
+        <translation>високо</translation>
     </message>
 </context>
 <context>
@@ -24,7 +24,7 @@
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="25"/>
         <source>3D_FULL_SCREEN</source>
-        <translation>3D Цял екран</translation>
+        <translation>3D–Цял–екран</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="26"/>
@@ -34,17 +34,17 @@
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="27"/>
         <source>VIDEO</source>
-        <translation>Video</translation>
+        <translation>Видео</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="28"/>
         <source>VR</source>
-        <translation>Виртуално реалност</translation>
+        <translation>Виртуална реалност</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="29"/>
         <source>COMPUTE</source>
-        <translation>Пресменте</translation>
+        <translation>пресмятане</translation>
     </message>
 </context>
 <context>
@@ -52,17 +52,17 @@
     <message>
         <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="25"/>
         <source>battery</source>
-        <translation>Батерия</translation>
+        <translation>батерия</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="26"/>
         <source>balanced</source>
-        <translation>Балансирано</translation>
+        <translation>балансирано</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="27"/>
         <source>performance</source>
-        <translation>Мощност</translation>
+        <translation>мощност</translation>
     </message>
 </context>
 <context>
@@ -199,7 +199,7 @@
     <message>
         <location filename="../qml/AMDPMPowerStateForm.qml" line="85"/>
         <source>Power management state</source>
-        <translation>Power management state</translation>
+        <translation>Режим на управление на енергията</translation>
     </message>
 </context>
 <context>
@@ -207,7 +207,7 @@
     <message>
         <location filename="../qml/About.qml" line="53"/>
         <source>Control your hardware with ease using application profiles</source>
-        <translation>Control your hardware with ease using application profiles</translation>
+        <translation>Управлявайте частите си с лекота използвайки профили за приложенията ви</translation>
     </message>
     <message>
         <location filename="../qml/About.qml" line="58"/>
@@ -226,8 +226,8 @@
     </message>
     <message>
         <location filename="../qml/About.qml" line="69"/>
-        <source>Следване на проблеми</source>
-        <translation>Issue tracker</translation>
+        <source>Issue tracker</source>
+        <translation>Следване на проблеми</translation>
     </message>
     <message>
         <location filename="../qml/About.qml" line="70"/>
@@ -237,7 +237,7 @@
     <message>
         <location filename="../qml/About.qml" line="71"/>
         <source>FAQ</source>
-        <translation>FAQ</translation>
+        <translation>Често задавани въпроси</translation>
     </message>
 </context>
 <context>
@@ -258,32 +258,32 @@
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="26"/>
         <source>performance</source>
-        <translation>Мощност</translation>
+        <translation>мощност</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="27"/>
         <source>powersave</source>
-        <translation>Икономия на енергия</translation>
+        <translation>икономия на енергия</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
         <source>userspace</source>
-        <translation>Различна честота</translation>
+        <translation>различна честота</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
         <source>schedutil</source>
-        <translation>Изполваемост на процесора</translation>
+        <translation>изполваемост на процесора</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
         <source>ondemand</source>
-        <translation>При нужда</translation>
+        <translation>при нужда</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
         <source>conservative</source>
-        <translation> Консервативно</translation>
+        <translation>консервативно</translation>
     </message>
 </context>
 <context>
@@ -400,7 +400,7 @@
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="127"/>
         <source>Executable:</source>
-        <translation>Изпълним фаил:</translation>
+        <translation>Изпълним файл:</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="137"/>
@@ -489,7 +489,7 @@ Do you want to apply them now?</source>
     <message>
         <location filename="../qml/Profiles.qml" line="553"/>
         <source>Load from...</source>
-        <translation>Заредете...</translation>
+        <translation>Заредете от...</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="558"/>
@@ -563,7 +563,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../qml/Profiles.qml" line="573"/>
         <source>Reset</source>
-        <translation>Рестартирай</translation>
+        <translation>Рестартиране</translation>
     </message>
 </context>
 <context>
@@ -647,7 +647,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../qml/SettingsGeneral.qml" line="68"/>
         <source>Start minimized on system tray</source>
-        <translation>Започни минимизира</translation>
+        <translation>Започни минимизирано</translation>
     </message>
 </context>
 <context>
@@ -699,37 +699,37 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/systeminfoui.cpp" line="29"/>
         <source>kernelv</source>
-        <translation>Версия на кърнъла</translation>
+        <translation>версия на кърнъла</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="30"/>
         <source>mesav</source>
-        <translation>Версия на Mesa</translation>
+        <translation>версия на Mesa</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="31"/>
         <source>vkapiv</source>
-        <translation>Версия на Vulkan API</translation>
+        <translation>версия на Vulkan API</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="32"/>
         <source>glcorev</source>
-        <translation>Версия на OpenGL (core)</translation>
+        <translation>версия на OpenGL (core)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="33"/>
         <source>glcompv</source>
-        <translation>Версия на OpenGL (compat)</translation>
+        <translation>версия на OpenGL (compat)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="34"/>
         <source>vendorid</source>
-        <translation>ИД на Производителя</translation>
+        <translation>ИД на производителя</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="35"/>
         <source>deviceid</source>
-        <translation>ИД на Устройстовото</translation>
+        <translation>ИД на устройстовото</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="36"/>
@@ -744,72 +744,72 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/systeminfoui.cpp" line="38"/>
         <source>vendor</source>
-        <translation>Производител</translation>
+        <translation>производител</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="39"/>
         <source>device</source>
-        <translation>Устройство</translation>
+        <translation>устройство</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="40"/>
         <source>sdevice</source>
-        <translation>Модел на устройството</translation>
+        <translation>модел на устройството</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="41"/>
         <source>pcislot</source>
-        <translation>PCI Прорез</translation>
+        <translation>PCI прорез</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="42"/>
         <source>driver</source>
-        <translation>Драйвер</translation>
+        <translation>драйвер</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="43"/>
         <source>revision</source>
-        <translation>Ревизия</translation>
+        <translation>ревизия</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="44"/>
         <source>memory</source>
-        <translation>Памет</translation>
+        <translation>памет</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="45"/>
         <source>gputype</source>
-        <translation>Вид на Видео Картата</translation>
+        <translation>вид на видео картата</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="46"/>
         <source>biosv</source>
-        <translation>Версия на BIOS</translation>
+        <translation>версия на BIOS</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="47"/>
         <source>cpufamily</source>
-        <translation>Семейство на Процесора</translation>
+        <translation>семейство на процесора</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="48"/>
         <source>model</source>
-        <translation>Модел</translation>
+        <translation>модел</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="49"/>
         <source>modname</source>
-        <translation>Име на Модел</translation>
+        <translation>име на модел</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="50"/>
         <source>stepping</source>
-        <translation>Stepping</translation>
+        <translation>степинг</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="51"/>
         <source>ucodev</source>
-        <translation>Версия на Microcode</translation>
+        <translation>версия на microcode</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="52"/>
@@ -819,42 +819,42 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/systeminfoui.cpp" line="54"/>
         <source>cores</source>
-        <translation>Ядра</translation>
+        <translation>ядра</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="55"/>
         <source>flags</source>
-        <translation>Знамена</translation>
+        <translation>знамена</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="56"/>
         <source>bugs</source>
-        <translation>Бъгове</translation>
+        <translation>бъгове</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="57"/>
         <source>bogomips</source>
-        <translation>Bogomips</translation>
+        <translation>bogomips</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="58"/>
         <source>arch</source>
-        <translation>Архитектура</translation>
+        <translation>архитектура</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="59"/>
         <source>opmode</source>
-        <translation>Режими на работа</translation>
+        <translation>режими на работа</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="60"/>
         <source>byteorder</source>
-        <translation>Ред на Байтовете</translation>
+        <translation>ред на байтовете</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="61"/>
         <source>virt</source>
-        <translation>Витруализация</translation>
+        <translation>витруализация</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="62"/>
@@ -874,7 +874,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/systeminfoui.cpp" line="53"/>
         <source>exeunits</source>
-        <translation>Изпълними единици</translation>
+        <translation>изпълними единици</translation>
     </message>
 </context>
 <context>
