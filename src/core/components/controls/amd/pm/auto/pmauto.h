@@ -18,6 +18,8 @@
 #pragma once
 
 #include "core/components/controls/control.h"
+#include <string>
+#include <string_view>
 
 namespace AMD {
 

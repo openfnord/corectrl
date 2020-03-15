@@ -18,6 +18,8 @@
 #include "processregistry.h"
 
 #include "iappregistry.h"
+#include <memory>
+#include <utility>
 
 class ProcessRegistry::AppRegistryObserver : public IAppRegistry::Observer
 {

@@ -19,6 +19,7 @@
 
 #include "core/profilepart.h"
 #include "fanfixed.h"
+#include <string>
 
 namespace AMD {
 

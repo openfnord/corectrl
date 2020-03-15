@@ -20,8 +20,11 @@
 #include "fmt/format.h"
 #include <KArchive/KZip>
 #include <QByteArray>
+#include <QIODevice>
 #include <QString>
 #include <algorithm>
+#include <iterator>
+#include <stdexcept>
 
 ZipDataSource::ZipDataSource(std::filesystem::path const &path) noexcept
 : path_(path)

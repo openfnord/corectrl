@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmoverclock.h"
+#include <memory>
 
 AMD::PMOverclockXMLParser::PMOverclockXMLParser() noexcept
 : ControlGroupXMLParser(AMD::PMOverclock::ItemID)

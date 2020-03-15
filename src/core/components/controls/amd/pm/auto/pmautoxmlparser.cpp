@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmauto.h"
+#include <memory>
 
 class AMD::PMAutoXMLParser::Initializer final
 : public AMD::PMAutoProfilePart::Exporter

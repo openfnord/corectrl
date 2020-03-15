@@ -20,6 +20,12 @@
 #include "core/qmlcomponentregistry.h"
 #include "pmfvstate.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtQml>
+#include <algorithm>
+#include <iterator>
+#include <memory>
 
 class AMD::PMFVStateQMLItem::Initializer final
 : public QMLItem::Initializer

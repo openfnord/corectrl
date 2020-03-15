@@ -17,6 +17,8 @@
 //
 #include "stringutils.h"
 
+#include <algorithm>
+#include <cstddef>
 #include <sstream>
 
 namespace Utils {

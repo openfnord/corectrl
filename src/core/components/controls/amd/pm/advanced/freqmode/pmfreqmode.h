@@ -18,6 +18,10 @@
 #pragma once
 
 #include "core/components/controls/controlmode.h"
+#include <memory>
+#include <string_view>
+#include <utility>
+#include <vector>
 
 namespace AMD {
 

@@ -19,6 +19,9 @@
 
 #include "icpu.h"
 #include "icpuprofilepart.h"
+#include <memory>
+#include <string>
+#include <vector>
 
 class CPUProfilePart final
 : public ICPUProfilePart

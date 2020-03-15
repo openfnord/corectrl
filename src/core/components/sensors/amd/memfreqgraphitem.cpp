@@ -18,6 +18,7 @@
 #include "../sensorgraphitem.h"
 #include "core/qmlcomponentregistry.h"
 #include "memfreq.h"
+#include "units/units.h"
 #include <QtGlobal>
 
 namespace AMD {

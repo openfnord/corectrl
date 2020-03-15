@@ -19,7 +19,12 @@
 
 #include "core/profilepartxmlparser.h"
 #include "igpuprofilepart.h"
-#include "unordered_map"
+#include "pugixml/pugixml.hpp"
+#include <memory>
+#include <string>
+#include <unordered_map>
+
+class IProfilePartXMLParserProvider;
 
 class GPUXMLParser final
 : public ProfilePartXMLParser

@@ -17,7 +17,8 @@
 //
 #include "controlmodexmlparser.h"
 
-#include "controlmode.h"
+#include "core/item.h"
+#include <utility>
 
 class ControlModeXMLParser::Factory final
 : public ProfilePartXMLParser::Factory

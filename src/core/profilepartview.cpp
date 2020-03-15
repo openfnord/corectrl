@@ -17,6 +17,8 @@
 //
 #include "profilepartview.h"
 
+#include <utility>
+
 ProfilePartView::ProfilePartView(std::string const &profile,
                                  std::shared_ptr<IProfilePart> part) noexcept
 : profile_(profile)

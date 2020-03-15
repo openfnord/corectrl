@@ -20,6 +20,11 @@
 #include "core/qmlcomponentregistry.h"
 #include "fanauto.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtGlobal>
+#include <QtQml>
+#include <memory>
 
 char const *const AMD::FanAutoQMLItem::trStrings[] = {
     QT_TRANSLATE_NOOP("ControlModeQMLItem", "AMD_FAN_AUTO"),

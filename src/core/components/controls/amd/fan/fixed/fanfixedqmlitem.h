@@ -19,7 +19,7 @@
 
 #include "core/qmlitem.h"
 #include "fanfixedprofilepart.h"
-#include <string>
+#include <QObject>
 
 namespace AMD {
 

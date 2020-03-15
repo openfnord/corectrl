@@ -20,9 +20,13 @@
 #include "helper/ihelpermonitor.h"
 #include "iprofileapplicator.h"
 #include "iprofilemanager.h"
+#include "iprofileview.h"
 #include "iprofileviewfactory.h"
-#include "profileview.h"
 #include <algorithm>
+#include <functional>
+#include <iterator>
+#include <optional>
+#include <utility>
 
 class Session::ProfileManagerObserver : public IProfileManager::Observer
 {

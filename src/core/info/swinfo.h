@@ -18,6 +18,7 @@
 #pragma once
 
 #include "core/info/iswinfo.h"
+#include <string>
 #include <unordered_map>
 
 class SWInfo final : public ISWInfo

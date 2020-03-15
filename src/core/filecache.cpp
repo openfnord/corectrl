@@ -20,6 +20,9 @@
 #include "common/fileutils.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
+#include <exception>
+#include <stdexcept>
+#include <utility>
 
 namespace fs = std::filesystem;
 

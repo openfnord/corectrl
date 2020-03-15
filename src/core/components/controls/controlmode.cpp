@@ -18,6 +18,7 @@
 #include "controlmode.h"
 
 #include <algorithm>
+#include <utility>
 
 ControlMode::ControlMode(std::string_view id,
                          std::vector<std::unique_ptr<IControl>> &&controls,

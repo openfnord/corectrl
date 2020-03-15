@@ -19,8 +19,11 @@
 
 #include "nlprocexecsocket.h"
 #include "processmonitor.h"
+#include <memory>
 
-class NLProcExecSocket;
+class IAppRegistry;
+class IPIDSolver;
+class IPMonMsgDispatcher;
 
 class NLProcExecMonitor final : public ProcessMonitor
 {

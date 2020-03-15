@@ -18,6 +18,8 @@
 #include "pmpowercapprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
+#include <memory>
 
 class AMD::PMPowerCapProfilePart::Initializer final
 : public AMD::PMPowerCap::Exporter

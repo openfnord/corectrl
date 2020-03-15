@@ -22,6 +22,7 @@
 
 class QMLItem;
 class IQMLComponentFactory;
+class QQmlApplicationEngine;
 
 class UIFactory final : public IUIFactory
 {

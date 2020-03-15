@@ -17,7 +17,11 @@
 //
 #pragma once
 
+#include <QObject>
 #include <QSettings>
+#include <QString>
+#include <QStringList>
+#include <QVariant>
 
 class Settings final : public QSettings
 {

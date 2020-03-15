@@ -17,6 +17,8 @@
 //
 #include "gpucontrolprovider.h"
 
+#include <utility>
+
 std::vector<std::unique_ptr<IGPUControlProvider::IProvider>> const &
 GPUControlProvider::gpuControlProviders() const
 {

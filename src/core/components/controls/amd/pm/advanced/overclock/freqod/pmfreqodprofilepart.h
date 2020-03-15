@@ -19,6 +19,7 @@
 
 #include "core/profilepart.h"
 #include "pmfreqod.h"
+#include <string>
 
 namespace AMD {
 

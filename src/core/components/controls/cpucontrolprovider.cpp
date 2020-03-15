@@ -17,6 +17,8 @@
 //
 #include "cpucontrolprovider.h"
 
+#include <utility>
+
 std::vector<std::unique_ptr<ICPUControlProvider::IProvider>> const &
 CPUControlProvider::cpuControlProviders() const
 {

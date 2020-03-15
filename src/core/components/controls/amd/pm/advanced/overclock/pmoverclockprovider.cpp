@@ -22,6 +22,10 @@
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "pmoverclock.h"
+#include <memory>
+#include <string>
+#include <tuple>
+#include <utility>
 
 std::unique_ptr<IControl>
 AMD::PMOverclockProvider::provideGPUControl(IGPUInfo const &gpuInfo,

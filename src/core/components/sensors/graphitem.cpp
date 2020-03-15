@@ -19,6 +19,7 @@
 
 #include <QTimer>
 #include <QtCharts/QValueAxis>
+#include <algorithm>
 #include <limits>
 
 unsigned short const GraphItem::PointsCount = 120;

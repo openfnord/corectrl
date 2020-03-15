@@ -17,12 +17,7 @@
 //
 #pragma once
 
-#include "core/idatasink.h"
-#include "core/idatasource.h"
 #include "core/iprofilefileparser.h"
-#include <memory>
-#include <optional>
-#include <vector>
 
 class CCPROParser final : public IProfileFileParser
 {

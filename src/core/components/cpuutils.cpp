@@ -19,6 +19,7 @@
 
 #include "common/stringutils.h"
 #include <algorithm>
+#include <iterator>
 
 namespace Utils {
 namespace CPU {

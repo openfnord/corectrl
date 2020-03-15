@@ -18,6 +18,9 @@
 #include "commonutils.h"
 
 #include "common/mathutils.h"
+#include <algorithm>
+#include <cstddef>
+#include <iterator>
 
 void Utils::Common::normalizePoints(
     std::vector<std::pair<units::temperature::celsius_t,

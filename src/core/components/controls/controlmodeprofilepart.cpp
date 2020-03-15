@@ -17,7 +17,11 @@
 //
 #include "controlmodeprofilepart.h"
 
-#include "core/profilepartprovider.h"
+#include "core/item.h"
+#include <algorithm>
+#include <iterator>
+#include <unordered_map>
+#include <utility>
 
 class ControlModeProfilePart::Factory final
 : public ProfilePart::Factory

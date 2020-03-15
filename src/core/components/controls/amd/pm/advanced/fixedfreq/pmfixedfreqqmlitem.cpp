@@ -20,6 +20,12 @@
 #include "core/qmlcomponentregistry.h"
 #include "pmfixedfreq.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtGlobal>
+#include <QtQml>
+#include <memory>
+#include <string>
 
 char const *const AMD::PMFixedFreqQMLItem::trStrings[] = {
     QT_TRANSLATE_NOOP("ControlModeQMLItem", "AMD_PM_FIXED_FREQ"),

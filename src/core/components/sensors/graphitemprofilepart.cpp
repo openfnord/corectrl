@@ -17,6 +17,8 @@
 //
 #include "graphitemprofilepart.h"
 
+#include <memory>
+
 GraphItemProfilePart::GraphItemProfilePart(std::string_view id,
                                            std::string_view color) noexcept
 : id_(id)

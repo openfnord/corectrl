@@ -18,6 +18,9 @@
 #include "pmpowerstateprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
+#include <memory>
+#include <utility>
 
 class AMD::PMPowerStateProfilePart::Initializer final
 : public AMD::PMPowerState::Exporter

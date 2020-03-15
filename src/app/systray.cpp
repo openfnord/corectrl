@@ -18,6 +18,8 @@
 #include "systray.h"
 
 #include "app.h"
+#include <QAction>
+#include <QIcon>
 #include <QMenu>
 #include <QTimer>
 

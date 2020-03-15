@@ -19,8 +19,10 @@
 
 #include "core/qmlitem.h"
 #include "igpuprofilepart.h"
+#include <QObject>
+#include <string>
 
-class ISensor;
+class QQuickItem;
 
 class GPUQMLItem
 : public QMLItem

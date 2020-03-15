@@ -20,8 +20,10 @@
 #include "qmlcomponentregistry.h"
 #include "qmlitem.h"
 #include <QQmlApplicationEngine>
+#include <QQmlEngine>
 #include <QQuickItem>
 #include <QString>
+#include <utility>
 
 QMLComponentFactory::QMLComponentFactory(
     std::unique_ptr<IQMLComponentRegistry> &&qmlComponentRegistry) noexcept

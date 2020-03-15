@@ -20,6 +20,8 @@
 #include "common/fileutils.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
+#include <exception>
+#include <ostream>
 
 void SysfsWriter::write(std::filesystem::path const &sysfsEntry,
                         std::string const &value)

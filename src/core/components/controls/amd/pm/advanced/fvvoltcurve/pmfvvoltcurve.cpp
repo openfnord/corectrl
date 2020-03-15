@@ -21,6 +21,9 @@
 #include "core/components/controls/amd/pm/handlers/ippdpmhandler.h"
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
+#include <algorithm>
+#include <cstddef>
+#include <iterator>
 
 AMD::PMFVVoltCurve::PMFVVoltCurve(
     std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,

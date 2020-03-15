@@ -18,6 +18,10 @@
 #pragma once
 
 #include "pmfixed.h"
+#include <memory>
+#include <string>
+#include <string_view>
+#include <vector>
 
 template<typename...>
 class IDataSource;

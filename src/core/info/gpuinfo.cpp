@@ -18,6 +18,8 @@
 #include "gpuinfo.h"
 
 #include <algorithm>
+#include <iterator>
+#include <utility>
 
 GPUInfo::GPUInfo(Vendor vendor, int index, IGPUInfo::Path &&path) noexcept
 : vendor_(vendor)

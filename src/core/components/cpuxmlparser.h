@@ -19,7 +19,10 @@
 
 #include "core/profilepartxmlparser.h"
 #include "icpuprofilepart.h"
-#include "unordered_map"
+#include "pugixml/pugixml.hpp"
+#include <memory>
+#include <string>
+#include <unordered_map>
 
 class CPUXMLParser final
 : public ProfilePartXMLParser

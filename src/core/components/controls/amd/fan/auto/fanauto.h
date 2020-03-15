@@ -18,6 +18,9 @@
 #pragma once
 
 #include "core/components/controls/control.h"
+#include <memory>
+#include <string>
+#include <string_view>
 
 template<typename...>
 class IDataSource;

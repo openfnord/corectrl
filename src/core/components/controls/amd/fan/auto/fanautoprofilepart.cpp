@@ -18,6 +18,7 @@
 #include "fanautoprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <memory>
 
 class AMD::FanAutoProfilePart::Initializer final : public AMD::FanAuto::Exporter
 {

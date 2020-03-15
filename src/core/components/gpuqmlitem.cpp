@@ -17,15 +17,21 @@
 //
 #include "gpuqmlitem.h"
 
-#include "controls/icontrol.h"
 #include "core/info/igpuinfo.h"
-#include "core/isysmodel.h"
-#include "core/qmlcomponentfactory.h"
+#include "core/iqmlcomponentfactory.h"
 #include "core/qmlcomponentregistry.h"
 #include "igpu.h"
 #include "sensors/graphitem.h"
 #include "sensors/isensor.h"
+#include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQuickItem>
+#include <QStringLiteral>
+#include <Qt>
+#include <memory>
+#include <utility>
 
 class GPUQMLItem::Initializer final
 : public QMLItem::Initializer

@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "fanfixed.h"
+#include <memory>
 
 class AMD::FanFixedXMLParser::Initializer final
 : public AMD::FanFixedProfilePart::Exporter

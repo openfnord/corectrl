@@ -18,8 +18,10 @@
 #pragma once
 
 #include <filesystem>
+#include <optional>
 #include <regex>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace Utils {

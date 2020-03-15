@@ -18,10 +18,15 @@
 #include "profilemanagerui.h"
 
 #include "ifilecache.h"
+#include "iprofile.h"
 #include "iprofilemanager.h"
 #include "isysmodelui.h"
 #include "qmlcomponentregistry.h"
 #include <QQmlApplicationEngine>
+#include <QtGlobal>
+#include <QtQml>
+#include <algorithm>
+#include <utility>
 
 char const *const ProfileManagerUI::trStrings[] = {
     QT_TRANSLATE_NOOP("ProfileManagerUI", "_global_"),

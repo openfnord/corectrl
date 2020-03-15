@@ -22,6 +22,8 @@
 #include "core/info/infoproviderregistry.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
+#include <algorithm>
+#include <utility>
 
 namespace AMD {
 

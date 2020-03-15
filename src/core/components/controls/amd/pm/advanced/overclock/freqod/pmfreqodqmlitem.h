@@ -18,7 +18,8 @@
 #pragma once
 #include "core/qmlitem.h"
 #include "pmfreqodprofilepart.h"
-#include <string>
+#include <QObject>
+#include <QString>
 
 namespace AMD {
 

@@ -21,6 +21,10 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <algorithm>
+#include <cctype>
+#include <exception>
+#include <sstream>
+#include <utility>
 
 HWIDTranslator::HWIDTranslator(
     std::vector<Vendor> vendors,

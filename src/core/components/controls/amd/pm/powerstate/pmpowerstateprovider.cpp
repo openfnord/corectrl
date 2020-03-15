@@ -23,8 +23,11 @@
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
-
 #include "pmpowerstate.h"
+#include <filesystem>
+#include <memory>
+#include <string>
+#include <tuple>
 
 std::unique_ptr<IControl>
 AMD::PMPowerStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,

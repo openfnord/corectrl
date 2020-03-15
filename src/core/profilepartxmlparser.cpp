@@ -17,8 +17,9 @@
 //
 #include "profilepartxmlparser.h"
 
-#include "iprofilepart.h"
 #include "iprofilepartxmlparserprovider.h"
+#include "item.h"
+#include <utility>
 
 ProfilePartXMLParser::ProfilePartXMLParser(Importable::Importer &importer,
                                            Exportable::Exporter &exporter) noexcept

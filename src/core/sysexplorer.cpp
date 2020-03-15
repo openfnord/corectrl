@@ -22,6 +22,7 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <algorithm>
+#include <utility>
 
 SysExplorer::SysExplorer(std::vector<Vendor> gpuVendors) noexcept
 : gpuVendors_(std::move(gpuVendors))

@@ -17,7 +17,9 @@
 //
 #include "commandqueue.h"
 
+#include <QByteArray>
 #include <algorithm>
+#include <utility>
 
 CommandQueue::CommandQueue() noexcept
 {

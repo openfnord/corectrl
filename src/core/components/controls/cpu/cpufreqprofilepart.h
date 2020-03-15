@@ -19,6 +19,8 @@
 
 #include "core/profilepart.h"
 #include "cpufreq.h"
+#include <string>
+#include <vector>
 
 class CPUFreqProfilePart final
 : public ProfilePart

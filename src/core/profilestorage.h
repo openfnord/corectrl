@@ -19,6 +19,10 @@
 
 #include "iprofilestorage.h"
 #include <optional>
+#include <memory>
+#include <filesystem>
+#include <vector>
+#include <string>
 
 class IProfileParser;
 class IProfileFileParser;

@@ -20,6 +20,7 @@
 #include "controls/icontrol.h"
 #include "core/info/icpuinfo.h"
 #include "sensors/isensor.h"
+#include <utility>
 
 CPU::CPU(std::unique_ptr<ICPUInfo> &&info,
          std::vector<std::unique_ptr<IControl>> &&controls,

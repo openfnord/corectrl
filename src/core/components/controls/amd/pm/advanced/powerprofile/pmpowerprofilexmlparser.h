@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparser.h"
 #include "pmpowerprofileprofilepart.h"
+#include <string>
 
 namespace AMD {
 

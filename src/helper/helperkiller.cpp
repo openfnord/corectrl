@@ -19,8 +19,10 @@
 
 #include "helperids.h"
 #include <QProcess>
+#include <QString>
+#include <exception>
 #include <signal.h>
-#include <sstream>
+#include <string>
 
 HelperKiller::~HelperKiller() = default;
 

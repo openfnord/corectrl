@@ -17,8 +17,10 @@
 //
 #pragma once
 
-#include "igpuinfo.h"
 #include "ihwidtranslator.h"
+#include "vendor.h"
+#include <memory>
+#include <string>
 #include <unordered_map>
 #include <vector>
 

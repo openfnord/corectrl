@@ -19,8 +19,9 @@
 
 #include "core/qmlitem.h"
 #include "icpuprofilepart.h"
+#include <QObject>
 
-class ISensor;
+class QQuickItem;
 
 class CPUQMLItem
 : public QMLItem

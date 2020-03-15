@@ -20,6 +20,11 @@
 #include "core/qmlcomponentregistry.h"
 #include "pmdynamicfreq.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtGlobal>
+#include <QtQml>
+#include <memory>
 
 char const *const AMD::PMDynamicFreqQMLItem::trStrings[] = {
     QT_TRANSLATE_NOOP("ControlModeQMLItem", "AMD_PM_DYNAMIC_FREQ"),

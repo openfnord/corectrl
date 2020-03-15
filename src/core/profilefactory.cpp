@@ -17,9 +17,9 @@
 //
 #include "profilefactory.h"
 
-#include "iprofilepartprovider.h"
 #include "isysmodel.h"
 #include "profile.h"
+#include <utility>
 
 ProfileFactory::ProfileFactory(
     std::unique_ptr<IProfilePartProvider> &&profilePartProvider) noexcept

@@ -19,7 +19,11 @@
 
 #include "core/qmlcomponentregistry.h"
 #include "fanmode.h"
+#include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtQml>
 
 AMD::FanModeQMLItem::FanModeQMLItem() noexcept
 : ControlModeQMLItem(AMD::FanMode::ItemID)

@@ -22,6 +22,9 @@
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
 #include <algorithm>
+#include <cmath>
+#include <iterator>
+#include <limits>
 
 AMD::FanCurve::FanCurve(
     std::unique_ptr<IDataSource<unsigned int>> &&pwmEnableDataSource,

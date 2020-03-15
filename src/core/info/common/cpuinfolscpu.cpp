@@ -23,6 +23,7 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <QProcess>
+#include <algorithm>
 
 class CPUInfoLsCpuDataSource : public IDataSource<std::vector<std::string>>
 {

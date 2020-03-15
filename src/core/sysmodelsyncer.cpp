@@ -18,8 +18,10 @@
 #include "sysmodelsyncer.h"
 
 #include "iprofileview.h"
+#include <QStringList>
 #include <QVariant>
 #include <chrono>
+#include <utility>
 
 SysModelSyncer::SysModelSyncer(std::unique_ptr<ISysModel> &&sysModel,
                                std::unique_ptr<IHelperSysCtl> &&helperSysCtl) noexcept

@@ -17,18 +17,29 @@
 //
 #include "cpufreqpack.h"
 
+#include "../cpusensorprovider.h"
 #include "../graphitemprofilepart.h"
 #include "../graphitemxmlparser.h"
 #include "../sensor.h"
 #include "common/fileutils.h"
 #include "common/stringutils.h"
-#include "core/components/sensors/cpusensorprovider.h"
+#include "core/idatasource.h"
 #include "core/info/icpuinfo.h"
+#include "core/iprofilepart.h"
+#include "core/iprofilepartxmlparser.h"
 #include "core/profilepartprovider.h"
 #include "core/profilepartxmlparserprovider.h"
 #include "core/sysfsdatasource.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
+#include "units/units.h"
+#include <algorithm>
+#include <filesystem>
+#include <memory>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace CPUFreqPack {
 

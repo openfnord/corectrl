@@ -21,6 +21,11 @@
 #include "iprofileview.h"
 #include "isysmodel.h"
 #include "profilepart.h"
+#include <memory>
+#include <string>
+#include <vector>
+
+class IProfilePartProvider;
 
 class Profile final
 : public IProfile

@@ -17,6 +17,8 @@
 //
 #include "profilepartxmlparserprovider.h"
 
+#include <utility>
+
 std::unordered_map<std::string,
                    std::function<std::unique_ptr<IProfilePartXMLParser>()>> const &
 ProfilePartXMLParserProvider::profilePartParserProviders() const

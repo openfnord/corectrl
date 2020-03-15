@@ -22,6 +22,7 @@
 #include "ipmonmsgdispatcher.h"
 #include "processevent.h"
 #include "processregistry.h"
+#include <utility>
 
 ProcessMonitor::ProcessMonitor(
     std::shared_ptr<IAppRegistry> appRegistry,

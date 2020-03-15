@@ -19,6 +19,10 @@
 
 #include "controlmode.h"
 #include "core/profilepart.h"
+#include <memory>
+#include <string>
+#include <string_view>
+#include <vector>
 
 class ControlModeProfilePart
 : public ProfilePart

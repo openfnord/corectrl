@@ -19,6 +19,9 @@
 
 #include "core/profilepartprovider.h"
 #include <algorithm>
+#include <iterator>
+#include <memory>
+#include <utility>
 
 class AMD::PMFixedFreqProfilePart::Initializer final
 : public PMFixedFreq::Exporter

@@ -17,9 +17,15 @@
 //
 #pragma once
 
+#include "exportable.h"
 #include "iprofile.h"
 #include "iprofilepartview.h"
 #include "iprofileview.h"
+#include <functional>
+#include <memory>
+#include <optional>
+#include <string>
+#include <vector>
 
 class ProfileView final : public IProfileView
 {

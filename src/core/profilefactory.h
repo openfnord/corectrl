@@ -17,11 +17,11 @@
 //
 #pragma once
 
+#include "iprofilepartprovider.h"
 #include <memory>
 
 class ISysModel;
 class IProfile;
-class IProfilePartProvider;
 
 class ProfileFactory final
 {

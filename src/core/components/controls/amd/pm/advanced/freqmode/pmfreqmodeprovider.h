@@ -18,6 +18,8 @@
 #pragma once
 
 #include "core/components/controls/igpucontrolprovider.h"
+#include <memory>
+#include <vector>
 
 namespace AMD {
 

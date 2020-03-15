@@ -17,17 +17,29 @@
 //
 #include "memusage.h"
 
+#include "../gpusensorprovider.h"
 #include "../graphitemprofilepart.h"
 #include "../graphitemxmlparser.h"
 #include "../sensor.h"
+#include "common/fileutils.h"
 #include "common/stringutils.h"
 #include "core/components/amdutils.h"
-#include "core/components/sensors/gpusensorprovider.h"
 #include "core/devfsdatasource.h"
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
+#include "core/info/vendor.h"
+#include "core/iprofilepart.h"
+#include "core/iprofilepartxmlparser.h"
 #include "core/profilepartprovider.h"
 #include "core/profilepartxmlparserprovider.h"
+#include "units/units.h"
+#include <filesystem>
+#include <memory>
+#include <optional>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 namespace AMD {
 namespace MemUsage {

@@ -18,6 +18,8 @@
 #pragma once
 
 #include "icommandqueue.h"
+#include <string>
+#include <utility>
 #include <vector>
 
 class CommandQueue : public ICommandQueue

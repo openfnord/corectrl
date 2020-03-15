@@ -21,7 +21,12 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include "iappregistry.h"
-#include <QtDBus>
+#include <QByteArray>
+#include <QDBusConnection>
+#include <QDBusError>
+#include <QStringLiteral>
+#include <stdexcept>
+#include <utility>
 
 DBusSignalDispatcher::DBusSignalDispatcher(
     std::shared_ptr<ICryptoLayer> cryptoLayer,

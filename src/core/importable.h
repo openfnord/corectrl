@@ -17,6 +17,7 @@
 //
 #pragma once
 
+#include <functional>
 #include <optional>
 
 class Item;

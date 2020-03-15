@@ -19,6 +19,7 @@
 
 #include <QLocalServer>
 #include <QObject>
+#include <QString>
 #include <string_view>
 
 class SingleInstance : public QObject

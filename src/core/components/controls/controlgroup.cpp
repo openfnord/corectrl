@@ -17,6 +17,8 @@
 //
 #include "controlgroup.h"
 
+#include <utility>
+
 ControlGroup::ControlGroup(std::string_view id,
                            std::vector<std::unique_ptr<IControl>> &&controls,
                            bool active) noexcept

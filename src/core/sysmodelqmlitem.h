@@ -17,9 +17,18 @@
 //
 #pragma once
 
+#include "exportable.h"
+#include "iprofile.h"
 #include "isysmodelui.h"
 #include "qmlitem.h"
-#include "unordered_map"
+#include <QObject>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+
+class IQMLComponentFactory;
+class QQmlApplicationEngine;
 
 class SysModelQMLItem
 : public QMLItem

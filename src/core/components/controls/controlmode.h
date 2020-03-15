@@ -19,6 +19,9 @@
 
 #include "core/components/controls/control.h"
 #include <vector>
+#include <string>
+#include <string_view>
+#include <memory>
 
 /// A control that aggregates other controls,
 /// having only one of them active at the same time.

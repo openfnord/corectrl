@@ -18,8 +18,10 @@
 #pragma once
 
 #include "iprofileiconcache.h"
+#include <filesystem>
 #include <memory>
 #include <optional>
+#include <vector>
 
 class IFileCache;
 

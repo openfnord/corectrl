@@ -18,6 +18,8 @@
 #pragma once
 
 #include "../iswinfo.h"
+#include <memory>
+#include <string>
 
 template<typename...>
 class IDataSource;

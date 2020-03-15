@@ -20,6 +20,7 @@
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
 #include <algorithm>
+#include <utility>
 
 AMD::PMPowerCap::PMPowerCap(
     std::unique_ptr<IDataSource<unsigned long>> &&powerCapDataSource,

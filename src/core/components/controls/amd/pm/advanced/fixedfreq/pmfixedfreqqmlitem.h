@@ -19,6 +19,11 @@
 
 #include "core/qmlitem.h"
 #include "pmfixedfreqprofilepart.h"
+#include <QObject>
+#include <QString>
+#include <QVariantList>
+#include <utility>
+#include <vector>
 
 namespace AMD {
 

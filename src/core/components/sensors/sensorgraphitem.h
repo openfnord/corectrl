@@ -17,9 +17,14 @@
 //
 #pragma once
 
+#include "core/exportable.h"
 #include "graphitem.h"
 #include "sensor.h"
 #include "units/units.h"
+#include <functional>
+#include <optional>
+#include <string_view>
+#include <utility>
 
 template<typename Unit, typename T>
 class SensorReader final : public Sensor<Unit, T>::Exporter

@@ -19,6 +19,12 @@
 
 #include "controlmodeprofilepart.h"
 #include "core/qmlitem.h"
+#include <QList>
+#include <QObject>
+#include <QString>
+#include <string>
+#include <string_view>
+#include <vector>
 
 class ControlModeQMLItem
 : public QMLItem

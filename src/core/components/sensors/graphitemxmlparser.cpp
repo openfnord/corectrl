@@ -17,7 +17,7 @@
 //
 #include "graphitemxmlparser.h"
 
-#include "core/profilepartxmlparserprovider.h"
+#include <memory>
 
 class GraphItemXMLParser::Initializer final
 : public GraphItemProfilePart::Exporter

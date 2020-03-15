@@ -17,8 +17,11 @@
 //
 #pragma once
 
+#include "importable.h"
 #include "iprofile.h"
 #include <filesystem>
+#include <functional>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>

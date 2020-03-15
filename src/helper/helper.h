@@ -17,13 +17,12 @@
 //
 #pragma once
 
-#include "common/icryptolayer.h"
 #include "helperids.h"
 #include <KAuth>
-#include <QByteArray>
 #include <QEventLoop>
 #include <QObject>
 #include <QTimer>
+#include <QVariantMap>
 #include <memory>
 #include <thread>
 
@@ -33,6 +32,7 @@ class ICryptoLayer;
 class IAppRegistry;
 class IProcessMonitor;
 class MsgReceiver;
+class QByteArray;
 
 class Helper final : public QObject
 {

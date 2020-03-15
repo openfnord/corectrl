@@ -24,9 +24,12 @@
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
 #include "easyloggingpp/easylogging++.h"
-#include "fmt/format.h"
-
 #include "fancurve.h"
+#include "fmt/format.h"
+#include <filesystem>
+#include <memory>
+#include <string>
+#include <tuple>
 
 namespace fs = std::filesystem;
 

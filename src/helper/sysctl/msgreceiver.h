@@ -18,12 +18,12 @@
 #pragma once
 
 #include "helperids.h"
-#include <QByteArray>
 #include <QObject>
 #include <memory>
 
 class ICryptoLayer;
 class ISysfsWriter;
+class QByteArray;
 
 class MsgReceiver final : public QObject
 {

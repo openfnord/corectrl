@@ -17,7 +17,9 @@
 //
 #pragma once
 
+#include "item.h"
 #include "profilepart.h"
+#include <string>
 
 class ISysComponentProfilePart : public ProfilePart
 {

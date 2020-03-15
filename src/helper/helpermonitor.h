@@ -21,7 +21,9 @@
 #include <QByteArray>
 #include <QObject>
 #include <QtDBus>
+#include <memory>
 #include <mutex>
+#include <vector>
 
 class ICryptoLayer;
 

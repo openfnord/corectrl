@@ -19,7 +19,11 @@
 
 #include "core/qmlcomponentregistry.h"
 #include "pmfreqmode.h"
+#include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtQml>
 
 AMD::PMFreqModeQMLItem::PMFreqModeQMLItem() noexcept
 : ControlModeQMLItem(AMD::PMFreqMode::ItemID)

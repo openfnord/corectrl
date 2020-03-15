@@ -18,6 +18,9 @@
 #include "pmfreqodprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
+#include <memory>
+#include <utility>
 
 class AMD::PMFreqOdProfilePart::Initializer final : public PMFreqOd::Exporter
 {

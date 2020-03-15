@@ -17,6 +17,8 @@
 //
 #include "gpusensorprovider.h"
 
+#include <utility>
+
 std::vector<std::unique_ptr<IGPUSensorProvider::IProvider>> const &
 GPUSensorProvider::gpuSensorProviders() const
 {

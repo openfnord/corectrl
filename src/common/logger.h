@@ -19,6 +19,7 @@
 
 #include "easyloggingpp/easylogging++.h"
 #include <filesystem>
+#include <string>
 
 void setupLogger(std::filesystem::path const &logFilePath,
                  std::string const &globalLogFlushThreshold = "50")

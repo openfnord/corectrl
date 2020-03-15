@@ -19,7 +19,12 @@
 
 #include <QObject>
 #include <QSet>
+#include <QString>
+#include <QUrl>
+#include <QVariantList>
 #include <memory>
+#include <string>
+#include <string_view>
 
 class IProfileManager;
 class ISysModelUI;

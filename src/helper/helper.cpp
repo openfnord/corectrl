@@ -24,10 +24,17 @@
 #include "pmon/appregistry.h"
 #include "pmon/msgdispatcher.h"
 #include "pmon/nlprocexecmonitor.h"
+#include "pmon/nlprocexecsocket.h"
 #include "pmon/procpidsolver.h"
 #include "sysctl/msgreceiver.h"
 #include "sysctl/sysfswriter.h"
-#include <QtDBus>
+#include <QByteArray>
+#include <QDBusConnection>
+#include <QDBusError>
+#include <QStringLiteral>
+#include <QVariantMap>
+#include <exception>
+#include <filesystem>
 
 INITIALIZE_EASYLOGGINGPP
 

@@ -18,6 +18,7 @@
 #pragma once
 
 #include "ifilecache.h"
+#include <filesystem>
 
 class FileCache : public IFileCache
 {

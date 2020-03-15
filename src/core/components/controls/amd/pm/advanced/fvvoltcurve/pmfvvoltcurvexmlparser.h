@@ -19,6 +19,10 @@
 
 #include "core/profilepartxmlparser.h"
 #include "pmfvvoltcurveprofilepart.h"
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
 
 namespace AMD {
 

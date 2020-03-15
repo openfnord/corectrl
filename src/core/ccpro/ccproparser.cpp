@@ -17,10 +17,10 @@
 //
 #include "ccproparser.h"
 
-#include "core/iprofile.h"
 #include "easyloggingpp/easylogging++.h"
 #include "zipdatasink.h"
 #include "zipdatasource.h"
+#include <exception>
 
 std::string CCPROParser::fileExtension() const
 {

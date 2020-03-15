@@ -17,10 +17,12 @@
 //
 #include "profileview.h"
 
+#include "iprofilepart.h"
 #include "isyscomponentprofilepart.h"
-#include "profile.h"
+#include "isysmodel.h"
 #include "profilepartview.h"
 #include <algorithm>
+#include <utility>
 
 std::string const &ProfileView::name() const
 {

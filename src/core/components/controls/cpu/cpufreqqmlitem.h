@@ -19,7 +19,11 @@
 
 #include "core/qmlitem.h"
 #include "cpufreqprofilepart.h"
+#include <QList>
+#include <QObject>
+#include <QString>
 #include <string>
+#include <vector>
 
 class CPUFreqQMLItem
 : public QMLItem

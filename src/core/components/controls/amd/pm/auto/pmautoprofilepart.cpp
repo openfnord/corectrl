@@ -18,6 +18,7 @@
 #include "pmautoprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <memory>
 
 class AMD::PMAutoProfilePart::Initializer final : public AMD::PMAuto::Exporter
 {

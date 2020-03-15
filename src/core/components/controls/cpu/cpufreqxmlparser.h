@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparser.h"
 #include "cpufreqprofilepart.h"
+#include <string>
 
 class CPUFreqXMLParser final
 : public ProfilePartXMLParser

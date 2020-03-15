@@ -18,6 +18,8 @@
 #include "cpuinfo.h"
 
 #include <algorithm>
+#include <iterator>
+#include <utility>
 
 CPUInfo::CPUInfo(int socketId,
                  std::vector<ICPUInfo::ExecutionUnit> &&executionUnits) noexcept

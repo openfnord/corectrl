@@ -19,6 +19,9 @@
 
 #include "core/profilepartxmlparser.h"
 #include "graphitemprofilepart.h"
+#include "pugixml/pugixml.hpp"
+#include <string>
+#include <string_view>
 
 class GraphItemXMLParser final
 : public ProfilePartXMLParser

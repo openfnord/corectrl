@@ -17,8 +17,11 @@
 //
 #include "profilexmlparserfactory.h"
 
+#include "iprofile.h"
+#include "iprofileparser.h"
 #include "iprofilepartxmlparserprovider.h"
 #include "profilexmlparser.h"
+#include <utility>
 
 ProfileXMLParserFactory::ProfileXMLParserFactory(
     std::unique_ptr<IProfilePartXMLParserProvider> &&profilePartParserProvider) noexcept

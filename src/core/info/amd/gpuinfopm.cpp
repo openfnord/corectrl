@@ -22,6 +22,7 @@
 #include "core/info/infoproviderregistry.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
+#include <utility>
 
 namespace AMD {
 class GPUInfoPMLegacyDataSource

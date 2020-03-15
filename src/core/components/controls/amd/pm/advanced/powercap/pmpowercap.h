@@ -19,6 +19,8 @@
 
 #include "core/components/controls/control.h"
 #include "units/units.h"
+#include <memory>
+#include <string>
 #include <string_view>
 
 template<typename...>

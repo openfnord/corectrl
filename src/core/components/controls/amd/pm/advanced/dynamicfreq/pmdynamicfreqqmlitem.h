@@ -19,6 +19,7 @@
 
 #include "core/qmlitem.h"
 #include "pmdynamicfreqprofilepart.h"
+#include <QObject>
 
 namespace AMD {
 

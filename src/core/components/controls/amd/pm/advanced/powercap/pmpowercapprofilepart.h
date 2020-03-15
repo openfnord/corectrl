@@ -19,6 +19,8 @@
 
 #include "core/profilepart.h"
 #include "pmpowercap.h"
+#include <string>
+#include <utility>
 
 namespace AMD {
 

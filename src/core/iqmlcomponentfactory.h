@@ -17,13 +17,11 @@
 //
 #pragma once
 
-#include <memory>
+#include <string>
 
-class IQMLComponentRegistry;
 class QMLItem;
 class QQmlApplicationEngine;
 class QQuickItem;
-class QString;
 
 class IQMLComponentFactory
 {

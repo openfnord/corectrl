@@ -18,6 +18,8 @@
 #pragma once
 
 #include "icpusensorprovider.h"
+#include <memory>
+#include <vector>
 
 class CPUSensorProvider final : public ICPUSensorProvider
 {

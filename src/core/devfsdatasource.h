@@ -23,7 +23,9 @@
 #include <fcntl.h>
 #include <filesystem>
 #include <functional>
+#include <string>
 #include <unistd.h>
+#include <utility>
 
 template<typename T>
 class DevFSDataSource : public IDataSource<T>

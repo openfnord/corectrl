@@ -18,6 +18,7 @@
 #include "profilepart.h"
 
 #include "iprofilepartprovider.h"
+#include <utility>
 
 bool ProfilePart::active() const
 {

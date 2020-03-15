@@ -26,7 +26,12 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
+#include <string>
 #include <thread>
+#include <unordered_map>
+#include <unordered_set>
+
+class IProfileView;
 
 class SysModelSyncer final
 : public QObject

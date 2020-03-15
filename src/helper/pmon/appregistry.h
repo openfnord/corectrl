@@ -20,6 +20,7 @@
 #include "iappregistry.h"
 
 #include <mutex>
+#include <string>
 #include <unordered_set>
 #include <vector>
 

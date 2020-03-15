@@ -24,6 +24,9 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <algorithm>
+#include <cctype>
+#include <string_view>
+#include <utility>
 
 class GPUInfoUeventDataSource
 : public IDataSource<std::vector<std::string>, std::filesystem::path const>

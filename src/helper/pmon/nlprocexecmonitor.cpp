@@ -18,6 +18,7 @@
 #include "nlprocexecmonitor.h"
 
 #include "processevent.h"
+#include <utility>
 
 NLProcExecMonitor::NLProcExecMonitor(
     std::shared_ptr<IAppRegistry> appRegistry,

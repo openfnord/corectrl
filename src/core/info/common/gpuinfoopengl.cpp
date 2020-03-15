@@ -22,6 +22,8 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <QProcess>
+#include <QString>
+#include <utility>
 
 class GPUInfoOpenGLDataSource : public IDataSource<std::string, int const>
 {

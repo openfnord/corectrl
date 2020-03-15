@@ -18,7 +18,7 @@
 #include "qmlitem.h"
 
 #include "iqmlcomponentfactory.h"
-#include <QQmlApplicationEngine>
+#include <Qt>
 
 QString const &QMLItem::name() const
 {

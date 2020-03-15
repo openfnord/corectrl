@@ -20,11 +20,21 @@
 #include "iqmlcomponentfactory.h"
 #include "isession.h"
 #include "isysmodel.h"
+#include "isysmodelui.h"
 #include "profilemanagerui.h"
 #include "qmlitem.h"
 #include "sysmodelqmlitem.h"
 #include "systeminfoui.h"
+#include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQuickItem>
+#include <QString>
+#include <QStringLiteral>
+#include <QUrl>
+#include <QtGlobal>
+#include <stdexcept>
+#include <string>
+#include <utility>
 
 UIFactory::UIFactory(
     std::unique_ptr<IQMLComponentFactory> &&qmlComponentfactory) noexcept

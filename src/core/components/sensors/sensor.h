@@ -24,6 +24,9 @@
 #include <functional>
 #include <memory>
 #include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 template<typename Unit, typename T>

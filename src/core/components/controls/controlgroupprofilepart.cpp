@@ -17,8 +17,10 @@
 //
 #include "controlgroupprofilepart.h"
 
-#include "core/profilepartprovider.h"
 #include <algorithm>
+#include <iterator>
+#include <unordered_map>
+#include <utility>
 
 class ControlGroupProfilePart::Factory final
 : public ProfilePart::Factory

@@ -20,7 +20,10 @@
 #include "config.h"
 #include "singleinstance.h"
 #include <QObject>
+#include <QString>
+#include <QVariant>
 #include <memory>
+#include <string_view>
 
 class IHelperControl;
 class ISession;

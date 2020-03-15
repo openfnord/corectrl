@@ -18,11 +18,13 @@
 #include "nlprocexecsocket.h"
 
 #include "processevent.h"
+#include <linux/bpf_common.h>
 #include <linux/cn_proc.h>
 #include <linux/connector.h>
 #include <linux/filter.h>
 #include <linux/netlink.h>
 #include <netinet/in.h>
+#include <stddef.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>

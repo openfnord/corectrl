@@ -23,6 +23,8 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <algorithm>
+#include <cctype>
+#include <utility>
 
 namespace AMD {
 class GPUInfoVbiosDataSource

@@ -19,6 +19,7 @@
 
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
+#include <utility>
 
 AMD::PMFixedR600::PMFixedR600(
     std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource) noexcept

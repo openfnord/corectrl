@@ -19,6 +19,8 @@
 
 #include "controlgroupprofilepart.h"
 #include "core/qmlitem.h"
+#include <QObject>
+#include <string_view>
 
 class ControlGroupQMLItem
 : public QMLItem
