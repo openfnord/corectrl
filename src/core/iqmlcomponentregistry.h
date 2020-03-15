@@ -22,7 +22,6 @@
 #include <unordered_map>
 #include <vector>
 
-class Exportable;
 class QQuickItem;
 class QQmlApplicationEngine;
 class QMLItem;

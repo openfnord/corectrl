@@ -20,7 +20,10 @@
 #include "components/controls/control.h"
 #include "info/icpuinfo.h"
 #include "info/igpuinfo.h"
+#include "info/vendor.h"
+#include <filesystem>
 #include <memory>
+#include <string>
 #include <vector>
 
 class ICPU;

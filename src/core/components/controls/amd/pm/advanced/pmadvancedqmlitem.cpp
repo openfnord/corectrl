@@ -19,7 +19,12 @@
 
 #include "core/qmlcomponentregistry.h"
 #include "pmadvanced.h"
+#include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtGlobal>
+#include <QtQml>
 
 char const *const AMD::PMAdvancedQMLItem::trStrings[] = {
     QT_TRANSLATE_NOOP("ControlModeQMLItem", "AMD_PM_ADVANCED"),

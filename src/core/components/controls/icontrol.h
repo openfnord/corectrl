@@ -20,7 +20,6 @@
 #include "core/exportable.h"
 #include "core/importable.h"
 #include "core/item.h"
-#include <memory>
 
 class ICommandQueue;
 

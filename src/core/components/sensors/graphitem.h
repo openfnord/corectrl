@@ -19,11 +19,15 @@
 
 #include "graphitemprofilepart.h"
 #include <QList>
+#include <QObject>
 #include <QPointF>
 #include <QQuickItem>
+#include <QString>
 #include <QtCharts/QAbstractAxis>
 #include <QtCharts/QChart>
 #include <QtCharts/QLineSeries>
+#include <string>
+#include <string_view>
 
 QT_CHARTS_USE_NAMESPACE
 

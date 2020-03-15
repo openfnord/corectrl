@@ -19,6 +19,7 @@
 
 #include "core/profilepart.h"
 #include "fanauto.h"
+#include <string>
 
 namespace AMD {
 

@@ -19,6 +19,9 @@
 
 #include "core/profilepartxmlparser.h"
 #include "fancurveprofilepart.h"
+#include <string>
+#include <string_view>
+#include <vector>
 
 namespace AMD {
 

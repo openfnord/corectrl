@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmdynamicfreq.h"
+#include <memory>
 
 class AMD::PMDynamicFreqXMLParser::Initializer final
 : public AMD::PMDynamicFreqProfilePart::Exporter

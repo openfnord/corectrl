@@ -18,9 +18,10 @@
 #include "controlgroupqmlitem.h"
 
 #include "controlgroup.h"
-#include "core/components/controls/icontrol.h"
-#include "core/qmlcomponentregistry.h"
-#include <QQmlApplicationEngine>
+#include "icontrol.h"
+#include <QQuickItem>
+#include <memory>
+#include <utility>
 
 class ControlGroupQMLItem::Initializer final
 : public QMLItem::Initializer

@@ -18,6 +18,8 @@
 #pragma once
 
 #include "icpucontrolprovider.h"
+#include <memory>
+#include <vector>
 
 class CPUControlProvider final : public ICPUControlProvider
 {

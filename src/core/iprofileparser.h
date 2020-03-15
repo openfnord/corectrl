@@ -19,6 +19,7 @@
 
 #include "exportable.h"
 #include <memory>
+#include <string>
 #include <vector>
 
 class IProfile;

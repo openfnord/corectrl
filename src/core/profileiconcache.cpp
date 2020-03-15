@@ -21,6 +21,7 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include "ifilecache.h"
+#include <utility>
 
 ProfileIconCache::ProfileIconCache(std::unique_ptr<IFileCache> &&cache) noexcept
 : cache_(std::move(cache))

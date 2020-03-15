@@ -17,15 +17,21 @@
 //
 #include "cpuqmlitem.h"
 
-#include "controls/icontrol.h"
 #include "core/info/icpuinfo.h"
-#include "core/isysmodel.h"
-#include "core/qmlcomponentfactory.h"
+#include "core/iqmlcomponentfactory.h"
 #include "core/qmlcomponentregistry.h"
 #include "icpu.h"
 #include "sensors/graphitem.h"
 #include "sensors/isensor.h"
+#include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQuickItem>
+#include <QStringLiteral>
+#include <Qt>
+#include <memory>
+#include <utility>
 
 class CPUQMLItem::Initializer final
 : public QMLItem::Initializer

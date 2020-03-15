@@ -18,6 +18,9 @@
 #include "pmfixedprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
+#include <memory>
+#include <utility>
 
 class AMD::PMFixedProfilePart::Initializer final : public AMD::PMFixed::Exporter
 {

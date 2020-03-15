@@ -18,6 +18,7 @@
 #include "../sensorgraphitem.h"
 #include "core/qmlcomponentregistry.h"
 #include "cpufreqpack.h"
+#include "units/units.h"
 #include <QtGlobal>
 
 namespace CPUFreqPack {

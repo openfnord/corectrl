@@ -18,6 +18,12 @@
 #pragma once
 
 #include "iprofileviewfactory.h"
+#include <functional>
+#include <memory>
+#include <optional>
+
+class Exportable;
+class IProfileView;
 
 class ProfileViewFactory final : public IProfileViewFactory
 {

@@ -19,6 +19,7 @@
 
 #include "core/profilepartprovider.h"
 #include "pmfreqmode.h"
+#include <memory>
 
 AMD::PMFreqModeProfilePart::PMFreqModeProfilePart() noexcept
 : ControlModeProfilePart(AMD::PMFreqMode::ItemID)

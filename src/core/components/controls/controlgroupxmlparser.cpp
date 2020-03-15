@@ -17,7 +17,8 @@
 //
 #include "controlgroupxmlparser.h"
 
-#include "controlmode.h"
+#include "pugixml/pugixml.hpp"
+#include <utility>
 
 class ControlGroupXMLParser::Factory final
 : public ProfilePartXMLParser::Factory

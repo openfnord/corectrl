@@ -20,6 +20,14 @@
 #include "core/qmlcomponentregistry.h"
 #include "fancurve.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtQml>
+#include <algorithm>
+#include <cmath>
+#include <cstddef>
+#include <memory>
+#include <utility>
 
 char const *const AMD::FanCurveQMLItem::trStrings[] = {
     QT_TRANSLATE_NOOP("ControlModeQMLItem", "AMD_FAN_CURVE"),

@@ -18,6 +18,15 @@
 #pragma once
 
 #include "iqmlcomponentregistry.h"
+#include <functional>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <vector>
+
+class QMLItem;
+class QQmlApplicationEngine;
+class QQuickItem;
 
 class QMLComponentRegistry final : public IQMLComponentRegistry
 {

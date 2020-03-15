@@ -21,7 +21,10 @@
 #include "fmt/format.h"
 #include <KArchive/KZip>
 #include <QByteArray>
+#include <QIODevice>
 #include <QString>
+#include <exception>
+#include <stdexcept>
 
 namespace fs = std::filesystem;
 

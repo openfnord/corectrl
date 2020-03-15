@@ -19,6 +19,7 @@
 
 #include "common/fileutils.h"
 #include "common/stringutils.h"
+#include "components/controls/icontrol.h"
 #include "components/controls/icpucontrolprovider.h"
 #include "components/controls/igpucontrolprovider.h"
 #include "components/cpu.h"
@@ -32,10 +33,15 @@
 #include "info/cpuinfo.h"
 #include "info/gpuinfo.h"
 #include "info/ihwidtranslator.h"
-#include "info/swinfo.h"
+#include "info/iswinfo.h"
 #include "isyscomponent.h"
 #include "isysexplorer.h"
 #include "sysmodel.h"
+#include <algorithm>
+#include <memory>
+#include <optional>
+#include <string_view>
+#include <utility>
 
 SysModelFactory::SysModelFactory(
     std::unique_ptr<ISWInfo> &&swInfo,

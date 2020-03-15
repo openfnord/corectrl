@@ -23,6 +23,9 @@
 #include "iprofilefileparser.h"
 #include "iprofileiconcache.h"
 #include "iprofileparser.h"
+#include <exception>
+#include <stdexcept>
+#include <utility>
 
 namespace fs = std::filesystem;
 

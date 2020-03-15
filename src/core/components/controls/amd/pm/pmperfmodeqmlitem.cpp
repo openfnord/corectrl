@@ -19,7 +19,11 @@
 
 #include "core/qmlcomponentregistry.h"
 #include "pmperfmode.h"
+#include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtQml>
 
 AMD::PMPerfModeQMLItem::PMPerfModeQMLItem() noexcept
 : ControlModeQMLItem(AMD::PMPerfMode::ItemID)

@@ -19,6 +19,8 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmfvvoltcurve.h"
+#include <algorithm>
+#include <memory>
 
 class AMD::PMFVVoltCurveXMLParser::Initializer final
 : public AMD::PMFVVoltCurveProfilePart::Exporter

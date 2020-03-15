@@ -22,6 +22,8 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <QProcess>
+#include <string_view>
+#include <utility>
 
 class SWInfoMesaDataSource : public IDataSource<std::string>
 {

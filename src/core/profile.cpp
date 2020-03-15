@@ -17,9 +17,17 @@
 //
 #include "profile.h"
 
+#include "iprofile.h"
+#include "iprofilepart.h"
 #include "iprofilepartprovider.h"
 #include "isyscomponent.h"
 #include "isyscomponentprofilepart.h"
+#include "isysmodel.h"
+#include "item.h"
+#include <algorithm>
+#include <iterator>
+#include <unordered_map>
+#include <utility>
 
 Profile::Factory::Factory(IProfilePartProvider const &profilePartProvider,
                           Profile &outer) noexcept

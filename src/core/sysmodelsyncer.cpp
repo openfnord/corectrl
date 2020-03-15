@@ -19,6 +19,7 @@
 
 #include "iprofileview.h"
 #include <chrono>
+#include <utility>
 
 SysModelSyncer::SysModelSyncer(std::unique_ptr<ISysModel> &&sysModel,
                                std::unique_ptr<IHelperSysCtl> &&helperSysCtl) noexcept

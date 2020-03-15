@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmfreqmode.h"
+#include <memory>
 
 AMD::PMFreqModeXMLParser::PMFreqModeXMLParser() noexcept
 : ControlModeXMLParser(AMD::PMFreqMode::ItemID)

@@ -22,8 +22,15 @@
 #include "fmt/format.h"
 #include "helperids.h"
 #include <KAuth>
-#include <QtDBus>
+#include <QDBusConnection>
+#include <QDBusInterface>
+#include <QDBusReply>
+#include <QEventLoop>
+#include <QVariantMap>
+#include <algorithm>
+#include <limits>
 #include <stdexcept>
+#include <utility>
 
 HelperControl::HelperControl(std::shared_ptr<ICryptoLayer> cryptoLayer,
                              QObject *parent) noexcept
@@ -106,7 +113,7 @@ HelperControl::startHelper(units::time::millisecond_t autoExitTimeout,
 
   KAuth::Action initAction(QStringLiteral(KAUTH_HELPER_ACTION));
   initAction.setHelperId(QStringLiteral(KAUTH_HELPER_ID));
-  initAction.setTimeout(INT32_MAX);
+  initAction.setTimeout(std::numeric_limits<int>::max());
   initAction.setArguments(args);
 
   KAuth::ExecuteJob *job = initAction.execute();

@@ -17,6 +17,8 @@
 //
 #include "profilepartprovider.h"
 
+#include <utility>
+
 std::unordered_map<std::string, std::function<std::unique_ptr<IProfilePart>()>> const &
 ProfilePartProvider::profilePartProviders() const
 {

@@ -19,7 +19,11 @@
 
 #include "core/qmlcomponentregistry.h"
 #include "pmoverclock.h"
+#include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtQml>
 
 AMD::PMOverclockQMLItem::PMOverclockQMLItem() noexcept
 : ControlGroupQMLItem(AMD::PMOverclock::ItemID)

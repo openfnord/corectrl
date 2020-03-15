@@ -18,7 +18,7 @@
 #pragma once
 
 #include "icryptolayer.h"
-#include <botan/pubkey.h>
+#include <botan/pk_keys.h>
 #include <memory>
 
 class CryptoLayer final : public ICryptoLayer

@@ -23,6 +23,10 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QQmlApplicationEngine>
+#include <QtGlobal>
+#include <QtQml>
+#include <algorithm>
+#include <iterator>
 
 char const *const SystemInfoUI::trStrings[] = {
     // XXX add info keys here

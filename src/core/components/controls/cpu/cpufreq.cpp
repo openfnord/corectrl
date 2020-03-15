@@ -19,6 +19,8 @@
 
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
+#include <algorithm>
+#include <utility>
 
 CPUFreq::CPUFreq(std::vector<std::string> &&scalingGovernors,
                  std::string const &defaultGovernor,

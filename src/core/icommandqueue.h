@@ -17,8 +17,10 @@
 //
 #pragma once
 
-#include <QByteArray>
 #include <string>
+#include <utility>
+
+class QByteArray;
 
 class ICommandQueue
 {

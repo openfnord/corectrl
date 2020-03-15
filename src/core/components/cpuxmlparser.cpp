@@ -20,6 +20,7 @@
 #include "core/info/icpuinfo.h"
 #include "core/profilepartxmlparserprovider.h"
 #include "icpu.h"
+#include <utility>
 
 class CPUXMLParser::Factory final
 : public ProfilePartXMLParser::Factory

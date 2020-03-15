@@ -19,6 +19,14 @@
 
 #include "core/qmlitem.h"
 #include "pmfvstateprofilepart.h"
+#include <QObject>
+#include <QString>
+#include <QVariantList>
+#include <QVector>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace AMD {
 

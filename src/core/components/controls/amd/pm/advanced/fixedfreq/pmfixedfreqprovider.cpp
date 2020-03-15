@@ -27,8 +27,12 @@
 #include "core/sysfsdatasource.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
-
 #include "pmfixedfreq.h"
+#include <filesystem>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <vector>
 
 std::unique_ptr<IControl>
 AMD::PMFixedFreqProvider::provideGPUControl(IGPUInfo const &gpuInfo,

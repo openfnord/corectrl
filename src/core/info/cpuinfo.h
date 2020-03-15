@@ -17,9 +17,11 @@
 //
 #pragma once
 
-#include "core/info/icpuinfo.h"
+#include "icpuinfo.h"
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 class CPUInfo final : public ICPUInfo
 {

@@ -21,6 +21,8 @@
 #include "common/fileutils.h"
 #include "core/idatasource.h"
 #include "easyloggingpp/easylogging++.h"
+#include <string_view>
+#include <utility>
 
 class SWInfoKernelDataSource : public IDataSource<std::string>
 {

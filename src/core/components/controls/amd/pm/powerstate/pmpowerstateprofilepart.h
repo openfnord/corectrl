@@ -19,6 +19,8 @@
 
 #include "core/profilepart.h"
 #include "pmpowerstate.h"
+#include <string>
+#include <vector>
 
 namespace AMD {
 

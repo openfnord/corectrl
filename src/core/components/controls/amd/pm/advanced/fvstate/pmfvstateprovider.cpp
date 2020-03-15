@@ -28,8 +28,12 @@
 #include "core/sysfsdatasource.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
-
 #include "pmfvstate.h"
+#include <filesystem>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <vector>
 
 std::unique_ptr<IControl>
 AMD::PMFVStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,

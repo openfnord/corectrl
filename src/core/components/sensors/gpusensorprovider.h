@@ -18,6 +18,8 @@
 #pragma once
 
 #include "igpusensorprovider.h"
+#include <memory>
+#include <vector>
 
 class GPUSensorProvider final : public IGPUSensorProvider
 {

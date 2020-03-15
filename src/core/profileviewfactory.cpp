@@ -19,6 +19,7 @@
 
 #include "exportable.h"
 #include "profileview.h"
+#include <utility>
 
 std::unique_ptr<IProfileView> ProfileViewFactory::build(
     Exportable const &profile,

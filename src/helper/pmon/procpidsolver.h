@@ -20,6 +20,7 @@
 #include "ipidsolver.h"
 #include <filesystem>
 #include <set>
+#include <string>
 #include <vector>
 
 class ProcPIDSolver final : public IPIDSolver

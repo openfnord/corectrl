@@ -22,7 +22,9 @@
 #include "fmt/format.h"
 #include "iprofile.h"
 #include <algorithm>
+#include <iterator>
 #include <regex>
+#include <utility>
 
 ProfileManager::ProfileManager(
     std::unique_ptr<IProfile> &&defautlProfile,

@@ -17,8 +17,6 @@
 //
 #pragma once
 
-#include <string>
-
 class ICommandQueue;
 
 class IHelperSysCtl

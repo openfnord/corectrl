@@ -18,6 +18,9 @@
 #include "pmfvstateprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
+#include <iterator>
+#include <memory>
 
 class AMD::PMFVStateProfilePart::Initializer final
 : public AMD::PMFVState::Exporter

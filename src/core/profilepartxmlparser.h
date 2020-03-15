@@ -17,8 +17,18 @@
 //
 #pragma once
 
+#include "exportable.h"
+#include "importable.h"
 #include "iprofilepartxmlparser.h"
+#include "pugixml/pugixml.hpp"
+#include <functional>
+#include <memory>
+#include <optional>
+#include <string>
 #include <vector>
+
+class Item;
+class IProfilePartXMLParserProvider;
 
 class ProfilePartXMLParser : public IProfilePartXMLParser
 {

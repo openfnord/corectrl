@@ -19,6 +19,7 @@
 
 #include "core/profilepartprovider.h"
 #include "fanmode.h"
+#include <memory>
 
 AMD::FanModeProfilePart::FanModeProfilePart() noexcept
 : ControlModeProfilePart(AMD::FanMode::ItemID)

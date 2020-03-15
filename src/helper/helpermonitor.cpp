@@ -21,6 +21,12 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include "helperids.h"
+#include <QDBusConnection>
+#include <QDBusInterface>
+#include <QStringLiteral>
+#include <algorithm>
+#include <stdexcept>
+#include <utility>
 
 HelperMonitor::HelperMonitor(std::shared_ptr<ICryptoLayer> cryptoLayer,
                              QObject *parent) noexcept

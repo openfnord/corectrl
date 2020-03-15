@@ -18,6 +18,13 @@
 #pragma once
 
 #include "iprofilepartprovider.h"
+#include <functional>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+
+class IProfilePart;
 
 class ProfilePartProvider final : public IProfilePartProvider
 {

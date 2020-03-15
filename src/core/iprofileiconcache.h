@@ -20,6 +20,9 @@
 #include "iprofile.h"
 #include <filesystem>
 #include <functional>
+#include <optional>
+#include <utility>
+#include <vector>
 
 class IProfileIconCache
 {

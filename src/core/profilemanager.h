@@ -17,11 +17,12 @@
 //
 #pragma once
 
-#include "importable.h"
+#include "iprofile.h"
 #include "iprofilemanager.h"
 #include "iprofilestorage.h"
 #include <memory>
 #include <mutex>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 

@@ -26,8 +26,12 @@
 #include "core/sysfsdatasource.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
-
 #include "pmfreqod.h"
+#include <filesystem>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <vector>
 
 std::unique_ptr<IControl>
 AMD::PMFreqOdProvider::provideGPUControl(IGPUInfo const &gpuInfo,
@@ -85,26 +89,26 @@ AMD::PMFreqOdProvider::provideGPUControl(IGPUInfo const &gpuInfo,
         else {
           if (!sclkOdValid) {
             LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                          sclkOd.string());
+                                        sclkOd.string());
             LOG(ERROR) << sclkOdLines.front().c_str();
           }
 
           if (!mclkOdValid) {
             LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                          mclkOd.string());
+                                        mclkOd.string());
             LOG(ERROR) << mclkOdLines.front().c_str();
           }
 
           if (!sclkStates.has_value()) {
             LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                          dpmSclk.string());
+                                        dpmSclk.string());
             for (auto &line : dpmSclkLines)
               LOG(ERROR) << line.c_str();
           }
 
           if (!mclkStates.has_value()) {
             LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                          dpmMclk.string());
+                                        dpmMclk.string());
             for (auto &line : dpmMclkLines)
               LOG(ERROR) << line.c_str();
           }

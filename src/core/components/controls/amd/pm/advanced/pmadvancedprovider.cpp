@@ -20,6 +20,7 @@
 #include "../pmperfmodeprovider.h"
 #include "core/info/igpuinfo.h"
 #include "pmadvanced.h"
+#include <utility>
 
 std::unique_ptr<IControl>
 AMD::PMAdvancedProvider::provideGPUControl(IGPUInfo const &gpuInfo,

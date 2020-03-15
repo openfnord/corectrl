@@ -22,8 +22,12 @@
 #include <botan/base64.h>
 #include <botan/data_src.h>
 #include <botan/ed25519.h>
+#include <botan/pubkey.h>
 #include <botan/system_rng.h>
 #include <botan/x509_key.h>
+#include <cstddef>
+#include <cstdint>
+#include <exception>
 
 void CryptoLayer::init()
 {

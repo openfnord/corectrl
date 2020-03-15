@@ -17,6 +17,8 @@
 //
 #include "cpusensorprovider.h"
 
+#include <utility>
+
 std::vector<std::unique_ptr<ICPUSensorProvider::IProvider>> const &
 CPUSensorProvider::cpuSensorProviders() const
 {

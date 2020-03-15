@@ -21,6 +21,8 @@
 #include "core/importable.h"
 #include "core/item.h"
 #include <memory>
+#include <string>
+#include <string_view>
 
 class IProfile
 : public Item

@@ -19,6 +19,9 @@
 
 #include "core/profilepart.h"
 #include "pmfvvoltcurve.h"
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace AMD {
 

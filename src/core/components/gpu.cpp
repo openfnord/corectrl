@@ -20,6 +20,7 @@
 #include "controls/icontrol.h"
 #include "core/info/igpuinfo.h"
 #include "sensors/isensor.h"
+#include <utility>
 
 GPU::GPU(std::unique_ptr<IGPUInfo> &&info,
          std::vector<std::unique_ptr<IControl>> &&controls,

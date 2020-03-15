@@ -25,8 +25,12 @@
 #include "core/sysfsdatasource.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
-
 #include "pmpowercap.h"
+#include <filesystem>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <vector>
 
 namespace fs = std::filesystem;
 

@@ -18,6 +18,7 @@
 #include "hwiddatasource.h"
 
 #include "common/fileutils.h"
+#include <utility>
 
 HWIDDataSource::HWIDDataSource(std::string const &path) noexcept
 : path_(path)

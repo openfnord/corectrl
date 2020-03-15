@@ -18,13 +18,14 @@
 #pragma once
 
 #include "ihelpercontrol.h"
+#include "units/units.h"
 #include <QByteArray>
 #include <QObject>
 #include <QTimer>
-#include <QtDBus>
 #include <memory>
 
 class ICryptoLayer;
+class QDBusInterface;
 
 class HelperControl final
 : public QObject

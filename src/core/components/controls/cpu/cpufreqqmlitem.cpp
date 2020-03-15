@@ -20,6 +20,9 @@
 #include "core/qmlcomponentregistry.h"
 #include "cpufreq.h"
 #include <QQmlApplicationEngine>
+#include <QtGlobal>
+#include <QtQml>
+#include <memory>
 
 char const *const CPUFreqQMLItem::trStrings[] = {
     // XXX add cpufreq scaling governors here

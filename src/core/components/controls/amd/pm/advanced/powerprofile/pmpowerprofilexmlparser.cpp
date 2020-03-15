@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmpowerprofile.h"
+#include <memory>
 
 class AMD::PMPowerProfileXMLParser::Initializer final
 : public AMD::PMPowerProfileProfilePart::Exporter

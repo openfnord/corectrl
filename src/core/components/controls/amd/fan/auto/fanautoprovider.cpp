@@ -23,8 +23,10 @@
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
-
 #include "fanauto.h"
+#include <filesystem>
+#include <memory>
+#include <tuple>
 
 namespace fs = std::filesystem;
 

@@ -17,10 +17,14 @@
 //
 #include "cpuprofilepart.h"
 
-#include "controls/icontrol.h"
 #include "core/info/icpuinfo.h"
+#include "core/profilepart.h"
 #include "core/profilepartprovider.h"
 #include "sensors/isensor.h"
+#include <algorithm>
+#include <iterator>
+#include <unordered_map>
+#include <utility>
 
 class CPUProfilePart::Factory final
 : public ProfilePart::Factory

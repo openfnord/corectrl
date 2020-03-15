@@ -20,7 +20,6 @@
 #include "iprofile.h"
 #include <filesystem>
 #include <memory>
-#include <string>
 #include <vector>
 
 /// Stores profiles into a location.

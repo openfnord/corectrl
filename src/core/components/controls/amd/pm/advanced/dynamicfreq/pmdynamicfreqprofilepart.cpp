@@ -18,6 +18,7 @@
 #include "pmdynamicfreqprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <memory>
 
 class AMD::PMDynamicFreqProfilePart::Initializer final
 : public PMDynamicFreq::Exporter

@@ -19,7 +19,6 @@
 
 class ISession;
 class ISysModel;
-class QQuickItem;
 class QQmlApplicationEngine;
 
 class IUIFactory

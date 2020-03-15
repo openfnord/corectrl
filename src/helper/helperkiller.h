@@ -19,6 +19,7 @@
 
 #include <KAuth>
 #include <QObject>
+#include <QVariantMap>
 
 using namespace KAuth;
 

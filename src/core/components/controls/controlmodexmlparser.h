@@ -19,6 +19,10 @@
 
 #include "controlmodeprofilepart.h"
 #include "core/profilepartxmlparser.h"
+#include "pugixml/pugixml.hpp"
+#include <memory>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 
 class ControlModeXMLParser

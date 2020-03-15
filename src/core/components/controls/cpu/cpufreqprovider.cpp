@@ -21,9 +21,11 @@
 #include "common/stringutils.h"
 #include "core/components/controls/cpucontrolprovider.h"
 #include "core/info/icpuinfo.h"
-#include <algorithm>
-
+#include "core/sysfsdatasource.h"
 #include "cpufreq.h"
+#include <algorithm>
+#include <filesystem>
+#include <utility>
 
 std::unique_ptr<IControl>
 CPUFreqProvider::provideCPUControl(ICPUInfo const &cpuInfo, ISWInfo const &) const

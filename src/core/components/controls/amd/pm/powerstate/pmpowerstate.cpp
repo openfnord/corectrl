@@ -19,6 +19,8 @@
 
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
+#include <algorithm>
+#include <utility>
 
 AMD::PMPowerState::PMPowerState(
     std::unique_ptr<IDataSource<std::string>> &&powerDpmStateDataSource) noexcept

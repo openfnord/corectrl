@@ -18,6 +18,8 @@
 #pragma once
 
 #include "core/profilepart.h"
+#include <string>
+#include <string_view>
 
 class GraphItemProfilePart : public ProfilePart
 {

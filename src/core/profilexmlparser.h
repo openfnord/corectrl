@@ -20,7 +20,12 @@
 #include "iprofile.h"
 #include "iprofileparser.h"
 #include "profilepartxmlparser.h"
+#include <memory>
+#include <string>
 #include <unordered_map>
+
+class IProfilePartXMLParser;
+class IProfilePartXMLParserProvider;
 
 class ProfileXMLParser final
 : public IProfileParser

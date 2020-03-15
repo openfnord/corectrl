@@ -19,12 +19,12 @@
 
 #include "helperids.h"
 #include "ipmonmsgdispatcher.h"
-#include <QByteArray>
 #include <QObject>
 #include <memory>
 
 class IAppRegistry;
 class ICryptoLayer;
+class QByteArray;
 
 // Methods of PMonMsgDispatcher class will be called in the ProcessMonitor
 // thread. However D-Bus signals must be emitted in the thread of the object

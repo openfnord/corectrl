@@ -18,6 +18,11 @@
 #pragma once
 
 #include "iqmlcomponentfactory.h"
+#include <memory>
+#include <string_view>
+
+class IQMLComponentRegistry;
+class QQuickItem;
 
 class QMLComponentFactory final : public IQMLComponentFactory
 {

@@ -20,6 +20,8 @@
 #include "icpuinfo.h"
 #include "igpuinfo.h"
 #include "iswinfo.h"
+#include <memory>
+#include <vector>
 
 class InfoProviderRegistry final
 : public ICPUInfo::IProviderRegistry

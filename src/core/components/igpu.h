@@ -18,7 +18,7 @@
 #pragma once
 
 #include "core/isyscomponent.h"
-#include <string>
+#include <string_view>
 
 class IGPUInfo;
 class ISensor;

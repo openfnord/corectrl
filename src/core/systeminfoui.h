@@ -18,6 +18,11 @@
 #pragma once
 
 #include <QObject>
+#include <QString>
+#include <QVariantList>
+#include <string_view>
+#include <utility>
+#include <vector>
 
 class ISysModel;
 

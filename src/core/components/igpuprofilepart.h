@@ -17,7 +17,9 @@
 //
 #pragma once
 
+#include "core/iprofilepart.h"
 #include "core/isyscomponentprofilepart.h"
+#include <string>
 
 class IGPUProfilePart : public ISysComponentProfilePart
 {

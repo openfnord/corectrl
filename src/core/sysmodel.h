@@ -19,6 +19,9 @@
 
 #include "isysmodel.h"
 #include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 class ISWInfo;
 class ISysComponent;

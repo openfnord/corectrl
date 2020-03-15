@@ -20,6 +20,7 @@
 #include "info/vendor.h"
 #include "isysexplorer.h"
 #include <filesystem>
+#include <vector>
 
 class SysExplorer final : public ISysExplorer
 {

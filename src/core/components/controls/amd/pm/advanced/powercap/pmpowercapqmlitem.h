@@ -19,6 +19,7 @@
 
 #include "core/qmlitem.h"
 #include "pmpowercapprofilepart.h"
+#include <QObject>
 #include <string>
 
 namespace AMD {

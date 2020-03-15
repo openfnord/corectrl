@@ -20,6 +20,7 @@
 #include "../overclock/pmoverclockprovider.h"
 #include "core/info/igpuinfo.h"
 #include "pmfreqmode.h"
+#include <utility>
 
 std::unique_ptr<IControl>
 AMD::PMFreqModeProvider::provideGPUControl(IGPUInfo const &gpuInfo,

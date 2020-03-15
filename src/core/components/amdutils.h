@@ -23,7 +23,10 @@
 #include <libdrm/radeon_drm.h>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <sys/ioctl.h>
+#include <tuple>
+#include <utility>
 #include <vector>
 
 namespace Utils {

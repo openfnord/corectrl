@@ -17,6 +17,8 @@
 //
 #include "qmlcomponentregistry.h"
 
+#include <utility>
+
 std::vector<std::function<void()>> const &
 QMLComponentRegistry::qmlTypeRegisterers() const
 {

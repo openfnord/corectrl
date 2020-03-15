@@ -21,6 +21,8 @@
 #include "core/components/controls/amd/pm/handlers/ippdpmhandler.h"
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
+#include <algorithm>
+#include <iterator>
 
 AMD::PMFVState::PMFVState(
     std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,

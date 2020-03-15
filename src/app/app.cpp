@@ -18,25 +18,25 @@
 #include "app.h"
 
 #include "common/stringutils.h"
-#include "core/ifilecache.h"
-#include "core/iprofile.h"
 #include "core/isession.h"
-#include "core/isysmodel.h"
 #include "core/isysmodelsyncer.h"
-#include "core/isysmodelui.h"
 #include "core/iuifactory.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include "helper/ihelpercontrol.h"
 #include "settings.h"
 #include "systray.h"
+#include "units/units.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QIcon>
+#include <QLocale>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickWindow>
 #include <QTranslator>
+#include <algorithm>
+#include <utility>
 
 #if defined(_DEBUG)
 #include <QQmlDebuggingEnabler>

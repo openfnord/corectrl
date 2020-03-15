@@ -20,8 +20,9 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <QFile>
+#include <exception>
 #include <fstream>
-#include <regex>
+#include <utility>
 
 namespace fs = std::filesystem;
 

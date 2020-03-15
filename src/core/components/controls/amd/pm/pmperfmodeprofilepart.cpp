@@ -19,6 +19,7 @@
 
 #include "core/profilepartprovider.h"
 #include "pmperfmode.h"
+#include <memory>
 
 AMD::PMPerfModeProfilePart::PMPerfModeProfilePart() noexcept
 : ControlModeProfilePart(AMD::PMPerfMode::ItemID)

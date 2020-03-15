@@ -17,7 +17,9 @@
 //
 #pragma once
 
-#include "core/info/igpuinfo.h"
+#include "igpuinfo.h"
+#include "vendor.h"
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 

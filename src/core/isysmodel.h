@@ -21,6 +21,8 @@
 #include "core/importable.h"
 #include "core/item.h"
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 class ICommandQueue;

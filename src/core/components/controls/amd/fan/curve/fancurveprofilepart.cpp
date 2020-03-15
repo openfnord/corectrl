@@ -20,6 +20,7 @@
 #include "core/components/commonutils.h"
 #include "core/profilepartprovider.h"
 #include <algorithm>
+#include <memory>
 
 class AMD::FanCurveProfilePart::Initializer final : public AMD::FanCurve::Exporter
 {

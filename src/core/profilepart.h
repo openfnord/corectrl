@@ -17,8 +17,13 @@
 //
 #pragma once
 
+#include "exportable.h"
 #include "iprofilepart.h"
+#include "iprofilepartprovider.h"
+#include <functional>
 #include <memory>
+#include <optional>
+#include <string>
 #include <vector>
 
 class ProfilePart : public IProfilePart

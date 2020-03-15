@@ -18,6 +18,9 @@
 #include "cpufreqprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
+#include <memory>
+#include <utility>
 
 class CPUFreqProfilePart::Initializer final : public CPUFreq::Exporter
 {

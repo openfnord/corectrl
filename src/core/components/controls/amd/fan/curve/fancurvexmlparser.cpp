@@ -19,6 +19,8 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "fancurve.h"
+#include <cmath>
+#include <memory>
 
 class AMD::FanCurveXMLParser::Initializer final
 : public AMD::FanCurveProfilePart::Exporter

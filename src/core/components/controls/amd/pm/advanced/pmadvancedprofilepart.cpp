@@ -19,6 +19,7 @@
 
 #include "core/profilepartprovider.h"
 #include "pmadvanced.h"
+#include <memory>
 
 AMD::PMAdvancedProfilePart::PMAdvancedProfilePart() noexcept
 : ControlGroupProfilePart(AMD::PMAdvanced::ItemID)

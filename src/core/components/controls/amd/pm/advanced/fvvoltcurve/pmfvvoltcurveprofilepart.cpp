@@ -18,6 +18,10 @@
 #include "pmfvvoltcurveprofilepart.h"
 
 #include "core/profilepartprovider.h"
+#include <algorithm>
+#include <cstddef>
+#include <iterator>
+#include <memory>
 
 class AMD::PMFVVoltCurveProfilePart::Initializer final
 : public AMD::PMFVVoltCurve::Exporter

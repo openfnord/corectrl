@@ -22,6 +22,7 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <QProcess>
+#include <utility>
 
 class GPUInfoVulkanDataSource : public IDataSource<std::string>
 {

@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparser.h"
 #include "pmfreqodprofilepart.h"
+#include <string>
 
 namespace AMD {
 

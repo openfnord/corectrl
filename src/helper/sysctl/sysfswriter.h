@@ -18,6 +18,8 @@
 #pragma once
 
 #include "isysfswriter.h"
+#include <filesystem>
+#include <string_view>
 
 class SysfsWriter final : public ISysfsWriter
 {

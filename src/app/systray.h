@@ -18,7 +18,9 @@
 #pragma once
 
 #include <QObject>
+#include <QString>
 #include <QSystemTrayIcon>
+#include <QVariant>
 #include <memory>
 
 class SysTray : public QObject

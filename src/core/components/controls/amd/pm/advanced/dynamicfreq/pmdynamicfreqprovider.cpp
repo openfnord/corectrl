@@ -23,8 +23,11 @@
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
-
 #include "pmdynamicfreq.h"
+#include <filesystem>
+#include <memory>
+#include <string>
+#include <tuple>
 
 std::unique_ptr<IControl>
 AMD::PMDynamicFreqProvider::provideGPUControl(IGPUInfo const &gpuInfo,

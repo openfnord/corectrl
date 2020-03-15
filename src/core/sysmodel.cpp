@@ -17,13 +17,10 @@
 //
 #include "sysmodel.h"
 
-#include "components/igpu.h"
 #include "core/exportable.h"
 #include "core/importable.h"
 #include "core/isyscomponent.h"
-#include "info/igpuinfo.h"
 #include "info/iswinfo.h"
-#include <iostream>
 
 SysModel::SysModel(std::shared_ptr<ISWInfo> swInfo,
                    std::vector<std::unique_ptr<ISysComponent>> &&components) noexcept

@@ -19,6 +19,8 @@
 
 #include "core/profilepartprovider.h"
 #include <algorithm>
+#include <memory>
+#include <utility>
 
 class AMD::FanFixedProfilePart::Initializer final : public AMD::FanFixed::Exporter
 {

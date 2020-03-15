@@ -18,9 +18,10 @@
 #include "controlmodeqmlitem.h"
 
 #include "controlmode.h"
-#include "core/components/controls/icontrol.h"
-#include "core/qmlcomponentregistry.h"
-#include <QQmlApplicationEngine>
+#include "core/item.h"
+#include <QQuickItem>
+#include <memory>
+#include <utility>
 
 class ControlModeQMLItem::Initializer final
 : public QMLItem::Initializer

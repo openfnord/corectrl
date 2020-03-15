@@ -20,6 +20,10 @@
 #include "core/qmlcomponentregistry.h"
 #include "pmpowercap.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtQml>
+#include <memory>
 
 class AMD::PMPowerCapQMLItem::Initializer final
 : public QMLItem::Initializer

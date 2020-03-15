@@ -20,6 +20,7 @@
 #include "core/idatasink.h"
 #include <filesystem>
 #include <string>
+#include <utility>
 #include <vector>
 
 class ZipDataSink final

@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmfixed.h"
+#include <memory>
 
 class AMD::PMFixedXMLParser::Initializer final
 : public AMD::PMFixedProfilePart::Exporter

@@ -20,6 +20,15 @@
 #include "core/qmlcomponentregistry.h"
 #include "pmfvvoltcurve.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtGlobal>
+#include <QtQml>
+#include <algorithm>
+#include <cmath>
+#include <cstddef>
+#include <iterator>
+#include <memory>
 
 class AMD::PMFVVoltCurveQMLItem::Initializer final
 : public QMLItem::Initializer

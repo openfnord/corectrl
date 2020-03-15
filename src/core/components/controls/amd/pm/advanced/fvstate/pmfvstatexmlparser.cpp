@@ -19,6 +19,8 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmfvstate.h"
+#include <algorithm>
+#include <memory>
 
 class AMD::PMFVStateXMLParser::Initializer final
 : public AMD::PMFVStateProfilePart::Exporter

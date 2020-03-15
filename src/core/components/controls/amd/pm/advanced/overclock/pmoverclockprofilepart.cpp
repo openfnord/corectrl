@@ -19,6 +19,7 @@
 
 #include "core/profilepartprovider.h"
 #include "pmoverclock.h"
+#include <memory>
 
 AMD::PMOverclockProfilePart::PMOverclockProfilePart() noexcept
 : ControlGroupProfilePart(AMD::PMOverclock::ItemID)

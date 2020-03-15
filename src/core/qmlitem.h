@@ -18,10 +18,15 @@
 #pragma once
 
 #include "exportable.h"
+#include <QObject>
 #include <QQuickItem>
 #include <QString>
+#include <functional>
 #include <memory>
+#include <optional>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 class IQMLComponentFactory;

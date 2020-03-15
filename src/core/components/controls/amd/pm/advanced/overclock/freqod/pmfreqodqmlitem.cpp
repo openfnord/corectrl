@@ -20,6 +20,11 @@
 #include "core/qmlcomponentregistry.h"
 #include "pmfreqod.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtQml>
+#include <memory>
+#include <string>
 
 class AMD::PMFreqOdQMLItem::Initializer final
 : public QMLItem::Initializer

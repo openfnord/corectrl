@@ -19,6 +19,10 @@
 
 #include "core/profilepartxmlparser.h"
 #include "pmfvstateprofilepart.h"
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <vector>
 
 namespace AMD {
 

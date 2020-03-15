@@ -21,10 +21,16 @@
 #include "components/igpuprofilepart.h"
 #include "info/igpuinfo.h"
 #include "iprofilepart.h"
+#include "isyscomponent.h"
+#include "isyscomponentprofilepart.h"
 #include "isysmodel.h"
+#include "item.h"
 #include "qmlcomponentregistry.h"
 #include <QQmlApplicationEngine>
-#include <string>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtQml>
+#include <utility>
 
 class SysModelQMLItem::Initializer final
 : public QMLItem::Initializer

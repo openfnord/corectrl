@@ -20,6 +20,11 @@
 #include "core/qmlcomponentregistry.h"
 #include "pmpowerprofile.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtGlobal>
+#include <QtQml>
+#include <memory>
 
 char const *const AMD::PMPowerProfileQMLItem::trStrings[] = {
     QT_TRANSLATE_NOOP("AMD::PMPowerProfileQMLItem", "3D_FULL_SCREEN"),

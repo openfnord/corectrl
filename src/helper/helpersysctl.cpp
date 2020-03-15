@@ -21,7 +21,12 @@
 #include "core/icommandqueue.h"
 #include "fmt/format.h"
 #include "helperids.h"
-#include <QtDBus>
+#include <QByteArray>
+#include <QDBusConnection>
+#include <QDBusInterface>
+#include <QStringLiteral>
+#include <stdexcept>
+#include <utility>
 
 HelperSysCtl::HelperSysCtl(std::shared_ptr<ICryptoLayer> cryptoLayer) noexcept
 : cryptoLayer_(std::move(cryptoLayer))

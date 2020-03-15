@@ -18,6 +18,7 @@
 #include "appregistry.h"
 
 #include <algorithm>
+#include <utility>
 
 void AppRegistry::add(std::string const &app)
 {

@@ -52,6 +52,11 @@
 #include "helper/helpermonitor.h"
 #include "helper/helpersysctl.h"
 #include <QStandardPaths>
+#include <algorithm>
+#include <cctype>
+#include <exception>
+#include <system_error>
+#include <utility>
 
 INITIALIZE_EASYLOGGINGPP
 

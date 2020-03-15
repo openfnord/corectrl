@@ -23,9 +23,12 @@
 #include "core/info/amd/gpuinfopm.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
-
 #include "pmfixedlegacy.h"
 #include "pmfixedr600.h"
+#include <filesystem>
+#include <memory>
+#include <string>
+#include <tuple>
 
 std::unique_ptr<IControl>
 AMD::PMFixedProvider::provideGPUControl(IGPUInfo const &gpuInfo,

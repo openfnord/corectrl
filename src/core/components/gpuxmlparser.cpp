@@ -20,6 +20,7 @@
 #include "core/info/igpuinfo.h"
 #include "core/profilepartxmlparserprovider.h"
 #include "igpu.h"
+#include <utility>
 
 class GPUXMLParser::Factory final
 : public ProfilePartXMLParser::Factory

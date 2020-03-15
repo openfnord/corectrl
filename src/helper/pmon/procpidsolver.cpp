@@ -18,7 +18,8 @@
 #include "procpidsolver.h"
 
 #include "common/fileutils.h"
-#include <fstream>
+#include <cstddef>
+#include <system_error>
 
 std::string ProcPIDSolver::app(int PID)
 {

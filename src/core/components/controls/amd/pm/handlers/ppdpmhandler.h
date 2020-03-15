@@ -18,8 +18,11 @@
 #pragma once
 
 #include "ippdpmhandler.h"
+#include "units/units.h"
 #include <memory>
-#include <string_view>
+#include <string>
+#include <utility>
+#include <vector>
 
 template<typename...>
 class IDataSource;

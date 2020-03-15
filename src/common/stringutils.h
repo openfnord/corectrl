@@ -19,8 +19,11 @@
 
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
+#include <exception>
 #include <string>
 #include <tuple>
+#include <type_traits>
+#include <vector>
 
 namespace Utils {
 namespace String {

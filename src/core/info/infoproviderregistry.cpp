@@ -17,6 +17,8 @@
 //
 #include "infoproviderregistry.h"
 
+#include <utility>
+
 std::vector<std::unique_ptr<ICPUInfo::IProvider>> const &
 InfoProviderRegistry::cpuInfoProviders() const
 {

@@ -18,6 +18,8 @@
 #include "swinfo.h"
 
 #include <algorithm>
+#include <iterator>
+#include <utility>
 
 std::string SWInfo::info(std::string_view key) const
 {

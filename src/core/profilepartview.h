@@ -18,6 +18,10 @@
 #pragma once
 
 #include "iprofilepartview.h"
+#include <memory>
+#include <string>
+
+class IProfilePart;
 
 class ProfilePartView final : public IProfilePartView
 {

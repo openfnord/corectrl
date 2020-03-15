@@ -24,6 +24,8 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <algorithm>
+#include <cctype>
+#include <utility>
 
 class GPUInfoRevisionDataSource
 : public IDataSource<std::string, std::filesystem::path const>

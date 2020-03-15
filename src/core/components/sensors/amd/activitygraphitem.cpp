@@ -18,6 +18,7 @@
 #include "../sensorgraphitem.h"
 #include "activity.h"
 #include "core/qmlcomponentregistry.h"
+#include "units/units.h"
 #include <QtGlobal>
 
 namespace AMD {

@@ -19,7 +19,11 @@
 
 #include "core/qmlitem.h"
 #include "fancurveprofilepart.h"
-#include <string>
+#include <QObject>
+#include <QPointF>
+#include <QVariantList>
+#include <QtGlobal>
+#include <vector>
 
 namespace AMD {
 

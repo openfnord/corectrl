@@ -17,13 +17,14 @@
 //
 #include "profilexmlparser.h"
 
-#include "components/igpu.h"
-#include "components/igpuprofilepart.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include "iprofile.h"
+#include "isyscomponentprofilepart.h"
 #include "pugixml/pugixml.hpp"
 #include <algorithm>
+#include <cctype>
+#include <utility>
 
 ProfileXMLParser::Factory::Factory(
     IProfilePartXMLParserProvider const &profilePartParserProvider,

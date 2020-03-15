@@ -19,7 +19,9 @@
 
 #include "core/components/controls/gpucontrolprovider.h"
 #include "core/info/igpuinfo.h"
+#include "core/info/vendor.h"
 #include "fanmode.h"
+#include <utility>
 
 std::unique_ptr<IControl>
 AMD::FanModeProvider::provideGPUControl(IGPUInfo const &gpuInfo,

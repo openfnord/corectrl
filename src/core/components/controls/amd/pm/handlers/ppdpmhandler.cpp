@@ -20,6 +20,8 @@
 #include "core/components/amdutils.h"
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
+#include <algorithm>
+#include <iterator>
 
 AMD::PpDpmHandler::PpDpmHandler(
     std::unique_ptr<IDataSource<std::vector<std::string>>> &&ppDpmDataSource) noexcept

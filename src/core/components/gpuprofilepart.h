@@ -19,6 +19,9 @@
 
 #include "igpu.h"
 #include "igpuprofilepart.h"
+#include <memory>
+#include <string>
+#include <vector>
 
 class GPUProfilePart final
 : public IGPUProfilePart

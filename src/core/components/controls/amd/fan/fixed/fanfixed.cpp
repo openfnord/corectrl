@@ -20,6 +20,9 @@
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
 #include <algorithm>
+#include <cmath>
+#include <limits>
+#include <utility>
 
 AMD::FanFixed::FanFixed(
     std::unique_ptr<IDataSource<unsigned int>> &&pwmEnableDataSource,

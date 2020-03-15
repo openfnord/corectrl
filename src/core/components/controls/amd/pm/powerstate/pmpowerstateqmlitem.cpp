@@ -20,6 +20,11 @@
 #include "core/qmlcomponentregistry.h"
 #include "pmpowerstate.h"
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QStringLiteral>
+#include <QtGlobal>
+#include <QtQml>
+#include <memory>
 
 char const *const AMD::PMPowerStateQMLItem::trStrings[] = {
     QT_TRANSLATE_NOOP("AMD::PMPowerStateQMLItem", "battery"),

@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmadvanced.h"
+#include <memory>
 
 AMD::PMAdvancedXMLParser::PMAdvancedXMLParser() noexcept
 : ControlGroupXMLParser(AMD::PMAdvanced::ItemID)

@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "fanmode.h"
+#include <memory>
 
 AMD::FanModeXMLParser::FanModeXMLParser() noexcept
 : ControlModeXMLParser(AMD::FanMode::ItemID)

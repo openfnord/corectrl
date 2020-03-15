@@ -18,6 +18,8 @@
 #pragma once
 
 #include "igpucontrolprovider.h"
+#include <memory>
+#include <vector>
 
 class GPUControlProvider final : public IGPUControlProvider
 {

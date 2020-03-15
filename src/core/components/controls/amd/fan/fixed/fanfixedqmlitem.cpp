@@ -20,6 +20,8 @@
 #include "core/qmlcomponentregistry.h"
 #include "fanfixed.h"
 #include <QQmlApplicationEngine>
+#include <QStringLiteral>
+#include <memory>
 
 char const *const AMD::FanFixedQMLItem::trStrings[] = {
     QT_TRANSLATE_NOOP("ControlModeQMLItem", "AMD_FAN_FIXED"),

@@ -17,9 +17,10 @@
 //
 #include "amdutils.h"
 
-#include "common/fileutils.h"
 #include "common/stringutils.h"
 #include <algorithm>
+#include <cstddef>
+#include <iterator>
 
 namespace Utils {
 namespace AMD {

@@ -19,6 +19,9 @@
 
 #include "controlgroupprofilepart.h"
 #include "core/profilepartxmlparser.h"
+#include <memory>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 
 class ControlGroupXMLParser

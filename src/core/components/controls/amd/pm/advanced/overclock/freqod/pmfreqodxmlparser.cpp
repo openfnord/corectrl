@@ -19,6 +19,7 @@
 
 #include "core/profilepartxmlparserprovider.h"
 #include "pmfreqod.h"
+#include <memory>
 
 class AMD::PMFreqOdXMLParser::Initializer final
 : public AMD::PMFreqOdProfilePart::Exporter

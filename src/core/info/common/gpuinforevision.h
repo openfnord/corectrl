@@ -18,6 +18,9 @@
 #pragma once
 
 #include "../igpuinfo.h"
+#include <filesystem>
+#include <memory>
+#include <string>
 
 template<typename...>
 class IDataSource;

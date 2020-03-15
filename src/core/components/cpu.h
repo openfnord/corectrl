@@ -17,9 +17,9 @@
 //
 #pragma once
 
-#include "core/isyscomponent.h"
 #include "icpu.h"
 #include <memory>
+#include <string>
 #include <vector>
 
 class IControl;

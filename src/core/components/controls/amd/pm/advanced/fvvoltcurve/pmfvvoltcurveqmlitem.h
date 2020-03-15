@@ -19,6 +19,15 @@
 
 #include "core/qmlitem.h"
 #include "pmfvvoltcurveprofilepart.h"
+#include <QObject>
+#include <QPointF>
+#include <QString>
+#include <QVariantList>
+#include <QVector>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace AMD {
 
