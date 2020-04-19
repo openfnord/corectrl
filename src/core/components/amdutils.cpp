@@ -173,8 +173,12 @@ parseOdClkStateFreqVoltLine(std::string const &line)
   // Relevant lines format (kernel 4.17+):
   // ...
   // 0:    300MHz    800mV
+  //
+  // On Navi ASICs:
   // ...
-  std::regex const regex(R"((\d+)\s*:\s*(\d+)\s*MHz\s*(\d+)\s*mV)",
+  // 0: 300MHz @ 800mV
+  // ...
+  std::regex const regex(R"((\d+)\s*:\s*(\d+)\s*MHz[\s@]*(\d+)\s*mV)",
                          std::regex::icase);
   std::smatch result;
 

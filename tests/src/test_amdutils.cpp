@@ -378,7 +378,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     // clang-format off
     std::vector<std::string> input{"OD_VDDC_CURVE:",
                                    "0: 700Mhz 800mV",
-                                   "2: 800Mhz 900mV",
+                                   "2: 800Mhz @ 900mV", // navi
                                    "OD_RANGE:"};
     // clang-format on
 
