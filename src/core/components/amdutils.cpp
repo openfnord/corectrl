@@ -485,5 +485,38 @@ parseOdClkVoltCurveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines
   return {};
 }
 
+bool ppOdClkVoltageHasKnownQuirks(
+    std::vector<std::string> const &ppOdClkVoltageLines)
+{
+  // Empty file
+  if (ppOdClkVoltageLines.empty())
+    return true;
+
+  // Check for missing range section (kernel < 4.18)
+  auto odRangeIter = std::find_if(
+      ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
+      [&](std::string const &line) { return line == "OD_RANGE:"; });
+  if (odRangeIter == ppOdClkVoltageLines.cend())
+    return true;
+
+  // Check for voltage incomplete curve points (navi on kernel < 5.6)
+  // "OD_VDDC_CURVE:",
+  // "0: 700Mhz @ 0mV",
+  auto atIter = std::find_if(ppOdClkVoltageLines.cbegin(),
+                             ppOdClkVoltageLines.cend(),
+                             [&](std::string const &line) {
+                               return line.find("@") != std::string::npos;
+                             });
+  if (atIter != ppOdClkVoltageLines.cend()) {
+    auto points = parseOdClkVoltCurvePoints(ppOdClkVoltageLines);
+    if (!points.has_value())
+      return true;
+
+    return points->at(0).second == units::voltage::millivolt_t(0);
+  }
+
+  return false;
+}
+
 } // namespace AMD
 } // namespace Utils
