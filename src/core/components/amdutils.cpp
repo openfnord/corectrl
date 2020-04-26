@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
+#include <regex>
 
 namespace Utils {
 namespace AMD {
@@ -32,29 +33,17 @@ parseDPMStates(std::vector<std::string> const &ppDpmLines)
   // 0: 300Mhz *
   // ...
   // N: 1303Mhz
+  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*Mhz)", std::regex::icase);
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> states;
 
   for (auto &line : ppDpmLines) {
-    auto colonPos = line.find(':');
-    if (colonPos == std::string::npos)
+    std::smatch result;
+    if (!std::regex_search(line, result, regex))
       return {};
 
-    unsigned int index = 0;
-    auto indexStr = line.substr(0, colonPos);
-    if (!Utils::String::toNumber<unsigned int>(index, indexStr))
-      return {};
-
-    auto spacePos = line.find(' ', colonPos);
-    if (spacePos == std::string::npos)
-      return {};
-
-    auto mhzPos = line.find("M", spacePos);
-    if (mhzPos == std::string::npos)
-      return {};
-
-    int freq = 0;
-    auto freqStr = line.substr(spacePos, mhzPos - spacePos);
-    if (!Utils::String::toNumber<int>(freq, freqStr))
+    unsigned int index{0}, freq{0};
+    if (!(Utils::String::toNumber<unsigned int>(index, result[1]) &&
+          Utils::String::toNumber<unsigned int>(freq, result[2])))
       return {};
 
     states.emplace_back(index, units::frequency::megahertz_t(freq));
@@ -75,18 +64,13 @@ parseDPMCurrentStateIndex(std::vector<std::string> const &ppDpmLines)
   // N: 1303Mhz
   //
   // '*' marks the current state
+  std::regex const regex(R"(^(\d+)\s*:\s*\d+\s*Mhz\s*\*)", std::regex::icase);
 
   for (auto &line : ppDpmLines) {
-    auto markerPos = line.find('*');
-    if (markerPos != std::string::npos) {
-
-      auto colonPos = line.find(':');
-      if (colonPos == std::string::npos)
-        return {};
-
-      unsigned int index = 0;
-      auto indexStr = line.substr(0, colonPos);
-      if (!Utils::String::toNumber<unsigned int>(index, indexStr))
+    std::smatch result;
+    if (std::regex_search(line, result, regex)) {
+      unsigned int index{0};
+      if (!Utils::String::toNumber<unsigned int>(index, result[1]))
         return {};
 
       return index;
@@ -100,23 +84,13 @@ bool isPowerProfileModeSupported(
     std::vector<std::string> const &ppPowerProfileModeLines)
 {
   // Relevant header formats:
-  // NUM ...
-  // PROFILE_INDEX(NAME) ...
-
+  // NUM ...                          | smu7, vega10
+  // PROFILE_INDEX(NAME) ...          | vega20
   if (ppPowerProfileModeLines.empty())
     return false;
 
-  // check the first word of the header for known words
-  auto spacePos = ppPowerProfileModeLines.front().find(' ');
-  if (spacePos == std::string::npos)
-    return false;
-
-  auto firstWord = ppPowerProfileModeLines.front().substr(0, spacePos);
-  if (!(firstWord == "NUM" ||                // smu7, vega10
-        firstWord == "PROFILE_INDEX(NAME)")) // vega20
-    return false;
-
-  return true;
+  std::regex const regex(R"(^(?:NUM|PROFILE_INDEX\(NAME\))\s+)");
+  return std::regex_search(ppPowerProfileModeLines.front(), regex);
 }
 
 std::optional<std::vector<std::pair<std::string, int>>>
@@ -131,37 +105,24 @@ parsePowerProfileModeModes(std::vector<std::string> const &ppPowerProfileModeLin
 
   if (isPowerProfileModeSupported(ppPowerProfileModeLines)) {
 
+    std::regex const regex(R"(^\s*(\d+)\s*([^\*\s]+)(?:\s|\*)*:)");
     std::vector<std::pair<std::string, int>> modes;
+
     for (size_t i = 1; i < ppPowerProfileModeLines.size(); ++i) {
       auto &line = ppPowerProfileModeLines[i];
 
-      // assuming that no other lines but the lines that contains the mode name has ':'
-      auto colonPos = line.find(':');
-      if (colonPos == std::string::npos)
+      std::smatch result;
+      if (!std::regex_search(line, result, regex))
         continue;
-
-      auto modeStr = line.substr(0, colonPos);
-      auto indexPos = modeStr.find_first_not_of(' ');
-      auto spacePos = modeStr.find(' ', indexPos);
-
-      int index{0};
-      if (!Utils::String::toNumber<int>(
-              index, modeStr.substr(indexPos, spacePos - indexPos)))
-        continue;
-
-      auto modePos = modeStr.find_first_not_of(' ', spacePos);
-      auto modeEndPos = modeStr.size();
-      if (modeStr.back() == '*')
-        --modeEndPos;
-
-      auto mode = modeStr.substr(modePos, modeEndPos - modePos);
-
-      // remove remaining spaces
-      mode.erase(std::remove(mode.begin(), mode.end(), ' '), mode.end());
 
       // skip BOOT and CUSTOM modes
+      std::string const mode(result[2]);
       if (mode.find("BOOT") != std::string::npos ||
           mode.find("CUSTOM") != std::string::npos)
+        continue;
+
+      int index{0};
+      if (!Utils::String::toNumber<int>(index, result[1]))
         continue;
 
       modes.emplace_back(std::move(mode), index);
@@ -184,22 +145,21 @@ std::optional<int> parsePowerProfileModeCurrentModeIndex(
 
   if (isPowerProfileModeSupported(ppPowerProfileModeLines)) {
 
+    std::regex const regex(R"(^\s*(\d+)\s*(?:[^\*\s]+)\s*\*\s*:)");
+
     // search for selection mark ('*')
     for (size_t i = 1; i < ppPowerProfileModeLines.size(); ++i) {
       auto &line = ppPowerProfileModeLines[i];
 
-      auto markPos = line.find('*');
-      if (markPos != std::string::npos) {
-        auto indexPos = line.find_first_not_of(' ');
-        auto spacePos = line.find(' ', indexPos);
+      std::smatch result;
+      if (!std::regex_search(line, result, regex))
+        continue;
 
-        int index{0};
-        if (!Utils::String::toNumber<int>(
-                index, line.substr(indexPos, spacePos - indexPos)))
-          break;
+      int index{0};
+      if (!Utils::String::toNumber<int>(index, result[1]))
+        break;
 
-        return index;
-      }
+      return index;
     }
   }
 
@@ -208,33 +168,28 @@ std::optional<int> parsePowerProfileModeCurrentModeIndex(
 
 std::optional<std::tuple<unsigned int, units::frequency::megahertz_t,
                          units::voltage::millivolt_t>>
-parseOdClkVoltStateStatesLine(std::string const &line)
+parseOdClkStateFreqVoltLine(std::string const &line)
 {
   // Relevant lines format (kernel 4.17+):
   // ...
   // 0:    300MHz    800mV
+  //
+  // On Navi ASICs:
   // ...
+  // 0: 300MHz @ 800mV
+  // ...
+  std::regex const regex(R"((\d+)\s*:\s*(\d+)\s*MHz[\s@]*(\d+)\s*mV)",
+                         std::regex::icase);
+  std::smatch result;
 
-  // index
-  auto colonPos = line.find(':');
-  auto indexStr = line.substr(0, colonPos);
-
-  // frequency
-  auto spacePos = line.find(' ', colonPos);
-  auto valuePos = line.find_first_not_of(' ', spacePos);
-  auto endValuePos = line.find(' ', valuePos);
-  auto freqStr = line.substr(valuePos, endValuePos - valuePos);
-
-  // voltage
-  valuePos = line.find_first_not_of(' ', endValuePos);
-  auto voltStr = line.substr(valuePos);
-
-  unsigned int index{0}, freq{0}, volt{0};
-  if (Utils::String::toNumber<unsigned int>(index, indexStr) &&
-      Utils::String::toNumber<unsigned int>(freq, freqStr) &&
-      Utils::String::toNumber<unsigned int>(volt, voltStr))
-    return std::make_tuple(index, units::frequency::megahertz_t(freq),
-                           units::voltage::millivolt_t(volt));
+  if (std::regex_search(line, result, regex)) {
+    unsigned int index{0}, freq{0}, volt{0};
+    if (Utils::String::toNumber<unsigned int>(index, result[1]) &&
+        Utils::String::toNumber<unsigned int>(freq, result[2]) &&
+        Utils::String::toNumber<unsigned int>(volt, result[3]))
+      return std::make_tuple(index, units::frequency::megahertz_t(freq),
+                             units::voltage::millivolt_t(volt));
+  }
 
   return {};
 }
@@ -270,7 +225,7 @@ parseOdClkVoltStateStates(std::string_view targetLbl,
         states;
 
     while (targetIt != endIt) {
-      auto state = parseOdClkVoltStateStatesLine(*targetIt);
+      auto state = parseOdClkStateFreqVoltLine(*targetIt);
       if (state.has_value())
         states.emplace_back(std::move(*state));
 
@@ -283,56 +238,23 @@ parseOdClkVoltStateStates(std::string_view targetLbl,
   return {};
 }
 
-template<typename T>
-std::optional<std::pair<T, T>> parseOdClkVoltRangeLine(std::string const &line)
+std::optional<std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>>
+parseOdClkRangeLine(std::string const &line)
 {
   // Relevant lines format (kernel 4.18+):
   // ...
-  // targetLbl...: min max
+  // Lbl...: 400MHz 500MHz
   // ...
+  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*MHz\s*(\d+)\s*MHz)",
+                         std::regex::icase);
+  std::smatch result;
 
-  // min value
-  auto spacePos = line.find(' ');
-  auto valuePos = line.find_first_not_of(' ', spacePos);
-  auto endValuePos = line.find(' ', valuePos);
-  auto minStr = line.substr(valuePos, endValuePos - valuePos);
-
-  // max value
-  valuePos = line.find_first_not_of(' ', endValuePos);
-  auto maxStr = line.substr(valuePos);
-
-  int min{0}, max{0};
-  if (Utils::String::toNumber<int>(min, minStr) &&
-      Utils::String::toNumber<int>(max, maxStr))
-    return std::make_pair(units::make_unit<T>(min), units::make_unit<T>(max));
-
-  return {};
-}
-
-template<typename T>
-std::optional<std::pair<T, T>>
-parseOdClkVoltStateRange(std::string_view targetLbl,
-                         std::vector<std::string> const &dataSourceLines)
-{
-  // Relevant lines format (kernel 4.18+):
-  // ...
-  // OD_RANGE:
-  // ...
-  // targetLbl:     min       max
-  // ...
-  auto rangeIt = std::find_if(dataSourceLines.cbegin(), dataSourceLines.cend(),
-                              [&](std::string const &line) {
-                                return line.find("OD_RANGE:") !=
-                                       std::string::npos;
-                              });
-  if (rangeIt != dataSourceLines.cend()) {
-    auto targetIt = std::find_if(
-        rangeIt, dataSourceLines.cend(), [&](std::string const &line) {
-          return line.find(std::string(targetLbl) + ":") != std::string::npos;
-        });
-
-    if (targetIt != dataSourceLines.cend())
-      return parseOdClkVoltRangeLine<T>(*targetIt);
+  if (std::regex_search(line, result, regex)) {
+    int min{0}, max{0};
+    if (Utils::String::toNumber<int>(min, result[1]) &&
+        Utils::String::toNumber<int>(max, result[2]))
+      return std::make_pair(units::make_unit<units::frequency::megahertz_t>(min),
+                            units::make_unit<units::frequency::megahertz_t>(max));
   }
 
   return {};
@@ -342,15 +264,77 @@ std::optional<std::pair<units::frequency::megahertz_t, units::frequency::megaher
 parseOdClkVoltStateClkRange(std::string_view targetLbl,
                             std::vector<std::string> const &ppOdClkVoltageLines)
 {
-  return parseOdClkVoltStateRange<units::frequency::megahertz_t>(
-      targetLbl, ppOdClkVoltageLines);
+  // Relevant lines format (kernel 4.18+):
+  // ...
+  // OD_RANGE:
+  // ...
+  // targetLbl:     min       max
+  // ...
+  auto rangeIt = std::find_if(
+      ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
+      [&](std::string const &line) {
+        return line.find("OD_RANGE:") != std::string::npos;
+      });
+  if (rangeIt != ppOdClkVoltageLines.cend()) {
+    auto targetIt = std::find_if(
+        rangeIt, ppOdClkVoltageLines.cend(), [&](std::string const &line) {
+          return line.find(std::string(targetLbl) + ":") != std::string::npos;
+        });
+
+    if (targetIt != ppOdClkVoltageLines.cend())
+      return parseOdClkRangeLine(*targetIt);
+  }
+
+  return {};
+}
+
+std::optional<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>
+parseOdVoltRangeLine(std::string const &line)
+{
+  // Relevant lines format (kernel 4.18+):
+  // ...
+  // Lbl...: 400mV 500mV
+  // ...
+  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*mV\s*(\d+)\s*mV)",
+                         std::regex::icase);
+  std::smatch result;
+
+  if (std::regex_search(line, result, regex)) {
+    int min{0}, max{0};
+    if (Utils::String::toNumber<int>(min, result[1]) &&
+        Utils::String::toNumber<int>(max, result[2]))
+      return std::make_pair(units::make_unit<units::voltage::millivolt_t>(min),
+                            units::make_unit<units::voltage::millivolt_t>(max));
+  }
+
+  return {};
 }
 
 std::optional<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>
 parseOdClkVoltStateVoltRange(std::vector<std::string> const &ppOdClkVoltageLines)
 {
-  return parseOdClkVoltStateRange<units::voltage::millivolt_t>(
-      "VDDC", ppOdClkVoltageLines);
+  // Relevant lines format (kernel 4.18+):
+  // ...
+  // OD_RANGE:
+  // ...
+  // VDDC:     min       max
+  // ...
+  auto rangeIt = std::find_if(
+      ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
+      [&](std::string const &line) {
+        return line.find("OD_RANGE:") != std::string::npos;
+      });
+  if (rangeIt != ppOdClkVoltageLines.cend()) {
+    auto targetIt = std::find_if(
+        rangeIt, ppOdClkVoltageLines.cend(), [&](std::string const &line) {
+          return line.find("VDDC:") != std::string::npos;
+        });
+
+    if (targetIt != ppOdClkVoltageLines.cend())
+      return parseOdVoltRangeLine(*targetIt);
+  }
+
+  return {};
 }
 
 std::optional<std::pair<unsigned int, units::frequency::megahertz_t>>
@@ -360,20 +344,15 @@ parseOdClkVoltCurveStatesLine(std::string const &line)
   // ...
   // 0:    300MHz
   // ...
+  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*MHz)", std::regex::icase);
+  std::smatch result;
 
-  // index
-  auto colonPos = line.find(':');
-  auto indexStr = line.substr(0, colonPos);
-
-  // frequency
-  auto spacePos = line.find(' ', colonPos);
-  auto valuePos = line.find_first_not_of(' ', spacePos);
-  auto freqStr = line.substr(valuePos);
-
-  unsigned int index{0}, freq{0};
-  if (Utils::String::toNumber<unsigned int>(index, indexStr) &&
-      Utils::String::toNumber<unsigned int>(freq, freqStr))
-    return std::make_pair(index, units::frequency::megahertz_t(freq));
+  if (std::regex_search(line, result, regex)) {
+    unsigned int index{0}, freq{0};
+    if (Utils::String::toNumber<unsigned int>(index, result[1]) &&
+        Utils::String::toNumber<unsigned int>(freq, result[2]))
+      return std::make_pair(index, units::frequency::megahertz_t(freq));
+  }
 
   return {};
 }
@@ -447,7 +426,7 @@ parseOdClkVoltCurvePoints(std::vector<std::string> const &ppOdClkVoltageLines)
         points;
 
     while (targetIt != endIt) {
-      auto state = parseOdClkVoltStateStatesLine(*targetIt);
+      auto state = parseOdClkStateFreqVoltLine(*targetIt);
       if (state.has_value()) {
         auto &[_, freq, volt] = *state;
         points.emplace_back(std::make_pair(freq, volt));
@@ -492,8 +471,7 @@ parseOdClkVoltCurveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines
           });
 
       if (targetIt != ppOdClkVoltageLines.cend()) {
-        auto lineRange =
-            parseOdClkVoltRangeLine<units::voltage::millivolt_t>(*targetIt);
+        auto lineRange = parseOdVoltRangeLine(*targetIt);
         if (lineRange.has_value())
           ranges.emplace_back(std::move(*lineRange));
       }
@@ -505,6 +483,39 @@ parseOdClkVoltCurveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines
   }
 
   return {};
+}
+
+bool ppOdClkVoltageHasKnownQuirks(
+    std::vector<std::string> const &ppOdClkVoltageLines)
+{
+  // Empty file
+  if (ppOdClkVoltageLines.empty())
+    return true;
+
+  // Check for missing range section (kernel < 4.18)
+  auto odRangeIter = std::find_if(
+      ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
+      [&](std::string const &line) { return line == "OD_RANGE:"; });
+  if (odRangeIter == ppOdClkVoltageLines.cend())
+    return true;
+
+  // Check for voltage incomplete curve points (navi on kernel < 5.6)
+  // "OD_VDDC_CURVE:",
+  // "0: 700Mhz @ 0mV",
+  auto atIter = std::find_if(ppOdClkVoltageLines.cbegin(),
+                             ppOdClkVoltageLines.cend(),
+                             [&](std::string const &line) {
+                               return line.find("@") != std::string::npos;
+                             });
+  if (atIter != ppOdClkVoltageLines.cend()) {
+    auto points = parseOdClkVoltCurvePoints(ppOdClkVoltageLines);
+    if (!points.has_value())
+      return true;
+
+    return points->at(0).second == units::voltage::millivolt_t(0);
+  }
+
+  return false;
 }
 
 } // namespace AMD

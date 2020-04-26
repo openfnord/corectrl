@@ -140,5 +140,10 @@ std::optional<
     std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
 parseOdClkVoltCurveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines);
 
+/// Returns whether pp_od_clk_voltage has known quirks.
+/// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
+bool ppOdClkVoltageHasKnownQuirks(
+    std::vector<std::string> const &ppOdClkVoltageLines);
+
 } // namespace AMD
 } // namespace Utils

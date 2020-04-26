@@ -58,6 +58,7 @@ AMD::PMFVStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,
 
         auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
         auto ppOdClkVoltValid =
+            !Utils::AMD::ppOdClkVoltageHasKnownQuirks(ppOdClkVoltLines) &&
             Utils::AMD::parseOdClkVoltStateClkRange("SCLK", ppOdClkVoltLines)
                 .has_value() &&
             Utils::AMD::parseOdClkVoltStateClkRange("MCLK", ppOdClkVoltLines)
