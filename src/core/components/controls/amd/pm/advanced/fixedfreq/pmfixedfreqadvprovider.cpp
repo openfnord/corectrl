@@ -43,14 +43,24 @@ AMD::PMFixedFreqAdvProvider::provideGPUControl(IGPUInfo const &gpuInfo,
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
     auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
 
+    // Check pp_od_clk_voltage
+    auto ppOdClkVoltagePath = gpuInfo.path().sys / "pp_od_clk_voltage";
+    auto ppOdClkVoltageSysFSIsValid =
+        Utils::File::isSysFSEntryValid(ppOdClkVoltagePath);
+    auto ppOdClkVoltageHasKnownQuirks = false;
+    if (ppOdClkVoltageSysFSIsValid) {
+      auto ppOdClkVoltageLines = Utils::File::readFileLines(ppOdClkVoltagePath);
+      ppOdClkVoltageHasKnownQuirks =
+          Utils::AMD::ppOdClkVoltageHasKnownQuirks(ppOdClkVoltageLines);
+    }
+
     if (driver == "amdgpu" &&
         ((kernel >= std::make_tuple(4, 6, 0) &&
           kernel < std::make_tuple(4, 8, 0)) ||
          (kernel >= std::make_tuple(4, 17, 0) &&
           kernel < std::make_tuple(4, 18, 0)) ||
          (kernel >= std::make_tuple(4, 18, 0) &&
-          !Utils::File::isSysFSEntryValid(gpuInfo.path().sys /
-                                          "pp_od_clk_voltage")))) {
+          (!ppOdClkVoltageSysFSIsValid || ppOdClkVoltageHasKnownQuirks)))) {
 
       auto perfLevel = gpuInfo.path().sys / "power_dpm_force_performance_level";
       auto dpmSclk = gpuInfo.path().sys / "pp_dpm_sclk";
