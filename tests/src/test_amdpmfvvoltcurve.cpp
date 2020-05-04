@@ -19,7 +19,6 @@
 #include "trompeloeil.hpp"
 
 #include "common/commandqueuestub.h"
-#include "common/ppdpmhandlermock.h"
 #include "common/stringdatasourcestub.h"
 #include "common/vectorstringdatasourcestub.h"
 #include "core/components/controls/amd/pm/advanced/fvvoltcurve/pmfvvoltcurve.h"
@@ -62,15 +61,11 @@ class PMFVVoltCurveImporterStub final : public ::AMD::PMFVVoltCurve::Importer
       std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
           &gpuStates,
       std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
-          &memStates,
-      std::vector<unsigned int> const &gpuActiveStates,
-      std::vector<unsigned int> const &memActiveStates)
+          &memStates)
   : voltMode_(voltMode)
   , voltCurve_(voltCurve)
   , gpuStates_(gpuStates)
   , memStates_(memStates)
-  , gpuActiveStates_(gpuActiveStates)
-  , memActiveStates_(memActiveStates)
   {
   }
 
@@ -116,24 +111,12 @@ class PMFVVoltCurveImporterStub final : public ::AMD::PMFVVoltCurve::Importer
     return stateIt->second;
   }
 
-  std::vector<unsigned int> providePMFVVoltCurveGPUActiveStates() const override
-  {
-    return gpuActiveStates_;
-  }
-
-  std::vector<unsigned int> providePMFVVoltCurveMemActiveStates() const override
-  {
-    return memActiveStates_;
-  }
-
  private:
   std::string const voltMode_;
   std::vector<std::pair<units::frequency::megahertz_t,
                         units::voltage::millivolt_t>> const voltCurve_;
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const gpuStates_;
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const memStates_;
-  std::vector<unsigned int> const gpuActiveStates_;
-  std::vector<unsigned int> const memActiveStates_;
 };
 
 class PMFVVoltCurveExporterMock : public ::AMD::PMFVVoltCurve::Exporter
@@ -173,11 +156,6 @@ class PMFVVoltCurveExporterMock : public ::AMD::PMFVVoltCurve::Exporter
                &),
       override);
 
-  MAKE_MOCK1(takePMFVVoltCurveGPUActiveStates,
-             void(std::vector<unsigned int> const &), override);
-  MAKE_MOCK1(takePMFVVoltCurveMemActiveStates,
-             void(std::vector<unsigned int> const &), override);
-
   MAKE_MOCK1(takeActive, void(bool), override);
   MAKE_MOCK1(
       provideExporter,
@@ -188,22 +166,11 @@ class PMFVVoltCurveExporterMock : public ::AMD::PMFVVoltCurve::Exporter
 TEST_CASE("AMD PMFVVoltCurve tests",
           "[GPU][AMD][PM][PMAdvanced][PMFVVoltCurve]")
 {
-  std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> sclkStates{
-      {0, units::frequency::megahertz_t(300)},
-      {1, units::frequency::megahertz_t(1000)},
-      {2, units::frequency::megahertz_t(2000)}};
-  std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> mclkStates{
-      {1, units::frequency::megahertz_t(1000)}};
-
-  auto ppDpmSclkMock = std::make_unique<PpDpmHandlerMock>(sclkStates);
-  auto ppDpmMclkMock = std::make_unique<PpDpmHandlerMock>(mclkStates);
-
   // clang-format off
   std::vector<std::string> ppOdClkVoltageData {
                              "OD_SCLK:",
                              "0:        200MHz",
                              "1:       1000MHz",
-                             "2:       2000MHz",
                              "OD_MCLK:",
                              "1:       1000MHz",
                              "OD_VDDC_CURVE:",
@@ -225,43 +192,31 @@ TEST_CASE("AMD PMFVVoltCurve tests",
   SECTION("Has PMFVVoltCurve ID")
   {
     PMFVVoltCurveTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                                std::make_unique<VectorStringDataSourceStub>(),
-                                std::move(ppDpmSclkMock),
-                                std::move(ppDpmMclkMock));
+                                std::make_unique<VectorStringDataSourceStub>());
     REQUIRE(ts.ID() == ::AMD::PMFVVoltCurve::ItemID);
   }
 
   SECTION("Is active by default")
   {
     PMFVVoltCurveTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                                std::make_unique<VectorStringDataSourceStub>(),
-                                std::move(ppDpmSclkMock),
-                                std::move(ppDpmMclkMock));
+                                std::make_unique<VectorStringDataSourceStub>());
     REQUIRE(ts.active());
   }
 
   SECTION("Has 'auto' volt mode by default")
   {
     PMFVVoltCurveTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                                std::make_unique<VectorStringDataSourceStub>(),
-                                std::move(ppDpmSclkMock),
-                                std::move(ppDpmMclkMock));
+                                std::make_unique<VectorStringDataSourceStub>());
     REQUIRE(ts.voltMode() == "auto");
   }
 
   SECTION("Generate pre-init control commands")
   {
-    REQUIRE_CALL(*ppDpmSclkMock, saveState());
-    REQUIRE_CALL(*ppDpmMclkMock, saveState());
-    REQUIRE_CALL(*ppDpmSclkMock, reset(trompeloeil::_));
-    REQUIRE_CALL(*ppDpmMclkMock, reset(trompeloeil::_));
-
     PMFVVoltCurveTestAdapter ts(
         std::make_unique<StringDataSourceStub>(
             "power_dpm_force_performance_level", "auto"),
         std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                     ppOdClkVoltageData),
-        std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                     ppOdClkVoltageData));
     ts.preInit(ctlCmds);
 
     auto &commands = ctlCmds.commands();
@@ -282,11 +237,6 @@ TEST_CASE("AMD PMFVVoltCurve tests",
 
   SECTION("Generate post-init control commands...")
   {
-    REQUIRE_CALL(*ppDpmSclkMock, saveState());
-    REQUIRE_CALL(*ppDpmMclkMock, saveState());
-    REQUIRE_CALL(*ppDpmSclkMock, reset(trompeloeil::_));
-    REQUIRE_CALL(*ppDpmMclkMock, reset(trompeloeil::_));
-
     SECTION("To only restore power_dpm_force_performance_level value when it "
             "was not 'manual'")
     {
@@ -294,8 +244,7 @@ TEST_CASE("AMD PMFVVoltCurve tests",
           std::make_unique<StringDataSourceStub>(
               "power_dpm_force_performance_level", "auto"),
           std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                       ppOdClkVoltageData),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                       ppOdClkVoltageData));
       ts.preInit(ctlCmds);
       ctlCmds.clear();
       ts.postInit(ctlCmds);
@@ -311,21 +260,17 @@ TEST_CASE("AMD PMFVVoltCurve tests",
     SECTION("To restore reseted values when power_dpm_force_performance_level "
             "value was 'manual'")
     {
-      REQUIRE_CALL(*ppDpmSclkMock, restoreState(trompeloeil::_));
-      REQUIRE_CALL(*ppDpmMclkMock, restoreState(trompeloeil::_));
-
       PMFVVoltCurveTestAdapter ts(
           std::make_unique<StringDataSourceStub>(
               "power_dpm_force_performance_level", "manual"),
           std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                       ppOdClkVoltageData),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                       ppOdClkVoltageData));
       ts.preInit(ctlCmds);
       ctlCmds.clear();
       ts.postInit(ctlCmds);
 
       auto &commands = ctlCmds.commands();
-      REQUIRE(commands.size() == 9);
+      REQUIRE(commands.size() == 8);
 
       auto &[cmd0Path, cmd0Value] = commands.at(0);
       REQUIRE(cmd0Path == "power_dpm_force_performance_level");
@@ -341,27 +286,23 @@ TEST_CASE("AMD PMFVVoltCurve tests",
 
       auto &[cmd3Path, cmd3Value] = commands.at(3);
       REQUIRE(cmd3Path == "pp_od_clk_voltage");
-      REQUIRE(cmd3Value == "s 2 2000");
+      REQUIRE(cmd3Value == "m 1 1000");
 
       auto &[cmd4Path, cmd4Value] = commands.at(4);
       REQUIRE(cmd4Path == "pp_od_clk_voltage");
-      REQUIRE(cmd4Value == "m 1 1000");
+      REQUIRE(cmd4Value == "vc 0 200 800");
 
       auto &[cmd5Path, cmd5Value] = commands.at(5);
       REQUIRE(cmd5Path == "pp_od_clk_voltage");
-      REQUIRE(cmd5Value == "vc 0 200 800");
+      REQUIRE(cmd5Value == "vc 1 1000 850");
 
       auto &[cmd6Path, cmd6Value] = commands.at(6);
       REQUIRE(cmd6Path == "pp_od_clk_voltage");
-      REQUIRE(cmd6Value == "vc 1 1000 850");
+      REQUIRE(cmd6Value == "vc 2 2000 900");
 
       auto &[cmd7Path, cmd7Value] = commands.at(7);
       REQUIRE(cmd7Path == "pp_od_clk_voltage");
-      REQUIRE(cmd7Value == "vc 2 2000 900");
-
-      auto &[cmd8Path, cmd8Value] = commands.at(8);
-      REQUIRE(cmd8Path == "pp_od_clk_voltage");
-      REQUIRE(cmd8Value == "c");
+      REQUIRE(cmd7Value == "c");
     }
   }
 
@@ -370,13 +311,11 @@ TEST_CASE("AMD PMFVVoltCurve tests",
   {
     PMFVVoltCurveTestAdapter ts(std::make_unique<StringDataSourceStub>(),
                                 std::make_unique<VectorStringDataSourceStub>(
-                                    "pp_od_clk_voltage", ppOdClkVoltageData),
-                                std::move(ppDpmSclkMock),
-                                std::move(ppDpmMclkMock));
+                                    "pp_od_clk_voltage", ppOdClkVoltageData));
     ts.init();
 
     auto gpuStates = ts.gpuStates();
-    REQUIRE(gpuStates.size() == 3);
+    REQUIRE(gpuStates.size() == 2);
 
     auto &[s0Index, s0Freq] = gpuStates.at(0);
     REQUIRE(s0Index == 0);
@@ -385,10 +324,6 @@ TEST_CASE("AMD PMFVVoltCurve tests",
     auto &[s1Index, s1Freq] = gpuStates.at(1);
     REQUIRE(s1Index == 1);
     REQUIRE(s1Freq == units::frequency::megahertz_t(1000));
-
-    auto &[s2Index, s2Freq] = gpuStates.at(2);
-    REQUIRE(s2Index == 2);
-    REQUIRE(s2Freq == units::frequency::megahertz_t(2000));
 
     auto memStates = ts.memStates();
     REQUIRE(memStates.size() == 1);
@@ -431,18 +366,16 @@ TEST_CASE("AMD PMFVVoltCurve tests",
   {
     PMFVVoltCurveTestAdapter ts(std::make_unique<StringDataSourceStub>(),
                                 std::make_unique<VectorStringDataSourceStub>(
-                                    "pp_od_clk_voltage", ppOdClkVoltageData),
-                                std::move(ppDpmSclkMock),
-                                std::move(ppDpmMclkMock));
+                                    "pp_od_clk_voltage", ppOdClkVoltageData));
     ts.init();
 
-    // mim
+    // min
     ts.gpuState(0, units::frequency::megahertz_t(0));
     // max
     ts.gpuState(1, units::frequency::megahertz_t(10000));
 
     auto states = ts.gpuStates();
-    REQUIRE(states.size() == 3);
+    REQUIRE(states.size() == 2);
 
     // min
     auto &[s0Index, s0Freq] = states.at(0);
@@ -459,18 +392,15 @@ TEST_CASE("AMD PMFVVoltCurve tests",
   {
     PMFVVoltCurveTestAdapter ts(std::make_unique<StringDataSourceStub>(),
                                 std::make_unique<VectorStringDataSourceStub>(
-                                    "pp_od_clk_voltage", ppOdClkVoltageData),
-                                std::move(ppDpmSclkMock),
-                                std::move(ppDpmMclkMock));
+                                    "pp_od_clk_voltage", ppOdClkVoltageData));
     ts.init();
 
-    // mim
+    // min
     ts.memState(1, units::frequency::megahertz_t(0));
 
     auto states = ts.memStates();
     REQUIRE(states.size() == 1);
 
-    // min
     auto &[minIndex, minFreq] = states.at(0);
     REQUIRE(minIndex == 1);
     REQUIRE(minFreq == units::frequency::megahertz_t(300));
@@ -490,9 +420,7 @@ TEST_CASE("AMD PMFVVoltCurve tests",
   {
     PMFVVoltCurveTestAdapter ts(std::make_unique<StringDataSourceStub>(),
                                 std::make_unique<VectorStringDataSourceStub>(
-                                    "pp_od_clk_voltage", ppOdClkVoltageData),
-                                std::move(ppDpmSclkMock),
-                                std::move(ppDpmMclkMock));
+                                    "pp_od_clk_voltage", ppOdClkVoltageData));
     ts.init();
 
     // mim
@@ -521,22 +449,14 @@ TEST_CASE("AMD PMFVVoltCurve tests",
     std::vector<unsigned int> gpuActiveStates{0, 1};
     std::vector<unsigned int> memActiveStates{1};
 
-    REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_))
-        .LR_WITH(_1 == gpuActiveStates);
-    REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_))
-        .LR_WITH(_1 == memActiveStates);
-
     PMFVVoltCurveTestAdapter ts(std::make_unique<StringDataSourceStub>(),
                                 std::make_unique<VectorStringDataSourceStub>(
-                                    "pp_od_clk_voltage", ppOdClkVoltageData),
-                                std::move(ppDpmSclkMock),
-                                std::move(ppDpmMclkMock));
+                                    "pp_od_clk_voltage", ppOdClkVoltageData));
     ts.init();
 
     std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> gpuStates;
     gpuStates.emplace_back(0, units::frequency::megahertz_t(201));
     gpuStates.emplace_back(1, units::frequency::megahertz_t(1001));
-    gpuStates.emplace_back(2, units::frequency::megahertz_t(1000));
 
     std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> memStates;
     memStates.emplace_back(1, units::frequency::megahertz_t(2000));
@@ -550,8 +470,7 @@ TEST_CASE("AMD PMFVVoltCurve tests",
     voltCurve.emplace_back(units::frequency::megahertz_t(1000),
                            units::voltage::millivolt_t(850));
 
-    PMFVVoltCurveImporterStub i("manual", voltCurve, gpuStates, memStates,
-                                gpuActiveStates, memActiveStates);
+    PMFVVoltCurveImporterStub i("manual", voltCurve, gpuStates, memStates);
 
     ts.importControl(i);
 
@@ -566,14 +485,9 @@ TEST_CASE("AMD PMFVVoltCurve tests",
     std::vector<unsigned int> gpuActiveStates{0, 1, 2};
     std::vector<unsigned int> memActiveStates{1};
 
-    ALLOW_CALL(*ppDpmSclkMock, active()).LR_RETURN(gpuActiveStates);
-    ALLOW_CALL(*ppDpmMclkMock, active()).LR_RETURN(memActiveStates);
-
     PMFVVoltCurveTestAdapter ts(std::make_unique<StringDataSourceStub>(),
                                 std::make_unique<VectorStringDataSourceStub>(
-                                    "pp_od_clk_voltage", ppOdClkVoltageData),
-                                std::move(ppDpmSclkMock),
-                                std::move(ppDpmMclkMock));
+                                    "pp_od_clk_voltage", ppOdClkVoltageData));
     ts.init();
 
     std::vector<std::string> modes{"auto", "manual"};
@@ -591,7 +505,6 @@ TEST_CASE("AMD PMFVVoltCurve tests",
     std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> gpuStates;
     gpuStates.emplace_back(0, units::frequency::megahertz_t(200));
     gpuStates.emplace_back(1, units::frequency::megahertz_t(1000));
-    gpuStates.emplace_back(2, units::frequency::megahertz_t(2000));
 
     std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> memStates;
     memStates.emplace_back(1, units::frequency::megahertz_t(1000));
@@ -634,27 +547,16 @@ TEST_CASE("AMD PMFVVoltCurve tests",
         .LR_WITH(_1 == memStates)
         .IN_SEQUENCE(seq);
 
-    REQUIRE_CALL(e, takePMFVVoltCurveGPUActiveStates(trompeloeil::_))
-        .LR_WITH(_1 == gpuActiveStates)
-        .IN_SEQUENCE(seq);
-    REQUIRE_CALL(e, takePMFVVoltCurveMemActiveStates(trompeloeil::_))
-        .LR_WITH(_1 == memActiveStates)
-        .IN_SEQUENCE(seq);
-
     ts.exportControl(e);
   }
 
   SECTION("Generate clean control commands unconditionally")
   {
-    REQUIRE_CALL(*ppDpmSclkMock, reset(trompeloeil::_));
-    REQUIRE_CALL(*ppDpmMclkMock, reset(trompeloeil::_));
-
     PMFVVoltCurveTestAdapter ts(
         std::make_unique<StringDataSourceStub>(
             "power_dpm_force_performance_level", "manual"),
         std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                     ppOdClkVoltageData),
-        std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                     ppOdClkVoltageData));
     ts.init();
     ts.cleanControl(ctlCmds);
 
@@ -678,15 +580,11 @@ TEST_CASE("AMD PMFVVoltCurve tests",
   {
     SECTION("is synced")
     {
-      REQUIRE_CALL(*ppDpmSclkMock, sync(trompeloeil::_));
-      REQUIRE_CALL(*ppDpmMclkMock, sync(trompeloeil::_));
-
       PMFVVoltCurveTestAdapter ts(
           std::make_unique<StringDataSourceStub>(
               "power_dpm_force_performance_level", "manual"),
           std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                       ppOdClkVoltageData),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                       ppOdClkVoltageData));
       ts.init();
       ts.syncControl(ctlCmds);
 
@@ -695,15 +593,11 @@ TEST_CASE("AMD PMFVVoltCurve tests",
 
     SECTION("voltage mode is 'auto' and voltage curve is out of sync")
     {
-      REQUIRE_CALL(*ppDpmSclkMock, sync(trompeloeil::_));
-      REQUIRE_CALL(*ppDpmMclkMock, sync(trompeloeil::_));
-
       PMFVVoltCurveTestAdapter ts(
           std::make_unique<StringDataSourceStub>(
               "power_dpm_force_performance_level", "manual"),
           std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                       ppOdClkVoltageData),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                       ppOdClkVoltageData));
       ts.init();
 
       ts.voltMode("auto");
@@ -719,20 +613,16 @@ TEST_CASE("AMD PMFVVoltCurve tests",
   {
     SECTION("power_dpm_force_performance_level is out of sync")
     {
-      REQUIRE_CALL(*ppDpmSclkMock, apply(trompeloeil::_));
-      REQUIRE_CALL(*ppDpmMclkMock, apply(trompeloeil::_));
-
       PMFVVoltCurveTestAdapter ts(
           std::make_unique<StringDataSourceStub>(
               "power_dpm_force_performance_level", "_other_"),
           std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                       ppOdClkVoltageData),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                       ppOdClkVoltageData));
       ts.init();
       ts.syncControl(ctlCmds);
 
       auto &commands = ctlCmds.commands();
-      REQUIRE(commands.size() == 9);
+      REQUIRE(commands.size() == 8);
 
       auto &[cmd0Path, cmd0Value] = commands.at(0);
       REQUIRE(cmd0Path == "power_dpm_force_performance_level");
@@ -748,40 +638,32 @@ TEST_CASE("AMD PMFVVoltCurve tests",
 
       auto &[cmd3Path, cmd3Value] = commands.at(3);
       REQUIRE(cmd3Path == "pp_od_clk_voltage");
-      REQUIRE(cmd3Value == "s 2 2000");
+      REQUIRE(cmd3Value == "m 1 1000");
 
       auto &[cmd4Path, cmd4Value] = commands.at(4);
       REQUIRE(cmd4Path == "pp_od_clk_voltage");
-      REQUIRE(cmd4Value == "m 1 1000");
+      REQUIRE(cmd4Value == "vc 0 200 800");
 
       auto &[cmd5Path, cmd5Value] = commands.at(5);
       REQUIRE(cmd5Path == "pp_od_clk_voltage");
-      REQUIRE(cmd5Value == "vc 0 200 800");
+      REQUIRE(cmd5Value == "vc 1 1000 850");
 
       auto &[cmd6Path, cmd6Value] = commands.at(6);
       REQUIRE(cmd6Path == "pp_od_clk_voltage");
-      REQUIRE(cmd6Value == "vc 1 1000 850");
+      REQUIRE(cmd6Value == "vc 2 2000 900");
 
       auto &[cmd7Path, cmd7Value] = commands.at(7);
       REQUIRE(cmd7Path == "pp_od_clk_voltage");
-      REQUIRE(cmd7Value == "vc 2 2000 900");
-
-      auto &[cmd8Path, cmd8Value] = commands.at(8);
-      REQUIRE(cmd8Path == "pp_od_clk_voltage");
-      REQUIRE(cmd8Value == "c");
+      REQUIRE(cmd7Value == "c");
     }
 
     SECTION("gpu states are out of sync")
     {
-      REQUIRE_CALL(*ppDpmSclkMock, sync(trompeloeil::_));
-      REQUIRE_CALL(*ppDpmMclkMock, sync(trompeloeil::_));
-
       PMFVVoltCurveTestAdapter ts(
           std::make_unique<StringDataSourceStub>(
               "power_dpm_force_performance_level", "manual"),
           std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                       ppOdClkVoltageData),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                       ppOdClkVoltageData));
       ts.init();
 
       ts.gpuState(0, units::frequency::megahertz_t(201));
@@ -801,15 +683,11 @@ TEST_CASE("AMD PMFVVoltCurve tests",
 
     SECTION("memory states are out of sync")
     {
-      REQUIRE_CALL(*ppDpmSclkMock, sync(trompeloeil::_));
-      REQUIRE_CALL(*ppDpmMclkMock, sync(trompeloeil::_));
-
       PMFVVoltCurveTestAdapter ts(
           std::make_unique<StringDataSourceStub>(
               "power_dpm_force_performance_level", "manual"),
           std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                       ppOdClkVoltageData),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                       ppOdClkVoltageData));
       ts.init();
 
       ts.memState(1, units::frequency::megahertz_t(301));
@@ -829,15 +707,11 @@ TEST_CASE("AMD PMFVVoltCurve tests",
 
     SECTION("voltage mode is 'manual' and voltage curve is out of sync")
     {
-      REQUIRE_CALL(*ppDpmSclkMock, sync(trompeloeil::_));
-      REQUIRE_CALL(*ppDpmMclkMock, sync(trompeloeil::_));
-
       PMFVVoltCurveTestAdapter ts(
           std::make_unique<StringDataSourceStub>(
               "power_dpm_force_performance_level", "manual"),
           std::make_unique<VectorStringDataSourceStub>("pp_od_clk_voltage",
-                                                       ppOdClkVoltageData),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+                                                       ppOdClkVoltageData));
       ts.init();
 
       ts.voltMode("manual");

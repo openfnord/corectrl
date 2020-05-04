@@ -31,8 +31,6 @@ class IDataSource;
 
 namespace AMD {
 
-class IPpDpmHandler;
-
 /// A frequency & voltage control for state based ASICs, using
 /// fixed frequency for each state and a single voltage curve (vega20+).
 class PMFVVoltCurve : public Control
@@ -52,11 +50,6 @@ class PMFVVoltCurve : public Control
     providePMFVVoltCurveGPUState(unsigned int index) const = 0;
     virtual units::frequency::megahertz_t
     providePMFVVoltCurveMemState(unsigned int index) const = 0;
-
-    virtual std::vector<unsigned int>
-    providePMFVVoltCurveGPUActiveStates() const = 0;
-    virtual std::vector<unsigned int>
-    providePMFVVoltCurveMemActiveStates() const = 0;
   };
 
   class Exporter : public IControl::Exporter
@@ -86,18 +79,11 @@ class PMFVVoltCurve : public Control
     virtual void takePMFVVoltCurveMemStates(
         std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
             &states) = 0;
-
-    virtual void takePMFVVoltCurveGPUActiveStates(
-        std::vector<unsigned int> const &indices) = 0;
-    virtual void takePMFVVoltCurveMemActiveStates(
-        std::vector<unsigned int> const &indices) = 0;
   };
 
   PMFVVoltCurve(std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
                 std::unique_ptr<IDataSource<std::vector<std::string>>>
-                    &&ppOdClkVoltDataSource,
-                std::unique_ptr<IPpDpmHandler> &&ppDpmSclkHandler,
-                std::unique_ptr<IPpDpmHandler> &&ppDpmMclkHandler) noexcept;
+                    &&ppOdClkVoltDataSource) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
   void postInit(ICommandQueue &ctlCmds) final override;
@@ -152,8 +138,6 @@ class PMFVVoltCurve : public Control
 
   std::unique_ptr<IDataSource<std::string>> const perfLevelDataSource_;
   std::unique_ptr<IDataSource<std::vector<std::string>>> const ppOdClkVoltDataSource_;
-  std::unique_ptr<IPpDpmHandler> const ppDpmSclkHandler_;
-  std::unique_ptr<IPpDpmHandler> const ppDpmMclkHandler_;
 
   std::string perfLevelPreInitValue_;
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> gpuPreInitStates_;

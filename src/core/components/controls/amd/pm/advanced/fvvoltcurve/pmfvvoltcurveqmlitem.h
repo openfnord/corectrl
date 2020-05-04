@@ -23,7 +23,6 @@
 #include <QPointF>
 #include <QString>
 #include <QVariantList>
-#include <QVector>
 #include <map>
 #include <string>
 #include <utility>
@@ -49,8 +48,6 @@ class PMFVVoltCurveQMLItem
   void voltCurveChanged(QVariantList const &points);
   void gpuStatesChanged(QVariantList const &states);
   void memStatesChanged(QVariantList const &states);
-  void gpuActiveStatesChanged(QVector<int> const &states);
-  void memActiveStatesChanged(QVector<int> const &states);
   void gpuStateChanged(int index, int freq);
   void memStateChanged(int index, int freq);
 
@@ -58,8 +55,6 @@ class PMFVVoltCurveQMLItem
   void changeVoltMode(QString const &mode);
   void changeGPUState(int index, int freq);
   void changeMemState(int index, int freq);
-  void changeGPUActiveState(int index, bool activate);
-  void changeMemActiveState(int index, bool activate);
   void updateVoltCurvePoint(QPointF const &oldPoint, QPointF const &newPoint);
 
  public:
@@ -94,13 +89,6 @@ class PMFVVoltCurveQMLItem
   units::frequency::megahertz_t
   providePMFVVoltCurveMemState(unsigned int index) const override;
 
-  void takePMFVVoltCurveGPUActiveStates(
-      std::vector<unsigned int> const &indices) override;
-  std::vector<unsigned int> providePMFVVoltCurveMemActiveStates() const override;
-  void takePMFVVoltCurveMemActiveStates(
-      std::vector<unsigned int> const &indices) override;
-  std::vector<unsigned int> providePMFVVoltCurveGPUActiveStates() const override;
-
   std::unique_ptr<Exportable::Exporter>
   initializer(IQMLComponentFactory const &qmlComponentFactory,
               QQmlApplicationEngine &qmlEngine) override;
@@ -121,8 +109,6 @@ class PMFVVoltCurveQMLItem
   void memRange(units::frequency::megahertz_t min,
                 units::frequency::megahertz_t max);
 
-  QVector<int> activeStatesIndices(std::vector<unsigned int> const &indices) const;
-
   bool active_;
 
   std::string voltMode_;
@@ -133,9 +119,6 @@ class PMFVVoltCurveQMLItem
 
   std::map<unsigned int, units::frequency::megahertz_t> gpuStates_;
   std::map<unsigned int, units::frequency::megahertz_t> memStates_;
-
-  std::vector<unsigned int> gpuActiveStates_;
-  std::vector<unsigned int> memActiveStates_;
 
   static bool register_();
   static bool const registered_;

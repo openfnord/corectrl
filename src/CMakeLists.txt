@@ -265,6 +265,7 @@ list (APPEND TRANSLATABLE_FILES
   qml/ProfileButton.qml
   qml/ProfileInfoDialog.qml
   qml/FVControl.qml
+  qml/FreqStateControl.qml
   qml/Profiles.qml
   qml/System.qml
   qml/About.qml

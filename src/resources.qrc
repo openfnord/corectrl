@@ -11,6 +11,7 @@
         <file>qml/CIntInput.qml</file>
         <file>qml/CurveControl.qml</file>
         <file>qml/FVControl.qml</file>
+        <file>qml/FreqStateControl.qml</file>
         <file>qml/SensorGraph.qml</file>
         <file>qml/ModeSelector.qml</file>
         <file>qml/SysModelForm.qml</file>

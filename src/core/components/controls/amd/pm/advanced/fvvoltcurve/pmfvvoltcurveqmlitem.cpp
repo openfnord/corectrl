@@ -72,10 +72,6 @@ class AMD::PMFVVoltCurveQMLItem::Initializer final
   void takePMFVVoltCurveMemStates(
       std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
           &states) override;
-  void takePMFVVoltCurveGPUActiveStates(
-      std::vector<unsigned int> const &indices) override;
-  void takePMFVVoltCurveMemActiveStates(
-      std::vector<unsigned int> const &indices) override;
 
  private:
   AMD::PMFVVoltCurveQMLItem &outer_;
@@ -136,18 +132,6 @@ void AMD::PMFVVoltCurveQMLItem::Initializer::takePMFVVoltCurveMemStates(
     std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const &states)
 {
   outer_.takePMFVVoltCurveMemStates(states);
-}
-
-void AMD::PMFVVoltCurveQMLItem::Initializer::takePMFVVoltCurveGPUActiveStates(
-    std::vector<unsigned int> const &indices)
-{
-  outer_.takePMFVVoltCurveGPUActiveStates(indices);
-}
-
-void AMD::PMFVVoltCurveQMLItem::Initializer::takePMFVVoltCurveMemActiveStates(
-    std::vector<unsigned int> const &indices)
-{
-  outer_.takePMFVVoltCurveMemActiveStates(indices);
 }
 
 AMD::PMFVVoltCurveQMLItem::PMFVVoltCurveQMLItem() noexcept
@@ -211,56 +195,6 @@ void AMD::PMFVVoltCurveQMLItem::changeMemState(int index, int freq)
       stateFreq = units::frequency::megahertz_t(freq);
 
       emit memStateChanged(index, freq);
-      emit settingsChanged();
-    }
-  }
-}
-
-void AMD::PMFVVoltCurveQMLItem::changeGPUActiveState(int index, bool activate)
-{
-  if (gpuStates_.count(static_cast<unsigned int>(index))) {
-    if (activate) {
-      auto activeIt = std::find(gpuActiveStates_.cbegin(),
-                                gpuActiveStates_.cend(), index);
-      if (activeIt == gpuActiveStates_.cend()) {
-        gpuActiveStates_.push_back(static_cast<unsigned int>(index));
-
-        emit gpuActiveStatesChanged(activeStatesIndices(gpuActiveStates_));
-        emit settingsChanged();
-      }
-    }
-    else {
-      gpuActiveStates_.erase(std::remove(gpuActiveStates_.begin(),
-                                         gpuActiveStates_.end(),
-                                         static_cast<unsigned int>(index)),
-                             gpuActiveStates_.end());
-
-      emit gpuActiveStatesChanged(activeStatesIndices(gpuActiveStates_));
-      emit settingsChanged();
-    }
-  }
-}
-
-void AMD::PMFVVoltCurveQMLItem::changeMemActiveState(int index, bool activate)
-{
-  if (memStates_.count(static_cast<unsigned int>(index))) {
-    if (activate) {
-      auto activeIt = std::find(memActiveStates_.cbegin(),
-                                memActiveStates_.cend(), index);
-      if (activeIt == memActiveStates_.cend()) {
-        memActiveStates_.push_back(static_cast<unsigned int>(index));
-
-        emit memActiveStatesChanged(activeStatesIndices(memActiveStates_));
-        emit settingsChanged();
-      }
-    }
-    else {
-      memActiveStates_.erase(std::remove(memActiveStates_.begin(),
-                                         memActiveStates_.end(),
-                                         static_cast<unsigned int>(index)),
-                             memActiveStates_.end());
-
-      emit memActiveStatesChanged(activeStatesIndices(memActiveStates_));
       emit settingsChanged();
     }
   }
@@ -388,36 +322,6 @@ AMD::PMFVVoltCurveQMLItem::providePMFVVoltCurveMemState(unsigned int index) cons
     return units::frequency::megahertz_t(0);
 }
 
-void AMD::PMFVVoltCurveQMLItem::takePMFVVoltCurveGPUActiveStates(
-    std::vector<unsigned int> const &indices)
-{
-  if (indices != gpuActiveStates_) {
-    gpuActiveStates_ = indices;
-    emit gpuActiveStatesChanged(activeStatesIndices(indices));
-  }
-}
-
-std::vector<unsigned int>
-AMD::PMFVVoltCurveQMLItem::providePMFVVoltCurveGPUActiveStates() const
-{
-  return gpuActiveStates_;
-}
-
-void AMD::PMFVVoltCurveQMLItem::takePMFVVoltCurveMemActiveStates(
-    std::vector<unsigned int> const &indices)
-{
-  if (indices != memActiveStates_) {
-    memActiveStates_ = indices;
-    emit memActiveStatesChanged(activeStatesIndices(indices));
-  }
-}
-
-std::vector<unsigned int>
-AMD::PMFVVoltCurveQMLItem::providePMFVVoltCurveMemActiveStates() const
-{
-  return memActiveStates_;
-}
-
 std::unique_ptr<Exportable::Exporter> AMD::PMFVVoltCurveQMLItem::initializer(
     IQMLComponentFactory const &qmlComponentFactory,
     QQmlApplicationEngine &qmlEngine)
@@ -459,17 +363,6 @@ void AMD::PMFVVoltCurveQMLItem::memRange(units::frequency::megahertz_t min,
                                          units::frequency::megahertz_t max)
 {
   emit memFreqRangeChanged(min.to<int>(), max.to<int>());
-}
-
-QVector<int> AMD::PMFVVoltCurveQMLItem::activeStatesIndices(
-    std::vector<unsigned int> const &indices) const
-{
-  QVector<int> states;
-  states.reserve(indices.size());
-  std::transform(indices.cbegin(), indices.cend(), std::back_inserter(states),
-                 [&](unsigned int index) { return static_cast<int>(index); });
-
-  return states;
 }
 
 bool AMD::PMFVVoltCurveQMLItem::register_()

@@ -67,13 +67,6 @@ class PMFVVoltCurveXMLParser final
   units::frequency::megahertz_t
   providePMFVVoltCurveMemState(unsigned int index) const override;
 
-  void takePMFVVoltCurveGPUActiveStates(
-      std::vector<unsigned int> const &indices) override;
-  std::vector<unsigned int> providePMFVVoltCurveMemActiveStates() const override;
-  void takePMFVVoltCurveMemActiveStates(
-      std::vector<unsigned int> const &indices) override;
-  std::vector<unsigned int> providePMFVVoltCurveGPUActiveStates() const override;
-
   void appendTo(pugi::xml_node &parentNode) override;
 
  protected:
@@ -81,17 +74,15 @@ class PMFVVoltCurveXMLParser final
   void loadPartFrom(pugi::xml_node const &parentNode) override;
   void saveVoltCurve(pugi::xml_node &fvCurveVoltNode) const;
   void loadVoltCurve(pugi::xml_node &fvCurveVoltNode);
-  void saveStates(
-      pugi::xml_node &fvCurveVoltNode, std::string_view stateNodeId,
-      std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> &states,
-      std::vector<unsigned int> &activeStates) const;
+  void
+  saveStates(pugi::xml_node &fvCurveVoltNode, std::string_view stateNodeId,
+             std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>
+                 &states) const;
   void loadStates(
       pugi::xml_node const &fvCurveVoltNode, std::string_view stateNodeId,
       std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> &states,
       std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
-          &statesDefault,
-      std::vector<unsigned int> &activeStates,
-      std::vector<unsigned int> const &activeStatesDefault) const;
+          &statesDefault) const;
 
  private:
   static constexpr std::string_view VoltCurveNodeName{"VOLT_CURVE"};
@@ -121,12 +112,6 @@ class PMFVVoltCurveXMLParser final
 
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> memStates_;
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> memStatesDefault_;
-
-  std::vector<unsigned int> gpuActiveStates_;
-  std::vector<unsigned int> gpuActiveStatesDefault_;
-
-  std::vector<unsigned int> memActiveStates_;
-  std::vector<unsigned int> memActiveStatesDefault_;
 
   static bool const registered_;
 };

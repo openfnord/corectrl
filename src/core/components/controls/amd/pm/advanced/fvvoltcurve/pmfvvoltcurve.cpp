@@ -18,7 +18,6 @@
 #include "pmfvvoltcurve.h"
 
 #include "core/components/amdutils.h"
-#include "core/components/controls/amd/pm/handlers/ippdpmhandler.h"
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
 #include <algorithm>
@@ -27,15 +26,11 @@
 
 AMD::PMFVVoltCurve::PMFVVoltCurve(
     std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
-    std::unique_ptr<IDataSource<std::vector<std::string>>> &&ppOdClkVoltDataSource,
-    std::unique_ptr<IPpDpmHandler> &&ppDpmSclkHandler,
-    std::unique_ptr<IPpDpmHandler> &&ppDpmMclkHandler) noexcept
+    std::unique_ptr<IDataSource<std::vector<std::string>>> &&ppOdClkVoltDataSource) noexcept
 : Control(true)
 , id_(AMD::PMFVVoltCurve::ItemID)
 , perfLevelDataSource_(std::move(perfLevelDataSource))
 , ppOdClkVoltDataSource_(std::move(ppOdClkVoltDataSource))
-, ppDpmSclkHandler_(std::move(ppDpmSclkHandler))
-, ppDpmMclkHandler_(std::move(ppDpmMclkHandler))
 , voltModes_({"auto", "manual"})
 , voltMode_(AMD::PMFVVoltCurve::VoltMode::Automatic)
 {
@@ -52,9 +47,6 @@ void AMD::PMFVVoltCurve::preInit(ICommandQueue &ctlCmds)
       Utils::AMD::parseOdClkVoltCurveStates("MCLK", ppOdClkVoltLines_).value();
   voltCurvePreInitPoints_ =
       Utils::AMD::parseOdClkVoltCurvePoints(ppOdClkVoltLines_).value();
-
-  ppDpmSclkHandler_->saveState();
-  ppDpmMclkHandler_->saveState();
 
   cleanControl(ctlCmds);
 }
@@ -81,9 +73,6 @@ void AMD::PMFVVoltCurve::postInit(ICommandQueue &ctlCmds)
     }
 
     ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
-
-    ppDpmSclkHandler_->restoreState(ctlCmds);
-    ppDpmMclkHandler_->restoreState(ctlCmds);
   }
 }
 
@@ -142,11 +131,6 @@ void AMD::PMFVVoltCurve::importControl(IControl::Importer &i)
 
   for (auto [index, _] : memStates_)
     memState(index, pmFVVoltCurveImporter.providePMFVVoltCurveMemState(index));
-
-  ppDpmSclkHandler_->activate(
-      pmFVVoltCurveImporter.providePMFVVoltCurveGPUActiveStates());
-  ppDpmMclkHandler_->activate(
-      pmFVVoltCurveImporter.providePMFVVoltCurveMemActiveStates());
 }
 
 void AMD::PMFVVoltCurve::exportControl(IControl::Exporter &e) const
@@ -166,11 +150,6 @@ void AMD::PMFVVoltCurve::exportControl(IControl::Exporter &e) const
 
   pmFVVoltCurveExporter.takePMFVVoltCurveGPUStates(gpuStates());
   pmFVVoltCurveExporter.takePMFVVoltCurveMemStates(memStates());
-
-  pmFVVoltCurveExporter.takePMFVVoltCurveGPUActiveStates(
-      ppDpmSclkHandler_->active());
-  pmFVVoltCurveExporter.takePMFVVoltCurveMemActiveStates(
-      ppDpmMclkHandler_->active());
 }
 
 void AMD::PMFVVoltCurve::cleanControl(ICommandQueue &ctlCmds)
@@ -179,9 +158,6 @@ void AMD::PMFVVoltCurve::cleanControl(ICommandQueue &ctlCmds)
 
   ctlCmds.add({ppOdClkVoltDataSource_->source(), "r"});
   ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
-
-  ppDpmSclkHandler_->reset(ctlCmds);
-  ppDpmMclkHandler_->reset(ctlCmds);
 }
 
 void AMD::PMFVVoltCurve::syncControl(ICommandQueue &ctlCmds)
@@ -214,9 +190,6 @@ void AMD::PMFVVoltCurve::syncControl(ICommandQueue &ctlCmds)
       }
 
       ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
-
-      ppDpmSclkHandler_->apply(ctlCmds);
-      ppDpmMclkHandler_->apply(ctlCmds);
     }
     else {
       bool commit{false};
@@ -262,9 +235,6 @@ void AMD::PMFVVoltCurve::syncControl(ICommandQueue &ctlCmds)
 
       if (commit)
         ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
-
-      ppDpmSclkHandler_->sync(ctlCmds);
-      ppDpmMclkHandler_->sync(ctlCmds);
     }
   }
 }

@@ -56,21 +56,8 @@ AMD_PM_FV_VOLTCURVE {
     voltCurve.addCurve("volt", Material.accent, points)
   }
 
-  onGpuStatesChanged: gpufv.setFStates(states, p.gpuActiveStates,
-                                       p.gpuMin, p.gpuMax)
-  onMemStatesChanged: memfv.setFStates(states, p.memActiveStates,
-                                       p.memMin, p.memMax)
-
-  onGpuActiveStatesChanged: {
-    p.gpuActiveStates.length = 0
-    p.gpuActiveStates = states
-    gpufv.activeStates(states)
-  }
-  onMemActiveStatesChanged: {
-    p.memActiveStates.length = 0
-    p.memActiveStates = states
-    memfv.activeStates(states)
-  }
+  onGpuStatesChanged: gpufv.setFStates(states, p.gpuMin, p.gpuMax)
+  onMemStatesChanged: memfv.setFStates(states, p.memMin, p.memMax)
 
   onGpuStateChanged: gpufv.updateFState(index, freq)
   onMemStateChanged: memfv.updateFState(index, freq)
@@ -85,9 +72,6 @@ AMD_PM_FV_VOLTCURVE {
     property int voltMin: 0
     property int voltMax: 0
 
-    property var gpuActiveStates: []
-    property var memActiveStates: []
-
     function configureVoltCurve() {
       if (gpuMin != gpuMax && voltMin != voltMax)
         voltCurve.configureAxes(qsTr("Frequency"), "MHz", gpuMin, gpuMax,
@@ -101,25 +85,21 @@ AMD_PM_FV_VOLTCURVE {
 
     RowLayout {
 
-      FVControl {
+      FreqStateControl {
         id: gpufv
         Layout.fillHeight: true
 
         title: qsTr("GPU")
-        showVolt: false
 
-        onActiveStateChanged: pmFVVoltCurve.changeGPUActiveState(index, active)
         onStateChanged: pmFVVoltCurve.changeGPUState(index, freq)
       }
 
-      FVControl {
+      FreqStateControl {
         id: memfv
         Layout.fillHeight: true
 
         title: qsTr("Memory")
-        showVolt: false
 
-        onActiveStateChanged: pmFVVoltCurve.changeMemActiveState(index, active)
         onStateChanged: pmFVVoltCurve.changeMemState(index, freq)
       }
 
@@ -177,7 +157,6 @@ AMD_PM_FV_VOLTCURVE {
 
             onCurveChanged: pmFVVoltCurve.updateVoltCurvePoint(oldPoint, newPoint)
           }
-
         }
       }
     }

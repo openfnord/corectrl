@@ -21,7 +21,6 @@
 #include "common/fileutils.h"
 #include "common/stringutils.h"
 #include "core/components/amdutils.h"
-#include "core/components/controls/amd/pm/handlers/ppdpmhandler.h"
 #include "core/info/amd/gpuinfopmodcv.h"
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
@@ -49,12 +48,8 @@ AMD::PMFVVoltCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
 
       auto perfLevel = gpuInfo.path().sys / "power_dpm_force_performance_level";
       auto ppOdClkVolt = gpuInfo.path().sys / "pp_od_clk_voltage";
-      auto dpmSclk = gpuInfo.path().sys / "pp_dpm_sclk";
-      auto dpmMclk = gpuInfo.path().sys / "pp_dpm_mclk";
       if (Utils::File::isSysFSEntryValid(perfLevel) &&
-          Utils::File::isSysFSEntryValid(ppOdClkVolt) &&
-          Utils::File::isSysFSEntryValid(dpmSclk) &&
-          Utils::File::isSysFSEntryValid(dpmMclk)) {
+          Utils::File::isSysFSEntryValid(ppOdClkVolt)) {
 
         auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
         auto ppOdClkVoltValid =
@@ -70,46 +65,17 @@ AMD::PMFVVoltCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
                 .has_value() &&
             Utils::AMD::parseOdClkVoltCurvePoints(ppOdClkVoltLines).has_value();
 
-        auto dpmSclkLines = Utils::File::readFileLines(dpmSclk);
-        auto dpmSclkValid = Utils::AMD::parseDPMStates(dpmSclkLines).has_value();
-
-        auto dpmMclkLines = Utils::File::readFileLines(dpmMclk);
-        auto dpmMclkValid = Utils::AMD::parseDPMStates(dpmMclkLines).has_value();
-
-        if (ppOdClkVoltValid && dpmSclkValid && dpmMclkValid) {
+        if (ppOdClkVoltValid) {
 
           return std::make_unique<AMD::PMFVVoltCurve>(
               std::make_unique<SysFSDataSource<std::string>>(perfLevel),
               std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                  ppOdClkVolt),
-              std::make_unique<PpDpmHandler>(
-                  std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                      dpmSclk)),
-              std::make_unique<PpDpmHandler>(
-                  std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                      dpmMclk)));
+                  ppOdClkVolt));
         }
         else {
-          if (!ppOdClkVoltValid) {
-            LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                        ppOdClkVolt.string());
-            for (auto &line : ppOdClkVoltLines)
-              LOG(ERROR) << line.c_str();
-          }
-
-          if (!dpmSclkValid) {
-            LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                        dpmSclk.string());
-            for (auto &line : dpmSclkLines)
-              LOG(ERROR) << line.c_str();
-          }
-
-          if (!dpmMclkValid) {
-            LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                        dpmMclk.string());
-            for (auto &line : dpmMclkLines)
-              LOG(ERROR) << line.c_str();
-          }
+          LOG(WARNING) << fmt::format("Invalid data on {}", ppOdClkVolt.string());
+          for (auto &line : ppOdClkVoltLines)
+            LOG(ERROR) << line.c_str();
         }
       }
     }

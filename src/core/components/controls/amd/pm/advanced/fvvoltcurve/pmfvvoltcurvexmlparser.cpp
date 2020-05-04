@@ -48,10 +48,6 @@ class AMD::PMFVVoltCurveXMLParser::Initializer final
   void takePMFVVoltCurveMemStates(
       std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
           &states) override;
-  void takePMFVVoltCurveGPUActiveStates(
-      std::vector<unsigned int> const &indices) override;
-  void takePMFVVoltCurveMemActiveStates(
-      std::vector<unsigned int> const &indices) override;
 
  private:
   AMD::PMFVVoltCurveXMLParser &outer_;
@@ -85,18 +81,6 @@ void AMD::PMFVVoltCurveXMLParser::Initializer::takePMFVVoltCurveMemStates(
     std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const &states)
 {
   outer_.memStates_ = outer_.memStatesDefault_ = states;
-}
-
-void AMD::PMFVVoltCurveXMLParser::Initializer::takePMFVVoltCurveGPUActiveStates(
-    std::vector<unsigned int> const &indices)
-{
-  outer_.gpuActiveStates_ = outer_.gpuActiveStatesDefault_ = indices;
-}
-
-void AMD::PMFVVoltCurveXMLParser::Initializer::takePMFVVoltCurveMemActiveStates(
-    std::vector<unsigned int> const &indices)
-{
-  outer_.memActiveStates_ = outer_.memActiveStatesDefault_ = indices;
 }
 
 AMD::PMFVVoltCurveXMLParser::PMFVVoltCurveXMLParser() noexcept
@@ -200,30 +184,6 @@ AMD::PMFVVoltCurveXMLParser::providePMFVVoltCurveMemState(unsigned int index) co
     return units::frequency::megahertz_t(0);
 }
 
-void AMD::PMFVVoltCurveXMLParser::takePMFVVoltCurveGPUActiveStates(
-    std::vector<unsigned int> const &indices)
-{
-  gpuActiveStates_ = indices;
-}
-
-std::vector<unsigned int>
-AMD::PMFVVoltCurveXMLParser::providePMFVVoltCurveGPUActiveStates() const
-{
-  return gpuActiveStates_;
-}
-
-void AMD::PMFVVoltCurveXMLParser::takePMFVVoltCurveMemActiveStates(
-    std::vector<unsigned int> const &indices)
-{
-  memActiveStates_ = indices;
-}
-
-std::vector<unsigned int>
-AMD::PMFVVoltCurveXMLParser::providePMFVVoltCurveMemActiveStates() const
-{
-  return memActiveStates_;
-}
-
 void AMD::PMFVVoltCurveXMLParser::appendTo(pugi::xml_node &parentNode)
 {
   auto pmFVVoltCurveNode = parentNode.append_child(id_.c_str());
@@ -232,8 +192,8 @@ void AMD::PMFVVoltCurveXMLParser::appendTo(pugi::xml_node &parentNode)
   pmFVVoltCurveNode.append_attribute("voltMode") = voltMode_.data();
 
   saveVoltCurve(pmFVVoltCurveNode);
-  saveStates(pmFVVoltCurveNode, GPUStateNodeId, gpuStates_, gpuActiveStates_);
-  saveStates(pmFVVoltCurveNode, MemStateNodeId, memStates_, memActiveStates_);
+  saveStates(pmFVVoltCurveNode, GPUStateNodeId, gpuStates_);
+  saveStates(pmFVVoltCurveNode, MemStateNodeId, memStates_);
 }
 
 void AMD::PMFVVoltCurveXMLParser::resetAttributes()
@@ -243,8 +203,6 @@ void AMD::PMFVVoltCurveXMLParser::resetAttributes()
   voltCurve_ = voltCurveDefault_;
   gpuStates_ = gpuStatesDefault_;
   memStates_ = memStatesDefault_;
-  gpuActiveStates_ = gpuActiveStatesDefault_;
-  memActiveStates_ = memActiveStatesDefault_;
 }
 
 void AMD::PMFVVoltCurveXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
@@ -257,10 +215,8 @@ void AMD::PMFVVoltCurveXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
       pmFVVoltCurveNode.attribute("voltMode").as_string(voltModeDefault_.data());
 
   loadVoltCurve(pmFVVoltCurveNode);
-  loadStates(pmFVVoltCurveNode, GPUStateNodeId, gpuStates_, gpuStatesDefault_,
-             gpuActiveStates_, gpuActiveStatesDefault_);
-  loadStates(pmFVVoltCurveNode, MemStateNodeId, memStates_, memStatesDefault_,
-             memActiveStates_, memActiveStatesDefault_);
+  loadStates(pmFVVoltCurveNode, GPUStateNodeId, gpuStates_, gpuStatesDefault_);
+  loadStates(pmFVVoltCurveNode, MemStateNodeId, memStates_, memStatesDefault_);
 }
 
 void AMD::PMFVVoltCurveXMLParser::saveVoltCurve(pugi::xml_node &fvCurveVoltNode) const
@@ -305,16 +261,13 @@ void AMD::PMFVVoltCurveXMLParser::loadVoltCurve(pugi::xml_node &fvCurveVoltNode)
 
 void AMD::PMFVVoltCurveXMLParser::saveStates(
     pugi::xml_node &fvCurveVoltNode, std::string_view stateNodeId,
-    std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> &states,
-    std::vector<unsigned int> &activeStates) const
+    std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> &states) const
 {
   auto statesNode = fvCurveVoltNode.append_child(StatesNodeName.data());
   statesNode.append_attribute("id") = stateNodeId.data();
 
   for (auto [index, freq] : states) {
     auto stateNode = statesNode.append_child(StateNodeName.data());
-    auto activeIt = std::find(activeStates.cbegin(), activeStates.cend(), index);
-    stateNode.append_attribute("active") = activeIt != activeStates.cend();
     stateNode.append_attribute("index") = index;
     stateNode.append_attribute("freq") = freq.to<unsigned int>();
   }
@@ -324,9 +277,7 @@ void AMD::PMFVVoltCurveXMLParser::loadStates(
     pugi::xml_node const &fvCurveVoltNode, std::string_view stateNodeId,
     std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> &states,
     std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
-        &statesDefault,
-    std::vector<unsigned int> &activeStates,
-    std::vector<unsigned int> const &activeStatesDefault) const
+        &statesDefault) const
 {
   auto statesNode = fvCurveVoltNode.find_child([&](pugi::xml_node const &node) {
     // match states node
@@ -339,18 +290,15 @@ void AMD::PMFVVoltCurveXMLParser::loadStates(
 
   if (!statesNode) {
     states = statesDefault;
-    activeStates = activeStatesDefault;
   }
   else {
     states.clear();
-    activeStates.clear();
 
     for (auto stateNode : statesNode.children(StateNodeName.data())) {
-      auto activeAttr = stateNode.attribute("active");
       auto indexAttr = stateNode.attribute("index");
       auto freqAttr = stateNode.attribute("freq");
 
-      if (activeAttr && indexAttr && freqAttr) {
+      if (indexAttr && freqAttr) {
         auto index = indexAttr.as_uint();
         auto indexIt = std::find_if(
             statesDefault.cbegin(), statesDefault.cend(),
@@ -360,8 +308,6 @@ void AMD::PMFVVoltCurveXMLParser::loadStates(
 
         auto freq = freqAttr.as_uint();
         states.emplace_back(index, units::frequency::megahertz_t(freq));
-        if (activeAttr.as_bool())
-          activeStates.emplace_back(index);
       }
       else // malformed data
         break;
@@ -369,10 +315,7 @@ void AMD::PMFVVoltCurveXMLParser::loadStates(
 
     if (states.size() != statesDefault.size()) {
       states = statesDefault;
-      activeStates = activeStatesDefault;
     }
-    else if (activeStates.size() > statesDefault.size())
-      activeStates = activeStatesDefault;
   }
 }
 

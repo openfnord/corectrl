@@ -42,11 +42,6 @@ class PMFVVoltCurveProfilePart final
     providePMFVVoltCurveGPUState(unsigned int index) const = 0;
     virtual units::frequency::megahertz_t
     providePMFVVoltCurveMemState(unsigned int index) const = 0;
-
-    virtual std::vector<unsigned int>
-    providePMFVVoltCurveGPUActiveStates() const = 0;
-    virtual std::vector<unsigned int>
-    providePMFVVoltCurveMemActiveStates() const = 0;
   };
 
   class Exporter : public IProfilePart::Exporter
@@ -64,11 +59,6 @@ class PMFVVoltCurveProfilePart final
     virtual void takePMFVVoltCurveMemStates(
         std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
             &states) = 0;
-
-    virtual void takePMFVVoltCurveGPUActiveStates(
-        std::vector<unsigned int> const &indices) = 0;
-    virtual void takePMFVVoltCurveMemActiveStates(
-        std::vector<unsigned int> const &indices) = 0;
   };
 
   PMFVVoltCurveProfilePart() noexcept;
@@ -94,9 +84,6 @@ class PMFVVoltCurveProfilePart final
   units::frequency::megahertz_t
   providePMFVVoltCurveMemState(unsigned int index) const override;
 
-  std::vector<unsigned int> providePMFVVoltCurveGPUActiveStates() const override;
-  std::vector<unsigned int> providePMFVVoltCurveMemActiveStates() const override;
-
  protected:
   void importProfilePart(IProfilePart::Importer &i) override;
   void exportProfilePart(IProfilePart::Exporter &e) const override;
@@ -118,14 +105,6 @@ class PMFVVoltCurveProfilePart final
             std::pair<units::frequency::megahertz_t,
                       units::frequency::megahertz_t> const &targetRange) const;
 
-  void gpuActivateStates(std::vector<unsigned int> const &states);
-  void memActivateStates(std::vector<unsigned int> const &states);
-  void activateStates(
-      std::vector<unsigned int> &targetStates,
-      std::vector<unsigned int> const &newActiveStates,
-      std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const
-          &availableStates) const;
-
   class Initializer;
 
   std::string const id_;
@@ -144,9 +123,6 @@ class PMFVVoltCurveProfilePart final
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> memStates_;
   std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t> gpuFreqRange_;
   std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t> memFreqRange_;
-
-  std::vector<unsigned int> gpuActiveStates_;
-  std::vector<unsigned int> memActiveStates_;
 
   static bool const registered_;
 };
