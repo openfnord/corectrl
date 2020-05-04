@@ -4,17 +4,17 @@
 <context>
     <name>AMD::PMFixedQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="26"/>
+        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="31"/>
         <source>low</source>
         <translation>Low</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="27"/>
+        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="32"/>
         <source>mid</source>
         <translation>Mid</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="28"/>
+        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="33"/>
         <source>high</source>
         <translation>High</translation>
     </message>
@@ -22,27 +22,27 @@
 <context>
     <name>AMD::PMPowerProfileQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="30"/>
         <source>3D_FULL_SCREEN</source>
         <translation>3D Fullscreen</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="26"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="31"/>
         <source>POWER_SAVING</source>
         <translation>Power saving</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="27"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="32"/>
         <source>VIDEO</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="28"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="33"/>
         <source>VR</source>
         <translation>Virtual reality</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="29"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="34"/>
         <source>COMPUTE</source>
         <translation>Compute</translation>
     </message>
@@ -50,17 +50,17 @@
 <context>
     <name>AMD::PMPowerStateQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
         <source>battery</source>
         <translation>Battery</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="26"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
         <source>balanced</source>
         <translation>Balanced</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="27"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
         <source>performance</source>
         <translation>Performance</translation>
     </message>
@@ -107,7 +107,7 @@
         <translation>GPU</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMFVStateForm.qml" line="111"/>
+        <location filename="../qml/AMDPMFVStateForm.qml" line="110"/>
         <source>Memory</source>
         <translation>Memory</translation>
     </message>
@@ -115,23 +115,23 @@
 <context>
     <name>AMDPMFVVoltCurveForm</name>
     <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="94"/>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="141"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="78"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="121"/>
         <source>Voltage</source>
         <translation>Voltage</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="93"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="77"/>
         <source>Frequency</source>
         <translation>Frequency</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="108"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="92"/>
         <source>GPU</source>
         <translation>GPU</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="119"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="101"/>
         <source>Memory</source>
         <translation>Memory</translation>
     </message>
@@ -256,32 +256,32 @@
 <context>
     <name>CPUFreqQMLItem</name>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="26"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
         <source>performance</source>
         <translation>Performance</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="27"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
         <source>powersave</source>
         <translation>Powersave</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
         <source>userspace</source>
         <translation>Custom frequency</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="32"/>
         <source>schedutil</source>
         <translation>CPU utilization</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="33"/>
         <source>ondemand</source>
         <translation>Ondemand</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="34"/>
         <source>conservative</source>
         <translation>Conservative</translation>
     </message>
@@ -289,42 +289,42 @@
 <context>
     <name>ControlModeQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/auto/pmautoqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/auto/pmautoqmlitem.cpp" line="30"/>
         <source>AMD_PM_AUTO</source>
         <translation>Automatic</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="30"/>
         <source>AMD_PM_FIXED</source>
         <translation>Fixed</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/fan/auto/fanautoqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/fan/auto/fanautoqmlitem.cpp" line="30"/>
         <source>AMD_FAN_AUTO</source>
         <translation>Automatic</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/fan/fixed/fanfixedqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/fan/fixed/fanfixedqmlitem.cpp" line="27"/>
         <source>AMD_FAN_FIXED</source>
         <translation>Fixed</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/fan/curve/fancurveqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/fan/curve/fancurveqmlitem.cpp" line="33"/>
         <source>AMD_FAN_CURVE</source>
         <translation>Curve</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/pmadvancedqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/advanced/pmadvancedqmlitem.cpp" line="30"/>
         <source>AMD_PM_ADVANCED</source>
         <translation>Advanced</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/fixedfreq/pmfixedfreqqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/advanced/fixedfreq/pmfixedfreqqmlitem.cpp" line="31"/>
         <source>AMD_PM_FIXED_FREQ</source>
         <translation>Fixed</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/dynamicfreq/pmdynamicfreqqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/advanced/dynamicfreq/pmdynamicfreqqmlitem.cpp" line="30"/>
         <source>AMD_PM_DYNAMIC_FREQ</source>
         <translation>Dynamic</translation>
     </message>
@@ -332,24 +332,47 @@
 <context>
     <name>FVControl</name>
     <message>
-        <location filename="../qml/FVControl.qml" line="152"/>
+        <location filename="../qml/FVControl.qml" line="119"/>
         <source>STATE</source>
         <translation>STATE</translation>
     </message>
     <message>
-        <location filename="../qml/FVControl.qml" line="213"/>
+        <location filename="../qml/FVControl.qml" line="180"/>
         <source>Auto</source>
         <translation>Auto</translation>
     </message>
     <message>
-        <location filename="../qml/FVControl.qml" line="244"/>
+        <location filename="../qml/FVControl.qml" line="211"/>
         <source>Frequency</source>
         <translation>Frequency</translation>
     </message>
     <message>
-        <location filename="../qml/FVControl.qml" line="269"/>
+        <location filename="../qml/FVControl.qml" line="235"/>
         <source>Voltage</source>
         <translation>Voltage</translation>
+    </message>
+</context>
+<context>
+    <name>FreqStateControl</name>
+    <message>
+        <location filename="../qml/FreqStateControl.qml" line="75"/>
+        <source>MINIMUM</source>
+        <translation>MINIMUM</translation>
+    </message>
+    <message>
+        <location filename="../qml/FreqStateControl.qml" line="77"/>
+        <source>MAXIMUM</source>
+        <translation>MAXIMUM</translation>
+    </message>
+    <message>
+        <location filename="../qml/FreqStateControl.qml" line="79"/>
+        <source>STATE</source>
+        <translation>STATE</translation>
+    </message>
+    <message>
+        <location filename="../qml/FreqStateControl.qml" line="139"/>
+        <source>Frequency</source>
+        <translation>Frequency</translation>
     </message>
 </context>
 <context>
@@ -431,7 +454,7 @@
 <context>
     <name>ProfileManagerUI</name>
     <message>
-        <location filename="../core/profilemanagerui.cpp" line="27"/>
+        <location filename="../core/profilemanagerui.cpp" line="32"/>
         <source>_global_</source>
         <translation>Global Profile</translation>
     </message>
@@ -569,47 +592,47 @@ Check the permissions of the destination file and directory.</translation>
 <context>
     <name>SensorGraph</name>
     <message>
-        <location filename="../core/components/sensors/amd/memfreqgraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/memfreqgraphitem.cpp" line="34"/>
         <source>AMD_MEM_FREQ</source>
         <translation>Memory</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/gpufreqgraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/gpufreqgraphitem.cpp" line="34"/>
         <source>AMD_GPU_FREQ</source>
         <translation>GPU</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/gputempgraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/gputempgraphitem.cpp" line="34"/>
         <source>AMD_GPU_TEMP</source>
         <translation>Temperature</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/powergraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/powergraphitem.cpp" line="34"/>
         <source>AMD_POWER</source>
         <translation>Power</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/activitygraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/activitygraphitem.cpp" line="34"/>
         <source>AMD_ACTIVITY</source>
         <translation>Activity</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/memusagegraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/memusagegraphitem.cpp" line="34"/>
         <source>AMD_MEM_USAGE</source>
         <translation>Used memory</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/fanspeedpercgraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/fanspeedpercgraphitem.cpp" line="34"/>
         <source>AMD_FAN_SPEED_PERC</source>
         <translation>Fan</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/fanspeedrpmgraphitem.cpp" line="35"/>
+        <location filename="../core/components/sensors/amd/fanspeedrpmgraphitem.cpp" line="36"/>
         <source>AMD_FAN_SPEED_RPM</source>
         <translation>Fan</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/cpu/cpufreqpackgraphitem.cpp" line="32"/>
+        <location filename="../core/components/sensors/cpu/cpufreqpackgraphitem.cpp" line="33"/>
         <source>CPU_FREQ_PACK</source>
         <translation>CPU</translation>
     </message>
@@ -671,7 +694,7 @@ Check the permissions of the destination file and directory.</translation>
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="69"/>
+        <location filename="../app/systray.cpp" line="71"/>
         <source>Quit</source>
         <translation>Quit</translation>
     </message>
@@ -697,182 +720,182 @@ Check the permissions of the destination file and directory.</translation>
 <context>
     <name>SystemInfoUI</name>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="29"/>
+        <location filename="../core/systeminfoui.cpp" line="33"/>
         <source>kernelv</source>
         <translation>Kernel version</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="30"/>
+        <location filename="../core/systeminfoui.cpp" line="34"/>
         <source>mesav</source>
         <translation>Mesa version</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="31"/>
+        <location filename="../core/systeminfoui.cpp" line="35"/>
         <source>vkapiv</source>
         <translation>Vulkan API version</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="32"/>
+        <location filename="../core/systeminfoui.cpp" line="36"/>
         <source>glcorev</source>
         <translation>OpenGL version (core)</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="33"/>
+        <location filename="../core/systeminfoui.cpp" line="37"/>
         <source>glcompv</source>
         <translation>OpenGL version (compat)</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="34"/>
+        <location filename="../core/systeminfoui.cpp" line="38"/>
         <source>vendorid</source>
         <translation>Vendor ID</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="35"/>
+        <location filename="../core/systeminfoui.cpp" line="39"/>
         <source>deviceid</source>
         <translation>Device ID</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="36"/>
+        <location filename="../core/systeminfoui.cpp" line="40"/>
         <source>svendorid</source>
         <translation>Vendor model ID</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="37"/>
+        <location filename="../core/systeminfoui.cpp" line="41"/>
         <source>sdeviceid</source>
         <translation>Device model ID</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="38"/>
+        <location filename="../core/systeminfoui.cpp" line="42"/>
         <source>vendor</source>
         <translation>Vendor</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="39"/>
+        <location filename="../core/systeminfoui.cpp" line="43"/>
         <source>device</source>
         <translation>Device</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="40"/>
+        <location filename="../core/systeminfoui.cpp" line="44"/>
         <source>sdevice</source>
         <translation>Device model</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="41"/>
+        <location filename="../core/systeminfoui.cpp" line="45"/>
         <source>pcislot</source>
         <translation>PCI Slot</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="42"/>
+        <location filename="../core/systeminfoui.cpp" line="46"/>
         <source>driver</source>
         <translation>Driver</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="43"/>
+        <location filename="../core/systeminfoui.cpp" line="47"/>
         <source>revision</source>
         <translation>Revision</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="44"/>
+        <location filename="../core/systeminfoui.cpp" line="48"/>
         <source>memory</source>
         <translation>Memory</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="45"/>
+        <location filename="../core/systeminfoui.cpp" line="49"/>
         <source>gputype</source>
         <translation>GPU Type</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="46"/>
+        <location filename="../core/systeminfoui.cpp" line="50"/>
         <source>biosv</source>
         <translation>BIOS version</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="47"/>
+        <location filename="../core/systeminfoui.cpp" line="51"/>
         <source>cpufamily</source>
         <translation>CPU Family</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="48"/>
+        <location filename="../core/systeminfoui.cpp" line="52"/>
         <source>model</source>
         <translation>Model</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="49"/>
+        <location filename="../core/systeminfoui.cpp" line="53"/>
         <source>modname</source>
         <translation>Model Name</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="50"/>
+        <location filename="../core/systeminfoui.cpp" line="54"/>
         <source>stepping</source>
         <translation>Stepping</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="51"/>
+        <location filename="../core/systeminfoui.cpp" line="55"/>
         <source>ucodev</source>
         <translation>Microcode version</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="52"/>
+        <location filename="../core/systeminfoui.cpp" line="56"/>
         <source>l3cache</source>
         <translation>L3 cache</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="54"/>
+        <location filename="../core/systeminfoui.cpp" line="58"/>
         <source>cores</source>
         <translation>Cores</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="55"/>
+        <location filename="../core/systeminfoui.cpp" line="59"/>
         <source>flags</source>
         <translation>Flags</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="56"/>
+        <location filename="../core/systeminfoui.cpp" line="60"/>
         <source>bugs</source>
         <translation>Bugs</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="57"/>
+        <location filename="../core/systeminfoui.cpp" line="61"/>
         <source>bogomips</source>
         <translation>Bogomips</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="58"/>
+        <location filename="../core/systeminfoui.cpp" line="62"/>
         <source>arch</source>
         <translation>Architecture</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="59"/>
+        <location filename="../core/systeminfoui.cpp" line="63"/>
         <source>opmode</source>
         <translation>Operation modes</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="60"/>
+        <location filename="../core/systeminfoui.cpp" line="64"/>
         <source>byteorder</source>
         <translation>Byte order</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="61"/>
+        <location filename="../core/systeminfoui.cpp" line="65"/>
         <source>virt</source>
         <translation>Virtualization</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="62"/>
+        <location filename="../core/systeminfoui.cpp" line="66"/>
         <source>l1dcache</source>
         <translation>L1 cache (data)</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="63"/>
+        <location filename="../core/systeminfoui.cpp" line="67"/>
         <source>l1icache</source>
         <translation>L1 cache (instructions)</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="64"/>
+        <location filename="../core/systeminfoui.cpp" line="68"/>
         <source>l2cache</source>
         <translation>L2 cache</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="53"/>
+        <location filename="../core/systeminfoui.cpp" line="57"/>
         <source>exeunits</source>
         <translation>Execution units</translation>
     </message>
