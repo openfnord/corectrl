@@ -23,7 +23,7 @@
 #include "helperids.h"
 #include <QDBusConnection>
 #include <QDBusInterface>
-#include <QStringLiteral>
+#include <QString>
 #include <algorithm>
 #include <stdexcept>
 #include <utility>

@@ -29,7 +29,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickItem>
 #include <QString>
-#include <QStringLiteral>
+#include <QString>
 #include <QUrl>
 #include <QtGlobal>
 #include <stdexcept>

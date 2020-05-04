@@ -21,7 +21,7 @@
 #include "pmfvvoltcurve.h"
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
-#include <QStringLiteral>
+#include <QString>
 #include <QtGlobal>
 #include <QtQml>
 #include <algorithm>

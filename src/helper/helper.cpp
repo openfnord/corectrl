@@ -31,7 +31,7 @@
 #include <QByteArray>
 #include <QDBusConnection>
 #include <QDBusError>
-#include <QStringLiteral>
+#include <QString>
 #include <QVariantMap>
 #include <exception>
 #include <filesystem>

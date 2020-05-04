@@ -25,7 +25,7 @@
 #include <QDBusConnection>
 #include <QDBusInterface>
 #include <QDBusPendingCall>
-#include <QStringLiteral>
+#include <QString>
 #include <stdexcept>
 #include <utility>
 

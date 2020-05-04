@@ -26,6 +26,7 @@
 #include <QDBusInterface>
 #include <QDBusReply>
 #include <QEventLoop>
+#include <QString>
 #include <QVariantMap>
 #include <algorithm>
 #include <limits>

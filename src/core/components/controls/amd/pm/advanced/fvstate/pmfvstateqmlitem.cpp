@@ -21,7 +21,7 @@
 #include "pmfvstate.h"
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
-#include <QStringLiteral>
+#include <QString>
 #include <QtQml>
 #include <algorithm>
 #include <iterator>

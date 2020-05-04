@@ -21,7 +21,7 @@
 #include "pmfreqod.h"
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
-#include <QStringLiteral>
+#include <QString>
 #include <QtQml>
 #include <memory>
 #include <string>

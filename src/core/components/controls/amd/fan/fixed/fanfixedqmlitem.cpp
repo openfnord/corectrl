@@ -20,7 +20,7 @@
 #include "core/qmlcomponentregistry.h"
 #include "fanfixed.h"
 #include <QQmlApplicationEngine>
-#include <QStringLiteral>
+#include <QString>
 #include <memory>
 
 char const *const AMD::FanFixedQMLItem::trStrings[] = {

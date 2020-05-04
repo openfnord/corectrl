@@ -24,7 +24,7 @@
 #include <QByteArray>
 #include <QDBusConnection>
 #include <QDBusError>
-#include <QStringLiteral>
+#include <QString>
 #include <stdexcept>
 #include <utility>
 

@@ -28,7 +28,7 @@
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QQuickItem>
-#include <QStringLiteral>
+#include <QString>
 #include <Qt>
 #include <memory>
 #include <utility>

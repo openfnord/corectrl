@@ -22,7 +22,7 @@
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
-#include <QStringLiteral>
+#include <QString>
 #include <QtQml>
 
 AMD::FanModeQMLItem::FanModeQMLItem() noexcept
