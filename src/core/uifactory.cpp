@@ -29,7 +29,6 @@
 #include <QQmlApplicationEngine>
 #include <QQuickItem>
 #include <QString>
-#include <QString>
 #include <QUrl>
 #include <QtGlobal>
 #include <stdexcept>

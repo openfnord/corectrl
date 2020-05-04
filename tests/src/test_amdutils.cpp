@@ -455,7 +455,8 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
   {
     SECTION("Empty file")
     {
-      REQUIRE(::Utils::AMD::ppOdClkVoltageHasKnownQuirks(std::vector<std::string>()));
+      REQUIRE(::Utils::AMD::ppOdClkVoltageHasKnownQuirks(
+          std::vector<std::string>()));
     }
 
     SECTION("Pre-Vega20 missing range section")

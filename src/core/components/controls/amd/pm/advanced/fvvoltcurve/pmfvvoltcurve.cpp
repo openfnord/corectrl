@@ -26,7 +26,8 @@
 
 AMD::PMFVVoltCurve::PMFVVoltCurve(
     std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
-    std::unique_ptr<IDataSource<std::vector<std::string>>> &&ppOdClkVoltDataSource) noexcept
+    std::unique_ptr<IDataSource<std::vector<std::string>>>
+        &&ppOdClkVoltDataSource) noexcept
 : Control(true)
 , id_(AMD::PMFVVoltCurve::ItemID)
 , perfLevelDataSource_(std::move(perfLevelDataSource))

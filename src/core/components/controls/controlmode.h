@@ -18,10 +18,10 @@
 #pragma once
 
 #include "core/components/controls/control.h"
-#include <vector>
+#include <memory>
 #include <string>
 #include <string_view>
-#include <memory>
+#include <vector>
 
 /// A control that aggregates other controls,
 /// having only one of them active at the same time.
