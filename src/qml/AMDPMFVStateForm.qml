@@ -97,7 +97,6 @@ AMD_PM_FV_STATE {
         Layout.fillHeight: true
 
         title: qsTr("GPU")
-        showVolt: true
 
         onActiveStateChanged: pmFVState.changeGPUActiveState(index, active)
         onStateChanged: pmFVState.changeGPUState(index, freq, volt)
@@ -109,7 +108,6 @@ AMD_PM_FV_STATE {
         Layout.fillHeight: true
 
         title: qsTr("Memory")
-        showVolt: true
 
         onActiveStateChanged: pmFVState.changeMemActiveState(index, active)
         onStateChanged: pmFVState.changeMemState(index, freq, volt)

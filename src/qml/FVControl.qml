@@ -32,7 +32,6 @@ Pane {
   }
 
   property alias title: title.text
-  property bool showVolt: true
   property alias voltManual: manualVolt.checked
 
   signal activeStateChanged(int index, bool active)
@@ -61,42 +60,10 @@ Pane {
     }
   }
 
-  function setFStates(states, activeStates, freqMin, freqMax) {
-    stateModel.clear()
-
-    for (var i = 0; i < states.length; i += 2) {
-
-      var activeState = false
-      for (var j = 0; j < activeStates.length; ++j)
-        if (activeStates[j] === states[i]) {
-          activeState = true
-          break
-        }
-
-      stateModel.append({"_index": states[i],
-                         "_active": activeState,
-                         "_freq": states[i + 1],
-                         "_freqMin": freqMin,
-                         "_freqMax": freqMax,
-                         "_volt": 0,
-                         "_voltMin": 0,
-                         "_voltMax": 0})
-    }
-  }
-
   function updateFVState(index, freq, volt) {
     for (var i = 0; i < stateModel.count; ++i) {
       if (stateModel.get(i)._index === index) {
         stateModel.set(i, {"_freq": freq, "_volt": volt})
-        break
-      }
-    }
-  }
-
-  function updateFState(index, freq) {
-    for (var i = 0; i < stateModel.count; ++i) {
-      if (stateModel.get(i)._index === index) {
-        stateModel.set(i, {"_freq": freq})
         break
       }
     }
@@ -203,7 +170,7 @@ Pane {
         maxValue: _voltMax
 
         enabled: stateCkb.checked
-        visible: showVolt && manualVolt.checked
+        visible: manualVolt.checked
         Layout.preferredWidth: tFMetrics.width + padding * 2
 
         onValueChanged: control.stateChanged(_index, _freq, value)
@@ -213,7 +180,7 @@ Pane {
         text: qsTr("Auto")
 
         enabled: false
-        visible: showVolt && !manualVolt.checked
+        visible: !manualVolt.checked
 
         padding: Style.TextField.padding
         horizontalAlignment: TextInput.AlignHCenter
@@ -248,7 +215,6 @@ Pane {
         Item { Layout.preferredHeight: 10 }
 
         ColumnLayout {
-          visible: showVolt
 
           Item { Layout.preferredHeight: 5 }
 
