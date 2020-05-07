@@ -124,12 +124,12 @@ var CurveControl = {
   curve_opacity_alt: 0.3,
 
   axis_title_color: "#F0FFFFFF",
-  axis_title_color_alt: "#50FFFFFF",
+  axis_title_color_alt: "#80FFFFFF",
 
   axis_label_format: "%i",
 
-  axis_label_color: "#80FFFFFF",
-  axis_label_color_alt: "#20FFFFFF",
+  axis_label_color: "#C7FFFFFF",
+  axis_label_color_alt: "#77FFFFFF",
 
   axis_color: "#E0FFFFFF",
   axis_color_alt: "#20FFFFFF",
@@ -138,7 +138,7 @@ var CurveControl = {
   axis_grid_color_alt: "#20FFFFFF",
 
   axis_grid_minor_color: "#30FFFFFF",
-  axis_grid_minor_color_alt: "#05FFFFFF",
+  axis_grid_minor_color_alt: "#09FFFFFF",
 };
 
 var FVControl = {
