@@ -116,7 +116,7 @@ var ToolTip = {
   timeout: 3500
 };
 
-var FanCurve = {
+var CurveControl = {
   curve_amd_start_color: "lightskyblue",
   curve_color: "#ABFFFFFF",
 

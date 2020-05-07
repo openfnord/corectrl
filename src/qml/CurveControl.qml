@@ -41,14 +41,14 @@ ChartView {
 
   axes: [ValueAxis {
           id: xAxis
-          labelFormat: Style.FanCurve.axis_label_format
+          labelFormat: Style.CurveControl.axis_label_format
           minorGridVisible: true
           minorTickCount: 1
           tickCount: 5 }
         ,
          ValueAxis {
           id: yAxis
-          labelFormat: Style.FanCurve.axis_label_format
+          labelFormat: Style.CurveControl.axis_label_format
           minorGridVisible: true
           minorTickCount: 1
           tickCount: 3 }
@@ -138,8 +138,8 @@ ChartView {
                                       name, xAxis, yAxis)
       series.name = name
       series.color = color
-      series.opacity = chart.enabled ? Style.FanCurve.curve_opacity
-                                     : Style.FanCurve.curve_opacity_alt
+      series.opacity = chart.enabled ? Style.CurveControl.curve_opacity
+                                     : Style.CurveControl.curve_opacity_alt
       series.width = 2
 
       // line first outer range point
@@ -159,8 +159,8 @@ ChartView {
                                       name, xAxis, yAxis)
       series.name = name
       series.color = color
-      series.opacity = chart.enabled ? Style.FanCurve.curve_opacity
-                                     : Style.FanCurve.curve_opacity_alt
+      series.opacity = chart.enabled ? Style.CurveControl.curve_opacity
+                                     : Style.CurveControl.curve_opacity_alt
       series.borderColor = color
       series.markerSize = 10
       series.borderWidth = 0
@@ -175,8 +175,8 @@ ChartView {
       refreshAxes(enabled)
 
       // series opactity
-      var opacity = enabled ? Style.FanCurve.curve_opacity
-                            : Style.FanCurve.curve_opacity_alt
+      var opacity = enabled ? Style.CurveControl.curve_opacity
+                            : Style.CurveControl.curve_opacity_alt
       for (var curveName in lineSeries) {
         var lseries = lineSeries[curveName]
         lseries.opacity = opacity
@@ -246,29 +246,29 @@ ChartView {
     }
 
     function refreshAxes(enabled) {
-      xAxis.titleText = "<font color='"+ (enabled ? Style.FanCurve.axis_title_color
-                                                  : Style.FanCurve.axis_title_color_alt)
+      xAxis.titleText = "<font color='"+ (enabled ? Style.CurveControl.axis_title_color
+                                                  : Style.CurveControl.axis_title_color_alt)
                         + "'>" + xName + " (" + xUnit + ")</font>"
-      xAxis.labelsColor = enabled ? Style.FanCurve.axis_label_color
-                                  : Style.FanCurve.axis_label_color_alt
-      xAxis.color = enabled ? Style.FanCurve.axis_color
-                            : Style.FanCurve.axis_color_alt
-      xAxis.gridLineColor = enabled ? Style.FanCurve.axis_grid_color
-                                    : Style.FanCurve.axis_grid_color_alt
-      xAxis.minorGridLineColor = enabled ? Style.FanCurve.axis_grid_minor_color
-                                         : Style.FanCurve.axis_grid_minor_color_alt
+      xAxis.labelsColor = enabled ? Style.CurveControl.axis_label_color
+                                  : Style.CurveControl.axis_label_color_alt
+      xAxis.color = enabled ? Style.CurveControl.axis_color
+                            : Style.CurveControl.axis_color_alt
+      xAxis.gridLineColor = enabled ? Style.CurveControl.axis_grid_color
+                                    : Style.CurveControl.axis_grid_color_alt
+      xAxis.minorGridLineColor = enabled ? Style.CurveControl.axis_grid_minor_color
+                                         : Style.CurveControl.axis_grid_minor_color_alt
 
-      yAxis.titleText = "<font color='"+ (enabled ? Style.FanCurve.axis_title_color
-                                                  : Style.FanCurve.axis_title_color_alt)
+      yAxis.titleText = "<font color='"+ (enabled ? Style.CurveControl.axis_title_color
+                                                  : Style.CurveControl.axis_title_color_alt)
                         + "'>" + yName + " (" + yUnit + ")</font>"
-      yAxis.labelsColor = enabled ? Style.FanCurve.axis_label_color
-                                  : Style.FanCurve.axis_label_color_alt
-      yAxis.color = enabled ? Style.FanCurve.axis_color
-                            : Style.FanCurve.axis_color_alt
-      yAxis.gridLineColor = enabled ? Style.FanCurve.axis_grid_color
-                                    : Style.FanCurve.axis_grid_color_alt
-      yAxis.minorGridLineColor = enabled ? Style.FanCurve.axis_grid_minor_color
-                                         : Style.FanCurve.axis_grid_minor_color_alt
+      yAxis.labelsColor = enabled ? Style.CurveControl.axis_label_color
+                                  : Style.CurveControl.axis_label_color_alt
+      yAxis.color = enabled ? Style.CurveControl.axis_color
+                            : Style.CurveControl.axis_color_alt
+      yAxis.gridLineColor = enabled ? Style.CurveControl.axis_grid_color
+                                    : Style.CurveControl.axis_grid_color_alt
+      yAxis.minorGridLineColor = enabled ? Style.CurveControl.axis_grid_minor_color
+                                         : Style.CurveControl.axis_grid_minor_color_alt
     }
 
     function updateGraphPoint(oldPoint, newPoint) {

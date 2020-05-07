@@ -77,7 +77,7 @@ AMD_FAN_CURVE {
                           (fanCurve.maxTemp - fanCurve.minTemp) * .15,
                           fanCurve.fanStartValue))
       curveControl.addCurve("fanStart",
-                            Style.FanCurve.curve_amd_start_color,
+                            Style.CurveControl.curve_amd_start_color,
                             points)
     }
   }
