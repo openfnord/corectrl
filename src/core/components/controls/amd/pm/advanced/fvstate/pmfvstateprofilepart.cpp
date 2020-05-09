@@ -308,8 +308,12 @@ void AMD::PMFVStateProfilePart::state(
     std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t> const
         &targetFreqRange) const
 {
-  if (index < targetStates.size()) {
-    auto &[_, sFreq, sVolt] = targetStates.at(index);
+  auto stateIt = std::find_if(
+      targetStates.begin(), targetStates.end(),
+      [=](auto &state) { return std::get<0>(state) == index; });
+
+  if (stateIt != targetStates.end()) {
+    auto &[_, sFreq, sVolt] = *stateIt;
     sFreq = std::clamp(value.first, targetFreqRange.first,
                        targetFreqRange.second);
     sVolt = std::clamp(value.second, voltRange_.first, voltRange_.second);
