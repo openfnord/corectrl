@@ -283,10 +283,10 @@ void AMD::PMFVVoltCurveProfilePart::freqState(
     std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t> const
         &targetRange) const
 {
-  if (index < targetStates.size()) {
-    auto &[_, sFreq] = targetStates.at(index);
-    sFreq = std::clamp(freq, targetRange.first, targetRange.second);
-  }
+  auto stateIt = std::find_if(targetStates.begin(), targetStates.end(),
+                              [=](auto &state) { return state.first == index; });
+  if (stateIt != targetStates.end())
+    stateIt->second = std::clamp(freq, targetRange.first, targetRange.second);
 }
 
 bool const AMD::PMFVVoltCurveProfilePart::registered_ =
