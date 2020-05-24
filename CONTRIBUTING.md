@@ -4,6 +4,19 @@ CoreCtrl welcomes your contributions.
 ## Build instructions
 You can find the build instructions on the [wiki](https://gitlab.com/corectrl/corectrl/wikis/Installation).
 
+## Issues writting guidelines
+Please, follow these guidelines to write your issues. Reported issues not following this guidelines may be closed as invalid.
+
+* One issue per report.
+* Be precise and clear.
+* When available, use issues templates.
+
+Please, as first step, read the [FAQ](https://gitlab.com/corectrl/corectrl/wikis/FAQ) and [Known issues](https://gitlab.com/corectrl/corectrl/wikis/Known-issues). If your issue doesn't appear on them, search for it on the issue tracker. If there is already an opened issue, add your input to it if you can aport new usefull info. If the issue is closed, open a new one and include a reference to the old one (for example, add 'Related to #<closed_issue_number>').
+
+While writting your issue, use an issue template (if available) to populate the 'Description' field with important info. Adapt it to your needs.
+
+Give to your issue a good descriptive title.
+
 ## Merge request
 Before starting to work on a merge request, please follow these instructions:
 
