@@ -1,12 +1,15 @@
-Please, follow the [Issues writting guidelines](CONTRIBUTING#Issues-writting-guidelines).
+Please, follow the [Issues writting guidelines](CONTRIBUTING.md#Issues-writting-guidelines).
 
 **CoreCtrl version:**
 
 **Distribution:**
+
 **Kernel version:**
 
 **GPU model:**
+
 **GPU driver:**
+
 **GPU driver parameters:**
 
 Please, add more info if needed, like desktop enviroment or other system components.
@@ -18,6 +21,7 @@ Please, describe your bug here. Be precise and clear.
 # Reproduction
 
 Simplified, easy to follow steps to reproduce the bug:
+
 1.
 2.
 3.
