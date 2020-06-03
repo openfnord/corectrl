@@ -75,7 +75,9 @@ std::string SWInfoKernel::parseVersion(std::string const &line) const
   }
 
   auto const startPos = prefix.length();
-  auto const endPos = line.find('-', startPos);
+  auto const endPosA = line.find(' ', startPos);
+  auto const endPosB = line.find('-', startPos);
+  auto const endPos = ((endPosA < endPosB) ? endPosA : endPosB);
   return line.substr(startPos, endPos - startPos);
 }
 
