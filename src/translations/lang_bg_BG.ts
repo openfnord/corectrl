@@ -24,17 +24,17 @@
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="25"/>
         <source>3D_FULL_SCREEN</source>
-        <translation>3D–Цял–екран</translation>
+        <translation>3D_ЦЯЛ_ЕКРАН</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="26"/>
         <source>POWER_SAVING</source>
-        <translation>Икономия на енергия</translation>
+        <translation>ИКОНОМИЯ_НА_ЕНЕРГИЯ</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="27"/>
         <source>VIDEO</source>
-        <translation>Видео</translation>
+        <translation>ВИДЕО</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="28"/>
@@ -44,7 +44,7 @@
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="29"/>
         <source>COMPUTE</source>
-        <translation>пресмятане</translation>
+        <translation>ПРЕСМЯТАНЕ</translation>
     </message>
 </context>
 <context>
@@ -207,7 +207,7 @@
     <message>
         <location filename="../qml/About.qml" line="53"/>
         <source>Control your hardware with ease using application profiles</source>
-        <translation>Управлявайте частите си с лекота използвайки профили за приложенията ви</translation>
+        <translation>Управлявайте хардуера си с лекота използвайки профили за приложенията си</translation>
     </message>
     <message>
         <location filename="../qml/About.qml" line="58"/>
@@ -296,7 +296,7 @@
     <message>
         <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="25"/>
         <source>AMD_PM_FIXED</source>
-        <translation>Определено</translation>
+        <translation>Фиксирано</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/fan/auto/fanautoqmlitem.cpp" line="25"/>
@@ -306,7 +306,7 @@
     <message>
         <location filename="../core/components/controls/amd/fan/fixed/fanfixedqmlitem.cpp" line="25"/>
         <source>AMD_FAN_FIXED</source>
-        <translation>Определено</translation>
+        <translation>Фиксирано</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/fan/curve/fancurveqmlitem.cpp" line="25"/>
@@ -321,12 +321,12 @@
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/fixedfreq/pmfixedfreqqmlitem.cpp" line="25"/>
         <source>AMD_PM_FIXED_FREQ</source>
-        <translation>Определено</translation>
+        <translation>Фиксирана честота</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/dynamicfreq/pmdynamicfreqqmlitem.cpp" line="25"/>
         <source>AMD_PM_DYNAMIC_FREQ</source>
-        <translation>Динамично</translation>
+        <translation>Динамична честота</translation>
     </message>
 </context>
 <context>
@@ -334,7 +334,7 @@
     <message>
         <location filename="../qml/FVControl.qml" line="152"/>
         <source>STATE</source>
-        <translation>Състояние</translation>
+        <translation>СЪСТОЯНИЕ</translation>
     </message>
     <message>
         <location filename="../qml/FVControl.qml" line="213"/>
@@ -367,22 +367,22 @@
     <message>
         <location filename="../qml/ProfileButton.qml" line="149"/>
         <source>Edit...</source>
-        <translation>Редактирай...</translation>
+        <translation>Редактиране...</translation>
     </message>
     <message>
         <location filename="../qml/ProfileButton.qml" line="157"/>
         <source>Clone...</source>
-        <translation>Дубликирай...</translation>
+        <translation>Дубликиране...</translation>
     </message>
     <message>
         <location filename="../qml/ProfileButton.qml" line="164"/>
         <source>Export to...</source>
-        <translation>Запази до...</translation>
+        <translation>Запазване до...</translation>
     </message>
     <message>
         <location filename="../qml/ProfileButton.qml" line="173"/>
         <source>Remove</source>
-        <translation>Премахни</translation>
+        <translation>Премахване</translation>
     </message>
 </context>
 <context>
@@ -410,7 +410,7 @@
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="154"/>
         <source>Select an executable file</source>
-        <translation>Изберете изпълним файл</translation>
+        <translation>Избиране на изпълним файл</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="168"/>
@@ -420,7 +420,7 @@
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
         <source>Select an icon</source>
-        <translation>Изберете икона</translation>
+        <translation>Избиране на икона</translation>
     </message>
     <message>
         <location filename="../qml/ProfileInfoDialog.qml" line="197"/>
@@ -484,7 +484,7 @@ Do you want to apply them now?</source>
     <message>
         <location filename="../qml/Profiles.qml" line="481"/>
         <source>Manage profiles for your applications...</source>
-        <translation>Управлявайте профили за приложенията ви...</translation>
+        <translation>Управлявайте профили за приложенията си...</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="553"/>
@@ -571,17 +571,17 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/components/sensors/amd/memfreqgraphitem.cpp" line="33"/>
         <source>AMD_MEM_FREQ</source>
-        <translation>Памет</translation>
+        <translation>Честота на памет</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/gpufreqgraphitem.cpp" line="33"/>
         <source>AMD_GPU_FREQ</source>
-        <translation>Видео Карта</translation>
+        <translation>Честота на видео карта</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/gputempgraphitem.cpp" line="33"/>
         <source>AMD_GPU_TEMP</source>
-        <translation>Температура</translation>
+        <translation>Температура на видео карта</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/powergraphitem.cpp" line="33"/>
@@ -601,17 +601,17 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/components/sensors/amd/fanspeedpercgraphitem.cpp" line="33"/>
         <source>AMD_FAN_SPEED_PERC</source>
-        <translation>Вентилатор</translation>
+        <translation>Скорост на вентилатор в проценти</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/fanspeedrpmgraphitem.cpp" line="35"/>
         <source>AMD_FAN_SPEED_RPM</source>
-        <translation>Вентилатор</translation>
+        <translation>Скорост на вентилатор в RPM</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/cpu/cpufreqpackgraphitem.cpp" line="32"/>
         <source>CPU_FREQ_PACK</source>
-        <translation>Процесор</translation>
+        <translation>Честота на процесор</translation>
     </message>
     <message>
         <location filename="../qml/SensorGraph.qml" line="150"/>
@@ -634,7 +634,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../qml/SettingsDialog.qml" line="46"/>
         <source>Workarounds</source>
-        <translation>Забиколки</translation>
+        <translation>Заобиколки</translation>
     </message>
 </context>
 <context>
@@ -642,7 +642,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../qml/SettingsGeneral.qml" line="53"/>
         <source>Show system tray icon</source>
-        <translation>Показване на иконата в панела</translation>
+        <translation>Показване на икона в панела</translation>
     </message>
     <message>
         <location filename="../qml/SettingsGeneral.qml" line="68"/>
@@ -660,7 +660,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="120"/>
         <source>Disabled sensors won&apos;t be updated from hardware</source>
-        <translation>Disabled sensors won&apos;t be updated from hardware</translation>
+        <translation>Изключени сензори няма да бъдат обновени от хардуера</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="130"/>
@@ -714,12 +714,12 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/systeminfoui.cpp" line="32"/>
         <source>glcorev</source>
-        <translation>версия на OpenGL (core)</translation>
+        <translation>версия на OpenGL(core)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="33"/>
         <source>glcompv</source>
-        <translation>версия на OpenGL (compat)</translation>
+        <translation>версия на OpenGL(compat)</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="34"/>
@@ -764,7 +764,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../core/systeminfoui.cpp" line="42"/>
         <source>driver</source>
-        <translation>драйвер</translation>
+        <translation>драйвър</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="43"/>
