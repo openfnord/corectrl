@@ -37,7 +37,7 @@ find_package(ECM REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH  ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 include(KDEInstallDirs)
 
-find_package(Qt5 COMPONENTS Core DBus Quick Charts Widgets Network REQUIRED)
+find_package(Qt5 COMPONENTS Core DBus Quick Charts Widgets Network Svg REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
 find_package(KF5Auth REQUIRED)
 find_package(KF5Archive REQUIRED)
