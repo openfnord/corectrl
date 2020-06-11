@@ -56,4 +56,12 @@ Then run:
 
 #### Others
 
-For other installation methods and setup instructions, please go to the [project wiki](https://gitlab.com/corectrl/corectrl/wikis/home).
+For other installation methods, see [Installation](https://gitlab.com/corectrl/corectrl/-/wikis/Installation).
+
+## Setup
+
+It's strongly recommended to [setup your system](https://gitlab.com/corectrl/corectrl/-/wikis/Setup) for better user experience and to unlock hidden hardware features.
+
+## More info
+
+Check the [Wiki](https://gitlab.com/corectrl/corectrl/wikis/home) for more useful info.
