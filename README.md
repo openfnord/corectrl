@@ -60,7 +60,7 @@ For other installation methods, see [Installation](https://gitlab.com/corectrl/c
 
 ## Setup
 
-It's strongly recommended to [setup your system](https://gitlab.com/corectrl/corectrl/-/wikis/Setup) for better user experience and to unlock hidden hardware features.
+It's **strongly recommended** to [setup your system](https://gitlab.com/corectrl/corectrl/-/wikis/Setup) for better user experience and to unlock **hidden hardware features**.
 
 ## More info
 
