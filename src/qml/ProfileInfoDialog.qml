@@ -154,8 +154,7 @@ Dialog {
           title: qsTr("Select an executable file")
 
           onAccepted: {
-            var path = file.toString()
-            var fileName = path.replace(folder.toString(),"")
+            var fileName = exeFDialog.fileName()
             exeTf.text = fileName
             dlg.exe = fileName
           }
