@@ -29,4 +29,10 @@ FileDialog {
   fileMode: saveDlg ? FileDialog.SaveFile : FileDialog.OpenFile
   folder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
   options: FileDialog.ReadOnly
+
+  /// Returns the selected file name.
+  function fileName() {
+    var path = file.toString()
+    return path.slice(path.lastIndexOf("/") + 1)
+  }
 }
