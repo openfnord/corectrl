@@ -21,6 +21,7 @@
 #include "common/fileutils.h"
 #include "core/idatasource.h"
 #include "easyloggingpp/easylogging++.h"
+#include <regex>
 #include <string_view>
 #include <utility>
 
@@ -66,19 +67,15 @@ std::vector<std::pair<std::string, std::string>> SWInfoKernel::provideInfo()
 
 std::string SWInfoKernel::parseVersion(std::string const &line) const
 {
-  static constexpr std::string_view prefix("Linux version ");
+  std::regex const regex(R"(^Linux\s*version\s*(\d+\.\d+\.\d+).*)");
 
-  // check that the line starts with prefix
-  if (line.find(prefix) == std::string::npos) {
+  std::smatch result;
+  if (!std::regex_search(line, result, regex)) {
     LOG(ERROR) << "Cannot parse kernel version";
     return "0.0.0";
   }
 
-  auto const startPos = prefix.length();
-  auto const endPosA = line.find(' ', startPos);
-  auto const endPosB = line.find('-', startPos);
-  auto const endPos = ((endPosA < endPosB) ? endPosA : endPosB);
-  return line.substr(startPos, endPos - startPos);
+  return result[1];
 }
 
 bool const SWInfoKernel::registered_ = InfoProviderRegistry::add(
