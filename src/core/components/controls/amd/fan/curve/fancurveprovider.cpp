@@ -61,7 +61,10 @@ AMD::FanCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
           int tempCritValue{0};
           Utils::String::toNumber(tempCritValue,
                                   Utils::File::readFileLines(tempCrit).front());
-          tempCritValue = tempCritValue > 0 ? tempCritValue / 1000 : 90;
+          tempCritValue = (tempCritValue > 0 &&
+                           tempCritValue < 150000) // check bogus values, see #103
+                              ? tempCritValue / 1000
+                              : 90;
 
           unsigned int value;
 

@@ -76,9 +76,12 @@ class Provider final : public IGPUSensorProvider::IProvider
             auto data = Utils::File::readFileLines(path.value() / "temp1_crit");
             if (!data.empty()) {
               int value;
-              if (Utils::String::toNumber<int>(value, data.front()))
+              if (Utils::String::toNumber<int>(value, data.front()) &&
+                  // do not use bogus values, see #103
+                  (value >= 0 && value < 150000)) {
                 range = {units::temperature::celsius_t(0),
                          units::temperature::celsius_t(value / 1000)};
+              }
             }
           }
 
