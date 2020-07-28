@@ -27,7 +27,7 @@ TEST_CASE("SWInfoKernel tests", "[Info][SWInfo][SWInfoKernel]")
 {
   SECTION("Provides kernel version")
   {
-    std::string const infoData("Linux version 1.2.3-something-1-TEXT ...");
+    std::string const infoData("Linux version 1.2.3_other_info ...");
 
     ::SWInfoKernel ts(
         std::make_unique<StringDataSourceStub>("/proc/version", infoData));
