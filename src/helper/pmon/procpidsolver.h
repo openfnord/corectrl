@@ -42,11 +42,10 @@ class ProcPIDSolver final : public IPIDSolver
   /// any dirSeparator character
   std::string exeFileName(std::string const &path, char const dirSeparator) const;
 
-  /// Gets the .exe app name if the entries are originated by a wine app launch
-  /// command
+  /// Gets the executable name (.exe) from a wine launch command line
   /// @param cmdline /proc/PID/cmline file entries
-  /// @return app name or empty string when the command wasn't the wine app
-  /// launching command or was used a unrecognized wine executable
+  /// @return executable name or empty string when the command line is not a valid wine
+  /// executable launch command line
   std::string wineAppName(std::vector<std::string> const &cmdline) const;
 
   std::filesystem::path const procPath_{"/proc"};
