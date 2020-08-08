@@ -59,28 +59,26 @@ std::string ProcPIDSolver::exeFileName(std::string const &path,
   return path.substr(pos + 1, path.length() - pos);
 }
 
-std::string ProcPIDSolver::wineAppName(std::vector<std::string> const &entries) const
+std::string ProcPIDSolver::wineAppName(std::vector<std::string> const &cmdline) const
 {
-  for (auto &entry : entries) {
-    auto entryExeName = entry;
+  for (auto &entry : cmdline) {
 
     std::filesystem::path const entryPath(entry);
-    if (entryPath.has_parent_path()) {
-      entryExeName = exeFileName(entry, '/');
+    bool absolutePath = entryPath.is_absolute();
+    if (absolutePath && wineExecutables_.find(entryPath.filename()) !=
+                            wineExecutables_.cend()) {
+      continue;
     }
-
-    if (wineExecutables_.find(entryExeName) != wineExecutables_.cend())
-      continue; // the entry is part of the wine launching command
-    else if (entryPath.extension() == ".exe")
-      return exeFileName(entry, '\\'); // this will return an empty string when
-                                       // the entry is not a windows path
-    else
+    else if (entryPath.extension() == ".exe" &&
+             (absolutePath || entry.find('\\') != std::string::npos)) {
+      return absolutePath ? entryPath.filename().string()
+                          : exeFileName(entry, '\\');
+    }
+    else {
+      // not a valid wine launch command line
       break;
+    }
   }
-
-  // the command used an unrecognized wine executable
-  // or
-  // the command is not the wine launching app command
 
   return "";
 }
