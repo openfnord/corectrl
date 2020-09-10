@@ -35,6 +35,7 @@
 #include <QQmlContext>
 #include <QQuickWindow>
 #include <QTranslator>
+#include <QtGlobal>
 #include <algorithm>
 #include <utility>
 
@@ -64,6 +65,13 @@ int App::exec(int argc, char **argv)
   QCoreApplication::setApplicationVersion(App::VersionStr.data());
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
+  // Ignore QT_STYLE_OVERRIDE. It breaks the qml theme.
+  if (qEnvironmentVariableIsSet("QT_STYLE_OVERRIDE")) {
+    LOG(WARNING) << fmt::format(
+        "Ignoring QT_STYLE_OVERRIDE environment variable.");
+    qunsetenv("QT_STYLE_OVERRIDE");
+  }
 
   QApplication app(argc, argv);
 
