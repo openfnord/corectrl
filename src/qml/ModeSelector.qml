@@ -79,8 +79,6 @@ Page {
     Material.background: headerBackground
 
     RowLayout {
-      anchors.fill: parent
-
       Label {
         id: label
         rightPadding: 20
