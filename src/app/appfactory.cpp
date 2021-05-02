@@ -19,6 +19,7 @@
 
 #include "app.h"
 #include "common/cryptolayer.h"
+#include "config.h"
 #include "core/ccpro/ccproparser.h"
 #include "core/components/controls/cpucontrolprovider.h"
 #include "core/components/controls/gpucontrolprovider.h"
@@ -86,8 +87,7 @@ std::unique_ptr<App> AppFactory::build() const
     SysModelFactory sysModelFactory(
         std::move(swInfo), std::make_unique<SysExplorer>(gpuVendors_),
         std::make_unique<HWIDTranslator>(
-            gpuVendors_,
-            std::make_unique<HWIDDataSource>("/usr/share/hwdata/pci.ids")),
+            gpuVendors_, std::make_unique<HWIDDataSource>(PCI_IDS_PATH)),
         std::make_unique<CPUControlProvider>(),
         std::make_unique<CPUSensorProvider>(),
         std::make_unique<GPUControlProvider>(),

@@ -43,6 +43,9 @@ find_package(KF5Auth REQUIRED)
 find_package(KF5Archive REQUIRED)
 find_package(Botan REQUIRED)
 
+# Allow pci.ids path customization using -DWITH_PCI_IDS_PATH=<path-to-pci.ids-file> (#136)
+set(WITH_PCI_IDS_PATH "/usr/share/hwdata/pci.ids" CACHE FILEPATH "Path to pci.ids file")
+
 add_subdirectory(src)
 
 # Tests
