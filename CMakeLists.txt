@@ -54,16 +54,12 @@ endif()
 
 # resources
 string(TOLOWER "${PROJECT_NAME}" ICON_NAME)
-install(FILES resources/icon/app_16.svg DESTINATION share/icons/hicolor/16x16/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_22.svg DESTINATION share/icons/hicolor/22x22/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_24.svg DESTINATION share/icons/hicolor/24x24/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_32.svg DESTINATION share/icons/hicolor/32x32/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_48.svg DESTINATION share/icons/hicolor/48x48/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_64.svg DESTINATION share/icons/hicolor/64x64/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_72.svg DESTINATION share/icons/hicolor/72x72/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_96.svg DESTINATION share/icons/hicolor/96x96/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_128.svg DESTINATION share/icons/hicolor/128x128/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_192.svg DESTINATION share/icons/hicolor/192x192/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/icon/app_256.svg DESTINATION share/icons/hicolor/256x256/apps RENAME ${ICON_NAME}.svg)
-install(FILES resources/launcher.desktop DESTINATION share/applications RENAME org.corectrl.corectrl.desktop)
-install(FILES resources/org.corectrl.corectrl.appdata.xml DESTINATION share/metainfo)
+foreach(ICON_SIZE 16 22 24 32 48 64 72 96 128 192 256)
+    install(
+        FILES resources/icon/app_${ICON_SIZE}.svg
+        DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/${ICON_SIZE}x${ICON_SIZE}/apps
+        RENAME ${ICON_NAME}.svg
+    )
+endforeach()
+install(FILES resources/launcher.desktop DESTINATION ${KDE_INSTALL_APPDIR} RENAME org.corectrl.corectrl.desktop)
+install(FILES resources/org.corectrl.corectrl.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
