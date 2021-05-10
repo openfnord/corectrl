@@ -28,7 +28,7 @@ Install [corectrl](https://aur.archlinux.org/packages/corectrl/) from the AUR.
 
 With `yay`, run:
 
-    yay -Sy corectrl
+    yay -S corectrl
 
 #### Fedora
 
