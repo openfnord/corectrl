@@ -91,7 +91,7 @@ class Provider final : public IGPUSensorProvider::IProvider
             }
 
             unsigned int value;
-            auto fanInputLines = Utils::File::readFileLines(pwm);
+            auto fanInputLines = Utils::File::readFileLines(fanInput);
             auto fanInputValid = Utils::String::toNumber<unsigned int>(
                 value, fanInputLines.front());
             auto pwmLines = Utils::File::readFileLines(pwm);
