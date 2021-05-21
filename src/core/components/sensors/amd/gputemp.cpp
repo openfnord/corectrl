@@ -43,8 +43,6 @@
 #include <utility>
 #include <vector>
 
-namespace fs = std::filesystem;
-
 namespace AMD {
 namespace GPUTemp {
 
