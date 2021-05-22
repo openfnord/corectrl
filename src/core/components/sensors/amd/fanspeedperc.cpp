@@ -46,53 +46,69 @@
 namespace AMD {
 namespace FanSpeedPerc {
 
+// NOTE FanSpeedPerc is a last resort fan speed sensor.
+//
+// It will be used only on systems without proper support of fan1_input
+// (typically old hardware using radeon driver and some specific hardware supported
+// by the amdgpu driver).
+//
+// See #184.
+
 class Provider final : public IGPUSensorProvider::IProvider
 {
  public:
   std::unique_ptr<ISensor> provideGPUSensor(IGPUInfo const &gpuInfo,
-                                            ISWInfo const &swInfo) const override
+                                            ISWInfo const &) const override
   {
     if (gpuInfo.vendor() == Vendor::AMD) {
-      auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
-      auto kernel = Utils::String::parseVersion(
-          swInfo.info(ISWInfo::Keys::kernelVersion));
 
-      if ((driver == "amdgpu" && kernel >= std::make_tuple(4, 2, 0) &&
-           kernel < std::make_tuple(4, 10, 0)) ||
-          (driver == "radeon" && kernel >= std::make_tuple(4, 0, 0))) {
+      auto path =
+          Utils::File::findHWMonXDirectory(gpuInfo.path().sys / "hwmon");
+      if (path.has_value()) {
 
-        auto path =
-            Utils::File::findHWMonXDirectory(gpuInfo.path().sys / "hwmon");
-        if (path.has_value()) {
+        auto pwmValid = false;
+        std::vector<std::string> pwmLines;
+        auto pwm = path.value() / "pwm1";
+        if (Utils::File::isSysFSEntryValid(pwm)) {
+          unsigned int value;
+          pwmLines = Utils::File::readFileLines(pwm);
+          pwmValid = Utils::String::toNumber<unsigned int>(value,
+                                                           pwmLines.front());
+        }
 
-          auto pwm = path.value() / "pwm1";
-          if (Utils::File::isSysFSEntryValid(pwm)) {
+        if (pwmValid) {
 
+          auto fanInputValid = false;
+          auto fanInput = path.value() / "fan1_input";
+          if (Utils::File::isSysFSEntryValid(fanInput)) {
             unsigned int value;
-            auto pwmLines = Utils::File::readFileLines(pwm);
-            if (Utils::String::toNumber<unsigned int>(value, pwmLines.front())) {
-
-              std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
-              dataSources.emplace_back(
-                  std::make_unique<SysFSDataSource<unsigned int>>(
-                      pwm, [](std::string const &data, unsigned int &output) {
-                        unsigned int value;
-                        Utils::String::toNumber<unsigned int>(value, data);
-                        output = value / 2.55;
-                      }));
-
-              return std::make_unique<
-                  Sensor<units::dimensionless::scalar_t, unsigned int>>(
-                  AMD::FanSpeedPerc::ItemID, std::move(dataSources),
-                  std::make_pair(units::dimensionless::scalar_t(0),
-                                 units::dimensionless::scalar_t(100)));
-            }
-            else {
-              LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                          pwm.string());
-              LOG(ERROR) << pwmLines.front().c_str();
-            }
+            auto fanInputLines = Utils::File::readFileLines(fanInput);
+            fanInputValid = Utils::String::toNumber<unsigned int>(
+                value, fanInputLines.front());
           }
+
+          // Prefer fanspeedrpm control over this one if the former it's available on the system
+          if (!fanInputValid) {
+
+            std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
+            dataSources.emplace_back(
+                std::make_unique<SysFSDataSource<unsigned int>>(
+                    pwm, [](std::string const &data, unsigned int &output) {
+                      unsigned int value;
+                      Utils::String::toNumber<unsigned int>(value, data);
+                      output = value / 2.55;
+                    }));
+
+            return std::make_unique<
+                Sensor<units::dimensionless::scalar_t, unsigned int>>(
+                AMD::FanSpeedPerc::ItemID, std::move(dataSources),
+                std::make_pair(units::dimensionless::scalar_t(0),
+                               units::dimensionless::scalar_t(100)));
+          }
+        }
+        else {
+          LOG(WARNING) << fmt::format("Unknown data format on {}", pwm.string());
+          LOG(ERROR) << pwmLines.front().c_str();
         }
       }
     }
