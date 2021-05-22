@@ -43,6 +43,17 @@
 namespace AMD {
 namespace FanSpeedRPM {
 
+// NOTE FanSpeedRPM is the preferred fan speed sensor.
+//
+// It will be used on any system with proper fan1_input and pwm1 support
+// (most hardware using the amdgpu driver).
+//
+// pwm1 sensor is used to report 0 fan speed when the fans are stopped, as
+// fan1_input could report bad values in this case.
+// Related bug report: https://gitlab.freedesktop.org/drm/amd/-/issues/335
+//
+// See #184.
+
 class Provider final : public IGPUSensorProvider::IProvider
 {
  public:
@@ -50,27 +61,45 @@ class Provider final : public IGPUSensorProvider::IProvider
                                             ISWInfo const &swInfo) const override
   {
     if (gpuInfo.vendor() == Vendor::AMD) {
-      auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
-      auto kernel = Utils::String::parseVersion(
-          swInfo.info(ISWInfo::Keys::kernelVersion));
 
-      if (driver == "amdgpu" && kernel >= std::make_tuple(4, 10, 0)) {
+      auto path =
+          Utils::File::findHWMonXDirectory(gpuInfo.path().sys / "hwmon");
+      if (path.has_value()) {
 
-        auto path =
-            Utils::File::findHWMonXDirectory(gpuInfo.path().sys / "hwmon");
-        if (path.has_value()) {
+        auto fanInputValid = false;
+        std::vector<std::string> fanInputLines;
+        auto fanInput = path.value() / "fan1_input";
+        if (Utils::File::isSysFSEntryValid(fanInput)) {
+          unsigned int value;
+          fanInputLines = Utils::File::readFileLines(fanInput);
+          fanInputValid = Utils::String::toNumber<unsigned int>(
+              value, fanInputLines.front());
+        }
 
-          auto fanInput = path.value() / "fan1_input";
+        if (fanInputValid) {
+
+          auto pwmValid = false;
+          std::vector<std::string> pwmLines;
           auto pwm = path.value() / "pwm1";
-          if (Utils::File::isSysFSEntryValid(fanInput) &&
-              Utils::File::isSysFSEntryValid(pwm)) {
+          if (Utils::File::isSysFSEntryValid(pwm)) {
+            unsigned int value;
+            pwmLines = Utils::File::readFileLines(pwm);
+            pwmValid = Utils::String::toNumber<unsigned int>(value,
+                                                             pwmLines.front());
+          }
 
+          if (pwmValid) {
+
+            // fallback sensor range
             std::optional<
                 std::pair<units::angular_velocity::revolutions_per_minute_t,
                           units::angular_velocity::revolutions_per_minute_t>>
                 range({units::angular_velocity::revolutions_per_minute_t(0),
                        units::angular_velocity::revolutions_per_minute_t(2200)});
 
+            // read the actual sensor range if supported
+            auto kernel = Utils::String::parseVersion(
+                swInfo.info(ISWInfo::Keys::kernelVersion));
             if (kernel >= std::make_tuple(4, 20, 0)) {
               auto min = Utils::File::readFileLines(path.value() / "fan1_min");
               auto max = Utils::File::readFileLines(path.value() / "fan1_max");
@@ -88,49 +117,35 @@ class Provider final : public IGPUSensorProvider::IProvider
               }
             }
 
-            unsigned int value;
-            auto fanInputLines = Utils::File::readFileLines(fanInput);
-            auto fanInputValid = Utils::String::toNumber<unsigned int>(
-                value, fanInputLines.front());
-            auto pwmLines = Utils::File::readFileLines(pwm);
-            auto pwmValid = Utils::String::toNumber<unsigned int>(
-                value, pwmLines.front());
+            std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
+            dataSources.emplace_back(
+                std::make_unique<SysFSDataSource<unsigned int>>(
+                    fanInput, [](std::string const &data, unsigned int &output) {
+                      Utils::String::toNumber<unsigned int>(output, data);
+                    }));
+            dataSources.emplace_back(
+                std::make_unique<SysFSDataSource<unsigned int>>(
+                    pwm, [](std::string const &data, unsigned int &output) {
+                      Utils::String::toNumber<unsigned int>(output, data);
+                    }));
 
-            if (fanInputValid && pwmValid) {
-
-              std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
-              dataSources.emplace_back(
-                  std::make_unique<SysFSDataSource<unsigned int>>(
-                      fanInput, [](std::string const &data, unsigned int &output) {
-                        Utils::String::toNumber<unsigned int>(output, data);
-                      }));
-              dataSources.emplace_back(
-                  std::make_unique<SysFSDataSource<unsigned int>>(
-                      pwm, [](std::string const &data, unsigned int &output) {
-                        Utils::String::toNumber<unsigned int>(output, data);
-                      }));
-
-              return std::make_unique<Sensor<
-                  units::angular_velocity::revolutions_per_minute_t, unsigned int>>(
-                  AMD::FanSpeedRPM::ItemID, std::move(dataSources),
-                  std::move(range), [](std::vector<unsigned int> const &input) {
-                    return input[1] > 0 ? input[0] : 0;
-                  });
-            }
-            else {
-              if (!fanInputValid) {
-                LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                            fanInput.string());
-                LOG(ERROR) << fanInputLines.front().c_str();
-              }
-
-              if (!pwmValid) {
-                LOG(WARNING)
-                    << fmt::format("Unknown data format on {}", pwm.string());
-                LOG(ERROR) << pwmLines.front().c_str();
-              }
-            }
+            return std::make_unique<Sensor<
+                units::angular_velocity::revolutions_per_minute_t, unsigned int>>(
+                AMD::FanSpeedRPM::ItemID, std::move(dataSources),
+                std::move(range), [](std::vector<unsigned int> const &input) {
+                  return input[1] > 0 ? input[0] : 0;
+                });
           }
+          else {
+            LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                        pwm.string());
+            LOG(ERROR) << pwmLines.front().c_str();
+          }
+        }
+        else {
+          LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                      fanInput.string());
+          LOG(ERROR) << fanInputLines.front().c_str();
         }
       }
     }
