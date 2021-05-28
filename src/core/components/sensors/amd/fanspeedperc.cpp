@@ -66,49 +66,40 @@ class Provider final : public IGPUSensorProvider::IProvider
           Utils::File::findHWMonXDirectory(gpuInfo.path().sys / "hwmon");
       if (path.has_value()) {
 
-        auto pwmValid = false;
-        std::vector<std::string> pwmLines;
         auto pwm = path.value() / "pwm1";
         if (Utils::File::isSysFSEntryValid(pwm)) {
+
           unsigned int value;
-          pwmLines = Utils::File::readFileLines(pwm);
-          pwmValid = Utils::String::toNumber<unsigned int>(value,
-                                                           pwmLines.front());
-        }
+          auto fileLines = Utils::File::readFileLines(pwm);
+          if (Utils::String::toNumber<unsigned int>(value, fileLines.front())) {
 
-        if (pwmValid) {
+            // Prefer fanspeedrpm control over this one if the former it's available on the system
+            auto fanInput = path.value() / "fan1_input";
+            if (!(Utils::File::isSysFSEntryValid(fanInput) &&
+                  Utils::String::toNumber<unsigned int>(
+                      value, Utils::File::readFileLines(fanInput).front()))) {
 
-          auto fanInputValid = false;
-          auto fanInput = path.value() / "fan1_input";
-          if (Utils::File::isSysFSEntryValid(fanInput)) {
-            unsigned int value;
-            auto fanInputLines = Utils::File::readFileLines(fanInput);
-            fanInputValid = Utils::String::toNumber<unsigned int>(
-                value, fanInputLines.front());
+              std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
+              dataSources.emplace_back(
+                  std::make_unique<SysFSDataSource<unsigned int>>(
+                      pwm, [](std::string const &data, unsigned int &output) {
+                        unsigned int value;
+                        Utils::String::toNumber<unsigned int>(value, data);
+                        output = value / 2.55;
+                      }));
+
+              return std::make_unique<
+                  Sensor<units::dimensionless::scalar_t, unsigned int>>(
+                  AMD::FanSpeedPerc::ItemID, std::move(dataSources),
+                  std::make_pair(units::dimensionless::scalar_t(0),
+                                 units::dimensionless::scalar_t(100)));
+            }
           }
-
-          // Prefer fanspeedrpm control over this one if the former it's available on the system
-          if (!fanInputValid) {
-
-            std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
-            dataSources.emplace_back(
-                std::make_unique<SysFSDataSource<unsigned int>>(
-                    pwm, [](std::string const &data, unsigned int &output) {
-                      unsigned int value;
-                      Utils::String::toNumber<unsigned int>(value, data);
-                      output = value / 2.55;
-                    }));
-
-            return std::make_unique<
-                Sensor<units::dimensionless::scalar_t, unsigned int>>(
-                AMD::FanSpeedPerc::ItemID, std::move(dataSources),
-                std::make_pair(units::dimensionless::scalar_t(0),
-                               units::dimensionless::scalar_t(100)));
+          else {
+            LOG(WARNING) << fmt::format("Unknown data format on {}",
+                                        pwm.string());
+            LOG(ERROR) << fileLines.front().c_str();
           }
-        }
-        else {
-          LOG(WARNING) << fmt::format("Unknown data format on {}", pwm.string());
-          LOG(ERROR) << pwmLines.front().c_str();
         }
       }
     }
