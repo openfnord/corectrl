@@ -66,86 +66,85 @@ class Provider final : public IGPUSensorProvider::IProvider
           Utils::File::findHWMonXDirectory(gpuInfo.path().sys / "hwmon");
       if (path.has_value()) {
 
-        auto fanInputValid = false;
-        std::vector<std::string> fanInputLines;
+        std::vector<std::string> fileLines;
         auto fanInput = path.value() / "fan1_input";
         if (Utils::File::isSysFSEntryValid(fanInput)) {
+
           unsigned int value;
-          fanInputLines = Utils::File::readFileLines(fanInput);
-          fanInputValid = Utils::String::toNumber<unsigned int>(
-              value, fanInputLines.front());
-        }
+          fileLines = Utils::File::readFileLines(fanInput);
+          if (Utils::String::toNumber<unsigned int>(value, fileLines.front())) {
 
-        if (fanInputValid) {
+            auto pwm = path.value() / "pwm1";
+            if (Utils::File::isSysFSEntryValid(pwm)) {
 
-          auto pwmValid = false;
-          std::vector<std::string> pwmLines;
-          auto pwm = path.value() / "pwm1";
-          if (Utils::File::isSysFSEntryValid(pwm)) {
-            unsigned int value;
-            pwmLines = Utils::File::readFileLines(pwm);
-            pwmValid = Utils::String::toNumber<unsigned int>(value,
-                                                             pwmLines.front());
-          }
+              fileLines = Utils::File::readFileLines(pwm);
+              if (Utils::String::toNumber<unsigned int>(value,
+                                                        fileLines.front())) {
+                // fallback sensor range
+                std::optional<
+                    std::pair<units::angular_velocity::revolutions_per_minute_t,
+                              units::angular_velocity::revolutions_per_minute_t>>
+                    range({units::angular_velocity::revolutions_per_minute_t(0),
+                           units::angular_velocity::revolutions_per_minute_t(
+                               2200)});
 
-          if (pwmValid) {
-
-            // fallback sensor range
-            std::optional<
-                std::pair<units::angular_velocity::revolutions_per_minute_t,
-                          units::angular_velocity::revolutions_per_minute_t>>
-                range({units::angular_velocity::revolutions_per_minute_t(0),
-                       units::angular_velocity::revolutions_per_minute_t(2200)});
-
-            // read the actual sensor range if supported
-            auto kernel = Utils::String::parseVersion(
-                swInfo.info(ISWInfo::Keys::kernelVersion));
-            if (kernel >= std::make_tuple(4, 20, 0)) {
-              auto min = Utils::File::readFileLines(path.value() / "fan1_min");
-              auto max = Utils::File::readFileLines(path.value() / "fan1_max");
-              if (!min.empty() && !max.empty()) {
-                unsigned int minValue;
-                unsigned int maxValue;
-                if (Utils::String::toNumber<unsigned int>(minValue, min.front()) &&
-                    Utils::String::toNumber<unsigned int>(maxValue, max.front()))
-                  if (min < max) {
-                    range = {units::angular_velocity::revolutions_per_minute_t(
-                                 minValue),
-                             units::angular_velocity::revolutions_per_minute_t(
-                                 maxValue)};
+                // read the actual sensor range if supported
+                auto kernel = Utils::String::parseVersion(
+                    swInfo.info(ISWInfo::Keys::kernelVersion));
+                if (kernel >= std::make_tuple(4, 20, 0)) {
+                  auto min =
+                      Utils::File::readFileLines(path.value() / "fan1_min");
+                  auto max =
+                      Utils::File::readFileLines(path.value() / "fan1_max");
+                  if (!min.empty() && !max.empty()) {
+                    unsigned int minValue;
+                    unsigned int maxValue;
+                    if (Utils::String::toNumber<unsigned int>(minValue,
+                                                              min.front()) &&
+                        Utils::String::toNumber<unsigned int>(maxValue,
+                                                              max.front()))
+                      if (min < max) {
+                        range = {
+                            units::angular_velocity::revolutions_per_minute_t(
+                                minValue),
+                            units::angular_velocity::revolutions_per_minute_t(
+                                maxValue)};
+                      }
                   }
+                }
+
+                std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
+                dataSources.emplace_back(
+                    std::make_unique<SysFSDataSource<unsigned int>>(
+                        fanInput,
+                        [](std::string const &data, unsigned int &output) {
+                          Utils::String::toNumber<unsigned int>(output, data);
+                        }));
+                dataSources.emplace_back(
+                    std::make_unique<SysFSDataSource<unsigned int>>(
+                        pwm, [](std::string const &data, unsigned int &output) {
+                          Utils::String::toNumber<unsigned int>(output, data);
+                        }));
+
+                return std::make_unique<Sensor<
+                    units::angular_velocity::revolutions_per_minute_t, unsigned int>>(
+                    AMD::FanSpeedRPM::ItemID, std::move(dataSources),
+                    std::move(range), [](std::vector<unsigned int> const &input) {
+                      return input[1] > 0 ? input[0] : 0;
+                    });
+              }
+              else {
+                LOG(WARNING)
+                    << fmt::format("Unknown data format on {}", pwm.string());
+                LOG(ERROR) << fileLines.front().c_str();
               }
             }
-
-            std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
-            dataSources.emplace_back(
-                std::make_unique<SysFSDataSource<unsigned int>>(
-                    fanInput, [](std::string const &data, unsigned int &output) {
-                      Utils::String::toNumber<unsigned int>(output, data);
-                    }));
-            dataSources.emplace_back(
-                std::make_unique<SysFSDataSource<unsigned int>>(
-                    pwm, [](std::string const &data, unsigned int &output) {
-                      Utils::String::toNumber<unsigned int>(output, data);
-                    }));
-
-            return std::make_unique<Sensor<
-                units::angular_velocity::revolutions_per_minute_t, unsigned int>>(
-                AMD::FanSpeedRPM::ItemID, std::move(dataSources),
-                std::move(range), [](std::vector<unsigned int> const &input) {
-                  return input[1] > 0 ? input[0] : 0;
-                });
           }
           else {
             LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                        pwm.string());
-            LOG(ERROR) << pwmLines.front().c_str();
+                                        fanInput.string());
+            LOG(ERROR) << fileLines.front().c_str();
           }
-        }
-        else {
-          LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                      fanInput.string());
-          LOG(ERROR) << fanInputLines.front().c_str();
         }
       }
     }
