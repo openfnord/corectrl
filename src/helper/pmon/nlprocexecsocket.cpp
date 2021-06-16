@@ -104,9 +104,6 @@ int NLProcExecSocket::bindToSocket() const
 
 int NLProcExecSocket::installSocketFilter() const
 {
-  struct sock_fprog fprog;
-
-  // rules to only accept exec and exit messages
   struct sock_filter filter[] = {
       // clang-format off
 
@@ -146,13 +143,15 @@ int NLProcExecSocket::installSocketFilter() const
                                          offsetof (struct cn_msg, data) +
                                          offsetof (struct proc_event, what)),
       BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, htonl(proc_event::PROC_EVENT_EXIT), 0, 1),
-      BPF_STMT(BPF_RET|BPF_K, 0xffffffff),
+      BPF_STMT(BPF_RET | BPF_K, 0xffffffff),
 
-      BPF_STMT(BPF_RET|BPF_K, 0x0), // drop other messages
+      // drop any other messages
+      BPF_STMT(BPF_RET | BPF_K, 0x0),
 
       // clang-format on
   };
 
+  struct sock_fprog fprog;
   memset(&fprog, 0, sizeof(fprog));
   fprog.filter = filter;
   fprog.len = sizeof(filter) / sizeof(*filter);
