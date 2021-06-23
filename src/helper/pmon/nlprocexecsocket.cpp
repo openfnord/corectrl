@@ -77,7 +77,7 @@ ProcessEvent NLProcExecSocket::waitForEvent() const
 
       case proc_event::PROC_EVENT_EXIT:
         return ProcessEvent{ProcessEvent::Type::EXIT,
-                            nlcn_msg.cn.proc_ev.event_data.exec.process_pid};
+                            nlcn_msg.cn.proc_ev.event_data.exit.process_pid};
       default:
         return ProcessEvent{ProcessEvent::Type::IGNORE, -1};
     }
