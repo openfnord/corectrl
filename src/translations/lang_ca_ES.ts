@@ -29,7 +29,7 @@
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="31"/>
         <source>POWER_SAVING</source>
-        <translation>Estalvi d'energia</translation>
+        <translation>Estalvi d&apos;energia</translation>
     </message>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="32"/>
@@ -183,7 +183,7 @@
     <message>
         <location filename="../qml/AMDPMPowerCapForm.qml" line="51"/>
         <source>Power limit</source>
-        <translation>Limit d'energia</translation>
+        <translation>Limit d&apos;energia</translation>
     </message>
 </context>
 <context>
@@ -191,7 +191,7 @@
     <message>
         <location filename="../qml/AMDPMPowerProfileForm.qml" line="70"/>
         <source>Power profile</source>
-        <translation>Perfil d'energia</translation>
+        <translation>Perfil d&apos;energia</translation>
     </message>
 </context>
 <context>
@@ -199,7 +199,7 @@
     <message>
         <location filename="../qml/AMDPMPowerStateForm.qml" line="85"/>
         <source>Power management state</source>
-        <translation>Estat de la gestió d'energia</translation>
+        <translation>Estat de la gestió d&apos;energia</translation>
     </message>
 </context>
 <context>
@@ -207,7 +207,7 @@
     <message>
         <location filename="../qml/About.qml" line="53"/>
         <source>Control your hardware with ease using application profiles</source>
-        <translation>Controla el teu maquinari amb facilitat utilitzant perfils d'aplicacions</translation>
+        <translation>Controla el teu maquinari amb facilitat utilitzant perfils d&apos;aplicacions</translation>
     </message>
     <message>
         <location filename="../qml/About.qml" line="58"/>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
         <source>powersave</source>
-        <translation>Estalvi d'energia</translation>
+        <translation>Estalvi d&apos;energia</translation>
     </message>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
@@ -436,17 +436,17 @@
         <translation>Seleciona un fitxer executable</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="168"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="167"/>
         <source>Icon:</source>
         <translation>Icona:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="195"/>
         <source>Select an icon</source>
         <translation>Selecciona una icona</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="197"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
         <source>Images</source>
         <translation>Imatges</translation>
     </message>
@@ -688,7 +688,7 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="120"/>
         <source>Disabled sensors won&apos;t be updated from hardware</source>
-        <translation>Els sensors deshabilitats no s'actualizarán des del maquinari</translation>
+        <translation>Els sensors deshabilitats no s&apos;actualizarán des del maquinari</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="130"/>
@@ -872,7 +872,7 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
     <message>
         <location filename="../core/systeminfoui.cpp" line="63"/>
         <source>opmode</source>
-        <translation>Mode d'operació</translation>
+        <translation>Mode d&apos;operació</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="64"/>
@@ -902,7 +902,7 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
     <message>
         <location filename="../core/systeminfoui.cpp" line="57"/>
         <source>exeunits</source>
-        <translation>Unitats d'execució</translation>
+        <translation>Unitats d&apos;execució</translation>
     </message>
 </context>
 <context>

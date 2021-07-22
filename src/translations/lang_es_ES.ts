@@ -436,17 +436,17 @@
         <translation>Seleciona un fichero ejecutable</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="168"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="167"/>
         <source>Icon:</source>
         <translation>Icono:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="195"/>
         <source>Select an icon</source>
         <translation>Selecciona un icono</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="197"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
         <source>Images</source>
         <translation>Imágenes</translation>
     </message>

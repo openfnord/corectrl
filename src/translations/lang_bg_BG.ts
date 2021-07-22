@@ -4,17 +4,17 @@
 <context>
     <name>AMD::PMFixedQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="26"/>
+        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="31"/>
         <source>low</source>
         <translation>ниско</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="27"/>
+        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="32"/>
         <source>mid</source>
         <translation>средно</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="28"/>
+        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="33"/>
         <source>high</source>
         <translation>високо</translation>
     </message>
@@ -22,27 +22,27 @@
 <context>
     <name>AMD::PMPowerProfileQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="30"/>
         <source>3D_FULL_SCREEN</source>
         <translation>3D_ЦЯЛ_ЕКРАН</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="26"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="31"/>
         <source>POWER_SAVING</source>
         <translation>ИКОНОМИЯ_НА_ЕНЕРГИЯ</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="27"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="32"/>
         <source>VIDEO</source>
         <translation>ВИДЕО</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="28"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="33"/>
         <source>VR</source>
         <translation>Виртуална реалност</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="29"/>
+        <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="34"/>
         <source>COMPUTE</source>
         <translation>ПРЕСМЯТАНЕ</translation>
     </message>
@@ -50,17 +50,17 @@
 <context>
     <name>AMD::PMPowerStateQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
         <source>battery</source>
         <translation>батерия</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="26"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
         <source>balanced</source>
         <translation>балансирано</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="27"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
         <source>performance</source>
         <translation>мощност</translation>
     </message>
@@ -107,7 +107,7 @@
         <translation>Видео Карта</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMFVStateForm.qml" line="111"/>
+        <location filename="../qml/AMDPMFVStateForm.qml" line="110"/>
         <source>Memory</source>
         <translation>Памет</translation>
     </message>
@@ -115,23 +115,23 @@
 <context>
     <name>AMDPMFVVoltCurveForm</name>
     <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="94"/>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="141"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="78"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="121"/>
         <source>Voltage</source>
         <translation>Волтове</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="93"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="77"/>
         <source>Frequency</source>
         <translation>Честота</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="108"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="92"/>
         <source>GPU</source>
         <translation>Видео Карта</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="119"/>
+        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="101"/>
         <source>Memory</source>
         <translation>Памет</translation>
     </message>
@@ -256,32 +256,32 @@
 <context>
     <name>CPUFreqQMLItem</name>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="26"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
         <source>performance</source>
         <translation>мощност</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="27"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
         <source>powersave</source>
         <translation>икономия на енергия</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
         <source>userspace</source>
         <translation>различна честота</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="32"/>
         <source>schedutil</source>
         <translation>изполваемост на процесора</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="33"/>
         <source>ondemand</source>
         <translation>при нужда</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="34"/>
         <source>conservative</source>
         <translation>консервативно</translation>
     </message>
@@ -289,42 +289,42 @@
 <context>
     <name>ControlModeQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/auto/pmautoqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/auto/pmautoqmlitem.cpp" line="30"/>
         <source>AMD_PM_AUTO</source>
         <translation>Автоматично</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp" line="30"/>
         <source>AMD_PM_FIXED</source>
         <translation>Фиксирано</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/fan/auto/fanautoqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/fan/auto/fanautoqmlitem.cpp" line="30"/>
         <source>AMD_FAN_AUTO</source>
         <translation>Автоматично</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/fan/fixed/fanfixedqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/fan/fixed/fanfixedqmlitem.cpp" line="27"/>
         <source>AMD_FAN_FIXED</source>
         <translation>Фиксирано</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/fan/curve/fancurveqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/fan/curve/fancurveqmlitem.cpp" line="33"/>
         <source>AMD_FAN_CURVE</source>
         <translation>Извивка</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/pmadvancedqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/advanced/pmadvancedqmlitem.cpp" line="30"/>
         <source>AMD_PM_ADVANCED</source>
         <translation>Напраденало</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/fixedfreq/pmfixedfreqqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/advanced/fixedfreq/pmfixedfreqqmlitem.cpp" line="31"/>
         <source>AMD_PM_FIXED_FREQ</source>
         <translation>Фиксирана честота</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/advanced/dynamicfreq/pmdynamicfreqqmlitem.cpp" line="25"/>
+        <location filename="../core/components/controls/amd/pm/advanced/dynamicfreq/pmdynamicfreqqmlitem.cpp" line="30"/>
         <source>AMD_PM_DYNAMIC_FREQ</source>
         <translation>Динамична честота</translation>
     </message>
@@ -332,24 +332,47 @@
 <context>
     <name>FVControl</name>
     <message>
-        <location filename="../qml/FVControl.qml" line="152"/>
+        <location filename="../qml/FVControl.qml" line="119"/>
         <source>STATE</source>
         <translation>СЪСТОЯНИЕ</translation>
     </message>
     <message>
-        <location filename="../qml/FVControl.qml" line="213"/>
+        <location filename="../qml/FVControl.qml" line="180"/>
         <source>Auto</source>
         <translation>Авто</translation>
     </message>
     <message>
-        <location filename="../qml/FVControl.qml" line="244"/>
+        <location filename="../qml/FVControl.qml" line="211"/>
         <source>Frequency</source>
         <translation>Честота</translation>
     </message>
     <message>
-        <location filename="../qml/FVControl.qml" line="269"/>
+        <location filename="../qml/FVControl.qml" line="235"/>
         <source>Voltage</source>
         <translation>Волтове</translation>
+    </message>
+</context>
+<context>
+    <name>FreqStateControl</name>
+    <message>
+        <location filename="../qml/FreqStateControl.qml" line="75"/>
+        <source>MINIMUM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/FreqStateControl.qml" line="77"/>
+        <source>MAXIMUM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/FreqStateControl.qml" line="79"/>
+        <source>STATE</source>
+        <translation type="unfinished">СЪСТОЯНИЕ</translation>
+    </message>
+    <message>
+        <location filename="../qml/FreqStateControl.qml" line="139"/>
+        <source>Frequency</source>
+        <translation type="unfinished">Честота</translation>
     </message>
 </context>
 <context>
@@ -413,17 +436,17 @@
         <translation>Избиране на изпълним файл</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="168"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="167"/>
         <source>Icon:</source>
         <translation>Икона:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="195"/>
         <source>Select an icon</source>
         <translation>Избиране на икона</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="197"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
         <source>Images</source>
         <translation>Снимки</translation>
     </message>
@@ -431,7 +454,7 @@
 <context>
     <name>ProfileManagerUI</name>
     <message>
-        <location filename="../core/profilemanagerui.cpp" line="27"/>
+        <location filename="../core/profilemanagerui.cpp" line="32"/>
         <source>_global_</source>
         <translation>Общ профил</translation>
     </message>
@@ -569,47 +592,47 @@ Check the permissions of the destination file and directory.</source>
 <context>
     <name>SensorGraph</name>
     <message>
-        <location filename="../core/components/sensors/amd/memfreqgraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/memfreqgraphitem.cpp" line="34"/>
         <source>AMD_MEM_FREQ</source>
         <translation>Честота на памет</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/gpufreqgraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/gpufreqgraphitem.cpp" line="34"/>
         <source>AMD_GPU_FREQ</source>
         <translation>Честота на видео карта</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/gputempgraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/gputempgraphitem.cpp" line="34"/>
         <source>AMD_GPU_TEMP</source>
         <translation>Температура на видео карта</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/powergraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/powergraphitem.cpp" line="34"/>
         <source>AMD_POWER</source>
         <translation>Енергия</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/activitygraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/activitygraphitem.cpp" line="34"/>
         <source>AMD_ACTIVITY</source>
         <translation>Активност</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/memusagegraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/memusagegraphitem.cpp" line="34"/>
         <source>AMD_MEM_USAGE</source>
         <translation>Използвана памет</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/fanspeedpercgraphitem.cpp" line="33"/>
+        <location filename="../core/components/sensors/amd/fanspeedpercgraphitem.cpp" line="34"/>
         <source>AMD_FAN_SPEED_PERC</source>
         <translation>Скорост на вентилатор в проценти</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/amd/fanspeedrpmgraphitem.cpp" line="35"/>
+        <location filename="../core/components/sensors/amd/fanspeedrpmgraphitem.cpp" line="36"/>
         <source>AMD_FAN_SPEED_RPM</source>
         <translation>Скорост на вентилатор в RPM</translation>
     </message>
     <message>
-        <location filename="../core/components/sensors/cpu/cpufreqpackgraphitem.cpp" line="32"/>
+        <location filename="../core/components/sensors/cpu/cpufreqpackgraphitem.cpp" line="33"/>
         <source>CPU_FREQ_PACK</source>
         <translation>Честота на процесор</translation>
     </message>
@@ -676,7 +699,7 @@ Check the permissions of the destination file and directory.</source>
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="69"/>
+        <location filename="../app/systray.cpp" line="71"/>
         <source>Quit</source>
         <translation>Затваряне</translation>
     </message>
@@ -702,182 +725,182 @@ Check the permissions of the destination file and directory.</source>
 <context>
     <name>SystemInfoUI</name>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="29"/>
+        <location filename="../core/systeminfoui.cpp" line="33"/>
         <source>kernelv</source>
         <translation>версия на кърнъла</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="30"/>
+        <location filename="../core/systeminfoui.cpp" line="34"/>
         <source>mesav</source>
         <translation>версия на Mesa</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="31"/>
+        <location filename="../core/systeminfoui.cpp" line="35"/>
         <source>vkapiv</source>
         <translation>версия на Vulkan API</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="32"/>
+        <location filename="../core/systeminfoui.cpp" line="36"/>
         <source>glcorev</source>
         <translation>версия на OpenGL(core)</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="33"/>
+        <location filename="../core/systeminfoui.cpp" line="37"/>
         <source>glcompv</source>
         <translation>версия на OpenGL(compat)</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="34"/>
+        <location filename="../core/systeminfoui.cpp" line="38"/>
         <source>vendorid</source>
         <translation>ИД на производителя</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="35"/>
+        <location filename="../core/systeminfoui.cpp" line="39"/>
         <source>deviceid</source>
         <translation>ИД на устройстовото</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="36"/>
+        <location filename="../core/systeminfoui.cpp" line="40"/>
         <source>svendorid</source>
         <translation>ИД на модела на производителя</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="37"/>
+        <location filename="../core/systeminfoui.cpp" line="41"/>
         <source>sdeviceid</source>
         <translation>ИД на модела на устройсвото</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="38"/>
+        <location filename="../core/systeminfoui.cpp" line="42"/>
         <source>vendor</source>
         <translation>производител</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="39"/>
+        <location filename="../core/systeminfoui.cpp" line="43"/>
         <source>device</source>
         <translation>устройство</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="40"/>
+        <location filename="../core/systeminfoui.cpp" line="44"/>
         <source>sdevice</source>
         <translation>модел на устройството</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="41"/>
+        <location filename="../core/systeminfoui.cpp" line="45"/>
         <source>pcislot</source>
         <translation>PCI прорез</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="42"/>
+        <location filename="../core/systeminfoui.cpp" line="46"/>
         <source>driver</source>
         <translation>драйвър</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="43"/>
+        <location filename="../core/systeminfoui.cpp" line="47"/>
         <source>revision</source>
         <translation>ревизия</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="44"/>
+        <location filename="../core/systeminfoui.cpp" line="48"/>
         <source>memory</source>
         <translation>памет</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="45"/>
+        <location filename="../core/systeminfoui.cpp" line="49"/>
         <source>gputype</source>
         <translation>вид на видео картата</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="46"/>
+        <location filename="../core/systeminfoui.cpp" line="50"/>
         <source>biosv</source>
         <translation>версия на BIOS</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="47"/>
+        <location filename="../core/systeminfoui.cpp" line="51"/>
         <source>cpufamily</source>
         <translation>семейство на процесора</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="48"/>
+        <location filename="../core/systeminfoui.cpp" line="52"/>
         <source>model</source>
         <translation>модел</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="49"/>
+        <location filename="../core/systeminfoui.cpp" line="53"/>
         <source>modname</source>
         <translation>име на модел</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="50"/>
+        <location filename="../core/systeminfoui.cpp" line="54"/>
         <source>stepping</source>
         <translation>степинг</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="51"/>
+        <location filename="../core/systeminfoui.cpp" line="55"/>
         <source>ucodev</source>
         <translation>версия на microcode</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="52"/>
+        <location filename="../core/systeminfoui.cpp" line="56"/>
         <source>l3cache</source>
         <translation>L3 кеш</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="54"/>
+        <location filename="../core/systeminfoui.cpp" line="58"/>
         <source>cores</source>
         <translation>ядра</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="55"/>
+        <location filename="../core/systeminfoui.cpp" line="59"/>
         <source>flags</source>
         <translation>знамена</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="56"/>
+        <location filename="../core/systeminfoui.cpp" line="60"/>
         <source>bugs</source>
         <translation>бъгове</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="57"/>
+        <location filename="../core/systeminfoui.cpp" line="61"/>
         <source>bogomips</source>
         <translation>bogomips</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="58"/>
+        <location filename="../core/systeminfoui.cpp" line="62"/>
         <source>arch</source>
         <translation>архитектура</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="59"/>
+        <location filename="../core/systeminfoui.cpp" line="63"/>
         <source>opmode</source>
         <translation>режими на работа</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="60"/>
+        <location filename="../core/systeminfoui.cpp" line="64"/>
         <source>byteorder</source>
         <translation>ред на байтовете</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="61"/>
+        <location filename="../core/systeminfoui.cpp" line="65"/>
         <source>virt</source>
         <translation>витруализация</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="62"/>
+        <location filename="../core/systeminfoui.cpp" line="66"/>
         <source>l1dcache</source>
         <translation>L1 кеш (информация)</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="63"/>
+        <location filename="../core/systeminfoui.cpp" line="67"/>
         <source>l1icache</source>
         <translation>L1 кеш (инструкции)</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="64"/>
+        <location filename="../core/systeminfoui.cpp" line="68"/>
         <source>l2cache</source>
         <translation>L2 кеш</translation>
     </message>
     <message>
-        <location filename="../core/systeminfoui.cpp" line="53"/>
+        <location filename="../core/systeminfoui.cpp" line="57"/>
         <source>exeunits</source>
         <translation>изпълними единици</translation>
     </message>
