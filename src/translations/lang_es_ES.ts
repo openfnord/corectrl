@@ -641,6 +641,11 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
         <source>n/a</source>
         <translation>n/a</translation>
     </message>
+    <message>
+        <location filename="../core/components/sensors/amd/gpuvoltgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_VOLT</source>
+        <translation>Voltaje</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

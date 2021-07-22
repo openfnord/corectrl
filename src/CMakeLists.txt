@@ -195,6 +195,7 @@ list(APPEND SENSORS_SRC
   core/components/sensors/amd/gpufreq.cpp
   core/components/sensors/amd/memfreq.cpp
   core/components/sensors/amd/gputemp.cpp
+  core/components/sensors/amd/gpuvolt.cpp
   core/components/sensors/amd/power.cpp
   core/components/sensors/amd/activity.cpp
   core/components/sensors/amd/memusage.cpp
@@ -218,6 +219,7 @@ list(APPEND UI_COMPONENTS_SRC
   core/components/sensors/amd/gpufreqgraphitem.cpp
   core/components/sensors/amd/memfreqgraphitem.cpp
   core/components/sensors/amd/gputempgraphitem.cpp
+  core/components/sensors/amd/gpuvoltgraphitem.cpp
   core/components/sensors/amd/powergraphitem.cpp
   core/components/sensors/amd/activitygraphitem.cpp
   core/components/sensors/amd/memusagegraphitem.cpp

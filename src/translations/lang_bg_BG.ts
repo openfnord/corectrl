@@ -618,6 +618,11 @@ Check the permissions of the destination file and directory.</source>
         <source>n/a</source>
         <translation>недостъпно</translation>
     </message>
+    <message>
+        <location filename="../core/components/sensors/amd/gpuvoltgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_VOLT</source>
+        <translation>Волтаж</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

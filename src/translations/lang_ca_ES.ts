@@ -641,6 +641,11 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
         <source>n/a</source>
         <translation>n/a</translation>
     </message>
+    <message>
+        <location filename="../core/components/sensors/amd/gpuvoltgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_VOLT</source>
+        <translation>Voltatge</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

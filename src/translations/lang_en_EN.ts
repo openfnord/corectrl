@@ -641,6 +641,11 @@ Check the permissions of the destination file and directory.</translation>
         <source>n/a</source>
         <translation>n/a</translation>
     </message>
+    <message>
+        <location filename="../core/components/sensors/amd/gpuvoltgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_VOLT</source>
+        <translation>Voltage</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
