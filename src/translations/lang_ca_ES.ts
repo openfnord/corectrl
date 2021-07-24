@@ -646,6 +646,11 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
         <source>AMD_GPU_VOLT</source>
         <translation>Voltatge</translation>
     </message>
+    <message>
+        <location filename="../core/components/sensors/amd/junctiontempgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_JUNCTION_TEMP</source>
+        <translation>Temperatura (unió)</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

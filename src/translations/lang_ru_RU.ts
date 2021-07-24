@@ -647,6 +647,11 @@ Check the permissions of the destination file and directory.</source>
         <source>AMD_GPU_VOLT</source>
         <translation>Напряжение</translation>
     </message>
+    <message>
+        <location filename="../core/components/sensors/amd/junctiontempgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_JUNCTION_TEMP</source>
+        <translation>Температура (перехода)</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
