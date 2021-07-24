@@ -27,7 +27,7 @@ Rectangle {
   objectName: "SensorGraph"
 
   implicitWidth: parent.width
-  implicitHeight: 160
+  implicitHeight: 210
 
   color: Style.Graph.bg_color
 
@@ -173,7 +173,7 @@ Rectangle {
       id: controls
 
       color: Style.Graph.ctl_bg_color
-      width: 180
+      width: 220
       height: parent.height
 
       ScrollView {
