@@ -651,6 +651,11 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
         <source>AMD_GPU_JUNCTION_TEMP</source>
         <translation>Temperatura (unió)</translation>
     </message>
+    <message>
+        <location filename="../core/components/sensors/amd/memorytempgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_MEMORY_TEMP</source>
+        <translation>Temperatura (memòria)</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

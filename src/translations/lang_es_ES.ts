@@ -651,6 +651,11 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
         <source>AMD_GPU_JUNCTION_TEMP</source>
         <translation>Temperatura (unión)</translation>
     </message>
+    <message>
+        <location filename="../core/components/sensors/amd/memorytempgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_MEMORY_TEMP</source>
+        <translation>Temperatura (memoria)</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
