@@ -646,6 +646,16 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
         <source>AMD_GPU_VOLT</source>
         <translation>Voltage</translation>
     </message>
+    <message>
+        <location filename="../core/components/sensors/amd/junctiontempgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_JUNCTION_TEMP</source>
+        <translation>Température (jonction) </translation>
+    </message>
+    <message>
+        <location filename="../core/components/sensors/amd/memorytempgraphitem.cpp" line="34"/>
+        <source>AMD_GPU_MEMORY_TEMP</source>
+        <translation>Température (mémoire) </translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
