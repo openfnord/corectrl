@@ -112,7 +112,7 @@ static bool register_()
 
   ProfilePartProvider::registerProvider(AMD::MemUsage::ItemID, []() {
     return std::make_unique<GraphItemProfilePart>(AMD::MemUsage::ItemID,
-                                                  "darkred");
+                                                  "forestgreen");
   });
 
   ProfilePartXMLParserProvider::registerProvider(AMD::MemUsage::ItemID, []() {

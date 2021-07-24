@@ -128,7 +128,7 @@ static bool register_()
 
   ProfilePartProvider::registerProvider(CPUFreqPack::ItemID, []() {
     return std::make_unique<GraphItemProfilePart>(CPUFreqPack::ItemID,
-                                                  "darkorange");
+                                                  "fuchsia");
   });
 
   ProfilePartXMLParserProvider::registerProvider(CPUFreqPack::ItemID, []() {

@@ -121,7 +121,7 @@ static bool register_()
 
   ProfilePartProvider::registerProvider(AMD::MemFreq::ItemID, []() {
     return std::make_unique<GraphItemProfilePart>(AMD::MemFreq::ItemID,
-                                                  "mediumorchid");
+                                                  "orchid");
   });
 
   ProfilePartXMLParserProvider::registerProvider(AMD::MemFreq::ItemID, []() {

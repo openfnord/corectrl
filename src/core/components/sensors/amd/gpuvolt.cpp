@@ -106,7 +106,7 @@ static bool register_()
 
   ProfilePartProvider::registerProvider(AMD::GPUVolt::ItemID, []() {
     return std::make_unique<GraphItemProfilePart>(AMD::GPUVolt::ItemID,
-                                                  "lightcyan");
+                                                  "darkorange");
   });
 
   ProfilePartXMLParserProvider::registerProvider(AMD::GPUVolt::ItemID, []() {

@@ -121,7 +121,7 @@ static bool register_()
 
   ProfilePartProvider::registerProvider(AMD::GPUFreq::ItemID, []() {
     return std::make_unique<GraphItemProfilePart>(AMD::GPUFreq::ItemID,
-                                                  "darkorange");
+                                                  "fuchsia");
   });
 
   ProfilePartXMLParserProvider::registerProvider(AMD::GPUFreq::ItemID, []() {
