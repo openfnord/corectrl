@@ -60,6 +60,5 @@ class GraphItemXMLParser final
   bool active_;
   bool activeDefault_;
 
-  std::string color_;
   std::string colorDefault_;
 };

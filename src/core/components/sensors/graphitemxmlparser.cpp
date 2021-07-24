@@ -48,7 +48,7 @@ void GraphItemXMLParser::Initializer::takeActive(bool active)
 
 void GraphItemXMLParser::Initializer::takeColor(std::string const &color)
 {
-  outer_.color_ = outer_.colorDefault_ = color;
+  outer_.colorDefault_ = color;
 }
 
 GraphItemXMLParser::GraphItemXMLParser(std::string_view id) noexcept
@@ -90,27 +90,24 @@ bool GraphItemXMLParser::provideActive() const
   return active_;
 }
 
-void GraphItemXMLParser::takeColor(const std::string &color)
+void GraphItemXMLParser::takeColor(const std::string &)
 {
-  color_ = color;
 }
 
 std::string const &GraphItemXMLParser::provideColor() const
 {
-  return color_;
+  return colorDefault_;
 }
 
 void GraphItemXMLParser::appendTo(pugi::xml_node &parentNode)
 {
   auto itemNode = parentNode.append_child(id_.c_str());
   itemNode.append_attribute("active") = active_;
-  itemNode.append_attribute("color") = color_.c_str();
 }
 
 void GraphItemXMLParser::resetAttributes()
 {
   active_ = activeDefault_;
-  color_ = colorDefault_;
 }
 
 void GraphItemXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
@@ -119,5 +116,4 @@ void GraphItemXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
       [&](pugi::xml_node const &node) { return node.name() == id_; });
 
   active_ = itemNode.attribute("active").as_bool(activeDefault_);
-  color_ = itemNode.attribute("color").as_string(colorDefault_.c_str());
 }
