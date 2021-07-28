@@ -33,6 +33,7 @@
 #include "core/profilepartprovider.h"
 #include "core/profilepartxmlparserprovider.h"
 #include "units/units.h"
+#include <cstdint>
 #include <filesystem>
 #include <memory>
 #include <optional>
@@ -72,7 +73,7 @@ class Provider final : public IGPUSensorProvider::IProvider
         std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
         dataSources.emplace_back(std::make_unique<DevFSDataSource<unsigned int>>(
             gpuInfo.path().dev, [](int fd) {
-              unsigned int value;
+              std::uint64_t value;
               bool success = Utils::AMD::readAMDGPUInfo(fd, &value,
                                                         AMDGPU_INFO_VRAM_USAGE);
               return success ? value / (1024 * 1024) : 0;
@@ -89,7 +90,7 @@ class Provider final : public IGPUSensorProvider::IProvider
         std::vector<std::unique_ptr<IDataSource<unsigned int>>> dataSources;
         dataSources.emplace_back(std::make_unique<DevFSDataSource<unsigned int>>(
             gpuInfo.path().dev, [](int fd) {
-              unsigned int value;
+              std::uint64_t value;
               bool success = Utils::AMD::readRadeonInfoSensor(
                   fd, &value, RADEON_INFO_VRAM_USAGE);
               return success ? value / (1024 * 1024) : 0;
