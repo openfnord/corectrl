@@ -49,6 +49,22 @@ bool readAMDGPUVRamSize(int deviceFD, units::data::megabyte_t *size)
 #endif
 }
 
+bool readRadeonVRamSize(int deviceFD, units::data::megabyte_t *size)
+{
+#if defined(DRM_IOCTL_RADEON_GEM_INFO)
+  struct drm_radeon_gem_info buffer = {};
+  if (ioctl(deviceFD, DRM_IOCTL_RADEON_GEM_INFO, &buffer) >= 0) {
+    *size = units::make_unit<units::data::megabyte_t>(buffer.vram_size /
+                                                      (1024 * 1024));
+    return true;
+  }
+  else
+    return false;
+#else
+  return false;
+#endif
+}
+
 std::optional<std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>>
 parseDPMStates(std::vector<std::string> const &ppDpmLines)
 {

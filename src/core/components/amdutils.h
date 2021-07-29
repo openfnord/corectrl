@@ -82,6 +82,8 @@ bool readRadeonInfoSensor(int deviceFD, Data *value, std::uint32_t sensor)
 #endif
 }
 
+bool readRadeonVRamSize(int deviceFD, units::data::megabyte_t *size);
+
 /// Returns DPM states clocks. (4.6+)
 /// @param ppDpmLines pp_dpm_sclk / pp_dpm_mclk data source contents
 std::optional<std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>>
