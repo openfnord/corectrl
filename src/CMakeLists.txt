@@ -104,6 +104,7 @@ list(APPEND INFO_SRC
   core/info/amd/gpuinfopm.cpp
   core/info/amd/gpuinfopmodcv.cpp
   core/info/amd/gpuinfovbios.cpp
+  core/info/amd/gpuinfovram.cpp
 )
 
 list(APPEND CONTROLS_SRC
