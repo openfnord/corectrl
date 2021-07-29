@@ -56,8 +56,6 @@ TEST_CASE("GPUInfoOpenGL tests", "[Info][GPUInfo][GPUInfoOpenGL]")
 "...\n\
 Extended renderer info (GLX_MESA_query_renderer):\n\
 ...\n\
-    Video memory: 1234MB\n\
-...\n\
     Max core profile version: 1.1\n\
     Max compat profile version: 2.2\n\
 ..."); // clang-format on
@@ -84,13 +82,6 @@ Extended renderer info (GLX_MESA_query_renderer):\n\
     auto compatVersion = std::make_pair(
         std::string(::GPUInfoOpenGL::Keys::compatVersion), std::string("2.2"));
     REQUIRE_THAT(output, Catch::VectorContains(compatVersion));
-  }
-
-  SECTION("Provides memory size")
-  {
-    auto memory = std::make_pair(std::string(IGPUInfo::Keys::memory),
-                                 std::string("1234MB"));
-    REQUIRE_THAT(output, Catch::VectorContains(memory));
   }
 }
 } // namespace GPUInfoOpenGL

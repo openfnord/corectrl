@@ -18,33 +18,12 @@
 #include "swinfokernel.h"
 
 #include "../infoproviderregistry.h"
-#include "common/fileutils.h"
+#include "common/stringutils.h"
 #include "core/idatasource.h"
 #include "easyloggingpp/easylogging++.h"
-#include <regex>
+#include "swinfokerneldatasource.h"
 #include <string_view>
 #include <utility>
-
-class SWInfoKernelDataSource : public IDataSource<std::string>
-{
- public:
-  std::string source() const override
-  {
-    return "/proc/version";
-  }
-
-  bool read(std::string &data) override
-  {
-    auto const lines = Utils::File::readFileLines(source());
-    if (!lines.empty()) {
-      data = lines.front();
-      return true;
-    }
-
-    LOG(WARNING) << "Cannot retrieve kernel version";
-    return false;
-  }
-};
 
 SWInfoKernel::SWInfoKernel(
     std::unique_ptr<IDataSource<std::string>> &&dataSource) noexcept
@@ -58,24 +37,11 @@ std::vector<std::pair<std::string, std::string>> SWInfoKernel::provideInfo()
 
   std::string data;
   dataSource_->read(data);
-  data = parseVersion(data);
+  data = Utils::String::parseKernelProcVersion(data).value_or("0.0.0");
 
   info.emplace_back(ISWInfo::Keys::kernelVersion, data);
 
   return info;
-}
-
-std::string SWInfoKernel::parseVersion(std::string const &line) const
-{
-  std::regex const regex(R"(^Linux\s*version\s*(\d+\.\d+\.\d+).*)");
-
-  std::smatch result;
-  if (!std::regex_search(line, result, regex)) {
-    LOG(ERROR) << "Cannot parse kernel version";
-    return "0.0.0";
-  }
-
-  return result[1];
 }
 
 bool const SWInfoKernel::registered_ = InfoProviderRegistry::add(

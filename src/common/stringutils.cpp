@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <regex>
 #include <sstream>
 
 namespace Utils {
@@ -69,6 +70,19 @@ std::vector<std::string> split(std::string const &src, char delim)
       result.push_back(part);
 
   return result;
+}
+
+std::optional<std::string> parseKernelProcVersion(std::string const &data)
+{
+  std::regex const regex(R"(^Linux\s*version\s*(\d+\.\d+\.\d+).*)");
+
+  std::smatch result;
+  if (!std::regex_search(data, result, regex)) {
+    LOG(ERROR) << "Cannot parse kernel version";
+    return {};
+  }
+
+  return result[1];
 }
 
 } // namespace String

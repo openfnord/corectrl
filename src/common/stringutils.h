@@ -20,6 +20,7 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <exception>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -90,6 +91,12 @@ bool toNumber(T &value, std::string const &rep, int base = 10)
 /// @param delim delimiter to cut into substrings
 /// @returns collection of substrings
 std::vector<std::string> split(std::string const &src, char delim = ' ');
+
+/// Parse kernel version from a string following the format used by the kernel
+/// on /proc/version.
+/// @param data string to parse the kernel version from
+/// @returns a string containing the kernel version following semver format
+std::optional<std::string> parseKernelProcVersion(std::string const &data);
 
 } // namespace String
 } // namespace Utils
