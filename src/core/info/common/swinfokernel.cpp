@@ -18,33 +18,12 @@
 #include "swinfokernel.h"
 
 #include "../infoproviderregistry.h"
-#include "common/fileutils.h"
 #include "common/stringutils.h"
 #include "core/idatasource.h"
 #include "easyloggingpp/easylogging++.h"
+#include "swinfokerneldatasource.h"
 #include <string_view>
 #include <utility>
-
-class SWInfoKernelDataSource : public IDataSource<std::string>
-{
- public:
-  std::string source() const override
-  {
-    return "/proc/version";
-  }
-
-  bool read(std::string &data) override
-  {
-    auto const lines = Utils::File::readFileLines(source());
-    if (!lines.empty()) {
-      data = lines.front();
-      return true;
-    }
-
-    LOG(WARNING) << "Cannot retrieve kernel version";
-    return false;
-  }
-};
 
 SWInfoKernel::SWInfoKernel(
     std::unique_ptr<IDataSource<std::string>> &&dataSource) noexcept
