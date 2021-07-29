@@ -120,6 +120,25 @@ TEST_CASE("StringUtils tests", "[Utils][String]")
       REQUIRE(result[2] == "three");
     }
   }
+
+  SECTION("parseKernelProcVersion")
+  {
+    SECTION("Returns version when the string follows /proc/version format")
+    {
+      std::string const data("Linux version 1.2.3_other_info ...");
+      auto output = ::Utils::String::parseKernelProcVersion(data);
+      REQUIRE(output.has_value());
+      REQUIRE(*output == "1.2.3");
+    }
+
+    SECTION(
+        "Returns no value when the string doesn't follow /proc/version format")
+    {
+      std::string const data("Other format");
+      auto output = ::Utils::String::parseKernelProcVersion(data);
+      REQUIRE_FALSE(output.has_value());
+    }
+  }
 }
 } // namespace String
 } // namespace Utils
