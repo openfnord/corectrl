@@ -19,39 +19,13 @@
 
 #include "../ihwidtranslator.h"
 #include "../infoproviderregistry.h"
-#include "common/fileutils.h"
 #include "core/idatasource.h"
 #include "easyloggingpp/easylogging++.h"
-#include "fmt/format.h"
+#include "gpuinfoueventdatasource.h"
 #include <algorithm>
 #include <cctype>
 #include <string_view>
 #include <utility>
-
-class GPUInfoUeventDataSource
-: public IDataSource<std::vector<std::string>, std::filesystem::path const>
-{
- public:
-  std::string source() const override
-  {
-    return "uevent";
-  }
-
-  bool read(std::vector<std::string> &data,
-            std::filesystem::path const &path) override
-  {
-    auto const filePath = path / source();
-    auto lines = Utils::File::readFileLines(filePath);
-    if (!lines.empty()) {
-      std::swap(data, lines);
-      return true;
-    }
-
-    LOG(WARNING) << fmt::format("Cannot retrieve device information from {}",
-                                filePath.c_str());
-    return false;
-  }
-};
 
 GPUInfoUevent::GPUInfoUevent(
     std::unique_ptr<IDataSource<std::vector<std::string>, std::filesystem::path const>>

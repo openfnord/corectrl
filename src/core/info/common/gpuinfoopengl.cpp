@@ -85,7 +85,6 @@ GPUInfoOpenGL::provideInfo(Vendor, int gpuIndex, IGPUInfo::Path const &,
   std::vector<std::pair<std::string, std::string>> info;
 
   static constexpr std::string_view queryRendererStr("GLX_MESA_query_renderer");
-  static constexpr std::string_view memoryStr("Video memory: ");
   static constexpr std::string_view coreVerStr("Max core profile version: ");
   static constexpr std::string_view compatVerStr(
       "Max compat profile version: ");
@@ -94,13 +93,6 @@ GPUInfoOpenGL::provideInfo(Vendor, int gpuIndex, IGPUInfo::Path const &,
   if (dataSource_->read(data, gpuIndex)) {
     auto queryRendererPos = data.find(queryRendererStr);
     if (queryRendererPos != std::string::npos) {
-
-      auto memory = findItem(data, memoryStr, queryRendererPos);
-      if (!memory.empty())
-        info.emplace_back(IGPUInfo::Keys::memory, std::move(memory));
-      else
-        LOG(ERROR) << fmt::format("Cannot find '{}' in glxinfo output",
-                                  memoryStr.data());
 
       auto coreVer = findItem(data, coreVerStr, queryRendererPos);
       if (!coreVer.empty())

@@ -1,5 +1,5 @@
 //
-// Copyright 2019 Juan Palacios <jpalaciosdev@gmail.com>
+// Copyright 2021 Juan Palacios <jpalaciosdev@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,21 +17,28 @@
 //
 #pragma once
 
-#include "../iswinfo.h"
-#include <memory>
+#include "common/fileutils.h"
+#include "core/idatasource.h"
+#include "easyloggingpp/easylogging++.h"
 #include <string>
 
-template<typename...>
-class IDataSource;
-
-class SWInfoKernel final : public ISWInfo::IProvider
+class SWInfoKernelDataSource : public IDataSource<std::string>
 {
  public:
-  SWInfoKernel(std::unique_ptr<IDataSource<std::string>> &&dataSource) noexcept;
+  std::string source() const override
+  {
+    return "/proc/version";
+  }
 
-  std::vector<std::pair<std::string, std::string>> provideInfo() override;
+  bool read(std::string &data) override
+  {
+    auto const lines = Utils::File::readFileLines(source());
+    if (!lines.empty()) {
+      data = lines.front();
+      return true;
+    }
 
- private:
-  std::unique_ptr<IDataSource<std::string>> const dataSource_;
-  static bool const registered_;
+    LOG(WARNING) << "Cannot retrieve kernel version";
+    return false;
+  }
 };

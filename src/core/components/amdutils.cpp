@@ -18,6 +18,7 @@
 #include "amdutils.h"
 
 #include "common/stringutils.h"
+#include "units/units.h"
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
@@ -25,6 +26,44 @@
 
 namespace Utils {
 namespace AMD {
+
+bool readAMDGPUVRamSize(int deviceFD, units::data::megabyte_t *size)
+{
+#if defined(DRM_IOCTL_AMDGPU_INFO) && defined(AMDGPU_INFO_MEMORY)
+  struct drm_amdgpu_memory_info drm_info = {};
+  struct drm_amdgpu_info buffer = {};
+
+  buffer.query = AMDGPU_INFO_MEMORY;
+  buffer.return_pointer = reinterpret_cast<std::uint64_t>(&drm_info);
+  buffer.return_size = sizeof(drm_info);
+
+  if (ioctl(deviceFD, DRM_IOCTL_AMDGPU_INFO, &buffer) >= 0) {
+    *size = units::make_unit<units::data::megabyte_t>(
+        drm_info.vram.total_heap_size / (1024 * 1024));
+    return true;
+  }
+  else
+    return false;
+#else
+  return false;
+#endif
+}
+
+bool readRadeonVRamSize(int deviceFD, units::data::megabyte_t *size)
+{
+#if defined(DRM_IOCTL_RADEON_GEM_INFO)
+  struct drm_radeon_gem_info buffer = {};
+  if (ioctl(deviceFD, DRM_IOCTL_RADEON_GEM_INFO, &buffer) >= 0) {
+    *size = units::make_unit<units::data::megabyte_t>(buffer.vram_size /
+                                                      (1024 * 1024));
+    return true;
+  }
+  else
+    return false;
+#else
+  return false;
+#endif
+}
 
 std::optional<std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>>
 parseDPMStates(std::vector<std::string> const &ppDpmLines)
