@@ -32,8 +32,6 @@ class SWInfoKernel final : public ISWInfo::IProvider
   std::vector<std::pair<std::string, std::string>> provideInfo() override;
 
  private:
-  std::string parseVersion(std::string const &line) const;
-
   std::unique_ptr<IDataSource<std::string>> const dataSource_;
   static bool const registered_;
 };

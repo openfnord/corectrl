@@ -19,9 +19,9 @@
 
 #include "../infoproviderregistry.h"
 #include "common/fileutils.h"
+#include "common/stringutils.h"
 #include "core/idatasource.h"
 #include "easyloggingpp/easylogging++.h"
-#include <regex>
 #include <string_view>
 #include <utility>
 
@@ -58,24 +58,11 @@ std::vector<std::pair<std::string, std::string>> SWInfoKernel::provideInfo()
 
   std::string data;
   dataSource_->read(data);
-  data = parseVersion(data);
+  data = Utils::String::parseKernelProcVersion(data).value_or("0.0.0");
 
   info.emplace_back(ISWInfo::Keys::kernelVersion, data);
 
   return info;
-}
-
-std::string SWInfoKernel::parseVersion(std::string const &line) const
-{
-  std::regex const regex(R"(^Linux\s*version\s*(\d+\.\d+\.\d+).*)");
-
-  std::smatch result;
-  if (!std::regex_search(line, result, regex)) {
-    LOG(ERROR) << "Cannot parse kernel version";
-    return "0.0.0";
-  }
-
-  return result[1];
 }
 
 bool const SWInfoKernel::registered_ = InfoProviderRegistry::add(
