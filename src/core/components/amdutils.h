@@ -65,6 +65,8 @@ bool readAMDGPUInfo(int deviceFD, Data *value, std::uint32_t query)
 #endif
 }
 
+bool readAMDGPUVRamSize(int deviceFD, units::data::megabyte_t *size);
+
 template<typename Data>
 bool readRadeonInfoSensor(int deviceFD, Data *value, std::uint32_t sensor)
 {
