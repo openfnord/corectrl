@@ -120,7 +120,7 @@ GPUInfoVRam::provideInfo(Vendor, int, IGPUInfo::Path const &path,
     else if (driver == "amdgpu")
       success = amdgpuDataSource_->read(memory, path.dev);
     else
-      LOG(ERROR) << "Cannot retrieve vram size: unsupported driver";
+      LOG(WARNING) << "Cannot retrieve vram size: unsupported driver";
 
     if (success)
       info.emplace_back(IGPUInfo::Keys::memory,
