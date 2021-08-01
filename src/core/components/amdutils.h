@@ -104,45 +104,45 @@ parsePowerProfileModeModes(std::vector<std::string> const &ppPowerProfileModeLin
 std::optional<int> parsePowerProfileModeCurrentModeIndex(
     std::vector<std::string> const &ppPowerProfileModeLines);
 
-/// Returns states clock / voltage target data. (4.17+)
+/// Returns power states from the target part clock + voltage data. (4.17+)
 /// @param targetLbl SCLK or MCLK
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
                                      units::voltage::millivolt_t>>>
-parseOdClkVoltStateStates(std::string_view targetLbl,
-                          std::vector<std::string> const &ppOdClkVoltageLines);
+parseOverdriveClksVolts(std::string_view targetLbl,
+                        std::vector<std::string> const &ppOdClkVoltageLines);
 
-/// Returns clock range from OD_RANGE data. (4.18+)
+/// Returns clock range of power states from the target part OD_RANGE data. (4.18+)
 /// @param targetLbl SCLK or MCLK
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>>
-parseOdClkVoltStateClkRange(std::string_view targetLbl,
-                            std::vector<std::string> const &ppOdClkVoltageLines);
+parseOverdriveClkRange(std::string_view targetLbl,
+                       std::vector<std::string> const &ppOdClkVoltageLines);
 
-/// Returns state voltage range from OD_RANGE data. (4.18+)
+/// Returns voltage range of power states from OD_RANGE data. (4.18+)
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>
-parseOdClkVoltStateVoltRange(std::vector<std::string> const &ppOdClkVoltageLines);
+parseOverdriveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines);
 
-/// Returns states clock target data for curve voltage ASICs. (4.20+, vega20+)
+/// Returns power states from the target part clock data. (4.20+, vega20+)
 /// @param targetLbl SCLK or MCLK
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>>
-parseOdClkVoltCurveStates(std::string_view targetLbl,
-                          std::vector<std::string> const &ppOdClkVoltageLines);
+parseOverdriveClks(std::string_view targetLbl,
+                   std::vector<std::string> const &ppOdClkVoltageLines);
 
 /// Returns curve points for curve voltage ASICs. (4.20+, vega20+)
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::vector<
     std::pair<units::frequency::megahertz_t, units::voltage::millivolt_t>>>
-parseOdClkVoltCurvePoints(std::vector<std::string> const &ppOdClkVoltageLines);
+parseOverdriveVoltCurve(std::vector<std::string> const &ppOdClkVoltageLines);
 
-/// Returns curve points voltage range from OD_RANGE data for curve voltage
+/// Returns voltage range of curve points from OD_RANGE data for curve voltage
 /// ASICs. (4.20+, vega20+)
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<
     std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
-parseOdClkVoltCurveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines);
+parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines);
 
 /// Returns whether pp_od_clk_voltage has known quirks.
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
