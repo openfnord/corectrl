@@ -86,13 +86,12 @@ void AMD::PMFVState::init()
         Utils::AMD::parseOverdriveClkRange("SCLK", ppOdClkVoltLines_).value();
     memRange_ =
         Utils::AMD::parseOverdriveClkRange("MCLK", ppOdClkVoltLines_).value();
-    voltRange_ =
-        Utils::AMD::parseOverdriveVoltRange(ppOdClkVoltLines_).value();
+    voltRange_ = Utils::AMD::parseOverdriveVoltRange(ppOdClkVoltLines_).value();
 
     auto [voltMin, voltMax] = voltRange_;
 
     auto gpuStates = Utils::AMD::parseOverdriveClksVolts("SCLK",
-                                                           ppOdClkVoltLines_);
+                                                         ppOdClkVoltLines_);
     auto [gpuMin, gpuMax] = gpuRange_;
     for (auto [index, freq, volt] : gpuStates.value()) {
       gpuInitVoltages_.emplace(index, volt);
@@ -102,7 +101,7 @@ void AMD::PMFVState::init()
     }
 
     auto memStates = Utils::AMD::parseOverdriveClksVolts("MCLK",
-                                                           ppOdClkVoltLines_);
+                                                         ppOdClkVoltLines_);
     auto [memMin, memMax] = memRange_;
     for (auto [index, freq, volt] : memStates.value()) {
       memInitVoltages_.emplace(index, volt);
@@ -201,7 +200,7 @@ void AMD::PMFVState::syncControl(ICommandQueue &ctlCmds)
       bool commit{false};
 
       auto gpuStates = Utils::AMD::parseOverdriveClksVolts("SCLK",
-                                                             ppOdClkVoltLines_);
+                                                           ppOdClkVoltLines_);
       for (auto [index, freq, volt] : gpuStates.value()) {
         auto [targetFreq, sVolt] = gpuStates_.at(index);
         auto targetVolt = gpuVoltMode_ == AMD::PMFVState::VoltMode::Automatic
@@ -215,7 +214,7 @@ void AMD::PMFVState::syncControl(ICommandQueue &ctlCmds)
       }
 
       auto memStates = Utils::AMD::parseOverdriveClksVolts("MCLK",
-                                                             ppOdClkVoltLines_);
+                                                           ppOdClkVoltLines_);
       for (auto [index, freq, volt] : memStates.value()) {
         auto [targetFreq, sVolt] = memStates_.at(index);
         auto targetVolt = memVoltMode_ == AMD::PMFVState::VoltMode::Automatic
