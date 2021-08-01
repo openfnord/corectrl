@@ -59,14 +59,14 @@ AMD::PMFVStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,
         auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
         auto ppOdClkVoltValid =
             !Utils::AMD::ppOdClkVoltageHasKnownQuirks(ppOdClkVoltLines) &&
-            Utils::AMD::parseOdClkVoltStateClkRange("SCLK", ppOdClkVoltLines)
+            Utils::AMD::parseOverdriveClkRange("SCLK", ppOdClkVoltLines)
                 .has_value() &&
-            Utils::AMD::parseOdClkVoltStateClkRange("MCLK", ppOdClkVoltLines)
+            Utils::AMD::parseOverdriveClkRange("MCLK", ppOdClkVoltLines)
                 .has_value() &&
-            Utils::AMD::parseOdClkVoltStateVoltRange(ppOdClkVoltLines).has_value() &&
-            Utils::AMD::parseOdClkVoltStateStates("SCLK", ppOdClkVoltLines)
+            Utils::AMD::parseOverdriveVoltRange(ppOdClkVoltLines).has_value() &&
+            Utils::AMD::parseOverdriveClksVolts("SCLK", ppOdClkVoltLines)
                 .has_value() &&
-            Utils::AMD::parseOdClkVoltStateStates("MCLK", ppOdClkVoltLines)
+            Utils::AMD::parseOverdriveClksVolts("MCLK", ppOdClkVoltLines)
                 .has_value();
 
         auto dpmSclkLines = Utils::File::readFileLines(dpmSclk);

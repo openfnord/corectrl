@@ -225,7 +225,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     }
   }
 
-  SECTION("parseOdClkVoltStateStates")
+  SECTION("parseOverdriveClksVolts")
   {
     // clang-format off
     std::vector<std::string> input{"OD_MCLK:",
@@ -236,7 +236,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
 
     SECTION("Returns target states")
     {
-      auto values = ::Utils::AMD::parseOdClkVoltStateStates("MCLK", input);
+      auto values = ::Utils::AMD::parseOverdriveClksVolts("MCLK", input);
       REQUIRE(values.has_value());
       REQUIRE(values->size() == 2);
 
@@ -260,12 +260,12 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "OD_RANGE:"};
       // clang-format on
 
-      auto empty = ::Utils::AMD::parseOdClkVoltStateStates("MCLK", input);
+      auto empty = ::Utils::AMD::parseOverdriveClksVolts("MCLK", input);
       REQUIRE_FALSE(empty.has_value());
     }
   }
 
-  SECTION("parseOdClkVoltStateClkRange")
+  SECTION("parseOverdriveClkRange")
   {
     // clang-format off
     std::vector<std::string> input{"OD_RANGE:",
@@ -275,7 +275,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
 
     SECTION("Returns minimum and maximum gpu frequency")
     {
-      auto values = ::Utils::AMD::parseOdClkVoltStateClkRange("SCLK", input);
+      auto values = ::Utils::AMD::parseOverdriveClkRange("SCLK", input);
       REQUIRE(values.has_value());
       REQUIRE(values->first == units::frequency::megahertz_t(300));
       REQUIRE(values->second == units::frequency::megahertz_t(2000));
@@ -283,7 +283,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
 
     SECTION("Returns minimum and maximum memory frequency")
     {
-      auto values = ::Utils::AMD::parseOdClkVoltStateClkRange("MCLK", input);
+      auto values = ::Utils::AMD::parseOverdriveClkRange("MCLK", input);
       REQUIRE(values.has_value());
       REQUIRE(values->first == units::frequency::megahertz_t(300));
       REQUIRE(values->second == units::frequency::megahertz_t(2250));
@@ -297,18 +297,18 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "MCLK:     300MHz       2250MHz"};
       // clang-format on
 
-      auto empty = ::Utils::AMD::parseOdClkVoltStateClkRange("SLCK", input);
+      auto empty = ::Utils::AMD::parseOverdriveClkRange("SLCK", input);
       REQUIRE_FALSE(empty.has_value());
     }
 
     SECTION("Returns nothing for wrong target label")
     {
-      auto empty = ::Utils::AMD::parseOdClkVoltStateClkRange("OTHER", input);
+      auto empty = ::Utils::AMD::parseOverdriveClkRange("OTHER", input);
       REQUIRE_FALSE(empty.has_value());
     }
   }
 
-  SECTION("parseOdClkVoltStateVoltRange")
+  SECTION("parseOverdriveVoltRange")
   {
     // clang-format off
     std::vector<std::string> input{"OD_RANGE:",
@@ -317,7 +317,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
 
     SECTION("Returns minimum and maximum state voltage")
     {
-      auto values = ::Utils::AMD::parseOdClkVoltStateVoltRange(input);
+      auto values = ::Utils::AMD::parseOverdriveVoltRange(input);
       REQUIRE(values.has_value());
       REQUIRE(values->first == units::voltage::millivolt_t(800));
       REQUIRE(values->second == units::voltage::millivolt_t(1175));
@@ -330,12 +330,12 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "VDDC:     800mV        1175mV"};
       // clang-format on
 
-      auto empty = ::Utils::AMD::parseOdClkVoltStateVoltRange(input);
+      auto empty = ::Utils::AMD::parseOverdriveVoltRange(input);
       REQUIRE_FALSE(empty.has_value());
     }
   }
 
-  SECTION("parseOdClkVoltCurveStates")
+  SECTION("parseOverdriveClks")
   {
     // clang-format off
     std::vector<std::string> input{"OD_SCLK:",
@@ -346,7 +346,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
 
     SECTION("Returns target states")
     {
-      auto values = ::Utils::AMD::parseOdClkVoltCurveStates("SCLK", input);
+      auto values = ::Utils::AMD::parseOverdriveClks("SCLK", input);
       REQUIRE(values.has_value());
       REQUIRE(values->size() == 2);
 
@@ -368,12 +368,12 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "OD_MCLK:"};
       // clang-format on
 
-      auto empty = ::Utils::AMD::parseOdClkVoltCurveStates("SCLK", input);
+      auto empty = ::Utils::AMD::parseOverdriveClks("SCLK", input);
       REQUIRE_FALSE(empty.has_value());
     }
   }
 
-  SECTION("parseOdClkVoltCurvePoints")
+  SECTION("parseOverdriveVoltCurve")
   {
     // clang-format off
     std::vector<std::string> input{"OD_VDDC_CURVE:",
@@ -384,7 +384,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
 
     SECTION("Returns target states")
     {
-      auto values = ::Utils::AMD::parseOdClkVoltCurvePoints(input);
+      auto values = ::Utils::AMD::parseOverdriveVoltCurve(input);
       REQUIRE(values.has_value());
       REQUIRE(values->size() == 2);
 
@@ -406,12 +406,12 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "OD_RANGE:"};
       // clang-format on
 
-      auto empty = ::Utils::AMD::parseOdClkVoltCurvePoints(input);
+      auto empty = ::Utils::AMD::parseOverdriveVoltCurve(input);
       REQUIRE_FALSE(empty.has_value());
     }
   }
 
-  SECTION("parseOdClkVoltCurveVoltRange")
+  SECTION("parseOverdriveVoltCurveRange")
   {
     // clang-format off
     std::vector<std::string> input{"OD_RANGE:",
@@ -423,7 +423,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
 
     SECTION("Returns curve points voltage")
     {
-      auto values = ::Utils::AMD::parseOdClkVoltCurveVoltRange(input);
+      auto values = ::Utils::AMD::parseOverdriveVoltCurveRange(input);
       REQUIRE(values.has_value());
       REQUIRE(values->size() == 2);
 
@@ -446,7 +446,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "VDDC_CURVE_VOLT[1]: 800mV 1300mV"};
       // clang-format on
 
-      auto empty = ::Utils::AMD::parseOdClkVoltStateVoltRange(input);
+      auto empty = ::Utils::AMD::parseOverdriveVoltRange(input);
       REQUIRE_FALSE(empty.has_value());
     }
   }

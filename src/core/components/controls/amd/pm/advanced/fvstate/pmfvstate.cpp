@@ -47,9 +47,9 @@ void AMD::PMFVState::preInit(ICommandQueue &ctlCmds)
 
   ppOdClkVoltDataSource_->read(ppOdClkVoltLines_);
   gpuPreInitStates_ =
-      Utils::AMD::parseOdClkVoltStateStates("SCLK", ppOdClkVoltLines_).value();
+      Utils::AMD::parseOverdriveClksVolts("SCLK", ppOdClkVoltLines_).value();
   memPreInitStates_ =
-      Utils::AMD::parseOdClkVoltStateStates("MCLK", ppOdClkVoltLines_).value();
+      Utils::AMD::parseOverdriveClksVolts("MCLK", ppOdClkVoltLines_).value();
 
   ppDpmSclkHandler_->saveState();
   ppDpmMclkHandler_->saveState();
@@ -83,15 +83,15 @@ void AMD::PMFVState::init()
   if (ppOdClkVoltDataSource_->read(ppOdClkVoltLines_)) {
 
     gpuRange_ =
-        Utils::AMD::parseOdClkVoltStateClkRange("SCLK", ppOdClkVoltLines_).value();
+        Utils::AMD::parseOverdriveClkRange("SCLK", ppOdClkVoltLines_).value();
     memRange_ =
-        Utils::AMD::parseOdClkVoltStateClkRange("MCLK", ppOdClkVoltLines_).value();
+        Utils::AMD::parseOverdriveClkRange("MCLK", ppOdClkVoltLines_).value();
     voltRange_ =
-        Utils::AMD::parseOdClkVoltStateVoltRange(ppOdClkVoltLines_).value();
+        Utils::AMD::parseOverdriveVoltRange(ppOdClkVoltLines_).value();
 
     auto [voltMin, voltMax] = voltRange_;
 
-    auto gpuStates = Utils::AMD::parseOdClkVoltStateStates("SCLK",
+    auto gpuStates = Utils::AMD::parseOverdriveClksVolts("SCLK",
                                                            ppOdClkVoltLines_);
     auto [gpuMin, gpuMax] = gpuRange_;
     for (auto [index, freq, volt] : gpuStates.value()) {
@@ -101,7 +101,7 @@ void AMD::PMFVState::init()
                                         std::clamp(volt, voltMin, voltMax)));
     }
 
-    auto memStates = Utils::AMD::parseOdClkVoltStateStates("MCLK",
+    auto memStates = Utils::AMD::parseOverdriveClksVolts("MCLK",
                                                            ppOdClkVoltLines_);
     auto [memMin, memMax] = memRange_;
     for (auto [index, freq, volt] : memStates.value()) {
@@ -200,7 +200,7 @@ void AMD::PMFVState::syncControl(ICommandQueue &ctlCmds)
     else {
       bool commit{false};
 
-      auto gpuStates = Utils::AMD::parseOdClkVoltStateStates("SCLK",
+      auto gpuStates = Utils::AMD::parseOverdriveClksVolts("SCLK",
                                                              ppOdClkVoltLines_);
       for (auto [index, freq, volt] : gpuStates.value()) {
         auto [targetFreq, sVolt] = gpuStates_.at(index);
@@ -214,7 +214,7 @@ void AMD::PMFVState::syncControl(ICommandQueue &ctlCmds)
         }
       }
 
-      auto memStates = Utils::AMD::parseOdClkVoltStateStates("MCLK",
+      auto memStates = Utils::AMD::parseOverdriveClksVolts("MCLK",
                                                              ppOdClkVoltLines_);
       for (auto [index, freq, volt] : memStates.value()) {
         auto [targetFreq, sVolt] = memStates_.at(index);

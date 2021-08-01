@@ -54,16 +54,16 @@ AMD::PMFVVoltCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
         auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
         auto ppOdClkVoltValid =
             !Utils::AMD::ppOdClkVoltageHasKnownQuirks(ppOdClkVoltLines) &&
-            Utils::AMD::parseOdClkVoltStateClkRange("SCLK", ppOdClkVoltLines)
+            Utils::AMD::parseOverdriveClkRange("SCLK", ppOdClkVoltLines)
                 .has_value() &&
-            Utils::AMD::parseOdClkVoltStateClkRange("MCLK", ppOdClkVoltLines)
+            Utils::AMD::parseOverdriveClkRange("MCLK", ppOdClkVoltLines)
                 .has_value() &&
-            Utils::AMD::parseOdClkVoltCurveVoltRange(ppOdClkVoltLines).has_value() &&
-            Utils::AMD::parseOdClkVoltCurveStates("SCLK", ppOdClkVoltLines)
+            Utils::AMD::parseOverdriveVoltCurveRange(ppOdClkVoltLines).has_value() &&
+            Utils::AMD::parseOverdriveClks("SCLK", ppOdClkVoltLines)
                 .has_value() &&
-            Utils::AMD::parseOdClkVoltCurveStates("MCLK", ppOdClkVoltLines)
+            Utils::AMD::parseOverdriveClks("MCLK", ppOdClkVoltLines)
                 .has_value() &&
-            Utils::AMD::parseOdClkVoltCurvePoints(ppOdClkVoltLines).has_value();
+            Utils::AMD::parseOverdriveVoltCurve(ppOdClkVoltLines).has_value();
 
         if (ppOdClkVoltValid) {
 

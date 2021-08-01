@@ -207,7 +207,7 @@ std::optional<int> parsePowerProfileModeCurrentModeIndex(
 
 std::optional<std::tuple<unsigned int, units::frequency::megahertz_t,
                          units::voltage::millivolt_t>>
-parseOdClkStateFreqVoltLine(std::string const &line)
+parseOverdriveClkVoltLine(std::string const &line)
 {
   // Relevant lines format (kernel 4.17+):
   // ...
@@ -235,8 +235,8 @@ parseOdClkStateFreqVoltLine(std::string const &line)
 
 std::optional<std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
                                      units::voltage::millivolt_t>>>
-parseOdClkVoltStateStates(std::string_view targetLbl,
-                          std::vector<std::string> const &ppOdClkVoltageLines)
+parseOverdriveClksVolts(std::string_view targetLbl,
+                        std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.17+):
   // ...
@@ -264,7 +264,7 @@ parseOdClkVoltStateStates(std::string_view targetLbl,
         states;
 
     while (targetIt != endIt) {
-      auto state = parseOdClkStateFreqVoltLine(*targetIt);
+      auto state = parseOverdriveClkVoltLine(*targetIt);
       if (state.has_value())
         states.emplace_back(std::move(*state));
 
@@ -278,7 +278,7 @@ parseOdClkVoltStateStates(std::string_view targetLbl,
 }
 
 std::optional<std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>>
-parseOdClkRangeLine(std::string const &line)
+parseOverdriveClkRange(std::string const &line)
 {
   // Relevant lines format (kernel 4.18+):
   // ...
@@ -300,8 +300,8 @@ parseOdClkRangeLine(std::string const &line)
 }
 
 std::optional<std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>>
-parseOdClkVoltStateClkRange(std::string_view targetLbl,
-                            std::vector<std::string> const &ppOdClkVoltageLines)
+parseOverdriveClkRange(std::string_view targetLbl,
+                       std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.18+):
   // ...
@@ -321,14 +321,14 @@ parseOdClkVoltStateClkRange(std::string_view targetLbl,
         });
 
     if (targetIt != ppOdClkVoltageLines.cend())
-      return parseOdClkRangeLine(*targetIt);
+      return parseOverdriveClkRange(*targetIt);
   }
 
   return {};
 }
 
 std::optional<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>
-parseOdVoltRangeLine(std::string const &line)
+parseOverdriveVoltRangeLine(std::string const &line)
 {
   // Relevant lines format (kernel 4.18+):
   // ...
@@ -350,7 +350,7 @@ parseOdVoltRangeLine(std::string const &line)
 }
 
 std::optional<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>
-parseOdClkVoltStateVoltRange(std::vector<std::string> const &ppOdClkVoltageLines)
+parseOverdriveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.18+):
   // ...
@@ -370,14 +370,14 @@ parseOdClkVoltStateVoltRange(std::vector<std::string> const &ppOdClkVoltageLines
         });
 
     if (targetIt != ppOdClkVoltageLines.cend())
-      return parseOdVoltRangeLine(*targetIt);
+      return parseOverdriveVoltRangeLine(*targetIt);
   }
 
   return {};
 }
 
 std::optional<std::pair<unsigned int, units::frequency::megahertz_t>>
-parseOdClkVoltCurveStatesLine(std::string const &line)
+parseOverdriveClksLine(std::string const &line)
 {
   // Relevant lines format (kernel 4.20+):
   // ...
@@ -397,8 +397,8 @@ parseOdClkVoltCurveStatesLine(std::string const &line)
 }
 
 std::optional<std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>>
-parseOdClkVoltCurveStates(std::string_view targetLbl,
-                          std::vector<std::string> const &ppOdClkVoltageLines)
+parseOverdriveClks(std::string_view targetLbl,
+                   std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.17+):
   // ...
@@ -424,7 +424,7 @@ parseOdClkVoltCurveStates(std::string_view targetLbl,
     std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> states;
 
     while (targetIt != endIt) {
-      auto state = parseOdClkVoltCurveStatesLine(*targetIt);
+      auto state = parseOverdriveClksLine(*targetIt);
       if (state.has_value())
         states.emplace_back(std::move(*state));
 
@@ -439,7 +439,7 @@ parseOdClkVoltCurveStates(std::string_view targetLbl,
 
 std::optional<std::vector<
     std::pair<units::frequency::megahertz_t, units::voltage::millivolt_t>>>
-parseOdClkVoltCurvePoints(std::vector<std::string> const &ppOdClkVoltageLines)
+parseOverdriveVoltCurve(std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.20+):
   // ...
@@ -465,7 +465,7 @@ parseOdClkVoltCurvePoints(std::vector<std::string> const &ppOdClkVoltageLines)
         points;
 
     while (targetIt != endIt) {
-      auto state = parseOdClkStateFreqVoltLine(*targetIt);
+      auto state = parseOverdriveClkVoltLine(*targetIt);
       if (state.has_value()) {
         auto &[_, freq, volt] = *state;
         points.emplace_back(std::make_pair(freq, volt));
@@ -482,7 +482,7 @@ parseOdClkVoltCurvePoints(std::vector<std::string> const &ppOdClkVoltageLines)
 
 std::optional<
     std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
-parseOdClkVoltCurveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines)
+parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.20+):
   // ...
@@ -510,7 +510,7 @@ parseOdClkVoltCurveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines
           });
 
       if (targetIt != ppOdClkVoltageLines.cend()) {
-        auto lineRange = parseOdVoltRangeLine(*targetIt);
+        auto lineRange = parseOverdriveVoltRangeLine(*targetIt);
         if (lineRange.has_value())
           ranges.emplace_back(std::move(*lineRange));
       }
@@ -547,7 +547,7 @@ bool ppOdClkVoltageHasKnownQuirks(
                                return line.find("@") != std::string::npos;
                              });
   if (atIter != ppOdClkVoltageLines.cend()) {
-    auto points = parseOdClkVoltCurvePoints(ppOdClkVoltageLines);
+    auto points = parseOverdriveVoltCurve(ppOdClkVoltageLines);
     if (!points.has_value())
       return true;
 
