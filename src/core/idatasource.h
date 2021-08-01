@@ -32,7 +32,7 @@ class IDataSource
   /// Read the data from the source. The readed data is stored into
   /// this function arguments.
   /// @return true when the operation succeed
-  virtual bool read(Ts &... args) = 0;
+  virtual bool read(Ts &...args) = 0;
 
   virtual ~IDataSource() = default;
 };

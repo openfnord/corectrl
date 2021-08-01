@@ -59,10 +59,8 @@ AMD::PMFVVoltCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
             Utils::AMD::parseOverdriveClkRange("MCLK", ppOdClkVoltLines)
                 .has_value() &&
             Utils::AMD::parseOverdriveVoltCurveRange(ppOdClkVoltLines).has_value() &&
-            Utils::AMD::parseOverdriveClks("SCLK", ppOdClkVoltLines)
-                .has_value() &&
-            Utils::AMD::parseOverdriveClks("MCLK", ppOdClkVoltLines)
-                .has_value() &&
+            Utils::AMD::parseOverdriveClks("SCLK", ppOdClkVoltLines).has_value() &&
+            Utils::AMD::parseOverdriveClks("MCLK", ppOdClkVoltLines).has_value() &&
             Utils::AMD::parseOverdriveVoltCurve(ppOdClkVoltLines).has_value();
 
         if (ppOdClkVoltValid) {

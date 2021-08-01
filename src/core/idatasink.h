@@ -31,7 +31,7 @@ class IDataSink
 
   /// Write the data to the sink.
   /// @return true when the operation succeed
-  virtual bool write(Ts const &... args) = 0;
+  virtual bool write(Ts const &...args) = 0;
 
   virtual ~IDataSink() = default;
 };

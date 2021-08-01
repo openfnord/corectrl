@@ -93,14 +93,12 @@ void AMD::PMFVVoltCurve::init()
       // NOTE vega20+ uses gpu clock range as clock range for every point
       voltRange_.emplace_back(std::make_pair(gpuRange_, vRange));
 
-    auto gpuStates = Utils::AMD::parseOverdriveClks("SCLK",
-                                                           ppOdClkVoltLines_);
+    auto gpuStates = Utils::AMD::parseOverdriveClks("SCLK", ppOdClkVoltLines_);
     auto [gpuMin, gpuMax] = gpuRange_;
     for (auto [index, freq] : gpuStates.value())
       gpuStates_.emplace(index, (std::clamp(freq, gpuMin, gpuMax)));
 
-    auto memStates = Utils::AMD::parseOverdriveClks("MCLK",
-                                                           ppOdClkVoltLines_);
+    auto memStates = Utils::AMD::parseOverdriveClks("MCLK", ppOdClkVoltLines_);
     auto [memMin, memMax] = memRange_;
     for (auto [index, freq] : memStates.value())
       memStates_.emplace(index, std::clamp(freq, memMin, memMax));
@@ -195,8 +193,7 @@ void AMD::PMFVVoltCurve::syncControl(ICommandQueue &ctlCmds)
     else {
       bool commit{false};
 
-      auto gpuStates = Utils::AMD::parseOverdriveClks("SCLK",
-                                                             ppOdClkVoltLines_);
+      auto gpuStates = Utils::AMD::parseOverdriveClks("SCLK", ppOdClkVoltLines_);
       for (auto [index, freq] : gpuStates.value()) {
         auto targetFreq = gpuStates_.at(index);
         if (freq != targetFreq) {
@@ -206,8 +203,7 @@ void AMD::PMFVVoltCurve::syncControl(ICommandQueue &ctlCmds)
         }
       }
 
-      auto memStates = Utils::AMD::parseOverdriveClks("MCLK",
-                                                             ppOdClkVoltLines_);
+      auto memStates = Utils::AMD::parseOverdriveClks("MCLK", ppOdClkVoltLines_);
       for (auto [index, freq] : memStates.value()) {
         auto targetFreq = memStates_.at(index);
         if (freq != targetFreq) {
