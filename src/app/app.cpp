@@ -68,7 +68,7 @@ int App::exec(int argc, char **argv)
 
   // Ignore QT_STYLE_OVERRIDE. It breaks the qml theme.
   if (qEnvironmentVariableIsSet("QT_STYLE_OVERRIDE")) {
-    LOG(WARNING) << fmt::format(
+    LOG(INFO) << fmt::format(
         "Ignoring QT_STYLE_OVERRIDE environment variable.");
     qunsetenv("QT_STYLE_OVERRIDE");
   }
@@ -106,9 +106,9 @@ int App::exec(int argc, char **argv)
                                            : QLocale().system().name();
     QTranslator translator;
     if (!translator.load(QStringLiteral(":/translations/lang_") + lang)) {
-      LOG(WARNING) << fmt::format("No translation found for locale {}",
-                                  lang.toStdString());
-      LOG(WARNING) << fmt::format("Using en_EN translation.");
+      LOG(INFO) << fmt::format("No translation found for locale {}",
+                               lang.toStdString());
+      LOG(INFO) << fmt::format("Using en_EN translation.");
       translator.load(QStringLiteral(":/translations/lang_en_EN"));
     }
     app.installTranslator(&translator);
