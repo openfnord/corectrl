@@ -71,6 +71,15 @@ void ControlGroup::activate(bool active)
   }
 }
 
+void ControlGroup::cleanOnce()
+{
+  Control::cleanOnce();
+
+  // propagate clean once to aggregated controls
+  for (auto &control : controls_)
+    control->cleanOnce();
+}
+
 void ControlGroup::importControl(IControl::Importer &i)
 {
   for (auto &control : controls_) {

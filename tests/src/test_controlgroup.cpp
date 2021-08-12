@@ -206,6 +206,22 @@ TEST_CASE("ControlGroup tests", "[GPU][ControlGroup]")
     ts.activate(false);
   }
 
+  SECTION("Clean once is propagated to controls")
+  {
+    controlMocks.emplace_back(std::make_unique<ControlMock>());
+
+    ControlMock *controlMock = static_cast<ControlMock *>(controlMocks[0].get());
+    std::string const controlMockID("_control_mock_");
+    ALLOW_CALL(*controlMock, init());
+    ALLOW_CALL(*controlMock, ID()).LR_RETURN(controlMockID);
+    ALLOW_CALL(*controlMock, active()).RETURN(true);
+    REQUIRE_CALL(*controlMock, cleanOnce());
+
+    ControlGroupTestAdapter ts(id, std::move(controlMocks), true);
+    ts.init();
+    ts.cleanOnce();
+  }
+
   SECTION("Sync controls")
   {
     controlMocks.emplace_back(std::make_unique<ControlMock>());
