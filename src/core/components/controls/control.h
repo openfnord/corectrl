@@ -25,7 +25,9 @@ class Control : public IControl
   Control(bool active = true, bool forceClean = false) noexcept;
 
   bool active() const final override;
-  void activate(bool active) final override;
+  void activate(bool active) override;
+
+  void cleanOnce() override;
 
   void importWith(Importable::Importer &i) final override;
   void exportWith(Exportable::Exporter &e) const final override;
@@ -40,10 +42,10 @@ class Control : public IControl
   virtual void cleanControl(ICommandQueue &ctlCmds) = 0;
   virtual void syncControl(ICommandQueue &ctlCmds) = 0;
 
- private:
   bool dirty() const;
   void dirty(bool isDirty);
 
+ protected:
   bool active_;
   bool forceClean_;
   bool dirty_{false};

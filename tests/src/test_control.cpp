@@ -138,6 +138,15 @@ TEST_CASE("Control tests", "[GPU][Control]")
     tsForceClean.clean(ctlCmds);
   }
 
+  SECTION("Cleans control when clean once is requested")
+  {
+    CommandQueueStub ctlCmds;
+
+    REQUIRE_CALL(ts, cleanControl(trompeloeil::_));
+    ts.cleanOnce();
+    ts.clean(ctlCmds);
+  }
+
   SECTION("Sync control when is active")
   {
     CommandQueueStub ctlCmds;
