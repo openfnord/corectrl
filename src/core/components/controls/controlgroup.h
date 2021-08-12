@@ -38,6 +38,8 @@ class ControlGroup : public Control
 
   void activate(bool active) final override;
 
+  void cleanOnce() final override;
+
  protected:
   void importControl(IControl::Importer &i) final override;
   void exportControl(IControl::Exporter &e) const final override;
