@@ -48,6 +48,10 @@ class IControl
   virtual bool active() const = 0;
   virtual void activate(bool active) = 0;
 
+  /// Cleans the control unconditionally on the next clean method
+  /// call, independently of its previous active state.
+  virtual void cleanOnce() = 0;
+
   virtual void clean(ICommandQueue &ctlCmds) = 0;
   virtual void sync(ICommandQueue &ctlCmds) = 0;
 

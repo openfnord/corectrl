@@ -36,6 +36,11 @@ void Control::activate(bool active)
   active_ = active;
 }
 
+void Control::cleanOnce()
+{
+  dirty(true);
+}
+
 void Control::importWith(Importable::Importer &i)
 {
   auto importer = i.provideImporter(*this);

@@ -58,6 +58,19 @@ std::string const &ControlGroup::ID() const
   return id_;
 }
 
+void ControlGroup::activate(bool active)
+{
+  Control::activate(active);
+
+  if (dirty()) {
+    // All aggregated controls are always active. Therefore, we must
+    // clean them manually as they will never enter in dirty state on
+    // their own.
+    for (auto &control : controls_)
+      control->cleanOnce();
+  }
+}
+
 void ControlGroup::importControl(IControl::Importer &i)
 {
   for (auto &control : controls_) {

@@ -19,6 +19,7 @@
 #include "trompeloeil.hpp"
 
 #include "common/commandqueuestub.h"
+#include "common/controlmock.h"
 #include "core/components/controls/controlmode.h"
 
 extern template struct trompeloeil::reporter<trompeloeil::specialized>;
@@ -36,21 +37,6 @@ class ControlModeTestAdapter : public ::ControlMode
   using ControlMode::importControl;
   using ControlMode::mode;
   using ControlMode::syncControl;
-};
-
-class ControlMock : public IControl
-{
- public:
-  MAKE_MOCK1(preInit, void(ICommandQueue &), override);
-  MAKE_MOCK1(postInit, void(ICommandQueue &), override);
-  MAKE_MOCK0(init, void(), override);
-  MAKE_CONST_MOCK0(active, bool(), override);
-  MAKE_MOCK1(activate, void(bool), override);
-  MAKE_MOCK1(clean, void(ICommandQueue &), override);
-  MAKE_MOCK1(sync, void(ICommandQueue &), override);
-  MAKE_CONST_MOCK0(ID, std::string const &(), override);
-  MAKE_MOCK1(importWith, void(Importable::Importer &), override);
-  MAKE_CONST_MOCK1(exportWith, void(Exportable::Exporter &), override);
 };
 
 class ControlModeImporterStub : public ::ControlMode::Importer

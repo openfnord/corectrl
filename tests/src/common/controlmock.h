@@ -28,6 +28,7 @@ class ControlMock : public IControl
   MAKE_MOCK1(postInit, void(ICommandQueue &), override);
   MAKE_CONST_MOCK0(active, bool(), override);
   MAKE_MOCK1(activate, void(bool), override);
+  MAKE_MOCK0(cleanOnce, void(), override);
   MAKE_MOCK1(clean, void(ICommandQueue &), override);
   MAKE_MOCK1(sync, void(ICommandQueue &), override);
   MAKE_CONST_MOCK0(ID, std::string const &(), override);

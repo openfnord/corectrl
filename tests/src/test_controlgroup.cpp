@@ -19,6 +19,7 @@
 #include "trompeloeil.hpp"
 
 #include "common/commandqueuestub.h"
+#include "common/controlmock.h"
 #include "core/components/controls/controlgroup.h"
 
 extern template struct trompeloeil::reporter<trompeloeil::specialized>;
@@ -35,21 +36,6 @@ class ControlGroupTestAdapter : public ::ControlGroup
   using ControlGroup::exportControl;
   using ControlGroup::importControl;
   using ControlGroup::syncControl;
-};
-
-class ControlMock : public IControl
-{
- public:
-  MAKE_MOCK1(preInit, void(ICommandQueue &), override);
-  MAKE_MOCK1(postInit, void(ICommandQueue &), override);
-  MAKE_MOCK0(init, void(), override);
-  MAKE_CONST_MOCK0(active, bool(), override);
-  MAKE_MOCK1(activate, void(bool), override);
-  MAKE_MOCK1(clean, void(ICommandQueue &), override);
-  MAKE_MOCK1(sync, void(ICommandQueue &), override);
-  MAKE_CONST_MOCK0(ID, std::string const &(), override);
-  MAKE_MOCK1(importWith, void(Importable::Importer &), override);
-  MAKE_CONST_MOCK1(exportWith, void(Exportable::Exporter &), override);
 };
 
 class ControlModeImporterStub : public ::ControlGroup::Importer
@@ -201,6 +187,23 @@ TEST_CASE("ControlGroup tests", "[GPU][ControlGroup]")
     ts.init();
     CommandQueueStub ctlCmds;
     ts.cleanControl(ctlCmds);
+  }
+
+  SECTION("Request clean once on controls when its in dirty state")
+  {
+    controlMocks.emplace_back(std::make_unique<ControlMock>());
+
+    ControlMock *controlMock = static_cast<ControlMock *>(controlMocks[0].get());
+    std::string const controlMockID("_control_mock_");
+    ALLOW_CALL(*controlMock, init());
+    ALLOW_CALL(*controlMock, ID()).LR_RETURN(controlMockID);
+    ALLOW_CALL(*controlMock, active()).RETURN(true);
+    REQUIRE_CALL(*controlMock, cleanOnce());
+
+    ControlGroupTestAdapter ts(id, std::move(controlMocks), true);
+    ts.init();
+    ts.activate(true);
+    ts.activate(false);
   }
 
   SECTION("Sync controls")

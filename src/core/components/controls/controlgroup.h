@@ -36,6 +36,8 @@ class ControlGroup : public Control
   void init() final override;
   std::string const &ID() const final override;
 
+  void activate(bool active) final override;
+
  protected:
   void importControl(IControl::Importer &i) final override;
   void exportControl(IControl::Exporter &e) const final override;
