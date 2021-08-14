@@ -34,5 +34,8 @@ class ICommandQueue
   /// @param data where to pack the commands
   virtual void pack(QByteArray &data) = 0;
 
+  /// Returns the number of queued commands.
+  virtual unsigned int count() = 0;
+
   virtual ~ICommandQueue() = default;
 };

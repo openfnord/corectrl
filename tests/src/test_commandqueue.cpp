@@ -30,6 +30,7 @@ class CommandQueueTestAdapter : public ::CommandQueue
 
   using ::CommandQueue::add;
   using ::CommandQueue::commands;
+  using ::CommandQueue::count;
   using ::CommandQueue::pack;
 };
 
@@ -39,13 +40,13 @@ TEST_CASE("CommandQueue tests", "[CommandQueue]")
 
   SECTION("Initially, is empty")
   {
-    REQUIRE(ts.commands().empty());
+    REQUIRE(ts.count() == 0);
 
     SECTION("Commands can be added")
     {
       ts.add({"path", "value"});
 
-      REQUIRE(ts.commands().size() == 1);
+      REQUIRE(ts.count() == 1);
 
       std::pair<std::string, std::string> cmd{"path", "value"};
       REQUIRE(ts.commands().front() == cmd);
@@ -54,7 +55,7 @@ TEST_CASE("CommandQueue tests", "[CommandQueue]")
       {
         ts.add({"path", "value"});
 
-        REQUIRE(ts.commands().size() == 1);
+        REQUIRE(ts.count() == 1);
       }
 
       SECTION("When commands are packed the queue is cleared")
@@ -62,7 +63,7 @@ TEST_CASE("CommandQueue tests", "[CommandQueue]")
         QByteArray data;
         ts.pack(data);
 
-        REQUIRE(ts.commands().empty());
+        REQUIRE(ts.count() == 0);
         REQUIRE(data == QString("path\0value\0"));
       }
     }

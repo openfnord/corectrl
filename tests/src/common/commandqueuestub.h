@@ -33,6 +33,11 @@ class CommandQueueStub final : public ICommandQueue
   {
   }
 
+  unsigned int count() override
+  {
+    return commands_.size();
+  }
+
   std::vector<std::pair<std::string, std::string>> const &commands()
   {
     return commands_;
