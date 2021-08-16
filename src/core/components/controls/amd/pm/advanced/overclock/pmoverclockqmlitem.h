@@ -29,8 +29,6 @@ class PMOverclockQMLItem : public ControlGroupQMLItem
  private:
   static bool register_();
   static bool const registered_;
-
-  static char const *const trStrings[];
 };
 
 } // namespace AMD
