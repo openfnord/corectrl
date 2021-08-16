@@ -147,6 +147,10 @@ list(APPEND CONTROLS_SRC
   core/components/controls/amd/pm/advanced/overclock/freqod/pmfreqodprovider.cpp
   core/components/controls/amd/pm/advanced/overclock/freqod/pmfreqodprofilepart.cpp
   core/components/controls/amd/pm/advanced/overclock/freqod/pmfreqodxmlparser.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdrive.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdriveprovider.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdriveprofilepart.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdrivexmlparser.cpp
   core/components/controls/amd/pm/advanced/fvstate/pmfvstate.cpp
   core/components/controls/amd/pm/advanced/fvstate/pmfvstateprovider.cpp
   core/components/controls/amd/pm/advanced/fvstate/pmfvstateprofilepart.cpp
@@ -242,6 +246,7 @@ list(APPEND UI_COMPONENTS_SRC
   core/components/controls/amd/pm/advanced/freqmode/pmfreqmodeqmlitem.cpp
   core/components/controls/amd/pm/advanced/overclock/pmoverclockqmlitem.cpp
   core/components/controls/amd/pm/advanced/overclock/freqod/pmfreqodqmlitem.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdriveqmlitem.cpp
   core/components/controls/amd/pm/advanced/fvstate/pmfvstateqmlitem.cpp
   core/components/controls/amd/pm/advanced/fvvoltcurve/pmfvvoltcurveqmlitem.cpp
   core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp
