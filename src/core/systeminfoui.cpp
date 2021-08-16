@@ -137,6 +137,6 @@ void SystemInfoUI::initInfo()
 
 bool const SystemInfoUI::registered_ =
     QMLComponentRegistry::addQMLTypeRegisterer([]() {
-      qmlRegisterType<SystemInfoUI>("Radman.UIComponents", 1, 0,
+      qmlRegisterType<SystemInfoUI>("CoreCtrl.UIComponents", 1, 0,
                                     SystemInfoUI::QMLComponentID.data());
     });

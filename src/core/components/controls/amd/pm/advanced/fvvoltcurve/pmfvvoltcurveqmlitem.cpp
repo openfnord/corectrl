@@ -369,7 +369,7 @@ bool AMD::PMFVVoltCurveQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
     qmlRegisterType<AMD::PMFVVoltCurveQMLItem>(
-        "Radman.UIComponents", 1, 0, AMD::PMFVVoltCurve::ItemID.data());
+        "CoreCtrl.UIComponents", 1, 0, AMD::PMFVVoltCurve::ItemID.data());
   });
 
   QMLComponentRegistry::addQMLItemProvider(

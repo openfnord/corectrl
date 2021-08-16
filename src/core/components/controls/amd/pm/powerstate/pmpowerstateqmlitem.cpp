@@ -155,7 +155,7 @@ void AMD::PMPowerStateQMLItem::takePMPowerStateModes(
 bool AMD::PMPowerStateQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMPowerStateQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMPowerStateQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                               AMD::PMPowerState::ItemID.data());
   });
 

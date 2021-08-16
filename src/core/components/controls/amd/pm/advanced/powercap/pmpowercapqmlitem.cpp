@@ -143,7 +143,7 @@ void AMD::PMPowerCapQMLItem::takePMPowerCapRange(units::power::watt_t min,
 bool AMD::PMPowerCapQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMPowerCapQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMPowerCapQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                             AMD::PMPowerCap::ItemID.data());
   });
 

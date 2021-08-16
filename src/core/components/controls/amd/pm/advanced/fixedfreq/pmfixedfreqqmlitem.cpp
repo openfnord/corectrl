@@ -230,7 +230,7 @@ void AMD::PMFixedFreqQMLItem::mclkIndex(unsigned int index)
 bool AMD::PMFixedFreqQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMFixedFreqQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMFixedFreqQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                              AMD::PMFixedFreq::ItemID.data());
   });
 

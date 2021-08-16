@@ -18,7 +18,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import Radman.UIComponents 1.0
+import CoreCtrl.UIComponents 1.0
 import "Style.js" as Style
 
 AMD_PM_FIXED_FREQ {

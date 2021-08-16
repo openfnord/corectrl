@@ -105,7 +105,7 @@ bool AMD::PMDynamicFreqQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
     qmlRegisterType<AMD::PMDynamicFreqQMLItem>(
-        "Radman.UIComponents", 1, 0, AMD::PMDynamicFreq::ItemID.data());
+        "CoreCtrl.UIComponents", 1, 0, AMD::PMDynamicFreq::ItemID.data());
   });
 
   QMLComponentRegistry::addQMLItemProvider(

@@ -167,7 +167,7 @@ GPUQMLItem::initializer(IQMLComponentFactory const &qmlComponentFactory,
 bool GPUQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<GPUQMLItem>("Radman.UIComponents", 1, 0, IGPU::ItemID.data());
+    qmlRegisterType<GPUQMLItem>("CoreCtrl.UIComponents", 1, 0, IGPU::ItemID.data());
   });
 
   QMLComponentRegistry::addQMLItemProvider(

@@ -191,7 +191,7 @@ AMD::FanFixedQMLItem::initializer(IQMLComponentFactory const &qmlComponentFactor
 bool AMD::FanFixedQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::FanFixedQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::FanFixedQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                           AMD::FanFixed::ItemID.data());
   });
 

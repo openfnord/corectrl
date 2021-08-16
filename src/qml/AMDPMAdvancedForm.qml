@@ -17,7 +17,7 @@
 //
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import Radman.UIComponents 1.0
+import CoreCtrl.UIComponents 1.0
 
 AMD_PM_ADVANCED {
   id: pmAdv

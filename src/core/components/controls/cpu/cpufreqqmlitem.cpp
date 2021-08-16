@@ -157,7 +157,7 @@ void CPUFreqQMLItem::takeCPUFreqScalingGovernors(
 bool CPUFreqQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<CPUFreqQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<CPUFreqQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                     CPUFreq::ItemID.data());
   });
 

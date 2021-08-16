@@ -132,7 +132,7 @@ SysModelQMLItem::initializer(IQMLComponentFactory const &qmlComponentFactory,
 bool SysModelQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<SysModelQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<SysModelQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                      ISysModel::ItemID.data());
   });
 

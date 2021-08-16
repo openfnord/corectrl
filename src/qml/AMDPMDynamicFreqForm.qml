@@ -16,7 +16,7 @@
 // Distributed under the GPL version 3 or any later version.
 //
 import QtQuick 2.9
-import Radman.UIComponents 1.0
+import CoreCtrl.UIComponents 1.0
 
 AMD_PM_DYNAMIC_FREQ {
   objectName: "AMD_PM_DYNAMIC_FREQ"

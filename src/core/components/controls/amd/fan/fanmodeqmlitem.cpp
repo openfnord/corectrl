@@ -33,7 +33,7 @@ AMD::FanModeQMLItem::FanModeQMLItem() noexcept
 bool AMD::FanModeQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::FanModeQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::FanModeQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                          AMD::FanMode::ItemID.data());
   });
 

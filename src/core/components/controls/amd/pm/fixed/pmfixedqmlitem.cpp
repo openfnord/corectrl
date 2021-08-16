@@ -154,7 +154,7 @@ void AMD::PMFixedQMLItem::takePMFixedModes(std::vector<std::string> const &modes
 bool AMD::PMFixedQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMFixedQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMFixedQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                          AMD::PMFixed::ItemID.data());
   });
 

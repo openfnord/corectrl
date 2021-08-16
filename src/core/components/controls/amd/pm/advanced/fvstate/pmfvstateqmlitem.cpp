@@ -444,7 +444,7 @@ QVector<int> AMD::PMFVStateQMLItem::activeStatesIndices(
 bool AMD::PMFVStateQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMFVStateQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMFVStateQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                            AMD::PMFVState::ItemID.data());
   });
 

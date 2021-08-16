@@ -147,7 +147,7 @@ CPUQMLItem::initializer(IQMLComponentFactory const &qmlComponentFactory,
 bool CPUQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<CPUQMLItem>("Radman.UIComponents", 1, 0, ICPU::ItemID.data());
+    qmlRegisterType<CPUQMLItem>("CoreCtrl.UIComponents", 1, 0, ICPU::ItemID.data());
   });
 
   QMLComponentRegistry::addQMLItemProvider(

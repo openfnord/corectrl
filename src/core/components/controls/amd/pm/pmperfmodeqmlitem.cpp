@@ -33,7 +33,7 @@ AMD::PMPerfModeQMLItem::PMPerfModeQMLItem() noexcept
 bool AMD::PMPerfModeQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMPerfModeQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMPerfModeQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                             AMD::PMPerfMode::ItemID.data());
   });
 

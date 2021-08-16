@@ -262,7 +262,7 @@ void AMD::FanCurveQMLItem::temperatureRange(units::temperature::celsius_t min,
 bool AMD::FanCurveQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::FanCurveQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::FanCurveQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                           AMD::FanCurve::ItemID.data());
   });
 

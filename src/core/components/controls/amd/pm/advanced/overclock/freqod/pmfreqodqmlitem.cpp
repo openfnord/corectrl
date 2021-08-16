@@ -227,7 +227,7 @@ void AMD::PMFreqOdQMLItem::mclkOd(unsigned int value)
 bool AMD::PMFreqOdQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMFreqOdQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMFreqOdQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                           AMD::PMFreqOd::ItemID.data());
   });
 

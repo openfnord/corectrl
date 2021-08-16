@@ -158,7 +158,7 @@ bool AMD::PMPowerProfileQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
     qmlRegisterType<AMD::PMPowerProfileQMLItem>(
-        "Radman.UIComponents", 1, 0, AMD::PMPowerProfile::ItemID.data());
+        "CoreCtrl.UIComponents", 1, 0, AMD::PMPowerProfile::ItemID.data());
   });
 
   QMLComponentRegistry::addQMLItemProvider(

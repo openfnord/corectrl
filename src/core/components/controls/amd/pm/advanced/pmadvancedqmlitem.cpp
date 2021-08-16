@@ -38,7 +38,7 @@ AMD::PMAdvancedQMLItem::PMAdvancedQMLItem() noexcept
 bool AMD::PMAdvancedQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMAdvancedQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMAdvancedQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                             AMD::PMAdvanced::ItemID.data());
   });
 

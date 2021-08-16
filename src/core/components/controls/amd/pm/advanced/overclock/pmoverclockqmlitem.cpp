@@ -33,7 +33,7 @@ AMD::PMOverclockQMLItem::PMOverclockQMLItem() noexcept
 bool AMD::PMOverclockQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMOverclockQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMOverclockQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                              AMD::PMOverclock::ItemID.data());
   });
 

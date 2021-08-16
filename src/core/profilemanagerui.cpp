@@ -306,5 +306,5 @@ void ProfileManagerUI::removeProfileUsedNames(std::string const &profileName)
 bool const ProfileManagerUI::registered_ =
     QMLComponentRegistry::addQMLTypeRegisterer([]() {
       qmlRegisterType<ProfileManagerUI>(
-          "Radman.UIComponents", 1, 0, ProfileManagerUI::QMLComponentID.data());
+          "CoreCtrl.UIComponents", 1, 0, ProfileManagerUI::QMLComponentID.data());
     });

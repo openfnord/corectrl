@@ -104,7 +104,7 @@ AMD::PMAutoQMLItem::initializer(IQMLComponentFactory const &qmlComponentFactory,
 bool AMD::PMAutoQMLItem::register_()
 {
   QMLComponentRegistry::addQMLTypeRegisterer([]() {
-    qmlRegisterType<AMD::PMAutoQMLItem>("Radman.UIComponents", 1, 0,
+    qmlRegisterType<AMD::PMAutoQMLItem>("CoreCtrl.UIComponents", 1, 0,
                                         AMD::PMAuto::ItemID.data());
   });
 
