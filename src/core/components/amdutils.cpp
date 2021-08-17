@@ -237,19 +237,19 @@ parseOverdriveClkVoltLine(std::string const &line)
 
 std::optional<std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
                                      units::voltage::millivolt_t>>>
-parseOverdriveClksVolts(std::string_view targetLbl,
+parseOverdriveClksVolts(std::string_view controlName,
                         std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.17+):
   // ...
-  // OD_targetLbl:
+  // OD_controlName:
   // ...
   // OD_otherLbl:
   // ...
   auto targetIt = std::find_if(
       ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
       [&](std::string const &line) {
-        return line.find("OD_" + std::string(targetLbl) + ":") !=
+        return line.find("OD_" + std::string(controlName) + ":") !=
                std::string::npos;
       });
   if (targetIt != ppOdClkVoltageLines.cend() &&
@@ -302,14 +302,14 @@ parseOverdriveClkRange(std::string const &line)
 }
 
 std::optional<std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>>
-parseOverdriveClkRange(std::string_view targetLbl,
+parseOverdriveClkRange(std::string_view controlName,
                        std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.18+):
   // ...
   // OD_RANGE:
   // ...
-  // targetLbl:     min       max
+  // controlName:     min       max
   // ...
   auto rangeIt = std::find_if(
       ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
@@ -319,7 +319,7 @@ parseOverdriveClkRange(std::string_view targetLbl,
   if (rangeIt != ppOdClkVoltageLines.cend()) {
     auto targetIt = std::find_if(
         rangeIt, ppOdClkVoltageLines.cend(), [&](std::string const &line) {
-          return line.find(std::string(targetLbl) + ":") != std::string::npos;
+          return line.find(std::string(controlName) + ":") != std::string::npos;
         });
 
     if (targetIt != ppOdClkVoltageLines.cend())
@@ -399,19 +399,19 @@ parseOverdriveClksLine(std::string const &line)
 }
 
 std::optional<std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>>
-parseOverdriveClks(std::string_view targetLbl,
+parseOverdriveClks(std::string_view controlName,
                    std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.17+):
   // ...
-  // OD_targetLbl:
+  // OD_controlName:
   // ...
   // OD_otherLbl:
   // ...
   auto targetIt = std::find_if(
       ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
       [&](std::string const &line) {
-        return line.find("OD_" + std::string(targetLbl) + ":") !=
+        return line.find("OD_" + std::string(controlName) + ":") !=
                std::string::npos;
       });
   if (targetIt != ppOdClkVoltageLines.cend() &&

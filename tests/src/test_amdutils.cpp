@@ -234,7 +234,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                    "OD_RANGE:"};
     // clang-format on
 
-    SECTION("Returns target states")
+    SECTION("Returns the available states for the control")
     {
       auto values = ::Utils::AMD::parseOverdriveClksVolts("MCLK", input);
       REQUIRE(values.has_value());
@@ -251,7 +251,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
       REQUIRE(s1Volt == units::voltage::millivolt_t(975));
     }
 
-    SECTION("Returns nothing when there is no OD_target in input")
+    SECTION("Returns nothing when there is no OD_controlName in input")
     {
       // clang-format off
       std::vector<std::string> input{"OTHER:",
@@ -301,7 +301,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
       REQUIRE_FALSE(empty.has_value());
     }
 
-    SECTION("Returns nothing for wrong target label")
+    SECTION("Returns nothing for unknown controls names")
     {
       auto empty = ::Utils::AMD::parseOverdriveClkRange("OTHER", input);
       REQUIRE_FALSE(empty.has_value());
@@ -344,7 +344,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                    "OD_MCLK:"};
     // clang-format on
 
-    SECTION("Returns target states")
+    SECTION("Returns available states for the control")
     {
       auto values = ::Utils::AMD::parseOverdriveClks("SCLK", input);
       REQUIRE(values.has_value());
@@ -359,7 +359,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
       REQUIRE(s1Freq == units::frequency::megahertz_t(2000));
     }
 
-    SECTION("Returns nothing when there is no OD_target in input")
+    SECTION("Returns nothing when there is no OD_controlName in input")
     {
       // clang-format off
       std::vector<std::string> input{"OTHER:",
@@ -382,7 +382,7 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                    "OD_RANGE:"};
     // clang-format on
 
-    SECTION("Returns target states")
+    SECTION("Returns the available voltage curve points")
     {
       auto values = ::Utils::AMD::parseOverdriveVoltCurve(input);
       REQUIRE(values.has_value());
