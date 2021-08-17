@@ -525,6 +525,26 @@ parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines
   return {};
 }
 
+std::optional<std::vector<std::string>>
+parseOverdriveClkControls(std::vector<std::string> const &ppOdClkVoltageLines)
+{
+  std::regex const regex(R"(^OD_(\wCLK):\s*$)", std::regex::icase);
+  std::vector<std::string> controlNames;
+
+  for (auto &line : ppOdClkVoltageLines) {
+    std::smatch result;
+    if (!std::regex_search(line, result, regex))
+      continue;
+
+    controlNames.emplace_back(result[1]);
+  }
+
+  if (!controlNames.empty())
+    return controlNames;
+
+  return {};
+}
+
 bool ppOdClkVoltageHasKnownQuirks(
     std::vector<std::string> const &ppOdClkVoltageLines)
 {

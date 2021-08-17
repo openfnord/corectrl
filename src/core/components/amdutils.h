@@ -144,6 +144,11 @@ std::optional<
     std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
 parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines);
 
+/// Returns a list containing the name of the available CLK controls.
+/// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
+std::optional<std::vector<std::string>>
+parseOverdriveClkControls(std::vector<std::string> const &ppOdClkVoltageLines);
+
 /// Returns whether pp_od_clk_voltage has known quirks.
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 bool ppOdClkVoltageHasKnownQuirks(

@@ -451,6 +451,34 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     }
   }
 
+  SECTION("parseOverdriveClkControls")
+  {
+    SECTION("Returns available CLK controls")
+    {
+      // clang-format off
+      std::vector<std::string> input{"OD_SCLK:",
+                                     "...",
+                                     "OD_MCLK:",
+                                     "...",};
+      // clang-format on
+
+      auto values = ::Utils::AMD::parseOverdriveClkControls(input);
+      REQUIRE(values.has_value());
+      REQUIRE(values->size() == 2);
+
+      REQUIRE(values->at(0) == "SCLK");
+      REQUIRE(values->at(1) == "MCLK");
+    }
+
+    SECTION("Returns nothing when there is no available CLK controls")
+    {
+      std::vector<std::string> input{"OTHER_DATA"};
+
+      auto empty = ::Utils::AMD::parseOverdriveClkControls(input);
+      REQUIRE_FALSE(empty.has_value());
+    }
+  }
+
   SECTION("ppOdClkVoltageHasKnownQuirks")
   {
     SECTION("Empty file")
