@@ -60,7 +60,7 @@ TEST_CASE("GPUInfoPMOverdrive tests",
   int const gpuIndex = 0;
   IGPUInfo::Path path("_sys_", "_dev_");
 
-  SECTION("Provides Curve capability")
+  SECTION("Provides voltage curve capability")
   {
     std::vector<std::string> ppOdClkVoltageData{"OD_VDDC_CURVE:"};
 
@@ -70,10 +70,10 @@ TEST_CASE("GPUInfoPMOverdrive tests",
     auto output = ts.provideCapabilities(vendor, gpuIndex, path);
 
     REQUIRE(output.size() == 1);
-    REQUIRE(output.front() == ::AMD::GPUInfoPMOverdrive::Curve);
+    REQUIRE(output.front() == ::AMD::GPUInfoPMOverdrive::VoltCurve);
   }
 
-  SECTION("Provides Fixed capability")
+  SECTION("Provides clock + voltage capability")
   {
     // clang-format off
     std::vector<std::string> ppOdClkVoltageData{"OD_SCLK:",
@@ -86,7 +86,7 @@ TEST_CASE("GPUInfoPMOverdrive tests",
     auto output = ts.provideCapabilities(vendor, gpuIndex, path);
 
     REQUIRE(output.size() == 1);
-    REQUIRE(output.front() == ::AMD::GPUInfoPMOverdrive::Fixed);
+    REQUIRE(output.front() == ::AMD::GPUInfoPMOverdrive::ClkVolt);
   }
 }
 } // namespace GPUInfoPMOverdrive

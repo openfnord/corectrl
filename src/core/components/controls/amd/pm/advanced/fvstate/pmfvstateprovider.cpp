@@ -45,7 +45,7 @@ AMD::PMFVStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
 
     if (driver == "amdgpu" && (kernel >= std::make_tuple(4, 18, 0) &&
-                               gpuInfo.hasCapability(GPUInfoPMOverdrive::Fixed))) {
+                               gpuInfo.hasCapability(GPUInfoPMOverdrive::ClkVolt))) {
 
       auto perfLevel = gpuInfo.path().sys / "power_dpm_force_performance_level";
       auto ppOdClkVolt = gpuInfo.path().sys / "pp_od_clk_voltage";

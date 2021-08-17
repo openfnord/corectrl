@@ -33,8 +33,8 @@ namespace AMD {
 class GPUInfoPMOverdrive final : public IGPUInfo::IProvider
 {
  public:
-  static constexpr std::string_view Fixed{"pmodcvf"};
-  static constexpr std::string_view Curve{"pmodcvc"};
+  static constexpr std::string_view ClkVolt{"pmodclkvolt"};
+  static constexpr std::string_view VoltCurve{"pmodvoltcurve"};
 
   GPUInfoPMOverdrive(
       std::unique_ptr<IDataSource<std::vector<std::string>, std::filesystem::path const>>

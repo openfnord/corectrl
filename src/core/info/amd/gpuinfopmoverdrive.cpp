@@ -80,10 +80,10 @@ AMD::GPUInfoPMOverdrive::provideCapabilities(Vendor vendor, int,
     if (dataSource_->read(data, path.sys)) {
 
       if (Utils::AMD::hasOverdriveClkVoltControl(data))
-        cap.emplace_back(GPUInfoPMOverdrive::Fixed);
+        cap.emplace_back(GPUInfoPMOverdrive::ClkVolt);
 
       if (Utils::AMD::hasOverdriveVoltCurveControl(data))
-        cap.emplace_back(GPUInfoPMOverdrive::Curve);
+        cap.emplace_back(GPUInfoPMOverdrive::VoltCurve);
     }
   }
 
