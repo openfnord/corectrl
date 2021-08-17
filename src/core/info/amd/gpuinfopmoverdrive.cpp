@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Distributed under the GPL version 3 or any later version.
 //
-#include "gpuinfopmodcv.h"
+#include "gpuinfopmoverdrive.h"
 
 #include "common/fileutils.h"
 #include "core/idatasource.h"
@@ -27,7 +27,7 @@
 
 namespace AMD {
 
-class GPUInfoPMODCVDataSource
+class GPUInfoPMOverdriveDataSource
 : public IDataSource<std::vector<std::string>, std::filesystem::path const>
 {
  public:
@@ -53,7 +53,7 @@ class GPUInfoPMODCVDataSource
 };
 } // namespace AMD
 
-AMD::GPUInfoPMODCV::GPUInfoPMODCV(
+AMD::GPUInfoPMOverdrive::GPUInfoPMOverdrive(
     std::unique_ptr<IDataSource<std::vector<std::string>, std::filesystem::path const>>
         &&dataSource) noexcept
 : dataSource_(std::move(dataSource))
@@ -61,15 +61,15 @@ AMD::GPUInfoPMODCV::GPUInfoPMODCV(
 }
 
 std::vector<std::pair<std::string, std::string>>
-AMD::GPUInfoPMODCV::provideInfo(Vendor, int, IGPUInfo::Path const &,
-                                IHWIDTranslator const &)
+AMD::GPUInfoPMOverdrive::provideInfo(Vendor, int, IGPUInfo::Path const &,
+                                     IHWIDTranslator const &)
 {
   return {};
 }
 
 std::vector<std::string>
-AMD::GPUInfoPMODCV::provideCapabilities(Vendor vendor, int,
-                                        IGPUInfo::Path const &path)
+AMD::GPUInfoPMOverdrive::provideCapabilities(Vendor vendor, int,
+                                             IGPUInfo::Path const &path)
 {
   std::vector<std::string> cap;
 
@@ -84,15 +84,15 @@ AMD::GPUInfoPMODCV::provideCapabilities(Vendor vendor, int,
           });
 
       if (curveIt != data.cend())
-        cap.emplace_back(GPUInfoPMODCV::Curve);
+        cap.emplace_back(GPUInfoPMOverdrive::Curve);
       else
-        cap.emplace_back(GPUInfoPMODCV::Fixed);
+        cap.emplace_back(GPUInfoPMOverdrive::Fixed);
     }
   }
 
   return cap;
 }
 
-bool AMD::GPUInfoPMODCV::registered_ =
-    InfoProviderRegistry::add(std::make_unique<AMD::GPUInfoPMODCV>(
-        std::make_unique<AMD::GPUInfoPMODCVDataSource>()));
+bool AMD::GPUInfoPMOverdrive::registered_ =
+    InfoProviderRegistry::add(std::make_unique<AMD::GPUInfoPMOverdrive>(
+        std::make_unique<AMD::GPUInfoPMOverdriveDataSource>()));

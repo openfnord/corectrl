@@ -29,16 +29,16 @@ class IDataSource;
 
 namespace AMD {
 
-/// AMD Power management clock/volatage control GPU info
-class GPUInfoPMODCV final : public IGPUInfo::IProvider
+/// AMD power management overdrive GPU info
+class GPUInfoPMOverdrive final : public IGPUInfo::IProvider
 {
  public:
   static constexpr std::string_view Fixed{"pmodcvf"};
   static constexpr std::string_view Curve{"pmodcvc"};
 
-  GPUInfoPMODCV(std::unique_ptr<
-                IDataSource<std::vector<std::string>, std::filesystem::path const>>
-                    &&dataSource) noexcept;
+  GPUInfoPMOverdrive(
+      std::unique_ptr<IDataSource<std::vector<std::string>, std::filesystem::path const>>
+          &&dataSource) noexcept;
 
   std::vector<std::pair<std::string, std::string>>
   provideInfo(Vendor vendor, int gpuIndex, IGPUInfo::Path const &path,

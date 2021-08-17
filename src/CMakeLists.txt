@@ -102,7 +102,7 @@ list(APPEND INFO_SRC
   core/info/common/swinfokernel.cpp
   core/info/common/swinfomesa.cpp
   core/info/amd/gpuinfopm.cpp
-  core/info/amd/gpuinfopmodcv.cpp
+  core/info/amd/gpuinfopmoverdrive.cpp
   core/info/amd/gpuinfovbios.cpp
   core/info/amd/gpuinfovram.cpp
 )

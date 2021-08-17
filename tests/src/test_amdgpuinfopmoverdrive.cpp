@@ -18,11 +18,11 @@
 #include "catch.hpp"
 
 #include "core/idatasource.h"
-#include "core/info/amd/gpuinfopmodcv.h"
+#include "core/info/amd/gpuinfopmoverdrive.h"
 
 namespace Tests {
 namespace AMD {
-namespace GPUInfoPMODCV {
+namespace GPUInfoPMOverdrive {
 
 class VectorStringPathDataSourceStub
 : public IDataSource<std::vector<std::string>, std::filesystem::path const>
@@ -53,7 +53,8 @@ class VectorStringPathDataSourceStub
   bool success_;
 };
 
-TEST_CASE("GPUInfoPMODCV tests", "[AMD][Info][GPUInfo][GPUInfoPMODCV]")
+TEST_CASE("GPUInfoPMOverdrive tests",
+          "[AMD][Info][GPUInfo][GPUInfoPMOverdrive]")
 {
   Vendor vendor(Vendor::AMD);
   int const gpuIndex = 0;
@@ -66,13 +67,13 @@ OD_VDDC_CURVE:\
 ...\
 VDDC_CURVE_SCLK..."};
 
-    ::AMD::GPUInfoPMODCV ts(std::make_unique<VectorStringPathDataSourceStub>(
+    ::AMD::GPUInfoPMOverdrive ts(std::make_unique<VectorStringPathDataSourceStub>(
         "pp_od_clk_voltage", std::move(ppOdClkVoltageData)));
 
     auto output = ts.provideCapabilities(vendor, gpuIndex, path);
 
     REQUIRE(output.size() == 1);
-    REQUIRE(output.front() == ::AMD::GPUInfoPMODCV::Curve);
+    REQUIRE(output.front() == ::AMD::GPUInfoPMOverdrive::Curve);
   }
 
   SECTION("Provides Fixed capability")
@@ -83,15 +84,15 @@ OD_SCLK:\
 OD_RANGE:\
 ..."};
 
-    ::AMD::GPUInfoPMODCV ts(std::make_unique<VectorStringPathDataSourceStub>(
+    ::AMD::GPUInfoPMOverdrive ts(std::make_unique<VectorStringPathDataSourceStub>(
         "pp_od_clk_voltage", std::move(ppOdClkVoltageData)));
 
     auto output = ts.provideCapabilities(vendor, gpuIndex, path);
 
     REQUIRE(output.size() == 1);
-    REQUIRE(output.front() == ::AMD::GPUInfoPMODCV::Fixed);
+    REQUIRE(output.front() == ::AMD::GPUInfoPMOverdrive::Fixed);
   }
 }
-} // namespace GPUInfoPMODCV
+} // namespace GPUInfoPMOverdrive
 } // namespace AMD
 } // namespace Tests

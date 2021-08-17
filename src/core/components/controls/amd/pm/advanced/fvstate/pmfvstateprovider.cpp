@@ -22,7 +22,7 @@
 #include "common/stringutils.h"
 #include "core/components/amdutils.h"
 #include "core/components/controls/amd/pm/handlers/ppdpmhandler.h"
-#include "core/info/amd/gpuinfopmodcv.h"
+#include "core/info/amd/gpuinfopmoverdrive.h"
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
@@ -45,7 +45,7 @@ AMD::PMFVStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
 
     if (driver == "amdgpu" && (kernel >= std::make_tuple(4, 18, 0) &&
-                               gpuInfo.hasCapability(GPUInfoPMODCV::Fixed))) {
+                               gpuInfo.hasCapability(GPUInfoPMOverdrive::Fixed))) {
 
       auto perfLevel = gpuInfo.path().sys / "power_dpm_force_performance_level";
       auto ppOdClkVolt = gpuInfo.path().sys / "pp_od_clk_voltage";
