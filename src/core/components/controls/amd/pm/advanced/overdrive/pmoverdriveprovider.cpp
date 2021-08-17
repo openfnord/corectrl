@@ -48,10 +48,7 @@ AMD::PMOverdriveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
           Utils::File::isSysFSEntryValid(ppOdClkVolt)) {
 
         auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
-
-        auto ppOdClkVoltHasQuirks =
-            Utils::AMD::ppOdClkVoltageHasKnownQuirks(ppOdClkVoltLines);
-        if (!ppOdClkVoltHasQuirks) {
+        if (!Utils::AMD::ppOdClkVoltageHasKnownQuirks(ppOdClkVoltLines)) {
 
           std::vector<std::unique_ptr<IControl>> controls;
           for (auto &provider : providers_()) {
