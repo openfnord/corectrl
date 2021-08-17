@@ -558,5 +558,51 @@ bool ppOdClkVoltageHasKnownQuirks(
   return false;
 }
 
+bool hasOverdriveClkVoltControl(std::vector<std::string> const &data)
+{
+  std::regex const clkRegex(R"(^OD_\wCLK:)", std::regex::icase);
+  std::smatch result;
+
+  auto clkIt = std::find_if(data.cbegin(), data.cend(),
+                            [&](std::string const &line) {
+                              return std::regex_match(line, result, clkRegex);
+                            });
+
+  if (clkIt != data.cend() && std::next(clkIt) != data.cend()) {
+    auto state = parseOverdriveClkVoltLine(*std::next(clkIt));
+    return state.has_value();
+  }
+
+  return false;
+}
+
+bool hasOverdriveClkControl(std::vector<std::string> const &data)
+{
+  std::regex const clkRegex(R"(^OD_\wCLK:)", std::regex::icase);
+  std::smatch result;
+
+  auto clkIt = std::find_if(data.cbegin(), data.cend(),
+                            [&](std::string const &line) {
+                              return std::regex_match(line, result, clkRegex);
+                            });
+
+  if (clkIt != data.cend() && std::next(clkIt) != data.cend()) {
+    auto state = parseOverdriveClksLine(*std::next(clkIt));
+    return state.has_value();
+  }
+
+  return false;
+}
+
+bool hasOverdriveVoltCurveControl(std::vector<std::string> const &data)
+{
+  auto curveIt = std::find_if(
+      data.cbegin(), data.cend(), [&](std::string const &line) {
+        return line.find("OD_VDDC_CURVE:") != std::string::npos;
+      });
+
+  return curveIt != data.cend();
+}
+
 } // namespace AMD
 } // namespace Utils

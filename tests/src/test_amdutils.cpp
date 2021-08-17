@@ -557,6 +557,75 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
       REQUIRE_FALSE(::Utils::AMD::ppOdClkVoltageHasKnownQuirks(naviInput));
     }
   }
+
+  SECTION("hasOverdriveClkVoltControl")
+  {
+    SECTION("Returns true when overdrive has clock + voltage state controls")
+    {
+      // clang-format off
+      std::vector<std::string> data{"OD_SCLK:",
+                                    "0: 300MHz 800mV"};
+      // clang-format on
+
+      REQUIRE(::Utils::AMD::hasOverdriveClkVoltControl(data));
+    }
+
+    SECTION(
+        "Returns false when overdrive has no clock + voltage state controls")
+    {
+      // clang-format off
+      std::vector<std::string> otherClkControlData{"OD_SCLK:",
+                                                   "0: 300MHz"};
+      std::vector<std::string> noClkControlData{"OTHER_DATA"};
+      // clang-format on
+
+      REQUIRE_FALSE(
+          ::Utils::AMD::hasOverdriveClkVoltControl(otherClkControlData));
+      REQUIRE_FALSE(::Utils::AMD::hasOverdriveClkVoltControl(noClkControlData));
+    }
+  }
+
+  SECTION("hasOverdriveClkControl")
+  {
+    SECTION("Returns true when overdrive has clock state controls")
+    {
+      // clang-format off
+      std::vector<std::string> data{"OD_SCLK:",
+                                    "0: 300MHz"};
+      // clang-format on
+
+      REQUIRE(::Utils::AMD::hasOverdriveClkControl(data));
+    }
+
+    SECTION("Returns false when overdrive has no clock state controls")
+    {
+      // clang-format off
+      std::vector<std::string> otherClkControlData{"OD_SCLK:",
+                                                   "0: 300MHz 800mV"};
+      std::vector<std::string> noClkControlData{"OTHER_DATA"};
+      // clang-format on
+
+      REQUIRE_FALSE(::Utils::AMD::hasOverdriveClkControl(otherClkControlData));
+      REQUIRE_FALSE(::Utils::AMD::hasOverdriveClkControl(noClkControlData));
+    }
+  }
+
+  SECTION("hasOverdriveVoltCurveControl")
+  {
+    SECTION("Returns true when overdrive has voltage curve control")
+    {
+      std::vector<std::string> data{"OD_VDDC_CURVE:"};
+
+      REQUIRE(::Utils::AMD::hasOverdriveVoltCurveControl(data));
+    }
+
+    SECTION("Returns false when overdrive has no voltage curve control")
+    {
+      std::vector<std::string> noClkControlData{"OTHER_DATA"};
+
+      REQUIRE_FALSE(::Utils::AMD::hasOverdriveVoltCurveControl(noClkControlData));
+    }
+  }
 }
 } // namespace AMD
 } // namespace Utils

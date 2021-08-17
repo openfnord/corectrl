@@ -149,5 +149,14 @@ parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines
 bool ppOdClkVoltageHasKnownQuirks(
     std::vector<std::string> const &ppOdClkVoltageLines);
 
+/// Returns true when overdrive clock + voltage state control is available.
+bool hasOverdriveClkVoltControl(std::vector<std::string> const &data);
+
+/// Returns true when overdrive clock control is available.
+bool hasOverdriveClkControl(std::vector<std::string> const &data);
+
+/// Returns true when overdrive voltage curve control is available.
+bool hasOverdriveVoltCurveControl(std::vector<std::string> const &data);
+
 } // namespace AMD
 } // namespace Utils
