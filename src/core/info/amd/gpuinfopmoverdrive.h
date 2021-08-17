@@ -34,6 +34,7 @@ class GPUInfoPMOverdrive final : public IGPUInfo::IProvider
 {
  public:
   static constexpr std::string_view ClkVolt{"pmodclkvolt"};
+  static constexpr std::string_view Clk{"pmodclk"};
   static constexpr std::string_view VoltCurve{"pmodvoltcurve"};
 
   GPUInfoPMOverdrive(
