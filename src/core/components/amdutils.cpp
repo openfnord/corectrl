@@ -72,7 +72,8 @@ parseDPMStates(std::vector<std::string> const &ppDpmLines)
   // 0: 300Mhz *
   // ...
   // N: 1303Mhz
-  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*Mhz)", std::regex::icase);
+  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*Mhz\s*\*?\s*$)",
+                         std::regex::icase);
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> states;
 
   for (auto &line : ppDpmLines) {
@@ -103,7 +104,7 @@ parseDPMCurrentStateIndex(std::vector<std::string> const &ppDpmLines)
   // N: 1303Mhz
   //
   // '*' marks the current state
-  std::regex const regex(R"(^(\d+)\s*:\s*\d+\s*Mhz\s*\*)", std::regex::icase);
+  std::regex const regex(R"(^(\d+)\s*:\s*\d+\s*Mhz\s*\*\s*$)", std::regex::icase);
 
   for (auto &line : ppDpmLines) {
     std::smatch result;
@@ -217,7 +218,7 @@ parseOverdriveClkVoltLine(std::string const &line)
   // ...
   // 0: 300MHz @ 800mV
   // ...
-  std::regex const regex(R"((\d+)\s*:\s*(\d+)\s*MHz[\s@]*(\d+)\s*mV)",
+  std::regex const regex(R"((\d+)\s*:\s*(\d+)\s*MHz[\s@]*(\d+)\s*mV\s*$)",
                          std::regex::icase);
   std::smatch result;
 
@@ -284,7 +285,7 @@ parseOverdriveClkRange(std::string const &line)
   // ...
   // Lbl...: 400MHz 500MHz
   // ...
-  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*MHz\s*(\d+)\s*MHz)",
+  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*MHz\s*(\d+)\s*MHz\s*$)",
                          std::regex::icase);
   std::smatch result;
 
@@ -334,7 +335,7 @@ parseOverdriveVoltRangeLine(std::string const &line)
   // ...
   // Lbl...: 400mV 500mV
   // ...
-  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*mV\s*(\d+)\s*mV)",
+  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*mV\s*(\d+)\s*mV\s*$)",
                          std::regex::icase);
   std::smatch result;
 
@@ -383,7 +384,7 @@ parseOverdriveClksLine(std::string const &line)
   // ...
   // 0:    300MHz
   // ...
-  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*MHz)", std::regex::icase);
+  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*MHz\s*$)", std::regex::icase);
   std::smatch result;
 
   if (std::regex_search(line, result, regex)) {
