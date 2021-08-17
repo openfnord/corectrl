@@ -479,6 +479,21 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     }
   }
 
+  SECTION("getOverdriveClkControlCmdId")
+  {
+    SECTION("Returns 's' command id for SCLK control")
+    {
+      auto cmdId = ::Utils::AMD::getOverdriveClkControlCmdId("SCLK");
+      REQUIRE(cmdId == "s");
+    }
+
+    SECTION("Returns 'm' command id for MCLK control")
+    {
+      auto cmdId = ::Utils::AMD::getOverdriveClkControlCmdId("MCLK");
+      REQUIRE(cmdId == "m");
+    }
+  }
+
   SECTION("ppOdClkVoltageHasKnownQuirks")
   {
     SECTION("Empty file")

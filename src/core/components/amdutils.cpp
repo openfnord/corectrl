@@ -23,6 +23,7 @@
 #include <cstddef>
 #include <iterator>
 #include <regex>
+#include <unordered_map>
 
 namespace Utils {
 namespace AMD {
@@ -541,6 +542,18 @@ parseOverdriveClkControls(std::vector<std::string> const &ppOdClkVoltageLines)
 
   if (!controlNames.empty())
     return controlNames;
+
+  return {};
+}
+
+std::optional<std::string>
+getOverdriveClkControlCmdId(std::string_view controlName)
+{
+  static std::unordered_map<std::string_view, std::string> const nameCmdIdMap{
+      {"SCLK", "s"}, {"MCLK", "m"}};
+
+  if (nameCmdIdMap.count(controlName) > 0)
+    return nameCmdIdMap.at(controlName);
 
   return {};
 }
