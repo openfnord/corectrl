@@ -62,10 +62,7 @@ TEST_CASE("GPUInfoPMOverdrive tests",
 
   SECTION("Provides Curve capability")
   {
-    std::vector<std::string> ppOdClkVoltageData{"...\
-OD_VDDC_CURVE:\
-...\
-VDDC_CURVE_SCLK..."};
+    std::vector<std::string> ppOdClkVoltageData{"OD_VDDC_CURVE:"};
 
     ::AMD::GPUInfoPMOverdrive ts(std::make_unique<VectorStringPathDataSourceStub>(
         "pp_od_clk_voltage", std::move(ppOdClkVoltageData)));
@@ -78,11 +75,10 @@ VDDC_CURVE_SCLK..."};
 
   SECTION("Provides Fixed capability")
   {
-    std::vector<std::string> ppOdClkVoltageData{"...\
-OD_SCLK:\
-...\
-OD_RANGE:\
-..."};
+    // clang-format off
+    std::vector<std::string> ppOdClkVoltageData{"OD_SCLK:",
+                                                "0: 300MHz 800mV"};
+    // clang-format on
 
     ::AMD::GPUInfoPMOverdrive ts(std::make_unique<VectorStringPathDataSourceStub>(
         "pp_od_clk_voltage", std::move(ppOdClkVoltageData)));

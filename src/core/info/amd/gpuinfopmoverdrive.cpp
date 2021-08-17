@@ -18,6 +18,7 @@
 #include "gpuinfopmoverdrive.h"
 
 #include "common/fileutils.h"
+#include "core/components/amdutils.h"
 #include "core/idatasource.h"
 #include "core/info/infoproviderregistry.h"
 #include "easyloggingpp/easylogging++.h"
@@ -78,15 +79,11 @@ AMD::GPUInfoPMOverdrive::provideCapabilities(Vendor vendor, int,
     std::vector<std::string> data;
     if (dataSource_->read(data, path.sys)) {
 
-      auto curveIt = std::find_if(
-          data.cbegin(), data.cend(), [&](std::string const &line) {
-            return line.find("VDDC_CURVE") != std::string::npos;
-          });
-
-      if (curveIt != data.cend())
-        cap.emplace_back(GPUInfoPMOverdrive::Curve);
-      else
+      if (Utils::AMD::hasOverdriveClkVoltControl(data))
         cap.emplace_back(GPUInfoPMOverdrive::Fixed);
+
+      if (Utils::AMD::hasOverdriveVoltCurveControl(data))
+        cap.emplace_back(GPUInfoPMOverdrive::Curve);
     }
   }
 
