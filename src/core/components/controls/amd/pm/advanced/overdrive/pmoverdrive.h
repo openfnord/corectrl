@@ -33,6 +33,11 @@ class PMOverdrive : public ControlGroup
  public:
   static constexpr std::string_view ItemID{"AMD_PM_OVERDRIVE"};
 
+  // Legacy overdrive controls ItemIDs
+  static constexpr std::string_view LegacyFVStateItemID{"AMD_PM_FV_STATE"};
+  static constexpr std::string_view LegacyFVVoltCurveItemID{
+      "AMD_PM_FV_VOLTCURVE"};
+
   PMOverdrive(std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
               std::unique_ptr<IDataSource<std::vector<std::string>>>
                   &&ppOdClkVoltDataSource,
