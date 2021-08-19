@@ -48,7 +48,10 @@ class ControlGroupXMLParser
 
  protected:
   void resetAttributes() final override;
-  void loadPartFrom(pugi::xml_node const &parentNode) final override;
+  void loadPartFrom(pugi::xml_node const &parentNode) override;
+
+  void loadComponents(pugi::xml_node const &parentNode);
+  bool activeDefault() const;
 
  private:
   class Factory;

@@ -163,7 +163,7 @@ void ControlGroupXMLParser::appendTo(pugi::xml_node &parentNode)
 
 void ControlGroupXMLParser::resetAttributes()
 {
-  active_ = activeDefault_;
+  active_ = activeDefault();
 }
 
 void ControlGroupXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
@@ -171,8 +171,17 @@ void ControlGroupXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
   auto node = parentNode.find_child(
       [&](pugi::xml_node const &node) { return node.name() == id_; });
 
-  active_ = node.attribute("active").as_bool(activeDefault_);
+  active_ = node.attribute("active").as_bool(activeDefault());
+  loadComponents(node);
+}
 
+void ControlGroupXMLParser::loadComponents(pugi::xml_node const &parentNode)
+{
   for (auto &[key, component] : parsers_)
-    component->loadFrom(node);
+    component->loadFrom(parentNode);
+}
+
+bool ControlGroupXMLParser::activeDefault() const
+{
+  return activeDefault_;
 }
