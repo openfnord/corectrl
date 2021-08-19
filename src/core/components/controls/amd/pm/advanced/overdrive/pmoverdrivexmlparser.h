@@ -26,6 +26,9 @@ class PMOverdriveXMLParser final : public ControlGroupXMLParser
  public:
   PMOverdriveXMLParser() noexcept;
 
+ protected:
+  void loadPartFrom(pugi::xml_node const &parentNode) final override;
+
  private:
   static bool const registered_;
 };

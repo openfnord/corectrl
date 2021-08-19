@@ -26,6 +26,24 @@ AMD::PMOverdriveXMLParser::PMOverdriveXMLParser() noexcept
 {
 }
 
+void AMD::PMOverdriveXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
+{
+  auto node = parentNode.find_child([&](pugi::xml_node const &node) {
+    return node.name() == AMD::PMOverdrive::ItemID;
+  });
+
+  takeActive(node.attribute("active").as_bool(activeDefault()));
+
+  if (!node) {
+    // Legacy control settings section might be present in the profile.
+    // These section hangs from the parent node, so we must pass it
+    // to load the settings on each sub-component.
+    node = parentNode;
+  }
+
+  loadComponents(node);
+}
+
 bool const AMD::PMOverdriveXMLParser::registered_ =
     ProfilePartXMLParserProvider::registerProvider(
         AMD::PMOverdrive::ItemID,
