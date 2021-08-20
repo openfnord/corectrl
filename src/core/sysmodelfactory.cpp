@@ -38,6 +38,7 @@
 #include "isysexplorer.h"
 #include "sysmodel.h"
 #include <algorithm>
+#include <iterator>
 #include <memory>
 #include <optional>
 #include <string_view>
@@ -97,18 +98,18 @@ SysModelFactory::createCPU(std::unique_ptr<ICPUInfo> &&cpuInfo,
   std::vector<std::unique_ptr<IControl>> controls;
   auto &cpuControlProviders = cpuControlProvider_->cpuControlProviders();
   for (auto &provider : cpuControlProviders) {
-    auto control = provider->provideCPUControl(*cpuInfo, swInfo);
-    if (control != nullptr)
-      controls.emplace_back(std::move(control));
+    auto newControls = provider->provideCPUControls(*cpuInfo, swInfo);
+    controls.insert(controls.end(), std::make_move_iterator(newControls.begin()),
+                    std::make_move_iterator(newControls.end()));
   }
 
   // create CPU sensors
   std::vector<std::unique_ptr<ISensor>> sensors;
   auto &cpuSensorProviders = cpuSensorProvider_->cpuSensorProviders();
   for (auto &provider : cpuSensorProviders) {
-    auto sensor = provider->provideCPUSensor(*cpuInfo, swInfo);
-    if (sensor != nullptr)
-      sensors.emplace_back(std::move(sensor));
+    auto newSensors = provider->provideCPUSensors(*cpuInfo, swInfo);
+    sensors.insert(sensors.end(), std::make_move_iterator(newSensors.begin()),
+                   std::make_move_iterator(newSensors.end()));
   }
 
   return std::make_unique<CPU>(std::move(cpuInfo), std::move(controls),
@@ -147,18 +148,18 @@ SysModelFactory::createGPU(std::unique_ptr<IGPUInfo> &&gpuInfo,
   std::vector<std::unique_ptr<IControl>> controls;
   auto &gpuControlProviders = gpuControlProvider_->gpuControlProviders();
   for (auto &provider : gpuControlProviders) {
-    auto control = provider->provideGPUControl(*gpuInfo, swInfo);
-    if (control != nullptr)
-      controls.emplace_back(std::move(control));
+    auto newControls = provider->provideGPUControls(*gpuInfo, swInfo);
+    controls.insert(controls.end(), std::make_move_iterator(newControls.begin()),
+                    std::make_move_iterator(newControls.end()));
   }
 
   // create GPU sensors
   std::vector<std::unique_ptr<ISensor>> sensors;
   auto &gpuSensorProviders = gpuSensorProvider_->gpuSensorProviders();
   for (auto &provider : gpuSensorProviders) {
-    auto sensor = provider->provideGPUSensor(*gpuInfo, swInfo);
-    if (sensor != nullptr)
-      sensors.emplace_back(std::move(sensor));
+    auto newSensors = provider->provideGPUSensors(*gpuInfo, swInfo);
+    sensors.insert(sensors.end(), std::make_move_iterator(newSensors.begin()),
+                   std::make_move_iterator(newSensors.end()));
   }
 
   return std::make_unique<GPU>(std::move(gpuInfo), std::move(controls),

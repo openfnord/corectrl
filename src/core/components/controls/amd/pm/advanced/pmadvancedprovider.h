@@ -26,9 +26,9 @@ namespace AMD {
 class PMAdvancedProvider final : public IGPUControlProvider::IProvider
 {
  public:
-  std::unique_ptr<IControl>
-  provideGPUControl(IGPUInfo const &gpuInfo,
-                    ISWInfo const &swInfo) const override;
+  std::vector<std::unique_ptr<IControl>>
+  provideGPUControls(IGPUInfo const &gpuInfo,
+                     ISWInfo const &swInfo) const override;
 
   static bool
   registerProvider(std::unique_ptr<IGPUControlProvider::IProvider> &&provider);

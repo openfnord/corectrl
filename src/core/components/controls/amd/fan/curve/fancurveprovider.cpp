@@ -31,12 +31,12 @@
 #include <string>
 #include <tuple>
 
-namespace fs = std::filesystem;
-
-std::unique_ptr<IControl>
-AMD::FanCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                         ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::FanCurveProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                          ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -82,7 +82,8 @@ AMD::FanCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
               tempInputValue, tempInputLines.front());
 
           if (pwmEnableValid && pwmValid && tempInputValid) {
-            return std::make_unique<AMD::FanCurve>(
+
+            controls.emplace_back(std::make_unique<AMD::FanCurve>(
                 std::make_unique<SysFSDataSource<unsigned int>>(
                     pwmEnable,
                     [](std::string const &data, unsigned int &output) {
@@ -101,7 +102,7 @@ AMD::FanCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
                       output = value / 1000;
                     }),
                 units::temperature::celsius_t(0),
-                units::temperature::celsius_t(tempCritValue));
+                units::temperature::celsius_t(tempCritValue)));
           }
           else {
             if (!pwmEnableValid) {
@@ -127,7 +128,7 @@ AMD::FanCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::FanCurveProvider::registered_ =

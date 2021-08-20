@@ -22,15 +22,18 @@
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "pmoverclock.h"
+#include <iterator>
 #include <memory>
 #include <string>
 #include <tuple>
 #include <utility>
 
-std::unique_ptr<IControl>
-AMD::PMOverclockProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                            ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMOverclockProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                             ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -39,19 +42,21 @@ AMD::PMOverclockProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     if (driver == "amdgpu" && (kernel >= std::make_tuple(4, 8, 0) &&
                                kernel < std::make_tuple(4, 17, 0))) {
 
-      std::vector<std::unique_ptr<IControl>> controls;
+      std::vector<std::unique_ptr<IControl>> modeControls;
 
       for (auto &provider : providers_()) {
-        auto control = provider->provideGPUControl(gpuInfo, swInfo);
-        if (control != nullptr)
-          controls.emplace_back(std::move(control));
+        auto newControls = provider->provideGPUControls(gpuInfo, swInfo);
+        modeControls.insert(modeControls.end(),
+                            std::make_move_iterator(newControls.begin()),
+                            std::make_move_iterator(newControls.end()));
       }
-      if (!controls.empty())
-        return std::make_unique<PMOverclock>(std::move(controls));
+      if (!modeControls.empty())
+        controls.emplace_back(
+            std::make_unique<PMOverclock>(std::move(modeControls)));
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool AMD::PMOverclockProvider::registerProvider(

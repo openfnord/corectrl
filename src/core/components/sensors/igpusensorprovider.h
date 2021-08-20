@@ -32,10 +32,9 @@ class IGPUSensorProvider
   class IProvider
   {
    public:
-    /// @returns instance of Sensor specialization or nullptr when the
-    /// sensor is not supported
-    virtual std::unique_ptr<ISensor>
-    provideGPUSensor(IGPUInfo const &gpuInfo, ISWInfo const &swInfo) const = 0;
+    /// Returns a list with the GPU sensors supported by the provider.
+    virtual std::vector<std::unique_ptr<ISensor>>
+    provideGPUSensors(IGPUInfo const &gpuInfo, ISWInfo const &swInfo) const = 0;
 
     virtual ~IProvider() = default;
   };

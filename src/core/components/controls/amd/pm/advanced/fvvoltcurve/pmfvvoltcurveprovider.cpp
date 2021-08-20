@@ -34,17 +34,20 @@
 #include <tuple>
 #include <vector>
 
-std::unique_ptr<IControl>
-AMD::PMFVVoltCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                              ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMFVVoltCurveProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                               ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
     auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
 
-    if (driver == "amdgpu" && (kernel >= std::make_tuple(4, 18, 0) &&
-                               gpuInfo.hasCapability(GPUInfoPMOverdrive::VoltCurve))) {
+    if (driver == "amdgpu" &&
+        (kernel >= std::make_tuple(4, 18, 0) &&
+         gpuInfo.hasCapability(GPUInfoPMOverdrive::VoltCurve))) {
 
       auto perfLevel = gpuInfo.path().sys / "power_dpm_force_performance_level";
       auto ppOdClkVolt = gpuInfo.path().sys / "pp_od_clk_voltage";
@@ -65,10 +68,10 @@ AMD::PMFVVoltCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
 
         if (ppOdClkVoltValid) {
 
-          return std::make_unique<AMD::PMFVVoltCurve>(
+          controls.emplace_back(std::make_unique<AMD::PMFVVoltCurve>(
               std::make_unique<SysFSDataSource<std::string>>(perfLevel),
               std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                  ppOdClkVolt));
+                  ppOdClkVolt)));
         }
         else {
           LOG(WARNING) << fmt::format("Invalid data on {}", ppOdClkVolt.string());
@@ -79,7 +82,7 @@ AMD::PMFVVoltCurveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::PMFVVoltCurveProvider::registered_ =

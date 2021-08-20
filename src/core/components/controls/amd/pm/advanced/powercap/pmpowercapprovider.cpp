@@ -32,12 +32,12 @@
 #include <tuple>
 #include <vector>
 
-namespace fs = std::filesystem;
-
-std::unique_ptr<IControl>
-AMD::PMPowerCapProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                           ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMPowerCapProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                            ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -73,14 +73,14 @@ AMD::PMPowerCapProvider::provideGPUControl(IGPUInfo const &gpuInfo,
 
           if (valueValid && minValueValid && maxValueValid) {
 
-            return std::make_unique<AMD::PMPowerCap>(
+            controls.emplace_back(std::make_unique<AMD::PMPowerCap>(
                 std::make_unique<SysFSDataSource<unsigned long>>(
                     power1CapPath,
                     [](std::string const &data, unsigned long &output) {
                       Utils::String::toNumber<unsigned long>(output, data);
                     }),
                 units::power::microwatt_t(power1CapMinValue),
-                units::power::microwatt_t(power1CapMaxValue));
+                units::power::microwatt_t(power1CapMaxValue)));
           }
           else {
             if (!valueValid) {
@@ -106,7 +106,7 @@ AMD::PMPowerCapProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::PMPowerCapProvider::registered_ =

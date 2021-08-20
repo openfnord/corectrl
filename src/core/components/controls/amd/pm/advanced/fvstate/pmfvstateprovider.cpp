@@ -35,17 +35,20 @@
 #include <tuple>
 #include <vector>
 
-std::unique_ptr<IControl>
-AMD::PMFVStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                          ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMFVStateProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                           ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
     auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
 
-    if (driver == "amdgpu" && (kernel >= std::make_tuple(4, 18, 0) &&
-                               gpuInfo.hasCapability(GPUInfoPMOverdrive::ClkVolt))) {
+    if (driver == "amdgpu" &&
+        (kernel >= std::make_tuple(4, 18, 0) &&
+         gpuInfo.hasCapability(GPUInfoPMOverdrive::ClkVolt))) {
 
       auto perfLevel = gpuInfo.path().sys / "power_dpm_force_performance_level";
       auto ppOdClkVolt = gpuInfo.path().sys / "pp_od_clk_voltage";
@@ -77,7 +80,7 @@ AMD::PMFVStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,
 
         if (ppOdClkVoltValid && dpmSclkValid && dpmMclkValid) {
 
-          return std::make_unique<AMD::PMFVState>(
+          controls.emplace_back(std::make_unique<AMD::PMFVState>(
               std::make_unique<SysFSDataSource<std::string>>(perfLevel),
               std::make_unique<SysFSDataSource<std::vector<std::string>>>(
                   ppOdClkVolt),
@@ -86,7 +89,7 @@ AMD::PMFVStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,
                       dpmSclk)),
               std::make_unique<PpDpmHandler>(
                   std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                      dpmMclk)));
+                      dpmMclk))));
         }
         else {
           if (!ppOdClkVoltValid) {
@@ -114,7 +117,7 @@ AMD::PMFVStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::PMFVStateProvider::registered_ =

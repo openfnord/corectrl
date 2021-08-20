@@ -28,12 +28,12 @@
 #include <memory>
 #include <tuple>
 
-namespace fs = std::filesystem;
-
-std::unique_ptr<IControl>
-AMD::FanAutoProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                        ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::FanAutoProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                         ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -49,17 +49,17 @@ AMD::FanAutoProvider::provideGPUControl(IGPUInfo const &gpuInfo,
         auto pwmEnable = path.value() / "pwm1_enable";
         if (Utils::File::isSysFSEntryValid(pwmEnable)) {
 
-          return std::make_unique<AMD::FanAuto>(
+          controls.emplace_back(std::make_unique<AMD::FanAuto>(
               std::make_unique<SysFSDataSource<unsigned int>>(
                   pwmEnable, [](std::string const &data, unsigned int &output) {
                     Utils::String::toNumber<unsigned int>(output, data);
-                  }));
+                  })));
         }
       }
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::FanAutoProvider::registered_ =

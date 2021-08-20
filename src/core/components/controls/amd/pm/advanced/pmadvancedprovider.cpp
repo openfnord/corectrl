@@ -20,25 +20,30 @@
 #include "../pmperfmodeprovider.h"
 #include "core/info/igpuinfo.h"
 #include "pmadvanced.h"
+#include <iterator>
 #include <utility>
 
-std::unique_ptr<IControl>
-AMD::PMAdvancedProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                           ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMAdvancedProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                            ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
-    std::vector<std::unique_ptr<IControl>> controls;
+    std::vector<std::unique_ptr<IControl>> groupControls;
 
     for (auto &provider : providers_()) {
-      auto control = provider->provideGPUControl(gpuInfo, swInfo);
-      if (control != nullptr)
-        controls.emplace_back(std::move(control));
+      auto newControls = provider->provideGPUControls(gpuInfo, swInfo);
+      groupControls.insert(groupControls.end(),
+                           std::make_move_iterator(newControls.begin()),
+                           std::make_move_iterator(newControls.end()));
     }
-    if (!controls.empty())
-      return std::make_unique<PMAdvanced>(std::move(controls));
+    if (!groupControls.empty())
+      controls.emplace_back(
+          std::make_unique<PMAdvanced>(std::move(groupControls)));
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool AMD::PMAdvancedProvider::registerProvider(

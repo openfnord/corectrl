@@ -24,9 +24,9 @@ namespace AMD {
 class PMPowerStateProvider final : public IGPUControlProvider::IProvider
 {
  public:
-  std::unique_ptr<IControl>
-  provideGPUControl(IGPUInfo const &gpuInfo,
-                    ISWInfo const &swInfo) const override;
+  std::vector<std::unique_ptr<IControl>>
+  provideGPUControls(IGPUInfo const &gpuInfo,
+                     ISWInfo const &swInfo) const override;
 
  private:
   static bool const registered_;

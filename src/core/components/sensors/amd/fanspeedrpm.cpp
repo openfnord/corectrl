@@ -57,9 +57,11 @@ namespace FanSpeedRPM {
 class Provider final : public IGPUSensorProvider::IProvider
 {
  public:
-  std::unique_ptr<ISensor> provideGPUSensor(IGPUInfo const &gpuInfo,
-                                            ISWInfo const &swInfo) const override
+  std::vector<std::unique_ptr<ISensor>>
+  provideGPUSensors(IGPUInfo const &gpuInfo, ISWInfo const &swInfo) const override
   {
+    std::vector<std::unique_ptr<ISensor>> sensors;
+
     if (gpuInfo.vendor() == Vendor::AMD) {
 
       auto path =
@@ -126,12 +128,14 @@ class Provider final : public IGPUSensorProvider::IProvider
                           Utils::String::toNumber<unsigned int>(output, data);
                         }));
 
-                return std::make_unique<Sensor<
-                    units::angular_velocity::revolutions_per_minute_t, unsigned int>>(
-                    AMD::FanSpeedRPM::ItemID, std::move(dataSources),
-                    std::move(range), [](std::vector<unsigned int> const &input) {
-                      return input[1] > 0 ? input[0] : 0;
-                    });
+                sensors.emplace_back(
+                    std::make_unique<Sensor<units::angular_velocity::revolutions_per_minute_t,
+                                            unsigned int>>(
+                        AMD::FanSpeedRPM::ItemID, std::move(dataSources),
+                        std::move(range),
+                        [](std::vector<unsigned int> const &input) {
+                          return input[1] > 0 ? input[0] : 0;
+                        }));
               }
               else {
                 LOG(WARNING)
@@ -149,7 +153,7 @@ class Provider final : public IGPUSensorProvider::IProvider
       }
     }
 
-    return nullptr;
+    return sensors;
   }
 };
 

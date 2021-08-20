@@ -32,10 +32,9 @@ class ICPUSensorProvider
   class IProvider
   {
    public:
-    /// @returns instance of Sensor specialization or nullptr when the
-    /// sensor is not supported
-    virtual std::unique_ptr<ISensor>
-    provideCPUSensor(ICPUInfo const &cpuInfo, ISWInfo const &swInfo) const = 0;
+    /// Returns a list with the CPU sensors supported by the provider.
+    virtual std::vector<std::unique_ptr<ISensor>>
+    provideCPUSensors(ICPUInfo const &cpuInfo, ISWInfo const &swInfo) const = 0;
 
     virtual ~IProvider() = default;
   };

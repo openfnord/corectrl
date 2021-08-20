@@ -31,12 +31,12 @@
 #include <string>
 #include <tuple>
 
-namespace fs = std::filesystem;
-
-std::unique_ptr<IControl>
-AMD::FanFixedProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                         ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::FanFixedProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                          ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -66,7 +66,7 @@ AMD::FanFixedProvider::provideGPUControl(IGPUInfo const &gpuInfo,
 
           if (pwmEnableValid && pwmValid) {
 
-            return std::make_unique<AMD::FanFixed>(
+            controls.emplace_back(std::make_unique<AMD::FanFixed>(
                 std::make_unique<SysFSDataSource<unsigned int>>(
                     pwmEnable,
                     [](std::string const &data, unsigned int &output) {
@@ -75,7 +75,7 @@ AMD::FanFixedProvider::provideGPUControl(IGPUInfo const &gpuInfo,
                 std::make_unique<SysFSDataSource<unsigned int>>(
                     pwm, [](std::string const &data, unsigned int &output) {
                       Utils::String::toNumber<unsigned int>(output, data);
-                    }));
+                    })));
           }
           else {
             if (!pwmEnableValid) {
@@ -95,7 +95,7 @@ AMD::FanFixedProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::FanFixedProvider::registered_ =

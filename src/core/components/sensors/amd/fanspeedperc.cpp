@@ -57,9 +57,11 @@ namespace FanSpeedPerc {
 class Provider final : public IGPUSensorProvider::IProvider
 {
  public:
-  std::unique_ptr<ISensor> provideGPUSensor(IGPUInfo const &gpuInfo,
-                                            ISWInfo const &) const override
+  std::vector<std::unique_ptr<ISensor>>
+  provideGPUSensors(IGPUInfo const &gpuInfo, ISWInfo const &) const override
   {
+    std::vector<std::unique_ptr<ISensor>> sensors;
+
     if (gpuInfo.vendor() == Vendor::AMD) {
 
       auto path =
@@ -88,11 +90,12 @@ class Provider final : public IGPUSensorProvider::IProvider
                         output = value / 2.55;
                       }));
 
-              return std::make_unique<
-                  Sensor<units::dimensionless::scalar_t, unsigned int>>(
-                  AMD::FanSpeedPerc::ItemID, std::move(dataSources),
-                  std::make_pair(units::dimensionless::scalar_t(0),
-                                 units::dimensionless::scalar_t(100)));
+              sensors.emplace_back(
+                  std::make_unique<
+                      Sensor<units::dimensionless::scalar_t, unsigned int>>(
+                      AMD::FanSpeedPerc::ItemID, std::move(dataSources),
+                      std::make_pair(units::dimensionless::scalar_t(0),
+                                     units::dimensionless::scalar_t(100))));
             }
           }
           else {
@@ -104,7 +107,7 @@ class Provider final : public IGPUSensorProvider::IProvider
       }
     }
 
-    return nullptr;
+    return sensors;
   }
 };
 

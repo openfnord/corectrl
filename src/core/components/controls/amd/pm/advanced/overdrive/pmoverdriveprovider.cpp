@@ -27,13 +27,16 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include "pmoverdrive.h"
+#include <filesystem>
+#include <iterator>
 #include <tuple>
 #include <utility>
 
-std::unique_ptr<IControl>
-AMD::PMOverdriveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                            ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMOverdriveProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                             ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
 
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
@@ -50,18 +53,19 @@ AMD::PMOverdriveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
         auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
         if (!Utils::AMD::ppOdClkVoltageHasKnownQuirks(ppOdClkVoltLines)) {
 
-          std::vector<std::unique_ptr<IControl>> controls;
+          std::vector<std::unique_ptr<IControl>> groupControls;
           for (auto &provider : providers_()) {
-            auto control = provider->provideGPUControl(gpuInfo, swInfo);
-            if (control != nullptr)
-              controls.emplace_back(std::move(control));
+            auto newControls = provider->provideGPUControls(gpuInfo, swInfo);
+            groupControls.insert(groupControls.end(),
+                                 std::make_move_iterator(newControls.begin()),
+                                 std::make_move_iterator(newControls.end()));
           }
-          if (!controls.empty())
-            return std::make_unique<PMOverdrive>(
+          if (!groupControls.empty())
+            controls.emplace_back(std::make_unique<PMOverdrive>(
                 std::make_unique<SysFSDataSource<std::string>>(perfLevel),
                 std::make_unique<SysFSDataSource<std::vector<std::string>>>(
                     ppOdClkVolt),
-                std::move(controls));
+                std::move(groupControls)));
         }
         else {
           LOG(WARNING) << fmt::format("Unknown data format on {}",
@@ -73,7 +77,7 @@ AMD::PMOverdriveProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool AMD::PMOverdriveProvider::registerProvider(
