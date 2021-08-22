@@ -37,11 +37,12 @@ AMD_PM_OVERDRIVE {
 
       property var childrenAdded: []
       onChildrenChanged: {
-        for (var i = 0; i < children.length; ++i)
-          if (childrenAdded[children[i].objectName] === undefined) {
-            childrenAdded[children[i].objectName] = children[i]
+        for (var i = 0; i < children.length; ++i) {
+          if (childrenAdded[children[i]] === undefined) {
+            childrenAdded[children[i]] = children[i]
             pmOverdrive.setupChild(children[i])
           }
+        }
       }
     }
   }
