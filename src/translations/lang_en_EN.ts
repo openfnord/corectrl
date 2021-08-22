@@ -20,6 +20,19 @@
     </message>
 </context>
 <context>
+    <name>AMD::PMFreqRangeQMLItem</name>
+    <message>
+        <location filename="../core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrangeqmlitem.cpp" line="34"/>
+        <source>SCLK</source>
+        <translation>GPU</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrangeqmlitem.cpp" line="35"/>
+        <source>MCLK</source>
+        <translation>Memory</translation>
+    </message>
+</context>
+<context>
     <name>AMD::PMPowerProfileQMLItem</name>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="30"/>
