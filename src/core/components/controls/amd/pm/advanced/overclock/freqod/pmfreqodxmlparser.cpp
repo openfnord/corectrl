@@ -60,8 +60,7 @@ void AMD::PMFreqOdXMLParser::Initializer::takePMFreqOdMclkOd(unsigned int value)
 }
 
 AMD::PMFreqOdXMLParser::PMFreqOdXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::PMFreqOd::ItemID)
+: ProfilePartXMLParser(AMD::PMFreqOd::ItemID, *this, *this)
 {
 }
 
@@ -120,7 +119,7 @@ void AMD::PMFreqOdXMLParser::takePMFreqOdMclkOd(unsigned int value)
 
 void AMD::PMFreqOdXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFrequencyNode = parentNode.append_child(id_.c_str());
+  auto pmFrequencyNode = parentNode.append_child(ID().c_str());
   pmFrequencyNode.append_attribute("active") = active_;
   pmFrequencyNode.append_attribute("sclkOd") = sclkOd_;
   pmFrequencyNode.append_attribute("mclkOd") = mclkOd_;
@@ -136,7 +135,7 @@ void AMD::PMFreqOdXMLParser::resetAttributes()
 void AMD::PMFreqOdXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFrequencyNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFrequencyNode.attribute("active").as_bool(activeDefault_);
   sclkOd_ = pmFrequencyNode.attribute("sclkOd").as_uint(sclkOdDefault_);

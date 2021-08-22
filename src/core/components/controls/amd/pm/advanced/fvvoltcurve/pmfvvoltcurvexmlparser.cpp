@@ -84,8 +84,7 @@ void AMD::PMFVVoltCurveXMLParser::Initializer::takePMFVVoltCurveMemStates(
 }
 
 AMD::PMFVVoltCurveXMLParser::PMFVVoltCurveXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::PMFVVoltCurve::ItemID)
+: ProfilePartXMLParser(AMD::PMFVVoltCurve::ItemID, *this, *this)
 {
 }
 
@@ -186,7 +185,7 @@ AMD::PMFVVoltCurveXMLParser::providePMFVVoltCurveMemState(unsigned int index) co
 
 void AMD::PMFVVoltCurveXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFVVoltCurveNode = parentNode.append_child(id_.c_str());
+  auto pmFVVoltCurveNode = parentNode.append_child(ID().c_str());
 
   pmFVVoltCurveNode.append_attribute("active") = active_;
   pmFVVoltCurveNode.append_attribute("voltMode") = voltMode_.data();
@@ -208,7 +207,7 @@ void AMD::PMFVVoltCurveXMLParser::resetAttributes()
 void AMD::PMFVVoltCurveXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFVVoltCurveNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFVVoltCurveNode.attribute("active").as_bool(activeDefault_);
   voltMode_ =

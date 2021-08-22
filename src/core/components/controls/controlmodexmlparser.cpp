@@ -59,7 +59,7 @@ void ControlModeXMLParser::Factory::takePartParser(
 std::optional<std::reference_wrapper<Exportable::Exporter>>
 ControlModeXMLParser::Factory::provideExporter(Item const &i)
 {
-  if (i.ID() == outer_.id_)
+  if (i.ID() == outer_.ID())
     return *this;
   else
     return factory(i);
@@ -115,8 +115,7 @@ void ControlModeXMLParser::Initializer::takeMode(std::string const &mode)
 }
 
 ControlModeXMLParser::ControlModeXMLParser(std::string_view id) noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(id)
+: ProfilePartXMLParser(id, *this, *this)
 {
 }
 
@@ -174,7 +173,7 @@ std::string const &ControlModeXMLParser::provideMode() const
 
 void ControlModeXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto node = parentNode.append_child(id_.c_str());
+  auto node = parentNode.append_child(ID().c_str());
   node.append_attribute("active") = active_;
   node.append_attribute("mode") = mode_.c_str();
 
@@ -191,7 +190,7 @@ void ControlModeXMLParser::resetAttributes()
 void ControlModeXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto node = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = node.attribute("active").as_bool(activeDefault_);
   mode_ = node.attribute("mode").as_string(modeDefault_.c_str());

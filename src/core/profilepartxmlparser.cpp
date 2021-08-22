@@ -21,11 +21,18 @@
 #include "item.h"
 #include <utility>
 
-ProfilePartXMLParser::ProfilePartXMLParser(Importable::Importer &importer,
+ProfilePartXMLParser::ProfilePartXMLParser(std::string_view id,
+                                           Importable::Importer &importer,
                                            Exportable::Exporter &exporter) noexcept
-: importer_(importer)
+: id_(id)
+, importer_(importer)
 , exporter_(exporter)
 {
+}
+
+std::string const &ProfilePartXMLParser::ID() const
+{
+  return id_;
 }
 
 void ProfilePartXMLParser::loadFrom(pugi::xml_node const &parentNode)

@@ -55,10 +55,7 @@ void ControlGroupXMLParser::Factory::takePartParser(
 std::optional<std::reference_wrapper<Exportable::Exporter>>
 ControlGroupXMLParser::Factory::provideExporter(Item const &i)
 {
-  if (i.ID() == outer_.id_)
-    return *this;
-  else
-    return factory(i);
+  return factory(i);
 }
 
 class ControlGroupXMLParser::Initializer final
@@ -105,8 +102,7 @@ void ControlGroupXMLParser::Initializer::takeActive(bool active)
 }
 
 ControlGroupXMLParser::ControlGroupXMLParser(std::string_view id) noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(id)
+: ProfilePartXMLParser(id, *this, *this)
 {
 }
 
@@ -154,7 +150,7 @@ bool ControlGroupXMLParser::provideActive() const
 
 void ControlGroupXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto node = parentNode.append_child(id_.c_str());
+  auto node = parentNode.append_child(ID().c_str());
   node.append_attribute("active") = active_;
 
   for (auto &[key, component] : parsers_)
@@ -169,7 +165,7 @@ void ControlGroupXMLParser::resetAttributes()
 void ControlGroupXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto node = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = node.attribute("active").as_bool(activeDefault());
   loadComponents(node);

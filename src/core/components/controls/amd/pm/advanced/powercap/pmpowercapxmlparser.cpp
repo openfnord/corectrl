@@ -55,8 +55,7 @@ void AMD::PMPowerCapXMLParser::Initializer::takePMPowerCapValue(
 }
 
 AMD::PMPowerCapXMLParser::PMPowerCapXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::PMPowerCap::ItemID)
+: ProfilePartXMLParser(AMD::PMPowerCap::ItemID, *this, *this)
 {
 }
 
@@ -105,7 +104,7 @@ units::power::watt_t AMD::PMPowerCapXMLParser::providePMPowerCapValue() const
 
 void AMD::PMPowerCapXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFixedNode = parentNode.append_child(id_.c_str());
+  auto pmFixedNode = parentNode.append_child(ID().c_str());
   pmFixedNode.append_attribute("active") = active_;
   pmFixedNode.append_attribute("value") = value_.to<unsigned int>();
 }
@@ -119,7 +118,7 @@ void AMD::PMPowerCapXMLParser::resetAttributes()
 void AMD::PMPowerCapXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFixedNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFixedNode.attribute("active").as_bool(activeDefault_);
   value_ = units::power::watt_t(

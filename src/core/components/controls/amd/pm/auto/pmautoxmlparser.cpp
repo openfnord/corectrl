@@ -48,8 +48,7 @@ void AMD::PMAutoXMLParser::Initializer::takeActive(bool active)
 }
 
 AMD::PMAutoXMLParser::PMAutoXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::PMAuto::ItemID)
+: ProfilePartXMLParser(AMD::PMAuto::ItemID, *this, *this)
 {
 }
 
@@ -88,7 +87,7 @@ bool AMD::PMAutoXMLParser::provideActive() const
 
 void AMD::PMAutoXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFixedNode = parentNode.append_child(id_.c_str());
+  auto pmFixedNode = parentNode.append_child(ID().c_str());
   pmFixedNode.append_attribute("active") = active_;
 }
 
@@ -100,7 +99,7 @@ void AMD::PMAutoXMLParser::resetAttributes()
 void AMD::PMAutoXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFixedNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFixedNode.attribute("active").as_bool(activeDefault_);
 }

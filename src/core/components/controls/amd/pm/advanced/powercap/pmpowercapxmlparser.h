@@ -55,8 +55,6 @@ class PMPowerCapXMLParser final
  private:
   class Initializer;
 
-  std::string const id_;
-
   bool active_;
   bool activeDefault_;
 

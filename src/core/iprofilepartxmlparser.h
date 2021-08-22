@@ -19,12 +19,13 @@
 
 #include "exportable.h"
 #include "importable.h"
+#include "item.h"
 #include "pugixml/pugixml.hpp"
 #include <memory>
 
 class IProfilePartXMLParserProvider;
 
-class IProfilePartXMLParser
+class IProfilePartXMLParser : public Item
 {
  public:
   virtual std::unique_ptr<Exportable::Exporter>

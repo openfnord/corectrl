@@ -136,8 +136,7 @@ void GPUXMLParser::Initializer::takeRevision(std::string const &revision)
 }
 
 GPUXMLParser::GPUXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(IGPU::ItemID)
+: ProfilePartXMLParser(IGPU::ItemID, *this, *this)
 {
 }
 
@@ -215,7 +214,7 @@ std::string const &GPUXMLParser::provideRevision() const
 
 void GPUXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto gpuNode = parentNode.append_child(id_.c_str());
+  auto gpuNode = parentNode.append_child(ID().c_str());
   gpuNode.append_attribute("active") = active_;
   gpuNode.append_attribute("index") = index_;
   gpuNode.append_attribute("deviceid") = deviceID_.c_str();
@@ -237,7 +236,7 @@ void GPUXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto gpuNode = parentNode.find_child([&](pugi::xml_node const &node) {
     // match gpu node
-    if (node.name() != id_)
+    if (node.name() != ID())
       return false;
 
     // match specific gpu

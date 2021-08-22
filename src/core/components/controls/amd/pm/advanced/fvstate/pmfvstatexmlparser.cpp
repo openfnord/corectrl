@@ -99,8 +99,7 @@ void AMD::PMFVStateXMLParser::Initializer::takePMFVStateMemActiveStates(
 }
 
 AMD::PMFVStateXMLParser::PMFVStateXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::PMFVState::ItemID)
+: ProfilePartXMLParser(AMD::PMFVState::ItemID, *this, *this)
 {
 }
 
@@ -223,7 +222,7 @@ AMD::PMFVStateXMLParser::providePMFVStateMemActiveStates() const
 
 void AMD::PMFVStateXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFVStateNode = parentNode.append_child(id_.c_str());
+  auto pmFVStateNode = parentNode.append_child(ID().c_str());
 
   pmFVStateNode.append_attribute("active") = active_;
   saveStates(pmFVStateNode, GPUStateNodeId, gpuVoltMode_, gpuStates_,
@@ -246,7 +245,7 @@ void AMD::PMFVStateXMLParser::resetAttributes()
 void AMD::PMFVStateXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFVStateNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFVStateNode.attribute("active").as_bool(activeDefault_);
   loadStates(pmFVStateNode, GPUStateNodeId, gpuVoltMode_, gpuVoltModeDefault_,
