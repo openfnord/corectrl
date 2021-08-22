@@ -22,7 +22,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
-#include <unordered_map>
+#include <vector>
 
 class ControlGroupXMLParser
 : public ProfilePartXMLParser
@@ -57,7 +57,7 @@ class ControlGroupXMLParser
   class Factory;
   class Initializer;
 
-  std::unordered_map<std::string, std::unique_ptr<IProfilePartXMLParser>> parsers_;
+  std::vector<std::unique_ptr<IProfilePartXMLParser>> parsers_;
 
   bool active_;
   bool activeDefault_;

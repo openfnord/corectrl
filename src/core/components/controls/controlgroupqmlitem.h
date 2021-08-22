@@ -22,6 +22,8 @@
 #include <QObject>
 #include <string_view>
 
+class QQuickItem;
+
 class ControlGroupQMLItem
 : public QMLItem
 , public ControlGroupProfilePart::Importer
@@ -49,6 +51,8 @@ class ControlGroupQMLItem
 
  private:
   class Initializer;
+
+  QQuickItem *findQQuickItem(Item const &i) const;
 
   bool active_;
 };
