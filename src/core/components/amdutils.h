@@ -139,8 +139,9 @@ parseOverdriveVoltCurve(std::vector<std::string> const &ppOdClkVoltageLines);
 
 /// Returns voltage range of curve points for curve voltage ASICs. (4.20+, vega20+)
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
-std::optional<
-    std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
+std::optional<std::vector<std::pair<
+    std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>,
+    std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>>
 parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines);
 
 /// Returns a list containing the name of the available CLK controls.

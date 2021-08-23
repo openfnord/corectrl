@@ -415,39 +415,70 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
   {
     // clang-format off
     std::vector<std::string> input{"OD_RANGE:",
+                                   "...",
                                    "VDDC_CURVE_SCLK[0]: 800Mhz 2000Mhz",
                                    "VDDC_CURVE_VOLT[0]: 700mV 1200mV",
-                                   "VDDC_CURVE_SCLK[1]: 800Mhz 2000Mhz",
+                                   "VDDC_CURVE_SCLK[1]: 810Mhz 2100Mhz",
                                    "VDDC_CURVE_VOLT[1]: 800mV 1300mV"};
     // clang-format on
 
-    SECTION("Returns curve points voltage")
+    SECTION("Returns curve points")
     {
       auto values = ::Utils::AMD::parseOverdriveVoltCurveRange(input);
       REQUIRE(values.has_value());
       REQUIRE(values->size() == 2);
 
-      auto &[p0min, p0max] = values->at(0);
-      REQUIRE(p0min == units::voltage::millivolt_t(700));
-      REQUIRE(p0max == units::voltage::millivolt_t(1200));
+      auto &[p0freq, p0volt] = values->at(0);
+      auto &[p0fmin, p0fmax] = p0freq;
+      REQUIRE(p0fmin == units::frequency::megahertz_t(800));
+      REQUIRE(p0fmax == units::frequency::megahertz_t(2000));
+      auto &[p0vmin, p0vmax] = p0volt;
+      REQUIRE(p0vmin == units::voltage::millivolt_t(700));
+      REQUIRE(p0vmax == units::voltage::millivolt_t(1200));
 
-      auto &[p1min, p1max] = values->at(1);
-      REQUIRE(p1min == units::voltage::millivolt_t(800));
-      REQUIRE(p1max == units::voltage::millivolt_t(1300));
+      auto &[p1freq, p1volt] = values->at(1);
+      auto &[p1fmin, p1fmax] = p1freq;
+      REQUIRE(p1fmin == units::frequency::megahertz_t(810));
+      REQUIRE(p1fmax == units::frequency::megahertz_t(2100));
+      auto &[p1vmin, p1vmax] = p1volt;
+      REQUIRE(p1vmin == units::voltage::millivolt_t(800));
+      REQUIRE(p1vmax == units::voltage::millivolt_t(1300));
     }
 
-    SECTION("Returns nothing when there is no OD_RANGE in input")
+    SECTION("Returns nothing...")
+    {
+      SECTION("When input has no OD_RANGE")
+      {
+        std::vector<std::string> input{"OTHER:"};
+
+        auto empty = ::Utils::AMD::parseOverdriveVoltRange(input);
+        REQUIRE_FALSE(empty.has_value());
+      }
+
+      SECTION("When input has no point's range")
+      {
+        std::vector<std::string> input{"OD_RANGE:"};
+
+        auto empty = ::Utils::AMD::parseOverdriveVoltRange(input);
+        REQUIRE_FALSE(empty.has_value());
+      }
+    }
+
+    SECTION("When input has missing data at least one point")
     {
       // clang-format off
-      std::vector<std::string> input{"OTHER:",
-                                     "VDDC_CURVE_SCLK[0]: 800Mhz 2000Mhz",
-                                     "VDDC_CURVE_VOLT[0]: 700mV 1200mV",
-                                     "VDDC_CURVE_SCLK[1]: 800Mhz 2000Mhz",
-                                     "VDDC_CURVE_VOLT[1]: 800mV 1300mV"};
+        std::vector<std::string> missingFreqInput{"OD_RANGE:",
+                                                  "...",
+                                                  "VDDC_CURVE_VOLT[0]: 700mV 1200mV"};
+        std::vector<std::string> missingVoltInput{"OD_RANGE:",
+                                                  "...",
+                                                  "VDDC_CURVE_SCLK[0]: 800Mhz 2000Mhz"};
       // clang-format on
 
-      auto empty = ::Utils::AMD::parseOverdriveVoltRange(input);
-      REQUIRE_FALSE(empty.has_value());
+      auto empty0 = ::Utils::AMD::parseOverdriveVoltRange(missingFreqInput);
+      REQUIRE_FALSE(empty0.has_value());
+      auto empty1 = ::Utils::AMD::parseOverdriveVoltRange(missingVoltInput);
+      REQUIRE_FALSE(empty1.has_value());
     }
   }
 

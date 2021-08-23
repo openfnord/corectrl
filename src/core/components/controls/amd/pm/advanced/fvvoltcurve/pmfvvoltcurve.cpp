@@ -85,13 +85,8 @@ void AMD::PMFVVoltCurve::init()
         Utils::AMD::parseOverdriveClkRange("SCLK", ppOdClkVoltLines_).value();
     memRange_ =
         Utils::AMD::parseOverdriveClkRange("MCLK", ppOdClkVoltLines_).value();
-
-    auto voltageRange =
-        Utils::AMD::parseOverdriveVoltCurveRange(ppOdClkVoltLines_);
-    voltRange_.reserve(voltageRange->size());
-    for (auto &vRange : voltageRange.value())
-      // NOTE vega20+ uses gpu clock range as clock range for every point
-      voltRange_.emplace_back(std::make_pair(gpuRange_, vRange));
+    voltRange_ =
+        Utils::AMD::parseOverdriveVoltCurveRange(ppOdClkVoltLines_).value();
 
     auto gpuStates = Utils::AMD::parseOverdriveClks("SCLK", ppOdClkVoltLines_);
     auto [gpuMin, gpuMax] = gpuRange_;

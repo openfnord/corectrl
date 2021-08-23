@@ -24,6 +24,7 @@
 #include <iterator>
 #include <regex>
 #include <unordered_map>
+#include <utility>
 
 namespace Utils {
 namespace AMD {
@@ -482,16 +483,19 @@ parseOverdriveVoltCurve(std::vector<std::string> const &ppOdClkVoltageLines)
   return {};
 }
 
-std::optional<
-    std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
+std::optional<std::vector<std::pair<
+    std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>,
+    std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>>
 parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.20+):
   // ...
   // OD_RANGE:
   // ...
+  // VDDC_CURVE_SCLK[0]: 808Mhz 2200Mhz
   // VDDC_CURVE_VOLT[0]: 738mV 1218mV
   // ...
+  // VDDC_CURVE_SCLK[N]: 808Mhz 2200Mhz
   // VDDC_CURVE_VOLT[N]: 738mV 1218mV
   // ...
   auto rangeIt = std::find_if(
@@ -501,26 +505,43 @@ parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines
       });
   if (rangeIt != ppOdClkVoltageLines.cend()) {
 
-    std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>
+    std::vector<std::pair<
+        std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>,
+        std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
         ranges;
 
-    auto targetIt = std::next(rangeIt);
-    while (targetIt != ppOdClkVoltageLines.cend()) {
-      targetIt = std::find_if(
-          targetIt, ppOdClkVoltageLines.cend(), [&](std::string const &line) {
-            return line.find("VDDC_CURVE_VOLT[") != std::string::npos;
-          });
+    auto freqIt = std::next(rangeIt);
 
-      if (targetIt != ppOdClkVoltageLines.cend()) {
-        auto lineRange = parseOverdriveVoltRangeLine(*targetIt);
-        if (lineRange.has_value())
-          ranges.emplace_back(std::move(*lineRange));
+    // skip lines not starting with VDDC_CURVE_
+    freqIt = std::find_if(
+        freqIt, ppOdClkVoltageLines.cend(), [&](std::string const &line) {
+          return line.find("VDDC_CURVE_") != std::string::npos;
+        });
+
+    while (freqIt != ppOdClkVoltageLines.cend() &&
+           (*freqIt).find("VDDC_CURVE_SCLK[") != std::string::npos) {
+
+      auto voltIt = std::next(freqIt);
+      if (voltIt != ppOdClkVoltageLines.cend() &&
+          (*voltIt).find("VDDC_CURVE_VOLT[") != std::string::npos) {
+
+        auto freqRange = parseOverdriveClkRange(*freqIt);
+        auto voltRange = parseOverdriveVoltRangeLine(*voltIt);
+
+        if (freqRange.has_value() && voltRange.has_value())
+          ranges.emplace_back(
+              std::make_pair(std::move(*freqRange), std::move(*voltRange)));
+        else
+          return {}; // invalid data format
       }
+      else
+        return {}; // invalid data format
 
-      targetIt = std::next(targetIt);
+      freqIt = std::next(voltIt);
     }
 
-    return std::move(ranges);
+    if (!ranges.empty())
+      return std::move(ranges);
   }
 
   return {};
