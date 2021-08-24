@@ -216,6 +216,20 @@
     </message>
 </context>
 <context>
+    <name>AMDPMVoltCurveForm</name>
+    <message>
+        <location filename="../qml/AMDPMVoltCurveForm.qml" line="34"/>
+        <source>Frequency</source>
+        <translation>Frequència</translation>
+    </message>
+    <message>
+        <location filename="../qml/AMDPMVoltCurveForm.qml" line="35"/>
+        <location filename="../qml/AMDPMVoltCurveForm.qml" line="63"/>
+        <source>Voltage</source>
+        <translation>Voltatge</translation>
+    </message>
+</context>
+<context>
     <name>About</name>
     <message>
         <location filename="../qml/About.qml" line="53"/>
