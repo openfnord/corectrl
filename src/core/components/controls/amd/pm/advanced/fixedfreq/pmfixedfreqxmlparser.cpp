@@ -62,8 +62,7 @@ void AMD::PMFixedFreqXMLParser::Initializer::takePMFixedFreqMclkIndex(
 }
 
 AMD::PMFixedFreqXMLParser::PMFixedFreqXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::PMFixedFreq::ItemID)
+: ProfilePartXMLParser(AMD::PMFixedFreq::ItemID, *this, *this)
 {
 }
 
@@ -122,7 +121,7 @@ unsigned int AMD::PMFixedFreqXMLParser::providePMFixedFreqMclkIndex() const
 
 void AMD::PMFixedFreqXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFrequencyNode = parentNode.append_child(id_.c_str());
+  auto pmFrequencyNode = parentNode.append_child(ID().c_str());
   pmFrequencyNode.append_attribute("active") = active_;
   pmFrequencyNode.append_attribute("sclkState") = sclkIndex_;
   pmFrequencyNode.append_attribute("mclkState") = mclkIndex_;
@@ -138,7 +137,7 @@ void AMD::PMFixedFreqXMLParser::resetAttributes()
 void AMD::PMFixedFreqXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFrequencyNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFrequencyNode.attribute("active").as_bool(activeDefault_);
   sclkIndex_ = pmFrequencyNode.attribute("sclkState").as_uint(sclkIndexDefault_);

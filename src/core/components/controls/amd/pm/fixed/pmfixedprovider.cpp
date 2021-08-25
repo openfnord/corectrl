@@ -30,10 +30,12 @@
 #include <string>
 #include <tuple>
 
-std::unique_ptr<IControl>
-AMD::PMFixedProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                        ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMFixedProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                         ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -46,9 +48,9 @@ AMD::PMFixedProvider::provideGPUControl(IGPUInfo const &gpuInfo,
       if (Utils::File::isSysFSEntryValid(powerMethod) &&
           Utils::File::isSysFSEntryValid(powerProfile)) {
 
-        return std::make_unique<AMD::PMFixedLegacy>(
+        controls.emplace_back(std::make_unique<AMD::PMFixedLegacy>(
             std::make_unique<SysFSDataSource<std::string>>(powerMethod),
-            std::make_unique<SysFSDataSource<std::string>>(powerProfile));
+            std::make_unique<SysFSDataSource<std::string>>(powerProfile)));
       }
     }
     else if ((gpuInfo.hasCapability(GPUInfoPM::Radeon) &&
@@ -59,13 +61,13 @@ AMD::PMFixedProvider::provideGPUControl(IGPUInfo const &gpuInfo,
       auto perfLevel = gpuInfo.path().sys / "power_dpm_force_performance_level";
       if (Utils::File::isSysFSEntryValid(perfLevel)) {
 
-        return std::make_unique<AMD::PMFixedR600>(
-            std::make_unique<SysFSDataSource<std::string>>(perfLevel));
+        controls.emplace_back(std::make_unique<AMD::PMFixedR600>(
+            std::make_unique<SysFSDataSource<std::string>>(perfLevel)));
       }
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::PMFixedProvider::registered_ =

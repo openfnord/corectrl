@@ -49,9 +49,11 @@ namespace GPUVolt {
 class Provider final : public IGPUSensorProvider::IProvider
 {
  public:
-  std::unique_ptr<ISensor> provideGPUSensor(IGPUInfo const &gpuInfo,
-                                            ISWInfo const &swInfo) const override
+  std::vector<std::unique_ptr<ISensor>>
+  provideGPUSensors(IGPUInfo const &gpuInfo, ISWInfo const &swInfo) const override
   {
+    std::vector<std::unique_ptr<ISensor>> sensors;
+
     if (gpuInfo.vendor() == Vendor::AMD) {
       auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
       auto kernel = Utils::String::parseVersion(
@@ -83,8 +85,10 @@ class Provider final : public IGPUSensorProvider::IProvider
                     Utils::String::toNumber<int>(output, data);
                   }));
 
-              return std::make_unique<Sensor<units::voltage::millivolt_t, int>>(
-                  AMD::GPUVolt::ItemID, std::move(dataSources), std::move(range));
+              sensors.emplace_back(
+                  std::make_unique<Sensor<units::voltage::millivolt_t, int>>(
+                      AMD::GPUVolt::ItemID, std::move(dataSources),
+                      std::move(range)));
             }
             else {
               LOG(WARNING) << fmt::format("Unknown data format on {}",
@@ -96,7 +100,7 @@ class Provider final : public IGPUSensorProvider::IProvider
       }
     }
 
-    return nullptr;
+    return sensors;
   }
 };
 

@@ -44,9 +44,11 @@ namespace Activity {
 class Provider final : public IGPUSensorProvider::IProvider
 {
  public:
-  std::unique_ptr<ISensor> provideGPUSensor(IGPUInfo const &gpuInfo,
-                                            ISWInfo const &swInfo) const override
+  std::vector<std::unique_ptr<ISensor>>
+  provideGPUSensors(IGPUInfo const &gpuInfo, ISWInfo const &swInfo) const override
   {
+    std::vector<std::unique_ptr<ISensor>> sensors;
+
     if (gpuInfo.vendor() == Vendor::AMD) {
       auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
       auto kernel = Utils::String::parseVersion(
@@ -65,15 +67,16 @@ class Provider final : public IGPUSensorProvider::IProvider
               return success ? value : 0;
             }));
 
-        return std::make_unique<Sensor<units::dimensionless::scalar_t, unsigned int>>(
-            AMD::Activity::ItemID, std::move(dataSources),
-            std::make_pair(units::dimensionless::scalar_t(0),
-                           units::dimensionless::scalar_t(100)));
+        sensors.emplace_back(
+            std::make_unique<Sensor<units::dimensionless::scalar_t, unsigned int>>(
+                AMD::Activity::ItemID, std::move(dataSources),
+                std::make_pair(units::dimensionless::scalar_t(0),
+                               units::dimensionless::scalar_t(100))));
 #endif
       }
     }
 
-    return nullptr;
+    return sensors;
   }
 };
 

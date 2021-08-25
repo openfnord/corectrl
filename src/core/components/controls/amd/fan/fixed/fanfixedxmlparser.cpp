@@ -68,8 +68,7 @@ void AMD::FanFixedXMLParser::Initializer::takeFanFixedFanStartValue(
 }
 
 AMD::FanFixedXMLParser::FanFixedXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::FanFixed::ItemID)
+: ProfilePartXMLParser(AMD::FanFixed::ItemID, *this, *this)
 {
 }
 
@@ -140,7 +139,7 @@ AMD::FanFixedXMLParser::provideFanFixedFanStartValue() const
 
 void AMD::FanFixedXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFixedNode = parentNode.append_child(id_.c_str());
+  auto pmFixedNode = parentNode.append_child(ID().c_str());
   pmFixedNode.append_attribute("active") = active_;
   pmFixedNode.append_attribute("value") = value_;
   pmFixedNode.append_attribute("fanStop") = fanStop_;
@@ -158,7 +157,7 @@ void AMD::FanFixedXMLParser::resetAttributes()
 void AMD::FanFixedXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFixedNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFixedNode.attribute("active").as_bool(activeDefault_);
   value_ = pmFixedNode.attribute("value").as_int(valueDefault_);

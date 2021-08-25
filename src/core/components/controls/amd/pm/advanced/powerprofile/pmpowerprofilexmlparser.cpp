@@ -55,8 +55,7 @@ void AMD::PMPowerProfileXMLParser::Initializer::takePMPowerProfileMode(
 }
 
 AMD::PMPowerProfileXMLParser::PMPowerProfileXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::PMPowerProfile::ItemID)
+: ProfilePartXMLParser(AMD::PMPowerProfile::ItemID, *this, *this)
 {
 }
 
@@ -105,7 +104,7 @@ std::string const &AMD::PMPowerProfileXMLParser::providePMPowerProfileMode() con
 
 void AMD::PMPowerProfileXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFrequencyNode = parentNode.append_child(id_.c_str());
+  auto pmFrequencyNode = parentNode.append_child(ID().c_str());
   pmFrequencyNode.append_attribute("active") = active_;
   pmFrequencyNode.append_attribute("mode") = mode_.c_str();
 }
@@ -119,7 +118,7 @@ void AMD::PMPowerProfileXMLParser::resetAttributes()
 void AMD::PMPowerProfileXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFrequencyNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFrequencyNode.attribute("active").as_bool(activeDefault_);
   mode_ = pmFrequencyNode.attribute("mode").as_string(modeDefault_.c_str());

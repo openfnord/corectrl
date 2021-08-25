@@ -102,7 +102,7 @@ list(APPEND INFO_SRC
   core/info/common/swinfokernel.cpp
   core/info/common/swinfomesa.cpp
   core/info/amd/gpuinfopm.cpp
-  core/info/amd/gpuinfopmodcv.cpp
+  core/info/amd/gpuinfopmoverdrive.cpp
   core/info/amd/gpuinfovbios.cpp
   core/info/amd/gpuinfovram.cpp
 )
@@ -147,14 +147,22 @@ list(APPEND CONTROLS_SRC
   core/components/controls/amd/pm/advanced/overclock/freqod/pmfreqodprovider.cpp
   core/components/controls/amd/pm/advanced/overclock/freqod/pmfreqodprofilepart.cpp
   core/components/controls/amd/pm/advanced/overclock/freqod/pmfreqodxmlparser.cpp
-  core/components/controls/amd/pm/advanced/fvstate/pmfvstate.cpp
-  core/components/controls/amd/pm/advanced/fvstate/pmfvstateprovider.cpp
-  core/components/controls/amd/pm/advanced/fvstate/pmfvstateprofilepart.cpp
-  core/components/controls/amd/pm/advanced/fvstate/pmfvstatexmlparser.cpp
-  core/components/controls/amd/pm/advanced/fvvoltcurve/pmfvvoltcurve.cpp
-  core/components/controls/amd/pm/advanced/fvvoltcurve/pmfvvoltcurveprovider.cpp
-  core/components/controls/amd/pm/advanced/fvvoltcurve/pmfvvoltcurveprofilepart.cpp
-  core/components/controls/amd/pm/advanced/fvvoltcurve/pmfvvoltcurvexmlparser.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdrive.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdriveprovider.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdriveprofilepart.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdrivexmlparser.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqvolt/pmfreqvolt.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqvolt/pmfreqvoltprovider.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqvolt/pmfreqvoltprofilepart.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqvolt/pmfreqvoltxmlparser.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrange.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrangeprovider.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrangeprofilepart.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrangexmlparser.cpp
+  core/components/controls/amd/pm/advanced/overdrive/voltcurve/pmvoltcurve.cpp
+  core/components/controls/amd/pm/advanced/overdrive/voltcurve/pmvoltcurveprovider.cpp
+  core/components/controls/amd/pm/advanced/overdrive/voltcurve/pmvoltcurveprofilepart.cpp
+  core/components/controls/amd/pm/advanced/overdrive/voltcurve/pmvoltcurvexmlparser.cpp
   core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofile.cpp
   core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileprovider.cpp
   core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileprofilepart.cpp
@@ -242,8 +250,10 @@ list(APPEND UI_COMPONENTS_SRC
   core/components/controls/amd/pm/advanced/freqmode/pmfreqmodeqmlitem.cpp
   core/components/controls/amd/pm/advanced/overclock/pmoverclockqmlitem.cpp
   core/components/controls/amd/pm/advanced/overclock/freqod/pmfreqodqmlitem.cpp
-  core/components/controls/amd/pm/advanced/fvstate/pmfvstateqmlitem.cpp
-  core/components/controls/amd/pm/advanced/fvvoltcurve/pmfvvoltcurveqmlitem.cpp
+  core/components/controls/amd/pm/advanced/overdrive/pmoverdriveqmlitem.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqvolt/pmfreqvoltqmlitem.cpp
+  core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrangeqmlitem.cpp
+  core/components/controls/amd/pm/advanced/overdrive/voltcurve/pmvoltcurveqmlitem.cpp
   core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp
   core/components/controls/amd/pm/advanced/powercap/pmpowercapqmlitem.cpp
   core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp
@@ -289,10 +299,11 @@ list (APPEND TRANSLATABLE_FILES
   qml/AMDPMAdvancedForm.qml
   qml/AMDPMDynamicFreqForm.qml
   qml/AMDPMFixedFreqForm.qml
-  qml/AMDPMFVStateForm.qml
-  qml/AMDPMFVVoltCurveForm.qml
   qml/AMDPMFreqModeForm.qml
   qml/AMDPMOverclockForm.qml
+  qml/AMDPMFreqVoltForm.qml
+  qml/AMDPMFreqRangeForm.qml
+  qml/AMDPMVoltCurveForm.qml
   qml/AMDPMFreqOdForm.qml
   qml/AMDPMPowerProfileForm.qml
   qml/AMDPMPowerCapForm.qml

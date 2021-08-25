@@ -28,9 +28,9 @@ class IDataSource;
 class CPUFreqProvider final : public ICPUControlProvider::IProvider
 {
  public:
-  std::unique_ptr<IControl>
-  provideCPUControl(ICPUInfo const &cpuInfo,
-                    ISWInfo const &swInfo) const override;
+  std::vector<std::unique_ptr<IControl>>
+  provideCPUControls(ICPUInfo const &cpuInfo,
+                     ISWInfo const &swInfo) const override;
 
  private:
   std::vector<std::string> availableGovernors(ICPUInfo const &cpuInfo) const;

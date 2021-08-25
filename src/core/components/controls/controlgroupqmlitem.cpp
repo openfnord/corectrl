@@ -69,7 +69,7 @@ void ControlGroupQMLItem::activate(bool active)
 std::optional<std::reference_wrapper<Importable::Importer>>
 ControlGroupQMLItem::provideImporter(Item const &i)
 {
-  auto item = this->findChild<QQuickItem *>(QString::fromStdString(i.ID()));
+  auto item = findQQuickItem(i);
   if (item == nullptr)
     return {};
 
@@ -79,7 +79,7 @@ ControlGroupQMLItem::provideImporter(Item const &i)
 std::optional<std::reference_wrapper<Exportable::Exporter>>
 ControlGroupQMLItem::provideExporter(Item const &i)
 {
-  auto item = this->findChild<QQuickItem *>(QString::fromStdString(i.ID()));
+  auto item = findQQuickItem(i);
   if (item == nullptr)
     return {};
 
@@ -95,6 +95,36 @@ void ControlGroupQMLItem::takeActive(bool active)
 {
   active_ = active;
   setVisible(active);
+}
+
+QQuickItem *ControlGroupQMLItem::findQQuickItem(Item const &i) const
+{
+  static std::string const instanceIDPropertyName{"instanceID"};
+
+  if (i.ID() != i.instanceID()) {
+    // The control has multiple instances
+    auto children =
+        this->findChildren<QQuickItem *>(QString::fromStdString(i.ID()));
+    if (!children.empty()) {
+
+      auto instanceID = QString::fromStdString(i.instanceID());
+      for (auto child : children) {
+
+        auto instanceIDProperty = child->property(instanceIDPropertyName.c_str());
+        if (instanceIDProperty.isValid() &&
+            instanceIDProperty.toString() == instanceID)
+          return child;
+      }
+    }
+  }
+  else {
+    // The control has a single instance
+    auto item = this->findChild<QQuickItem *>(QString::fromStdString(i.ID()));
+    if (item != nullptr)
+      return item;
+  }
+
+  return nullptr;
 }
 
 std::unique_ptr<Exportable::Exporter>

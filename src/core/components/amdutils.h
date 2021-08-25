@@ -100,54 +100,74 @@ std::optional<std::vector<std::pair<std::string, int>>>
 parsePowerProfileModeModes(std::vector<std::string> const &ppPowerProfileModeLines);
 
 /// Returns current power profile mode index. (4.17+)
-/// @param  ppPowerProfileModeLines pp_power_profile_mode data source contents
+/// @param ppPowerProfileModeLines pp_power_profile_mode data source contents
 std::optional<int> parsePowerProfileModeCurrentModeIndex(
     std::vector<std::string> const &ppPowerProfileModeLines);
 
-/// Returns power states from the target part clock + voltage data. (4.17+)
-/// @param targetLbl SCLK or MCLK
+/// Returns the available clock + voltage states for a control. (4.17+)
+/// @param controlName name of the control
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
                                      units::voltage::millivolt_t>>>
-parseOverdriveClksVolts(std::string_view targetLbl,
+parseOverdriveClksVolts(std::string_view controlName,
                         std::vector<std::string> const &ppOdClkVoltageLines);
 
-/// Returns clock range of power states from the target part OD_RANGE data. (4.18+)
-/// @param targetLbl SCLK or MCLK
+/// Returns the state's clock range for a control. (4.18+)
+/// @param controlName name of the control
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>>
-parseOverdriveClkRange(std::string_view targetLbl,
+parseOverdriveClkRange(std::string_view controlName,
                        std::vector<std::string> const &ppOdClkVoltageLines);
 
-/// Returns voltage range of power states from OD_RANGE data. (4.18+)
+/// Returns the state's voltage range. (4.18+)
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>
 parseOverdriveVoltRange(std::vector<std::string> const &ppOdClkVoltageLines);
 
-/// Returns power states from the target part clock data. (4.20+, vega20+)
-/// @param targetLbl SCLK or MCLK
+/// Returns the available clock states for a control. (4.20+, vega20+)
+/// @param controlName name of the control
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>>
-parseOverdriveClks(std::string_view targetLbl,
+parseOverdriveClks(std::string_view controlName,
                    std::vector<std::string> const &ppOdClkVoltageLines);
 
-/// Returns curve points for curve voltage ASICs. (4.20+, vega20+)
+/// Returns the voltage curve points for curve voltage ASICs. (4.20+, vega20+)
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::vector<
     std::pair<units::frequency::megahertz_t, units::voltage::millivolt_t>>>
 parseOverdriveVoltCurve(std::vector<std::string> const &ppOdClkVoltageLines);
 
-/// Returns voltage range of curve points from OD_RANGE data for curve voltage
-/// ASICs. (4.20+, vega20+)
+/// Returns voltage range of curve points for curve voltage ASICs. (4.20+, vega20+)
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
-std::optional<
-    std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
+std::optional<std::vector<std::pair<
+    std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>,
+    std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>>
 parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines);
+
+/// Returns a list containing the name of the available CLK controls.
+/// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
+std::optional<std::vector<std::string>>
+parseOverdriveClkControls(std::vector<std::string> const &ppOdClkVoltageLines);
+
+/// Translates a CLK control name to the control commit command id.
+/// @param controlName name of the control
+/// @returns commit command id
+std::optional<std::string>
+getOverdriveClkControlCmdId(std::string_view controlName);
 
 /// Returns whether pp_od_clk_voltage has known quirks.
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 bool ppOdClkVoltageHasKnownQuirks(
     std::vector<std::string> const &ppOdClkVoltageLines);
+
+/// Returns true when overdrive clock + voltage state control is available.
+bool hasOverdriveClkVoltControl(std::vector<std::string> const &data);
+
+/// Returns true when overdrive clock control is available.
+bool hasOverdriveClkControl(std::vector<std::string> const &data);
+
+/// Returns true when overdrive voltage curve control is available.
+bool hasOverdriveVoltCurveControl(std::vector<std::string> const &data);
 
 } // namespace AMD
 } // namespace Utils

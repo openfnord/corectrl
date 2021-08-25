@@ -22,7 +22,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
-#include <unordered_map>
+#include <vector>
 
 class ControlGroupXMLParser
 : public ProfilePartXMLParser
@@ -48,15 +48,16 @@ class ControlGroupXMLParser
 
  protected:
   void resetAttributes() final override;
-  void loadPartFrom(pugi::xml_node const &parentNode) final override;
+  void loadPartFrom(pugi::xml_node const &parentNode) override;
+
+  void loadComponents(pugi::xml_node const &parentNode);
+  bool activeDefault() const;
 
  private:
   class Factory;
   class Initializer;
 
-  std::unordered_map<std::string, std::unique_ptr<IProfilePartXMLParser>> parsers_;
-
-  std::string const id_;
+  std::vector<std::unique_ptr<IProfilePartXMLParser>> parsers_;
 
   bool active_;
   bool activeDefault_;

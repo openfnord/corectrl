@@ -23,6 +23,8 @@
 #include <cstddef>
 #include <iterator>
 #include <regex>
+#include <unordered_map>
+#include <utility>
 
 namespace Utils {
 namespace AMD {
@@ -72,7 +74,8 @@ parseDPMStates(std::vector<std::string> const &ppDpmLines)
   // 0: 300Mhz *
   // ...
   // N: 1303Mhz
-  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*Mhz)", std::regex::icase);
+  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*Mhz\s*\*?\s*$)",
+                         std::regex::icase);
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> states;
 
   for (auto &line : ppDpmLines) {
@@ -103,7 +106,7 @@ parseDPMCurrentStateIndex(std::vector<std::string> const &ppDpmLines)
   // N: 1303Mhz
   //
   // '*' marks the current state
-  std::regex const regex(R"(^(\d+)\s*:\s*\d+\s*Mhz\s*\*)", std::regex::icase);
+  std::regex const regex(R"(^(\d+)\s*:\s*\d+\s*Mhz\s*\*\s*$)", std::regex::icase);
 
   for (auto &line : ppDpmLines) {
     std::smatch result;
@@ -217,7 +220,7 @@ parseOverdriveClkVoltLine(std::string const &line)
   // ...
   // 0: 300MHz @ 800mV
   // ...
-  std::regex const regex(R"((\d+)\s*:\s*(\d+)\s*MHz[\s@]*(\d+)\s*mV)",
+  std::regex const regex(R"((\d+)\s*:\s*(\d+)\s*MHz[\s@]*(\d+)\s*mV\s*$)",
                          std::regex::icase);
   std::smatch result;
 
@@ -235,19 +238,19 @@ parseOverdriveClkVoltLine(std::string const &line)
 
 std::optional<std::vector<std::tuple<unsigned int, units::frequency::megahertz_t,
                                      units::voltage::millivolt_t>>>
-parseOverdriveClksVolts(std::string_view targetLbl,
+parseOverdriveClksVolts(std::string_view controlName,
                         std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.17+):
   // ...
-  // OD_targetLbl:
+  // OD_controlName:
   // ...
   // OD_otherLbl:
   // ...
   auto targetIt = std::find_if(
       ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
       [&](std::string const &line) {
-        return line.find("OD_" + std::string(targetLbl) + ":") !=
+        return line.find("OD_" + std::string(controlName) + ":") !=
                std::string::npos;
       });
   if (targetIt != ppOdClkVoltageLines.cend() &&
@@ -284,7 +287,7 @@ parseOverdriveClkRange(std::string const &line)
   // ...
   // Lbl...: 400MHz 500MHz
   // ...
-  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*MHz\s*(\d+)\s*MHz)",
+  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*MHz\s*(\d+)\s*MHz\s*$)",
                          std::regex::icase);
   std::smatch result;
 
@@ -300,14 +303,14 @@ parseOverdriveClkRange(std::string const &line)
 }
 
 std::optional<std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>>
-parseOverdriveClkRange(std::string_view targetLbl,
+parseOverdriveClkRange(std::string_view controlName,
                        std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.18+):
   // ...
   // OD_RANGE:
   // ...
-  // targetLbl:     min       max
+  // controlName:     min       max
   // ...
   auto rangeIt = std::find_if(
       ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
@@ -317,7 +320,7 @@ parseOverdriveClkRange(std::string_view targetLbl,
   if (rangeIt != ppOdClkVoltageLines.cend()) {
     auto targetIt = std::find_if(
         rangeIt, ppOdClkVoltageLines.cend(), [&](std::string const &line) {
-          return line.find(std::string(targetLbl) + ":") != std::string::npos;
+          return line.find(std::string(controlName) + ":") != std::string::npos;
         });
 
     if (targetIt != ppOdClkVoltageLines.cend())
@@ -334,7 +337,7 @@ parseOverdriveVoltRangeLine(std::string const &line)
   // ...
   // Lbl...: 400mV 500mV
   // ...
-  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*mV\s*(\d+)\s*mV)",
+  std::regex const regex(R"(^(?:[^\:\s]+)\s*:\s*(\d+)\s*mV\s*(\d+)\s*mV\s*$)",
                          std::regex::icase);
   std::smatch result;
 
@@ -383,7 +386,7 @@ parseOverdriveClksLine(std::string const &line)
   // ...
   // 0:    300MHz
   // ...
-  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*MHz)", std::regex::icase);
+  std::regex const regex(R"(^(\d+)\s*:\s*(\d+)\s*MHz\s*$)", std::regex::icase);
   std::smatch result;
 
   if (std::regex_search(line, result, regex)) {
@@ -397,19 +400,19 @@ parseOverdriveClksLine(std::string const &line)
 }
 
 std::optional<std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>>
-parseOverdriveClks(std::string_view targetLbl,
+parseOverdriveClks(std::string_view controlName,
                    std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.17+):
   // ...
-  // OD_targetLbl:
+  // OD_controlName:
   // ...
   // OD_otherLbl:
   // ...
   auto targetIt = std::find_if(
       ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
       [&](std::string const &line) {
-        return line.find("OD_" + std::string(targetLbl) + ":") !=
+        return line.find("OD_" + std::string(controlName) + ":") !=
                std::string::npos;
       });
   if (targetIt != ppOdClkVoltageLines.cend() &&
@@ -480,16 +483,19 @@ parseOverdriveVoltCurve(std::vector<std::string> const &ppOdClkVoltageLines)
   return {};
 }
 
-std::optional<
-    std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
+std::optional<std::vector<std::pair<
+    std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>,
+    std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>>
 parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines)
 {
   // Relevant lines format (kernel 4.20+):
   // ...
   // OD_RANGE:
   // ...
+  // VDDC_CURVE_SCLK[0]: 808Mhz 2200Mhz
   // VDDC_CURVE_VOLT[0]: 738mV 1218mV
   // ...
+  // VDDC_CURVE_SCLK[N]: 808Mhz 2200Mhz
   // VDDC_CURVE_VOLT[N]: 738mV 1218mV
   // ...
   auto rangeIt = std::find_if(
@@ -499,27 +505,76 @@ parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines
       });
   if (rangeIt != ppOdClkVoltageLines.cend()) {
 
-    std::vector<std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>
+    std::vector<std::pair<
+        std::pair<units::frequency::megahertz_t, units::frequency::megahertz_t>,
+        std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>
         ranges;
 
-    auto targetIt = std::next(rangeIt);
-    while (targetIt != ppOdClkVoltageLines.cend()) {
-      targetIt = std::find_if(
-          targetIt, ppOdClkVoltageLines.cend(), [&](std::string const &line) {
-            return line.find("VDDC_CURVE_VOLT[") != std::string::npos;
-          });
+    auto freqIt = std::next(rangeIt);
 
-      if (targetIt != ppOdClkVoltageLines.cend()) {
-        auto lineRange = parseOverdriveVoltRangeLine(*targetIt);
-        if (lineRange.has_value())
-          ranges.emplace_back(std::move(*lineRange));
+    // skip lines not starting with VDDC_CURVE_
+    freqIt = std::find_if(
+        freqIt, ppOdClkVoltageLines.cend(), [&](std::string const &line) {
+          return line.find("VDDC_CURVE_") != std::string::npos;
+        });
+
+    while (freqIt != ppOdClkVoltageLines.cend() &&
+           (*freqIt).find("VDDC_CURVE_SCLK[") != std::string::npos) {
+
+      auto voltIt = std::next(freqIt);
+      if (voltIt != ppOdClkVoltageLines.cend() &&
+          (*voltIt).find("VDDC_CURVE_VOLT[") != std::string::npos) {
+
+        auto freqRange = parseOverdriveClkRange(*freqIt);
+        auto voltRange = parseOverdriveVoltRangeLine(*voltIt);
+
+        if (freqRange.has_value() && voltRange.has_value())
+          ranges.emplace_back(
+              std::make_pair(std::move(*freqRange), std::move(*voltRange)));
+        else
+          return {}; // invalid data format
       }
+      else
+        return {}; // invalid data format
 
-      targetIt = std::next(targetIt);
+      freqIt = std::next(voltIt);
     }
 
-    return std::move(ranges);
+    if (!ranges.empty())
+      return std::move(ranges);
   }
+
+  return {};
+}
+
+std::optional<std::vector<std::string>>
+parseOverdriveClkControls(std::vector<std::string> const &ppOdClkVoltageLines)
+{
+  std::regex const regex(R"(^OD_(\wCLK):\s*$)", std::regex::icase);
+  std::vector<std::string> controlNames;
+
+  for (auto &line : ppOdClkVoltageLines) {
+    std::smatch result;
+    if (!std::regex_search(line, result, regex))
+      continue;
+
+    controlNames.emplace_back(result[1]);
+  }
+
+  if (!controlNames.empty())
+    return controlNames;
+
+  return {};
+}
+
+std::optional<std::string>
+getOverdriveClkControlCmdId(std::string_view controlName)
+{
+  static std::unordered_map<std::string_view, std::string> const nameCmdIdMap{
+      {"SCLK", "s"}, {"MCLK", "m"}};
+
+  if (nameCmdIdMap.count(controlName) > 0)
+    return nameCmdIdMap.at(controlName);
 
   return {};
 }
@@ -555,6 +610,52 @@ bool ppOdClkVoltageHasKnownQuirks(
   }
 
   return false;
+}
+
+bool hasOverdriveClkVoltControl(std::vector<std::string> const &data)
+{
+  std::regex const clkRegex(R"(^OD_\wCLK:)", std::regex::icase);
+  std::smatch result;
+
+  auto clkIt = std::find_if(data.cbegin(), data.cend(),
+                            [&](std::string const &line) {
+                              return std::regex_match(line, result, clkRegex);
+                            });
+
+  if (clkIt != data.cend() && std::next(clkIt) != data.cend()) {
+    auto state = parseOverdriveClkVoltLine(*std::next(clkIt));
+    return state.has_value();
+  }
+
+  return false;
+}
+
+bool hasOverdriveClkControl(std::vector<std::string> const &data)
+{
+  std::regex const clkRegex(R"(^OD_\wCLK:)", std::regex::icase);
+  std::smatch result;
+
+  auto clkIt = std::find_if(data.cbegin(), data.cend(),
+                            [&](std::string const &line) {
+                              return std::regex_match(line, result, clkRegex);
+                            });
+
+  if (clkIt != data.cend() && std::next(clkIt) != data.cend()) {
+    auto state = parseOverdriveClksLine(*std::next(clkIt));
+    return state.has_value();
+  }
+
+  return false;
+}
+
+bool hasOverdriveVoltCurveControl(std::vector<std::string> const &data)
+{
+  auto curveIt = std::find_if(
+      data.cbegin(), data.cend(), [&](std::string const &line) {
+        return line.find("OD_VDDC_CURVE:") != std::string::npos;
+      });
+
+  return curveIt != data.cend();
 }
 
 } // namespace AMD

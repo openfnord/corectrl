@@ -21,25 +21,29 @@
 #include "core/info/igpuinfo.h"
 #include "core/info/vendor.h"
 #include "fanmode.h"
+#include <iterator>
 #include <utility>
 
-std::unique_ptr<IControl>
-AMD::FanModeProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                        ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::FanModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                         ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
-    std::vector<std::unique_ptr<IControl>> controls;
+    std::vector<std::unique_ptr<IControl>> modeControls;
 
     for (auto &provider : gpuControlProviders()) {
-      auto control = provider->provideGPUControl(gpuInfo, swInfo);
-      if (control != nullptr)
-        controls.emplace_back(std::move(control));
+      auto newControls = provider->provideGPUControls(gpuInfo, swInfo);
+      modeControls.insert(modeControls.end(),
+                          std::make_move_iterator(newControls.begin()),
+                          std::make_move_iterator(newControls.end()));
     }
-    if (!controls.empty())
-      return std::make_unique<FanMode>(std::move(controls));
+    if (!modeControls.empty())
+      controls.emplace_back(std::make_unique<FanMode>(std::move(modeControls)));
   }
 
-  return nullptr;
+  return controls;
 }
 
 std::vector<std::unique_ptr<IGPUControlProvider::IProvider>> const &

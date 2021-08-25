@@ -34,10 +34,12 @@
 #include <tuple>
 #include <vector>
 
-std::unique_ptr<IControl>
-AMD::PMFixedFreqAdvProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                               ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMFixedFreqAdvProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                                ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -77,14 +79,14 @@ AMD::PMFixedFreqAdvProvider::provideGPUControl(IGPUInfo const &gpuInfo,
 
         if (dpmSclkValid && dpmMclkValid) {
 
-          return std::make_unique<AMD::PMFixedFreq>(
+          controls.emplace_back(std::make_unique<AMD::PMFixedFreq>(
               std::make_unique<SysFSDataSource<std::string>>(perfLevel),
               std::make_unique<PpDpmHandler>(
                   std::make_unique<SysFSDataSource<std::vector<std::string>>>(
                       dpmSclk)),
               std::make_unique<PpDpmHandler>(
                   std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                      dpmMclk)));
+                      dpmMclk))));
         }
         else {
           if (!dpmSclkValid) {
@@ -105,7 +107,7 @@ AMD::PMFixedFreqAdvProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::PMFixedFreqAdvProvider::registered_ =

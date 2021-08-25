@@ -52,8 +52,7 @@ void GraphItemXMLParser::Initializer::takeColor(std::string const &color)
 }
 
 GraphItemXMLParser::GraphItemXMLParser(std::string_view id) noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(id)
+: ProfilePartXMLParser(id, *this, *this)
 {
 }
 
@@ -101,7 +100,7 @@ std::string const &GraphItemXMLParser::provideColor() const
 
 void GraphItemXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto itemNode = parentNode.append_child(id_.c_str());
+  auto itemNode = parentNode.append_child(ID().c_str());
   itemNode.append_attribute("active") = active_;
 }
 
@@ -113,7 +112,7 @@ void GraphItemXMLParser::resetAttributes()
 void GraphItemXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto itemNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = itemNode.attribute("active").as_bool(activeDefault_);
 }

@@ -20,6 +20,32 @@
     </message>
 </context>
 <context>
+    <name>AMD::PMFreqRangeQMLItem</name>
+    <message>
+        <location filename="../core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrangeqmlitem.cpp" line="34"/>
+        <source>SCLK</source>
+        <translation>Видео Карта</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrangeqmlitem.cpp" line="35"/>
+        <source>MCLK</source>
+        <translation>Памет</translation>
+    </message>
+</context>
+<context>
+    <name>AMD::PMFreqVoltQMLItem</name>
+    <message>
+        <location filename="../core/components/controls/amd/pm/advanced/overdrive/freqvolt/pmfreqvoltqmlitem.cpp" line="32"/>
+        <source>SCLK</source>
+        <translation>Видео Карта</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/amd/pm/advanced/overdrive/freqvolt/pmfreqvoltqmlitem.cpp" line="33"/>
+        <source>MCLK</source>
+        <translation>Памет</translation>
+    </message>
+</context>
+<context>
     <name>AMD::PMPowerProfileQMLItem</name>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="30"/>
@@ -100,43 +126,6 @@
     </message>
 </context>
 <context>
-    <name>AMDPMFVStateForm</name>
-    <message>
-        <location filename="../qml/AMDPMFVStateForm.qml" line="99"/>
-        <source>GPU</source>
-        <translation>Видео Карта</translation>
-    </message>
-    <message>
-        <location filename="../qml/AMDPMFVStateForm.qml" line="110"/>
-        <source>Memory</source>
-        <translation>Памет</translation>
-    </message>
-</context>
-<context>
-    <name>AMDPMFVVoltCurveForm</name>
-    <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="78"/>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="121"/>
-        <source>Voltage</source>
-        <translation>Волтове</translation>
-    </message>
-    <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="77"/>
-        <source>Frequency</source>
-        <translation>Честота</translation>
-    </message>
-    <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="92"/>
-        <source>GPU</source>
-        <translation>Видео Карта</translation>
-    </message>
-    <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="101"/>
-        <source>Memory</source>
-        <translation>Памет</translation>
-    </message>
-</context>
-<context>
     <name>AMDPMFixedFreqForm</name>
     <message>
         <location filename="../qml/AMDPMFixedFreqForm.qml" line="89"/>
@@ -200,6 +189,20 @@
         <location filename="../qml/AMDPMPowerStateForm.qml" line="85"/>
         <source>Power management state</source>
         <translation>Режим на управление на енергията</translation>
+    </message>
+</context>
+<context>
+    <name>AMDPMVoltCurveForm</name>
+    <message>
+        <location filename="../qml/AMDPMVoltCurveForm.qml" line="34"/>
+        <source>Frequency</source>
+        <translation>Честота</translation>
+    </message>
+    <message>
+        <location filename="../qml/AMDPMVoltCurveForm.qml" line="35"/>
+        <location filename="../qml/AMDPMVoltCurveForm.qml" line="63"/>
+        <source>Voltage</source>
+        <translation>Волтове</translation>
     </message>
 </context>
 <context>

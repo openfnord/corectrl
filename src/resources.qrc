@@ -27,8 +27,10 @@
         <file>qml/AMDPMFreqModeForm.qml</file>
         <file>qml/AMDPMOverclockForm.qml</file>
         <file>qml/AMDPMFreqOdForm.qml</file>
-        <file>qml/AMDPMFVStateForm.qml</file>
-        <file>qml/AMDPMFVVoltCurveForm.qml</file>
+        <file>qml/AMDPMOverdriveForm.qml</file>
+        <file>qml/AMDPMFreqVoltForm.qml</file>
+        <file>qml/AMDPMFreqRangeForm.qml</file>
+        <file>qml/AMDPMVoltCurveForm.qml</file>
         <file>qml/AMDPMPowerProfileForm.qml</file>
         <file>qml/AMDPMPowerStateForm.qml</file>
         <file>qml/AMDFanModeForm.qml</file>

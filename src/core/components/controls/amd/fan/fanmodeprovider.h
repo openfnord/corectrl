@@ -28,9 +28,9 @@ class FanModeProvider final
 , public IGPUControlProvider
 {
  public:
-  std::unique_ptr<IControl>
-  provideGPUControl(IGPUInfo const &gpuInfo,
-                    ISWInfo const &swInfo) const final override;
+  std::vector<std::unique_ptr<IControl>>
+  provideGPUControls(IGPUInfo const &gpuInfo,
+                     ISWInfo const &swInfo) const override;
 
   std::vector<std::unique_ptr<IGPUControlProvider::IProvider>> const &
   gpuControlProviders() const final override;

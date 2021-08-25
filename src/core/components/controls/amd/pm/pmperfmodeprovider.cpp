@@ -20,25 +20,30 @@
 #include "core/components/controls/gpucontrolprovider.h"
 #include "core/info/igpuinfo.h"
 #include "pmperfmode.h"
+#include <iterator>
 #include <utility>
 
-std::unique_ptr<IControl>
-AMD::PMPerfModeProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                           ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMPerfModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                            ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
-    std::vector<std::unique_ptr<IControl>> controls;
+    std::vector<std::unique_ptr<IControl>> modeControls;
 
     for (auto &provider : gpuControlProviders()) {
-      auto control = provider->provideGPUControl(gpuInfo, swInfo);
-      if (control != nullptr)
-        controls.emplace_back(std::move(control));
+      auto newControls = provider->provideGPUControls(gpuInfo, swInfo);
+      modeControls.insert(modeControls.end(),
+                          std::make_move_iterator(newControls.begin()),
+                          std::make_move_iterator(newControls.end()));
     }
-    if (!controls.empty())
-      return std::make_unique<PMPerfMode>(std::move(controls));
+    if (!modeControls.empty())
+      controls.emplace_back(
+          std::make_unique<PMPerfMode>(std::move(modeControls)));
   }
 
-  return nullptr;
+  return controls;
 }
 
 std::vector<std::unique_ptr<IGPUControlProvider::IProvider>> const &

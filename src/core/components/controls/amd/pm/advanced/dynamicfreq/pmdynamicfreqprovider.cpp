@@ -29,10 +29,12 @@
 #include <string>
 #include <tuple>
 
-std::unique_ptr<IControl>
-AMD::PMDynamicFreqProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                              ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMDynamicFreqProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                               ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -42,13 +44,13 @@ AMD::PMDynamicFreqProvider::provideGPUControl(IGPUInfo const &gpuInfo,
 
       auto perfLevel = gpuInfo.path().sys / "power_dpm_force_performance_level";
       if (Utils::File::isSysFSEntryValid(perfLevel)) {
-        return std::make_unique<AMD::PMDynamicFreq>(
-            std::make_unique<SysFSDataSource<std::string>>(perfLevel));
+        controls.emplace_back(std::make_unique<AMD::PMDynamicFreq>(
+            std::make_unique<SysFSDataSource<std::string>>(perfLevel)));
       }
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool AMD::PMDynamicFreqProvider::register_()

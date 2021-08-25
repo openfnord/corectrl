@@ -70,8 +70,7 @@ void AMD::FanCurveXMLParser::Initializer::takeFanCurveFanStartValue(
 }
 
 AMD::FanCurveXMLParser::FanCurveXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::FanCurve::ItemID)
+: ProfilePartXMLParser(AMD::FanCurve::ItemID, *this, *this)
 {
 }
 
@@ -143,7 +142,7 @@ AMD::FanCurveXMLParser::provideFanCurveFanStartValue() const
 
 void AMD::FanCurveXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFixedNode = parentNode.append_child(id_.c_str());
+  auto pmFixedNode = parentNode.append_child(ID().c_str());
   pmFixedNode.append_attribute("active") = active_;
   pmFixedNode.append_attribute("fanStop") = fanStop_;
   pmFixedNode.append_attribute("fanStartValue") = fanStartValue_;
@@ -167,7 +166,7 @@ void AMD::FanCurveXMLParser::resetAttributes()
 void AMD::FanCurveXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFixedNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFixedNode.attribute("active").as_bool(activeDefault_);
   fanStop_ = pmFixedNode.attribute("fanStop").as_bool(fanStopDefault_);

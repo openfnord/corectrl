@@ -31,8 +31,8 @@ class ControlGroup : public Control
                std::vector<std::unique_ptr<IControl>> &&controls,
                bool active) noexcept;
 
-  void preInit(ICommandQueue &ctlCmds) final override;
-  void postInit(ICommandQueue &ctlCmds) final override;
+  void preInit(ICommandQueue &ctlCmds) override;
+  void postInit(ICommandQueue &ctlCmds) override;
   void init() final override;
   std::string const &ID() const final override;
 
@@ -44,8 +44,8 @@ class ControlGroup : public Control
   void importControl(IControl::Importer &i) final override;
   void exportControl(IControl::Exporter &e) const final override;
 
-  void cleanControl(ICommandQueue &ctlCmds) final override;
-  void syncControl(ICommandQueue &ctlCmds) final override;
+  void cleanControl(ICommandQueue &ctlCmds) override;
+  void syncControl(ICommandQueue &ctlCmds) override;
 
  private:
   std::string const id_;

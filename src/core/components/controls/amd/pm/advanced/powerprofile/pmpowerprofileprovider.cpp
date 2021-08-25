@@ -33,10 +33,12 @@
 #include <tuple>
 #include <vector>
 
-std::unique_ptr<IControl>
-AMD::PMPowerProfileProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                               ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMPowerProfileProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                                ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -53,11 +55,11 @@ AMD::PMPowerProfileProvider::provideGPUControl(IGPUInfo const &gpuInfo,
         auto modes = Utils::AMD::parsePowerProfileModeModes(modeLines);
 
         if (modes.has_value())
-          return std::make_unique<AMD::PMPowerProfile>(
+          controls.emplace_back(std::make_unique<AMD::PMPowerProfile>(
               std::make_unique<SysFSDataSource<std::string>>(perfLevel),
               std::make_unique<SysFSDataSource<std::vector<std::string>>>(
                   profileMode),
-              modes.value());
+              modes.value()));
         else {
           LOG(WARNING) << fmt::format("Unknown data format on {}",
                                       profileMode.string());
@@ -68,7 +70,7 @@ AMD::PMPowerProfileProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::PMPowerProfileProvider::registered_ =

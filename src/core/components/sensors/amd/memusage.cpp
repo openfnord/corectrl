@@ -48,9 +48,11 @@ namespace MemUsage {
 class Provider final : public IGPUSensorProvider::IProvider
 {
  public:
-  std::unique_ptr<ISensor> provideGPUSensor(IGPUInfo const &gpuInfo,
-                                            ISWInfo const &swInfo) const override
+  std::vector<std::unique_ptr<ISensor>>
+  provideGPUSensors(IGPUInfo const &gpuInfo, ISWInfo const &swInfo) const override
   {
+    std::vector<std::unique_ptr<ISensor>> sensors;
+
     if (gpuInfo.vendor() == Vendor::AMD) {
       auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
       auto kernel = Utils::String::parseVersion(
@@ -79,8 +81,9 @@ class Provider final : public IGPUSensorProvider::IProvider
               return success ? value / (1024 * 1024) : 0;
             }));
 
-        return std::make_unique<Sensor<units::data::megabyte_t, unsigned int>>(
-            AMD::MemUsage::ItemID, std::move(dataSources), std::move(range));
+        sensors.emplace_back(
+            std::make_unique<Sensor<units::data::megabyte_t, unsigned int>>(
+                AMD::MemUsage::ItemID, std::move(dataSources), std::move(range)));
 #endif
       }
       else if (driver == "radeon" && kernel >= std::make_tuple(3, 15, 0)) {
@@ -96,13 +99,14 @@ class Provider final : public IGPUSensorProvider::IProvider
               return success ? value / (1024 * 1024) : 0;
             }));
 
-        return std::make_unique<Sensor<units::data::megabyte_t, unsigned int>>(
-            AMD::MemUsage::ItemID, std::move(dataSources), std::move(range));
+        sensors.emplace_back(
+            std::make_unique<Sensor<units::data::megabyte_t, unsigned int>>(
+                AMD::MemUsage::ItemID, std::move(dataSources), std::move(range)));
 #endif
       }
     }
 
-    return nullptr;
+    return sensors;
   }
 };
 

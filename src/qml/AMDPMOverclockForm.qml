@@ -35,11 +35,12 @@ AMD_PM_OVERCLOCK {
 
       property var childrenAdded: []
       onChildrenChanged: {
-        for (var i = 0; i < children.length; ++i)
-          if (childrenAdded[children[i].objectName] === undefined) {
-            childrenAdded[children[i].objectName] = children[i]
+        for (var i = 0; i < children.length; ++i) {
+          if (childrenAdded[children[i]] === undefined) {
+            childrenAdded[children[i]] = children[i]
             pmOclk.setupChild(children[i])
           }
+        }
       }
     }
   }

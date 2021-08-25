@@ -29,24 +29,28 @@
 #include <string>
 #include <tuple>
 
-std::unique_ptr<IControl>
-AMD::PMPowerStateProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                             ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMPowerStateProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                              ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
     auto driver = gpuInfo.info(IGPUInfo::Keys::driver);
 
     if (driver == "radeon" && kernel >= std::make_tuple(3, 11, 0)) {
+
       auto powerDpmStatePath = gpuInfo.path().sys / "power_dpm_state";
       if (Utils::File::isSysFSEntryValid(powerDpmStatePath))
-        return std::make_unique<AMD::PMPowerState>(
-            std::make_unique<SysFSDataSource<std::string>>(powerDpmStatePath));
+
+        controls.emplace_back(std::make_unique<AMD::PMPowerState>(
+            std::make_unique<SysFSDataSource<std::string>>(powerDpmStatePath)));
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::PMPowerStateProvider::registered_ =

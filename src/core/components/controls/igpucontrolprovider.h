@@ -32,10 +32,9 @@ class IGPUControlProvider
   class IProvider
   {
    public:
-    /// @returns instance of Control specialization or nullptr when the
-    /// control is not supported
-    virtual std::unique_ptr<IControl>
-    provideGPUControl(IGPUInfo const &gpuInfo, ISWInfo const &swInfo) const = 0;
+    /// Returns a list with the GPU controls supported by the provider.
+    virtual std::vector<std::unique_ptr<IControl>>
+    provideGPUControls(IGPUInfo const &gpuInfo, ISWInfo const &swInfo) const = 0;
 
     virtual ~IProvider() = default;
   };

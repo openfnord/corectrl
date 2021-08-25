@@ -81,8 +81,13 @@ std::optional<std::reference_wrapper<Exportable::Exporter>>
 ControlGroupProfilePart::Initializer::provideExporter(Item const &i)
 {
   for (auto &part : outer_.parts_) {
-    auto &id = part->ID();
-    if (id == i.ID()) {
+
+    if (part->ID() == i.ID() &&
+        (part->instanceID() == i.instanceID() || part->instanceID().empty())) {
+
+      // Each item instance must have its own initializer
+      auto const id = i.ID() != i.instanceID() ? i.ID() + i.instanceID()
+                                               : i.ID();
       if (initializers_.count(id) > 0)
         return *initializers_.at(id);
       else {
@@ -130,9 +135,9 @@ std::string const &ControlGroupProfilePart::ID() const
 std::optional<std::reference_wrapper<Importable::Importer>>
 ControlGroupProfilePart::provideImporter(Item const &i)
 {
-  auto &id = i.ID();
-  auto partIter = std::find_if(parts_.cbegin(), parts_.cend(),
-                               [&](auto &part) { return part->ID() == id; });
+  auto partIter = std::find_if(parts_.cbegin(), parts_.cend(), [&](auto &part) {
+    return part->ID() == i.ID() && part->instanceID() == i.instanceID();
+  });
 
   if (partIter != parts_.cend()) {
     auto importer = dynamic_cast<Importable::Importer *>(partIter->get());

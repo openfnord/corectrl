@@ -33,10 +33,12 @@
 #include <tuple>
 #include <vector>
 
-std::unique_ptr<IControl>
-AMD::PMFreqOdProvider::provideGPUControl(IGPUInfo const &gpuInfo,
-                                         ISWInfo const &swInfo) const
+std::vector<std::unique_ptr<IControl>>
+AMD::PMFreqOdProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                          ISWInfo const &swInfo) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (gpuInfo.vendor() == Vendor::AMD) {
     auto kernel =
         Utils::String::parseVersion(swInfo.info(ISWInfo::Keys::kernelVersion));
@@ -73,7 +75,7 @@ AMD::PMFreqOdProvider::provideGPUControl(IGPUInfo const &gpuInfo,
         if (sclkOdValid && mclkOdValid && sclkStates.has_value() &&
             mclkStates.has_value()) {
 
-          return std::make_unique<AMD::PMFreqOd>(
+          controls.emplace_back(std::make_unique<AMD::PMFreqOd>(
               std::make_unique<SysFSDataSource<unsigned int>>(
                   sclkOd,
                   [](std::string const &data, unsigned int &output) {
@@ -84,7 +86,7 @@ AMD::PMFreqOdProvider::provideGPUControl(IGPUInfo const &gpuInfo,
                   [](std::string const &data, unsigned int &output) {
                     Utils::String::toNumber<unsigned int>(output, data);
                   }),
-              sclkStates.value(), mclkStates.value());
+              sclkStates.value(), mclkStates.value()));
         }
         else {
           if (!sclkOdValid) {
@@ -117,7 +119,7 @@ AMD::PMFreqOdProvider::provideGPUControl(IGPUInfo const &gpuInfo,
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 bool const AMD::PMFreqOdProvider::registered_ =

@@ -25,6 +25,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 class Item;
@@ -33,8 +34,11 @@ class IProfilePartXMLParserProvider;
 class ProfilePartXMLParser : public IProfilePartXMLParser
 {
  public:
-  ProfilePartXMLParser(Importable::Importer &profilePartImporter,
+  ProfilePartXMLParser(std::string_view id,
+                       Importable::Importer &profilePartImporter,
                        Exportable::Exporter &profilePartExporter) noexcept;
+
+  std::string const &ID() const final override;
 
   void loadFrom(pugi::xml_node const &parentNode) final override;
   Importable::Importer &profilePartImporter() const final override;
@@ -65,6 +69,7 @@ class ProfilePartXMLParser : public IProfilePartXMLParser
   virtual void loadPartFrom(pugi::xml_node const &parentNode) = 0;
 
  private:
+  std::string const id_;
   Importable::Importer &importer_;
   Exportable::Exporter &exporter_;
 };

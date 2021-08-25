@@ -116,8 +116,7 @@ void CPUXMLParser::Initializer::takeSocketId(int id)
 }
 
 CPUXMLParser::CPUXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(ICPU::ItemID)
+: ProfilePartXMLParser(ICPU::ItemID, *this, *this)
 {
 }
 
@@ -175,7 +174,7 @@ int CPUXMLParser::provideSocketId() const
 
 void CPUXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto cpuNode = parentNode.append_child(id_.c_str());
+  auto cpuNode = parentNode.append_child(ID().c_str());
   cpuNode.append_attribute("active") = active_;
   cpuNode.append_attribute("socketId") = socketId_;
 
@@ -193,7 +192,7 @@ void CPUXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto cpuNode = parentNode.find_child([&](pugi::xml_node const &node) {
     // match cpu node
-    if (node.name() != id_)
+    if (node.name() != ID())
       return false;
 
     // match specific cpu

@@ -48,8 +48,7 @@ void AMD::PMDynamicFreqXMLParser::Initializer::takeActive(bool active)
 }
 
 AMD::PMDynamicFreqXMLParser::PMDynamicFreqXMLParser() noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(AMD::PMDynamicFreq::ItemID)
+: ProfilePartXMLParser(AMD::PMDynamicFreq::ItemID, *this, *this)
 {
 }
 
@@ -88,7 +87,7 @@ bool AMD::PMDynamicFreqXMLParser::provideActive() const
 
 void AMD::PMDynamicFreqXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto pmFrequencyNode = parentNode.append_child(id_.c_str());
+  auto pmFrequencyNode = parentNode.append_child(ID().c_str());
   pmFrequencyNode.append_attribute("active") = active_;
 }
 
@@ -100,7 +99,7 @@ void AMD::PMDynamicFreqXMLParser::resetAttributes()
 void AMD::PMDynamicFreqXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto pmFrequencyNode = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
   active_ = pmFrequencyNode.attribute("active").as_bool(activeDefault_);
 }

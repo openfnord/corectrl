@@ -27,26 +27,32 @@
 #include <filesystem>
 #include <utility>
 
-std::unique_ptr<IControl>
-CPUFreqProvider::provideCPUControl(ICPUInfo const &cpuInfo, ISWInfo const &) const
+std::vector<std::unique_ptr<IControl>>
+CPUFreqProvider::provideCPUControls(ICPUInfo const &cpuInfo, ISWInfo const &) const
 {
+  std::vector<std::unique_ptr<IControl>> controls;
+
   if (Utils::File::isDirectoryPathValid("/sys/devices/system/cpu/cpufreq")) {
 
     auto &executionUnits = cpuInfo.executionUnits();
     if (!executionUnits.empty()) {
+
       auto governors = availableGovernors(cpuInfo);
       if (!governors.empty()) {
+
         auto governor = defatultGovernor(cpuInfo, governors);
         auto scalingGovernorDataSources =
             createScalingGovernorDataSources(cpuInfo);
+
         if (!scalingGovernorDataSources.empty())
-          return std::make_unique<CPUFreq>(std::move(governors), governor,
-                                           std::move(scalingGovernorDataSources));
+          controls.emplace_back(
+              std::make_unique<CPUFreq>(std::move(governors), governor,
+                                        std::move(scalingGovernorDataSources)));
       }
     }
   }
 
-  return nullptr;
+  return controls;
 }
 
 std::vector<std::string>

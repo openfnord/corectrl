@@ -47,18 +47,15 @@ class ControlGroupXMLParser::Factory final
 };
 
 void ControlGroupXMLParser::Factory::takePartParser(
-    Item const &i, std::unique_ptr<IProfilePartXMLParser> &&part)
+    Item const &, std::unique_ptr<IProfilePartXMLParser> &&part)
 {
-  outer_.parsers_.emplace(i.ID(), std::move(part));
+  outer_.parsers_.emplace_back(std::move(part));
 }
 
 std::optional<std::reference_wrapper<Exportable::Exporter>>
 ControlGroupXMLParser::Factory::provideExporter(Item const &i)
 {
-  if (i.ID() == outer_.id_)
-    return *this;
-  else
-    return factory(i);
+  return factory(i);
 }
 
 class ControlGroupXMLParser::Initializer final
@@ -83,16 +80,24 @@ class ControlGroupXMLParser::Initializer final
 std::optional<std::reference_wrapper<Exportable::Exporter>>
 ControlGroupXMLParser::Initializer::provideExporter(Item const &i)
 {
-  auto &id = i.ID();
-  if (outer_.parsers_.count(id) > 0) {
-    if (initializers_.count(id) > 0)
-      return *initializers_.at(id);
-    else {
-      auto initializer = outer_.parsers_.at(id)->initializer();
-      if (initializer != nullptr) {
-        initializers_.emplace(id, std::move(initializer));
+  for (auto &parser : outer_.parsers_) {
+    if (parser->ID() == i.ID() && (parser->instanceID() == i.instanceID() ||
+                                   parser->instanceID().empty())) {
+
+      // Each item instance must have its own initializer
+      auto const id = i.ID() != i.instanceID() ? i.ID() + i.instanceID()
+                                               : i.ID();
+      if (initializers_.count(id) > 0)
         return *initializers_.at(id);
+      else {
+        auto initializer = parser->initializer();
+        if (initializer != nullptr) {
+          initializers_.emplace(id, std::move(initializer));
+          return *initializers_.at(id);
+        }
       }
+
+      break;
     }
   }
 
@@ -105,8 +110,7 @@ void ControlGroupXMLParser::Initializer::takeActive(bool active)
 }
 
 ControlGroupXMLParser::ControlGroupXMLParser(std::string_view id) noexcept
-: ProfilePartXMLParser(*this, *this)
-, id_(id)
+: ProfilePartXMLParser(id, *this, *this)
 {
 }
 
@@ -125,9 +129,13 @@ std::unique_ptr<Exportable::Exporter> ControlGroupXMLParser::initializer()
 std::optional<std::reference_wrapper<Exportable::Exporter>>
 ControlGroupXMLParser::provideExporter(Item const &i)
 {
-  auto parserIt = parsers_.find(i.ID());
+  auto parserIt = std::find_if(
+      parsers_.cbegin(), parsers_.cend(), [&](auto &part) {
+        return part->ID() == i.ID() && part->instanceID() == i.instanceID();
+      });
+
   if (parserIt != parsers_.cend())
-    return parserIt->second->profilePartExporter();
+    return (*parserIt)->profilePartExporter();
 
   return {};
 }
@@ -135,9 +143,13 @@ ControlGroupXMLParser::provideExporter(Item const &i)
 std::optional<std::reference_wrapper<Importable::Importer>>
 ControlGroupXMLParser::provideImporter(Item const &i)
 {
-  auto parserIt = parsers_.find(i.ID());
+  auto parserIt = std::find_if(
+      parsers_.cbegin(), parsers_.cend(), [&](auto &part) {
+        return part->ID() == i.ID() && part->instanceID() == i.instanceID();
+      });
+
   if (parserIt != parsers_.cend())
-    return parserIt->second->profilePartImporter();
+    return (*parserIt)->profilePartImporter();
 
   return {};
 }
@@ -154,25 +166,34 @@ bool ControlGroupXMLParser::provideActive() const
 
 void ControlGroupXMLParser::appendTo(pugi::xml_node &parentNode)
 {
-  auto node = parentNode.append_child(id_.c_str());
+  auto node = parentNode.append_child(ID().c_str());
   node.append_attribute("active") = active_;
 
-  for (auto &[key, component] : parsers_)
-    component->appendTo(node);
+  for (auto &parser : parsers_)
+    parser->appendTo(node);
 }
 
 void ControlGroupXMLParser::resetAttributes()
 {
-  active_ = activeDefault_;
+  active_ = activeDefault();
 }
 
 void ControlGroupXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
 {
   auto node = parentNode.find_child(
-      [&](pugi::xml_node const &node) { return node.name() == id_; });
+      [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
-  active_ = node.attribute("active").as_bool(activeDefault_);
+  active_ = node.attribute("active").as_bool(activeDefault());
+  loadComponents(node);
+}
 
-  for (auto &[key, component] : parsers_)
-    component->loadFrom(node);
+void ControlGroupXMLParser::loadComponents(pugi::xml_node const &parentNode)
+{
+  for (auto &parser : parsers_)
+    parser->loadFrom(parentNode);
+}
+
+bool ControlGroupXMLParser::activeDefault() const
+{
+  return activeDefault_;
 }

@@ -46,9 +46,11 @@ namespace CPUFreqPack {
 class Provider final : public ICPUSensorProvider::IProvider
 {
  public:
-  std::unique_ptr<ISensor> provideCPUSensor(ICPUInfo const &cpuInfo,
-                                            ISWInfo const &) const override
+  std::vector<std::unique_ptr<ISensor>>
+  provideCPUSensors(ICPUInfo const &cpuInfo, ISWInfo const &) const override
   {
+    std::vector<std::unique_ptr<ISensor>> sensors;
+
     if (Utils::File::isDirectoryPathValid("/sys/devices/system/cpu/cpufreq")) {
 
       auto &executionUnits = cpuInfo.executionUnits();
@@ -103,22 +105,23 @@ class Provider final : public ICPUSensorProvider::IProvider
         }
 
         if (!dataSources.empty())
-          return std::make_unique<Sensor<units::frequency::megahertz_t, unsigned int>>(
-              CPUFreqPack::ItemID, std::move(dataSources), std::move(range),
-              [](std::vector<unsigned int> const &input) {
-                auto maxIter = std::max_element(input.cbegin(), input.cend());
-                if (maxIter != input.cend()) {
-                  units::frequency::kilohertz_t maxKHz(*maxIter);
-                  return maxKHz.convert<units::frequency::megahertz>()
-                      .to<unsigned int>();
-                }
-                else
-                  return 0u;
-              });
+          sensors.emplace_back(
+              std::make_unique<Sensor<units::frequency::megahertz_t, unsigned int>>(
+                  CPUFreqPack::ItemID, std::move(dataSources), std::move(range),
+                  [](std::vector<unsigned int> const &input) {
+                    auto maxIter = std::max_element(input.cbegin(), input.cend());
+                    if (maxIter != input.cend()) {
+                      units::frequency::kilohertz_t maxKHz(*maxIter);
+                      return maxKHz.convert<units::frequency::megahertz>()
+                          .to<unsigned int>();
+                    }
+                    else
+                      return 0u;
+                  }));
       }
     }
 
-    return nullptr;
+    return sensors;
   }
 };
 

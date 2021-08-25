@@ -67,8 +67,6 @@ class GPUXMLParser final
 
   std::unordered_map<std::string, std::unique_ptr<IProfilePartXMLParser>> parsers_;
 
-  std::string const id_;
-
   bool active_;
   bool activeDefault_;
 
