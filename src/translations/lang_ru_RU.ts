@@ -126,43 +126,6 @@
     </message>
 </context>
 <context>
-    <name>AMDPMFVStateForm</name>
-    <message>
-        <location filename="../qml/AMDPMFVStateForm.qml" line="99"/>
-        <source>GPU</source>
-        <translation>GPU</translation>
-    </message>
-    <message>
-        <location filename="../qml/AMDPMFVStateForm.qml" line="110"/>
-        <source>Memory</source>
-        <translation>Память</translation>
-    </message>
-</context>
-<context>
-    <name>AMDPMFVVoltCurveForm</name>
-    <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="78"/>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="121"/>
-        <source>Voltage</source>
-        <translation>Напряжение</translation>
-    </message>
-    <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="77"/>
-        <source>Frequency</source>
-        <translation>Частота</translation>
-    </message>
-    <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="92"/>
-        <source>GPU</source>
-        <translation>GPU</translation>
-    </message>
-    <message>
-        <location filename="../qml/AMDPMFVVoltCurveForm.qml" line="101"/>
-        <source>Memory</source>
-        <translation>Память</translation>
-    </message>
-</context>
-<context>
     <name>AMDPMFixedFreqForm</name>
     <message>
         <location filename="../qml/AMDPMFixedFreqForm.qml" line="89"/>
