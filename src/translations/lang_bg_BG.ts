@@ -33,6 +33,19 @@
     </message>
 </context>
 <context>
+    <name>AMD::PMFreqVoltQMLItem</name>
+    <message>
+        <location filename="../core/components/controls/amd/pm/advanced/overdrive/freqvolt/pmfreqvoltqmlitem.cpp" line="32"/>
+        <source>SCLK</source>
+        <translation>Видео Карта</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/amd/pm/advanced/overdrive/freqvolt/pmfreqvoltqmlitem.cpp" line="33"/>
+        <source>MCLK</source>
+        <translation>Памет</translation>
+    </message>
+</context>
+<context>
     <name>AMD::PMPowerProfileQMLItem</name>
     <message>
         <location filename="../core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp" line="30"/>

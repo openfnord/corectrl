@@ -28,6 +28,7 @@
         <file>qml/AMDPMOverclockForm.qml</file>
         <file>qml/AMDPMFreqOdForm.qml</file>
         <file>qml/AMDPMOverdriveForm.qml</file>
+        <file>qml/AMDPMFreqVoltForm.qml</file>
         <file>qml/AMDPMFreqRangeForm.qml</file>
         <file>qml/AMDPMVoltCurveForm.qml</file>
         <file>qml/AMDPMFVStateForm.qml</file>
