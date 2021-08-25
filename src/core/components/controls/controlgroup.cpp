@@ -22,7 +22,7 @@
 ControlGroup::ControlGroup(std::string_view id,
                            std::vector<std::unique_ptr<IControl>> &&controls,
                            bool active) noexcept
-: Control(active, true)
+: Control(active)
 , id_(id)
 , controls_(std::move(controls))
 {
