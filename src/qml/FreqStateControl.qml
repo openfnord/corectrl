@@ -89,6 +89,12 @@ Pane {
         Layout.alignment: Qt.AlignHCenter
       }
 
+      Label {
+        text: "MHz"
+        font.pointSize: 8
+        Layout.alignment: Qt.AlignHCenter
+      }
+
       Slider {
         id: stateFreqSld
 
@@ -123,35 +129,28 @@ Pane {
     GridLayout {
       columns: 2
 
-      ColumnLayout {
-        Layout.fillHeight: true
-
-        Label {
-          id: title
-          font.pointSize: 11
-          font.bold: true
-        }
-
-        Item { Layout.fillHeight: true }
-
-        Label {
-          id: freqLbl
-          text: qsTr("Frequency") + " (MHz)"
-          Layout.alignment: Qt.AlignRight
-        }
-
-        Item { Layout.preferredHeight: 10 }
+      Label {
+        id: title
+        font.pointSize: 11
+        font.bold: true
+        Layout.columnSpan: 2
       }
 
-      RowLayout {
-        id: freqStates
+      Pane {
+        padding: Style.FVControl.inner_padding
+        bottomPadding: 0
+        Layout.columnSpan: 2
 
-        spacing: 15
-        Layout.fillWidth: true
+        RowLayout {
+          id: freqStates
 
-        Repeater {
-          model: stateModel
-          delegate: stateCtl
+          spacing: 15
+          Layout.fillWidth: true
+
+          Repeater {
+            model: stateModel
+            delegate: stateCtl
+          }
         }
       }
     }

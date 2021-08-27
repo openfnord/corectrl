@@ -372,11 +372,6 @@
         <source>STATE</source>
         <translation>ESTAT</translation>
     </message>
-    <message>
-        <location filename="../qml/FreqStateControl.qml" line="139"/>
-        <source>Frequency</source>
-        <translation>Frequència</translation>
-    </message>
 </context>
 <context>
     <name>ProfileButton</name>

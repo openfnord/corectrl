@@ -143,6 +143,7 @@ var CurveControl = {
 
 var FVControl = {
   border_color: "#40666666",
+  inner_padding: 18,
 };
 
 var Dialog = {
