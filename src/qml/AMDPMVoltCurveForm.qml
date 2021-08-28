@@ -39,11 +39,15 @@ AMD_PM_VOLT_CURVE {
     voltCurve.addCurve("volt", Material.accent, points)
   }
 
+  Layout.fillHeight: true
+
   Pane {
     id: contents
     padding: 0
+    anchors.fill: parent
 
     RowLayout {
+      anchors.fill: parent
 
       Pane {
         Layout.fillHeight: true
@@ -83,7 +87,7 @@ AMD_PM_VOLT_CURVE {
 
           CurveControl {
             id: voltCurve
-            Layout.alignment: Qt.AlignCenter
+            Layout.fillHeight: true
 
             minXDistance: 5
 
@@ -92,7 +96,7 @@ AMD_PM_VOLT_CURVE {
             yTickCount: 3
             yMinorTickCount: 1
 
-            width: 240
+            width: 400
             height: 240
 
             enabled: modeSw.checked
