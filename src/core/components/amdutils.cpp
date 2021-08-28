@@ -547,6 +547,29 @@ parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines
   return {};
 }
 
+std::optional<units::voltage::millivolt_t>
+parseOverdriveVoltOffset(std::vector<std::string> const &ppOdClkVoltageLines)
+{
+  auto targetIt = std::find_if(
+      ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
+      [&](std::string const &line) {
+        return line.find("OD_VDDGFX_OFFSET:") != std::string::npos;
+      });
+  if (targetIt != ppOdClkVoltageLines.cend() &&
+      std::next(targetIt) != ppOdClkVoltageLines.cend()) {
+    std::regex const regex(R"(^(-?\d+)\s*mV\s*$)", std::regex::icase);
+
+    std::smatch result;
+    if (std::regex_search(*std::next(targetIt), result, regex)) {
+      int value;
+      if (Utils::String::toNumber(value, result[1]))
+        return units::voltage::millivolt_t(value);
+    }
+  }
+
+  return {};
+}
+
 std::optional<std::vector<std::string>>
 parseOverdriveClkControls(std::vector<std::string> const &ppOdClkVoltageLines)
 {
@@ -656,6 +679,16 @@ bool hasOverdriveVoltCurveControl(std::vector<std::string> const &data)
       });
 
   return curveIt != data.cend();
+}
+
+bool hasOverdriveVoltOffsetControl(std::vector<std::string> const &data)
+{
+  auto offsetIt = std::find_if(
+      data.cbegin(), data.cend(), [&](std::string const &line) {
+        return line.find("OD_VDDGFX_OFFSET:") != std::string::npos;
+      });
+
+  return offsetIt != data.cend();
 }
 
 } // namespace AMD

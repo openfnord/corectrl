@@ -144,6 +144,11 @@ std::optional<std::vector<std::pair<
     std::pair<units::voltage::millivolt_t, units::voltage::millivolt_t>>>>
 parseOverdriveVoltCurveRange(std::vector<std::string> const &ppOdClkVoltageLines);
 
+/// Returns the voltage offset.
+/// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
+std::optional<units::voltage::millivolt_t>
+parseOverdriveVoltOffset(std::vector<std::string> const &ppOdClkVoltageLines);
+
 /// Returns a list containing the name of the available CLK controls.
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
 std::optional<std::vector<std::string>>
@@ -168,6 +173,9 @@ bool hasOverdriveClkControl(std::vector<std::string> const &data);
 
 /// Returns true when overdrive voltage curve control is available.
 bool hasOverdriveVoltCurveControl(std::vector<std::string> const &data);
+
+/// Returns true when overdrive voltage offset control is available.
+bool hasOverdriveVoltOffsetControl(std::vector<std::string> const &data);
 
 } // namespace AMD
 } // namespace Utils

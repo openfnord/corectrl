@@ -104,6 +104,22 @@ TEST_CASE("GPUInfoPMOverdrive tests",
     REQUIRE(output.size() == 1);
     REQUIRE(output.front() == ::AMD::GPUInfoPMOverdrive::Clk);
   }
+
+  SECTION("Provides voltage offset capability")
+  {
+    // clang-format off
+    std::vector<std::string> ppOdClkVoltageData{"OD_VDDGFX_OFFSET:",
+                                                "0mV"};
+    // clang-format on
+
+    ::AMD::GPUInfoPMOverdrive ts(std::make_unique<VectorStringPathDataSourceStub>(
+        "pp_od_clk_voltage", std::move(ppOdClkVoltageData)));
+
+    auto output = ts.provideCapabilities(vendor, gpuIndex, path);
+
+    REQUIRE(output.size() == 1);
+    REQUIRE(output.front() == ::AMD::GPUInfoPMOverdrive::VoltOffset);
+  }
 }
 } // namespace GPUInfoPMOverdrive
 } // namespace AMD
