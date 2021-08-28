@@ -18,6 +18,7 @@
 #include "catch.hpp"
 
 #include "core/components/amdutils.h"
+#include "units/units.h"
 
 namespace Tests {
 namespace Utils {
@@ -510,6 +511,30 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     }
   }
 
+  SECTION("parseOverdriveVoltOffset")
+  {
+    SECTION("Returns voltage offset")
+    {
+      // clang-format off
+      std::vector<std::string> input{"OD_VDDGFX_OFFSET:",
+                                     "-10mV",
+                                     "...",};
+      // clang-format on
+
+      auto offset = ::Utils::AMD::parseOverdriveVoltOffset(input);
+      REQUIRE(offset.has_value());
+      REQUIRE(*offset == units::voltage::millivolt_t(-10));
+    }
+
+    SECTION("Returns nothing when there is no available voltage offset")
+    {
+      std::vector<std::string> input{"OTHER_DATA"};
+
+      auto empty = ::Utils::AMD::parseOverdriveVoltOffset(input);
+      REQUIRE_FALSE(empty.has_value());
+    }
+  }
+
   SECTION("getOverdriveClkControlCmdId")
   {
     SECTION("Returns 's' command id for SCLK control")
@@ -698,6 +723,24 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
       std::vector<std::string> noClkControlData{"OTHER_DATA"};
 
       REQUIRE_FALSE(::Utils::AMD::hasOverdriveVoltCurveControl(noClkControlData));
+    }
+  }
+
+  SECTION("hasOverdriveVoltOffsetControl")
+  {
+    SECTION("Returns true when overdrive has voltage offset control")
+    {
+      std::vector<std::string> data{"OD_VDDGFX_OFFSET:"};
+
+      REQUIRE(::Utils::AMD::hasOverdriveVoltOffsetControl(data));
+    }
+
+    SECTION("Returns false when overdrive has no voltage curve control")
+    {
+      std::vector<std::string> noClkControlData{"OTHER_DATA"};
+
+      REQUIRE_FALSE(
+          ::Utils::AMD::hasOverdriveVoltOffsetControl(noClkControlData));
     }
   }
 }
