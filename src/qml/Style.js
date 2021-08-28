@@ -30,6 +30,7 @@ var g_text = {
 
 var g_icon = {
   size: 32,
+  small_size: 18,
   source_size: 64,
 
   // unicode button icons

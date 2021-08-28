@@ -200,9 +200,27 @@
     </message>
     <message>
         <location filename="../qml/AMDPMVoltCurveForm.qml" line="35"/>
-        <location filename="../qml/AMDPMVoltCurveForm.qml" line="63"/>
+        <location filename="../qml/AMDPMVoltCurveForm.qml" line="67"/>
         <source>Voltage</source>
         <translation>Волтове</translation>
+    </message>
+</context>
+<context>
+    <name>AMDPMVoltOffsetForm</name>
+    <message>
+        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="65"/>
+        <source>Voltage</source>
+        <translation>Волтове</translation>
+    </message>
+    <message>
+        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="78"/>
+        <source>WARNING: Operating range not available. Use with caution!</source>
+        <translation>ПРЕДУПРЕЖДЕНИЕ: Работният обхват не е наличен. Използвайте с повишено внимание!</translation>
+    </message>
+    <message>
+        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="106"/>
+        <source>OFFSET</source>
+        <translation>ОФСЕТ</translation>
     </message>
 </context>
 <context>
@@ -340,17 +358,17 @@
         <translation>СЪСТОЯНИЕ</translation>
     </message>
     <message>
-        <location filename="../qml/FVControl.qml" line="180"/>
+        <location filename="../qml/FVControl.qml" line="182"/>
         <source>Auto</source>
         <translation>Авто</translation>
     </message>
     <message>
-        <location filename="../qml/FVControl.qml" line="211"/>
+        <location filename="../qml/FVControl.qml" line="213"/>
         <source>Frequency</source>
         <translation>Честота</translation>
     </message>
     <message>
-        <location filename="../qml/FVControl.qml" line="235"/>
+        <location filename="../qml/FVControl.qml" line="237"/>
         <source>Voltage</source>
         <translation>Волтове</translation>
     </message>
