@@ -160,6 +160,7 @@ Pane {
 
         enabled: stateCkb.checked
         Layout.preferredWidth: tFMetrics.width + padding * 2
+        Layout.alignment: Qt.AlignHCenter
 
         onValueChanged: control.stateChanged(_index, value, _volt)
       }
@@ -172,6 +173,7 @@ Pane {
         enabled: stateCkb.checked
         visible: manualVolt.checked
         Layout.preferredWidth: tFMetrics.width + padding * 2
+        Layout.alignment: Qt.AlignHCenter
 
         onValueChanged: control.stateChanged(_index, _freq, value)
       }

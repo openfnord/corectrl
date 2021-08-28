@@ -117,6 +117,7 @@ Pane {
         minValue: stateFreqSld.from
         maxValue: stateFreqSld.to
         Layout.preferredWidth: tFMetrics.width + padding * 2
+        Layout.alignment: Qt.AlignHCenter
 
         onValueChanged: control.stateChanged(_index, value)
       }
