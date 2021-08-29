@@ -17,7 +17,6 @@
 //
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
 import CoreCtrl.UIComponents 1.0
 import "Style.js" as Style
 
@@ -32,8 +31,9 @@ AMD_PM_OVERDRIVE {
     id: controls
     padding: Style.g_padding
 
-    RowLayout {
+    Row {
       objectName: "AMD_PM_OVERDRIVE_Plug"
+      spacing: 5
 
       property var childrenAdded: []
       onChildrenChanged: {
