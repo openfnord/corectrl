@@ -39,8 +39,6 @@ AMD_PM_VOLT_CURVE {
     voltCurve.addCurve("volt", Material.accent, points)
   }
 
-  Layout.fillHeight: true
-
   Pane {
     id: contents
     padding: 0
@@ -97,7 +95,7 @@ AMD_PM_VOLT_CURVE {
             yMinorTickCount: 1
 
             width: 400
-            height: 240
+            height: 299
 
             enabled: modeSw.checked
 
