@@ -27,6 +27,7 @@
 #include <memory>
 
 char const *const AMD::PMPowerStateQMLItem::trStrings[] = {
+    QT_TRANSLATE_NOOP("ControlModeQMLItem", "AMD_PM_POWERSTATE"),
     QT_TRANSLATE_NOOP("AMD::PMPowerStateQMLItem", "battery"),
     QT_TRANSLATE_NOOP("AMD::PMPowerStateQMLItem", "balanced"),
     QT_TRANSLATE_NOOP("AMD::PMPowerStateQMLItem", "performance"),

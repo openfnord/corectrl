@@ -76,17 +76,17 @@
 <context>
     <name>AMD::PMPowerStateQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
         <source>battery</source>
         <translation>батерия</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
         <source>balanced</source>
         <translation>балансирано</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="33"/>
         <source>performance</source>
         <translation>мощност</translation>
     </message>
@@ -181,14 +181,6 @@
         <location filename="../qml/AMDPMPowerProfileForm.qml" line="70"/>
         <source>Power profile</source>
         <translation>Профил на енергия</translation>
-    </message>
-</context>
-<context>
-    <name>AMDPMPowerStateForm</name>
-    <message>
-        <location filename="../qml/AMDPMPowerStateForm.qml" line="85"/>
-        <source>Power management state</source>
-        <translation>Режим на управление на енергията</translation>
     </message>
 </context>
 <context>
@@ -363,6 +355,11 @@
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
         <source>CPU_CPUFREQ</source>
+        <translation>Персонализиран</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
+        <source>AMD_PM_POWERSTATE</source>
         <translation>Персонализиран</translation>
     </message>
 </context>

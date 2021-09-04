@@ -76,17 +76,17 @@
 <context>
     <name>AMD::PMPowerStateQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
         <source>battery</source>
         <translation>Батарея</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
         <source>balanced</source>
         <translation>Сбалансированный</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="33"/>
         <source>performance</source>
         <translation>Производительность</translation>
     </message>
@@ -181,14 +181,6 @@
         <location filename="../qml/AMDPMPowerProfileForm.qml" line="70"/>
         <source>Power profile</source>
         <translation>Профиль мощности</translation>
-    </message>
-</context>
-<context>
-    <name>AMDPMPowerStateForm</name>
-    <message>
-        <location filename="../qml/AMDPMPowerStateForm.qml" line="85"/>
-        <source>Power management state</source>
-        <translation>Состояние управления питанием</translation>
     </message>
 </context>
 <context>
@@ -363,6 +355,11 @@
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
         <source>CPU_CPUFREQ</source>
+        <translation>Пользовательский</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
+        <source>AMD_PM_POWERSTATE</source>
         <translation>Пользовательский</translation>
     </message>
 </context>

@@ -76,17 +76,17 @@
 <context>
     <name>AMD::PMPowerStateQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
         <source>battery</source>
         <translation>Battery</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
         <source>balanced</source>
         <translation>Balanced</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="33"/>
         <source>performance</source>
         <translation>Performance</translation>
     </message>
@@ -181,14 +181,6 @@
         <location filename="../qml/AMDPMPowerProfileForm.qml" line="70"/>
         <source>Power profile</source>
         <translation>Power profile</translation>
-    </message>
-</context>
-<context>
-    <name>AMDPMPowerStateForm</name>
-    <message>
-        <location filename="../qml/AMDPMPowerStateForm.qml" line="85"/>
-        <source>Power management state</source>
-        <translation>Power management state</translation>
     </message>
 </context>
 <context>
@@ -363,6 +355,11 @@
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
         <source>CPU_CPUFREQ</source>
+        <translation>Custom</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
+        <source>AMD_PM_POWERSTATE</source>
         <translation>Custom</translation>
     </message>
 </context>
