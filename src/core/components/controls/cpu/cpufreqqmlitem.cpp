@@ -25,6 +25,8 @@
 #include <memory>
 
 char const *const CPUFreqQMLItem::trStrings[] = {
+    QT_TRANSLATE_NOOP("ControlModeQMLItem", "CPU_CPUFREQ"),
+
     // XXX add cpufreq scaling governors here
     QT_TRANSLATE_NOOP("CPUFreqQMLItem", "performance"),
     QT_TRANSLATE_NOOP("CPUFreqQMLItem", "powersave"),

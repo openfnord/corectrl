@@ -62,23 +62,9 @@ CPU_CPUFREQ {
     }
   }
 
-  Page {
-    id: contents
-
-    header: Pane {
-      leftPadding: Style.ModeSelector.header.padding
-      rightPadding: Style.ModeSelector.header.padding
-      topPadding: 25
-      bottomPadding: 24
-      Material.background: Style.ModeSelector.header.bg_color
-
-      Row { Label { text: qsTr("CPU performance scaling") } }
-    }
-
   Pane {
-      anchors.fill: parent
+    id: contents
     padding: Style.g_padding
-      Material.background: Style.ModeSelector.body.bg_color
 
     RowLayout {
       Label {
@@ -102,6 +88,5 @@ CPU_CPUFREQ {
         }
       }
     }
-  }
   }
 }

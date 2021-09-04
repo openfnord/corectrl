@@ -19,9 +19,9 @@
 
 #include "common/fileutils.h"
 #include "common/stringutils.h"
-#include "core/components/controls/cpucontrolprovider.h"
 #include "core/info/icpuinfo.h"
 #include "core/sysfsdatasource.h"
+#include "cpufreqmodeprovider.h"
 #include "cpufreq.h"
 #include <algorithm>
 #include <filesystem>
@@ -124,4 +124,4 @@ CPUFreqProvider::createScalingGovernorDataSources(ICPUInfo const &cpuInfo) const
 }
 
 bool const CPUFreqProvider::registered_ =
-    CPUControlProvider::registerProvider(std::make_unique<CPUFreqProvider>());
+    CPUFreqModeProvider::registerProvider(std::make_unique<CPUFreqProvider>());

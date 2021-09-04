@@ -264,12 +264,7 @@
 <context>
     <name>CPUFreqForm</name>
     <message>
-        <location filename="../qml/CPUFreqForm.qml" line="75"/>
-        <source>CPU performance scaling</source>
-        <translation>Escalat de rendiment de la CPU</translation>
-    </message>
-    <message>
-        <location filename="../qml/CPUFreqForm.qml" line="85"/>
+        <location filename="../qml/CPUFreqForm.qml" line="71"/>
         <source>Frequency governor</source>
         <translation>Gobernador de frequència</translation>
     </message>
@@ -285,32 +280,32 @@
 <context>
     <name>CPUFreqQMLItem</name>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
         <source>performance</source>
         <translation>Rendiment</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="32"/>
         <source>powersave</source>
         <translation>Estalvi d&apos;energia</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="33"/>
         <source>userspace</source>
         <translation>Frequència personalitzada</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="32"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="34"/>
         <source>schedutil</source>
         <translation>Utilització de la CPU</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="33"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="35"/>
         <source>ondemand</source>
         <translation>Sota demanda</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="34"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="36"/>
         <source>conservative</source>
         <translation>Conservador</translation>
     </message>
@@ -356,6 +351,11 @@
         <location filename="../core/components/controls/amd/pm/advanced/dynamicfreq/pmdynamicfreqqmlitem.cpp" line="30"/>
         <source>AMD_PM_DYNAMIC_FREQ</source>
         <translation>Dinàmica</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
+        <source>CPU_CPUFREQ</source>
+        <translation>Personalitzat</translation>
     </message>
 </context>
 <context>
