@@ -199,6 +199,9 @@ list(APPEND CONTROLS_SRC
   core/components/controls/cpu/cpufreqprovider.cpp
   core/components/controls/cpu/cpufreqprofilepart.cpp
   core/components/controls/cpu/cpufreqxmlparser.cpp
+  core/components/controls/cpu/cpufreqmodeprovider.cpp
+  core/components/controls/cpu/cpufreqmodeprofilepart.cpp
+  core/components/controls/cpu/cpufreqmodexmlparser.cpp
 )
 
 list(APPEND SENSORS_SRC
@@ -267,6 +270,7 @@ list(APPEND UI_COMPONENTS_SRC
   core/components/controls/amd/fan/fixed/fanfixedqmlitem.cpp
   core/components/controls/amd/fan/curve/fancurveqmlitem.cpp
   core/components/controls/cpu/cpufreqqmlitem.cpp
+  core/components/controls/cpu/cpufreqmodeqmlitem.cpp
 )
 
 list(APPEND APP_SRC
@@ -319,6 +323,7 @@ list (APPEND TRANSLATABLE_FILES
   qml/AMDFanFixedForm.qml
   qml/AMDFanCurveForm.qml
   qml/CPUFreqForm.qml
+  qml/CPUFreqModeForm.qml
 )
 
 list(APPEND TRANSLATIONS

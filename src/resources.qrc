@@ -39,6 +39,7 @@
         <file>qml/AMDFanFixedForm.qml</file>
         <file>qml/AMDFanCurveForm.qml</file>
         <file>qml/CPUFreqForm.qml</file>
+        <file>qml/CPUFreqModeForm.qml</file>
         <file>qml/ProfileButton.qml</file>
         <file>qml/ProfileInfoDialog.qml</file>
         <file>qml/NativeFileDialog.qml</file>

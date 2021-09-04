@@ -275,6 +275,14 @@
     </message>
 </context>
 <context>
+    <name>CPUFreqModeForm</name>
+    <message>
+        <location filename="../qml/CPUFreqModeForm.qml" line="33"/>
+        <source>Performance scaling</source>
+        <translation>Echelle de performance</translation>
+    </message>
+</context>
+<context>
     <name>CPUFreqQMLItem</name>
     <message>
         <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
