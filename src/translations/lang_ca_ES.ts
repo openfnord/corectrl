@@ -192,6 +192,14 @@
     </message>
 </context>
 <context>
+    <name>AMDPMPowerStateModeForm</name>
+    <message>
+        <location filename="../qml/AMDPMPowerStateModeForm.qml" line="33"/>
+        <source>Power management mode</source>
+        <translation>Mode de gestió d&apos;energia</translation>
+    </message>
+</context>
+<context>
     <name>AMDPMVoltCurveForm</name>
     <message>
         <location filename="../qml/AMDPMVoltCurveForm.qml" line="34"/>

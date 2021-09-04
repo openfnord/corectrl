@@ -88,15 +88,15 @@ AMD_PM_POWERSTATE {
       }
     }
 
-    Pane {
+  Pane {
       anchors.fill: parent
-      padding: Style.g_padding
+    padding: Style.g_padding
       Material.background: Style.ModeSelector.body.bg_color
 
-      Row {
-        id: btnContainer
-        spacing: 8
-      }
+    Row {
+      id: btnContainer
+      spacing: 8
     }
+  }
   }
 }

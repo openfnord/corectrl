@@ -179,6 +179,9 @@ list(APPEND CONTROLS_SRC
   core/components/controls/amd/pm/powerstate/pmpowerstateprovider.cpp
   core/components/controls/amd/pm/powerstate/pmpowerstateprofilepart.cpp
   core/components/controls/amd/pm/powerstate/pmpowerstatexmlparser.cpp
+  core/components/controls/amd/pm/powerstate/pmpowerstatemodeprovider.cpp
+  core/components/controls/amd/pm/powerstate/pmpowerstatemodeprofilepart.cpp
+  core/components/controls/amd/pm/powerstate/pmpowerstatemodexmlparser.cpp
   core/components/controls/amd/fan/fanmodeprovider.cpp
   core/components/controls/amd/fan/fanmodeprofilepart.cpp
   core/components/controls/amd/fan/fanmodexmlparser.cpp
@@ -265,6 +268,7 @@ list(APPEND UI_COMPONENTS_SRC
   core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp
   core/components/controls/amd/pm/advanced/powercap/pmpowercapqmlitem.cpp
   core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp
+  core/components/controls/amd/pm/powerstate/pmpowerstatemodeqmlitem.cpp
   core/components/controls/amd/fan/fanmodeqmlitem.cpp
   core/components/controls/amd/fan/auto/fanautoqmlitem.cpp
   core/components/controls/amd/fan/fixed/fanfixedqmlitem.cpp
@@ -318,6 +322,7 @@ list (APPEND TRANSLATABLE_FILES
   qml/AMDPMPowerProfileForm.qml
   qml/AMDPMPowerCapForm.qml
   qml/AMDPMPowerStateForm.qml
+  qml/AMDPMPowerStateModeForm.qml
   qml/AMDFanModeForm.qml
   qml/AMDFanAutoForm.qml
   qml/AMDFanFixedForm.qml

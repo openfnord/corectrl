@@ -34,6 +34,7 @@
         <file>qml/AMDPMVoltOffsetForm.qml</file>
         <file>qml/AMDPMPowerProfileForm.qml</file>
         <file>qml/AMDPMPowerStateForm.qml</file>
+        <file>qml/AMDPMPowerStateModeForm.qml</file>
         <file>qml/AMDFanModeForm.qml</file>
         <file>qml/AMDFanAutoForm.qml</file>
         <file>qml/AMDFanFixedForm.qml</file>
