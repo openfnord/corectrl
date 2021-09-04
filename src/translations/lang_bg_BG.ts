@@ -200,7 +200,7 @@
     </message>
     <message>
         <location filename="../qml/AMDPMVoltCurveForm.qml" line="35"/>
-        <location filename="../qml/AMDPMVoltCurveForm.qml" line="67"/>
+        <location filename="../qml/AMDPMVoltCurveForm.qml" line="65"/>
         <source>Voltage</source>
         <translation>Волтове</translation>
     </message>
