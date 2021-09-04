@@ -75,33 +75,33 @@ CPU_CPUFREQ {
       Row { Label { text: qsTr("CPU performance scaling") } }
     }
 
-    Pane {
+  Pane {
       anchors.fill: parent
-      padding: Style.g_padding
+    padding: Style.g_padding
       Material.background: Style.ModeSelector.body.bg_color
 
-      RowLayout {
-        Label {
-          text: qsTr("Frequency governor")
-          rightPadding: 6
-        }
+    RowLayout {
+      Label {
+        text: qsTr("Frequency governor")
+        rightPadding: 6
+      }
 
-        CComboBox {
-          id: cbScalingGovernor
-          model: scalingGovernorListModel
+      CComboBox {
+        id: cbScalingGovernor
+        model: scalingGovernorListModel
 
-          property int lastIndex: 0
+        property int lastIndex: 0
 
-          onActivated: {
-            if (lastIndex !== currentIndex) {
-              lastIndex = currentIndex
+        onActivated: {
+          if (lastIndex !== currentIndex) {
+            lastIndex = currentIndex
 
-              var governor = model.get(currentIndex).governor
-              cpuFreq.changeScalingGovernor(governor)
-            }
+            var governor = model.get(currentIndex).governor
+            cpuFreq.changeScalingGovernor(governor)
           }
         }
       }
     }
+  }
   }
 }

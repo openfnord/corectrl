@@ -52,7 +52,11 @@ class ControlModeXMLParser
 
  protected:
   void resetAttributes() final override;
-  void loadPartFrom(pugi::xml_node const &parentNode) final override;
+  void loadPartFrom(pugi::xml_node const &parentNode) override;
+
+  void loadComponents(pugi::xml_node const &parentNode);
+  bool activeDefault() const;
+  std::string const &modeDefault() const;
 
  private:
   class Factory;
