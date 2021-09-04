@@ -362,6 +362,11 @@
         <source>AMD_PM_POWERSTATE</source>
         <translation>Personalizado</translation>
     </message>
+    <message>
+        <location filename="../core/components/controls/noopqmlitem.cpp" line="30"/>
+        <source>NOOP</source>
+        <translation>No controlar</translation>
+    </message>
 </context>
 <context>
     <name>FVControl</name>
@@ -402,6 +407,19 @@
         <location filename="../qml/FreqStateControl.qml" line="79"/>
         <source>STATE</source>
         <translation>ESTADO</translation>
+    </message>
+</context>
+<context>
+    <name>NoopForm</name>
+    <message>
+        <location filename="../qml/NoopForm.qml" line="54"/>
+        <source>Warning!</source>
+        <translation>¡Advertencia!</translation>
+    </message>
+    <message>
+        <location filename="../qml/NoopForm.qml" line="59"/>
+        <source>The component will not be controlled</source>
+        <translation>El componente no será controlado</translation>
     </message>
 </context>
 <context>

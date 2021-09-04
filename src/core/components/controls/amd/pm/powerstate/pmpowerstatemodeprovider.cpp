@@ -42,7 +42,7 @@ AMD::PMPowerStateModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
     if (!modeControls.empty())
       controls.emplace_back(
           std::make_unique<PMPowerStateMode>(std::move(modeControls)));
-  }
+    }
 
   return controls;
 }

@@ -17,6 +17,7 @@
         <file>qml/SysModelForm.qml</file>
         <file>qml/GPUForm.qml</file>
         <file>qml/CPUForm.qml</file>
+        <file>qml/NoopForm.qml</file>
         <file>qml/AMDPMPerfModeForm.qml</file>
         <file>qml/AMDPMAutoForm.qml</file>
         <file>qml/AMDPMFixedForm.qml</file>

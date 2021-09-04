@@ -108,6 +108,9 @@ list(APPEND INFO_SRC
 )
 
 list(APPEND CONTROLS_SRC
+  core/components/controls/noop.cpp
+  core/components/controls/noopprofilepart.cpp
+  core/components/controls/noopxmlparser.cpp
   core/components/controls/gpucontrolprovider.cpp
   core/components/controls/amd/pm/handlers/ppdpmhandler.cpp
   core/components/controls/amd/pm/pmperfmodeprovider.cpp
@@ -251,6 +254,7 @@ list(APPEND UI_COMPONENTS_SRC
   core/components/sensors/cpu/cpufreqpackgraphitem.cpp
   core/components/controls/controlmodeqmlitem.cpp
   core/components/controls/controlgroupqmlitem.cpp
+  core/components/controls/noopqmlitem.cpp
   core/components/controls/amd/pm/pmperfmodeqmlitem.cpp
   core/components/controls/amd/pm/auto/pmautoqmlitem.cpp
   core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp
@@ -306,6 +310,7 @@ list (APPEND TRANSLATABLE_FILES
   qml/CPUForm.qml
   qml/GPUForm.qml
   qml/SensorGraph.qml
+  qml/NoopForm.qml
   qml/AMDPMPerfModeForm.qml
   qml/AMDPMAutoForm.qml
   qml/AMDPMFixedForm.qml

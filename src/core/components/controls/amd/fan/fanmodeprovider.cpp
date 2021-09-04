@@ -41,7 +41,7 @@ AMD::FanModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
     }
     if (!modeControls.empty())
       controls.emplace_back(std::make_unique<FanMode>(std::move(modeControls)));
-  }
+    }
 
   return controls;
 }

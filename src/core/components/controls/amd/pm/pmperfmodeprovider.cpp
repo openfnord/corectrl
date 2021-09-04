@@ -41,7 +41,7 @@ AMD::PMPerfModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
     if (!modeControls.empty())
       controls.emplace_back(
           std::make_unique<PMPerfMode>(std::move(modeControls)));
-  }
+    }
 
   return controls;
 }
