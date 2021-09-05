@@ -62,43 +62,28 @@ CPU_CPUFREQ {
     }
   }
 
-  Page {
+  Pane {
     id: contents
+    padding: Style.g_padding
 
-    header: Pane {
-      leftPadding: Style.ModeSelector.header.padding
-      rightPadding: Style.ModeSelector.header.padding
-      topPadding: 25
-      bottomPadding: 24
-      Material.background: Style.ModeSelector.header.bg_color
+    RowLayout {
+      Label {
+        text: qsTr("Frequency governor")
+        rightPadding: 6
+      }
 
-      Row { Label { text: qsTr("CPU performance scaling") } }
-    }
+      CComboBox {
+        id: cbScalingGovernor
+        model: scalingGovernorListModel
 
-    Pane {
-      anchors.fill: parent
-      padding: Style.g_padding
-      Material.background: Style.ModeSelector.body.bg_color
+        property int lastIndex: 0
 
-      RowLayout {
-        Label {
-          text: qsTr("Frequency governor")
-          rightPadding: 6
-        }
+        onActivated: {
+          if (lastIndex !== currentIndex) {
+            lastIndex = currentIndex
 
-        CComboBox {
-          id: cbScalingGovernor
-          model: scalingGovernorListModel
-
-          property int lastIndex: 0
-
-          onActivated: {
-            if (lastIndex !== currentIndex) {
-              lastIndex = currentIndex
-
-              var governor = model.get(currentIndex).governor
-              cpuFreq.changeScalingGovernor(governor)
-            }
+            var governor = model.get(currentIndex).governor
+            cpuFreq.changeScalingGovernor(governor)
           }
         }
       }

@@ -18,6 +18,7 @@
 #include "pmperfmodeprovider.h"
 
 #include "core/components/controls/gpucontrolprovider.h"
+#include "core/components/controls/noop.h"
 #include "core/info/igpuinfo.h"
 #include "pmperfmode.h"
 #include <iterator>
@@ -38,9 +39,11 @@ AMD::PMPerfModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
                           std::make_move_iterator(newControls.begin()),
                           std::make_move_iterator(newControls.end()));
     }
-    if (!modeControls.empty())
+    if (!modeControls.empty()) {
+      modeControls.emplace_back(std::make_unique<Noop>());
       controls.emplace_back(
           std::make_unique<PMPerfMode>(std::move(modeControls)));
+    }
   }
 
   return controls;

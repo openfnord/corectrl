@@ -183,8 +183,8 @@ void ControlModeXMLParser::appendTo(pugi::xml_node &parentNode)
 
 void ControlModeXMLParser::resetAttributes()
 {
-  active_ = activeDefault_;
-  mode_ = modeDefault_;
+  active_ = activeDefault();
+  mode_ = modeDefault();
 }
 
 void ControlModeXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
@@ -192,9 +192,24 @@ void ControlModeXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
   auto node = parentNode.find_child(
       [&](pugi::xml_node const &node) { return node.name() == ID(); });
 
-  active_ = node.attribute("active").as_bool(activeDefault_);
-  mode_ = node.attribute("mode").as_string(modeDefault_.c_str());
+  active_ = node.attribute("active").as_bool(activeDefault());
+  mode_ = node.attribute("mode").as_string(modeDefault().c_str());
 
+  loadComponents(node);
+}
+
+void ControlModeXMLParser::loadComponents(pugi::xml_node const &parentNode)
+{
   for (auto &[key, component] : parsers_)
-    component->loadFrom(node);
+    component->loadFrom(parentNode);
+}
+
+bool ControlModeXMLParser::activeDefault() const
+{
+  return activeDefault_;
+}
+
+std::string const &ControlModeXMLParser::modeDefault() const
+{
+  return modeDefault_;
 }

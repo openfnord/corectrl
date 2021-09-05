@@ -17,6 +17,7 @@
         <file>qml/SysModelForm.qml</file>
         <file>qml/GPUForm.qml</file>
         <file>qml/CPUForm.qml</file>
+        <file>qml/NoopForm.qml</file>
         <file>qml/AMDPMPerfModeForm.qml</file>
         <file>qml/AMDPMAutoForm.qml</file>
         <file>qml/AMDPMFixedForm.qml</file>
@@ -34,11 +35,13 @@
         <file>qml/AMDPMVoltOffsetForm.qml</file>
         <file>qml/AMDPMPowerProfileForm.qml</file>
         <file>qml/AMDPMPowerStateForm.qml</file>
+        <file>qml/AMDPMPowerStateModeForm.qml</file>
         <file>qml/AMDFanModeForm.qml</file>
         <file>qml/AMDFanAutoForm.qml</file>
         <file>qml/AMDFanFixedForm.qml</file>
         <file>qml/AMDFanCurveForm.qml</file>
         <file>qml/CPUFreqForm.qml</file>
+        <file>qml/CPUFreqModeForm.qml</file>
         <file>qml/ProfileButton.qml</file>
         <file>qml/ProfileInfoDialog.qml</file>
         <file>qml/NativeFileDialog.qml</file>

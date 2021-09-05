@@ -108,6 +108,9 @@ list(APPEND INFO_SRC
 )
 
 list(APPEND CONTROLS_SRC
+  core/components/controls/noop.cpp
+  core/components/controls/noopprofilepart.cpp
+  core/components/controls/noopxmlparser.cpp
   core/components/controls/gpucontrolprovider.cpp
   core/components/controls/amd/pm/handlers/ppdpmhandler.cpp
   core/components/controls/amd/pm/pmperfmodeprovider.cpp
@@ -179,6 +182,9 @@ list(APPEND CONTROLS_SRC
   core/components/controls/amd/pm/powerstate/pmpowerstateprovider.cpp
   core/components/controls/amd/pm/powerstate/pmpowerstateprofilepart.cpp
   core/components/controls/amd/pm/powerstate/pmpowerstatexmlparser.cpp
+  core/components/controls/amd/pm/powerstate/pmpowerstatemodeprovider.cpp
+  core/components/controls/amd/pm/powerstate/pmpowerstatemodeprofilepart.cpp
+  core/components/controls/amd/pm/powerstate/pmpowerstatemodexmlparser.cpp
   core/components/controls/amd/fan/fanmodeprovider.cpp
   core/components/controls/amd/fan/fanmodeprofilepart.cpp
   core/components/controls/amd/fan/fanmodexmlparser.cpp
@@ -199,6 +205,9 @@ list(APPEND CONTROLS_SRC
   core/components/controls/cpu/cpufreqprovider.cpp
   core/components/controls/cpu/cpufreqprofilepart.cpp
   core/components/controls/cpu/cpufreqxmlparser.cpp
+  core/components/controls/cpu/cpufreqmodeprovider.cpp
+  core/components/controls/cpu/cpufreqmodeprofilepart.cpp
+  core/components/controls/cpu/cpufreqmodexmlparser.cpp
 )
 
 list(APPEND SENSORS_SRC
@@ -245,6 +254,7 @@ list(APPEND UI_COMPONENTS_SRC
   core/components/sensors/cpu/cpufreqpackgraphitem.cpp
   core/components/controls/controlmodeqmlitem.cpp
   core/components/controls/controlgroupqmlitem.cpp
+  core/components/controls/noopqmlitem.cpp
   core/components/controls/amd/pm/pmperfmodeqmlitem.cpp
   core/components/controls/amd/pm/auto/pmautoqmlitem.cpp
   core/components/controls/amd/pm/fixed/pmfixedqmlitem.cpp
@@ -262,11 +272,13 @@ list(APPEND UI_COMPONENTS_SRC
   core/components/controls/amd/pm/advanced/powerprofile/pmpowerprofileqmlitem.cpp
   core/components/controls/amd/pm/advanced/powercap/pmpowercapqmlitem.cpp
   core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp
+  core/components/controls/amd/pm/powerstate/pmpowerstatemodeqmlitem.cpp
   core/components/controls/amd/fan/fanmodeqmlitem.cpp
   core/components/controls/amd/fan/auto/fanautoqmlitem.cpp
   core/components/controls/amd/fan/fixed/fanfixedqmlitem.cpp
   core/components/controls/amd/fan/curve/fancurveqmlitem.cpp
   core/components/controls/cpu/cpufreqqmlitem.cpp
+  core/components/controls/cpu/cpufreqmodeqmlitem.cpp
 )
 
 list(APPEND APP_SRC
@@ -298,6 +310,7 @@ list (APPEND TRANSLATABLE_FILES
   qml/CPUForm.qml
   qml/GPUForm.qml
   qml/SensorGraph.qml
+  qml/NoopForm.qml
   qml/AMDPMPerfModeForm.qml
   qml/AMDPMAutoForm.qml
   qml/AMDPMFixedForm.qml
@@ -314,11 +327,13 @@ list (APPEND TRANSLATABLE_FILES
   qml/AMDPMPowerProfileForm.qml
   qml/AMDPMPowerCapForm.qml
   qml/AMDPMPowerStateForm.qml
+  qml/AMDPMPowerStateModeForm.qml
   qml/AMDFanModeForm.qml
   qml/AMDFanAutoForm.qml
   qml/AMDFanFixedForm.qml
   qml/AMDFanCurveForm.qml
   qml/CPUFreqForm.qml
+  qml/CPUFreqModeForm.qml
 )
 
 list(APPEND TRANSLATIONS

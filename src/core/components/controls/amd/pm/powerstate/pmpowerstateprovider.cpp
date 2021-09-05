@@ -19,11 +19,11 @@
 
 #include "common/fileutils.h"
 #include "common/stringutils.h"
-#include "core/components/controls/gpucontrolprovider.h"
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/sysfsdatasource.h"
 #include "pmpowerstate.h"
+#include "pmpowerstatemodeprovider.h"
 #include <filesystem>
 #include <memory>
 #include <string>
@@ -54,5 +54,5 @@ AMD::PMPowerStateProvider::provideGPUControls(IGPUInfo const &gpuInfo,
 }
 
 bool const AMD::PMPowerStateProvider::registered_ =
-    GPUControlProvider::registerProvider(
+    AMD::PMPowerStateModeProvider::registerProvider(
         std::make_unique<AMD::PMPowerStateProvider>());

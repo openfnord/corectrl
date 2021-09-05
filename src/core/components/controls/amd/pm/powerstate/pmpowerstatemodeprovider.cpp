@@ -1,5 +1,5 @@
 //
-// Copyright 2019 Juan Palacios <jpalaciosdev@gmail.com>
+// Copyright 2021 Juan Palacios <jpalaciosdev@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,19 +15,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Distributed under the GPL version 3 or any later version.
 //
-#include "fanmodeprovider.h"
+#include "pmpowerstatemodeprovider.h"
 
 #include "core/components/controls/gpucontrolprovider.h"
 #include "core/components/controls/noop.h"
 #include "core/info/igpuinfo.h"
-#include "core/info/vendor.h"
-#include "fanmode.h"
+#include "pmpowerstatemode.h"
 #include <iterator>
 #include <utility>
 
 std::vector<std::unique_ptr<IControl>>
-AMD::FanModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
-                                         ISWInfo const &swInfo) const
+AMD::PMPowerStateModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
+                                                  ISWInfo const &swInfo) const
 {
   std::vector<std::unique_ptr<IControl>> controls;
 
@@ -40,9 +39,11 @@ AMD::FanModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
                           std::make_move_iterator(newControls.begin()),
                           std::make_move_iterator(newControls.end()));
     }
+
     if (!modeControls.empty()) {
       modeControls.emplace_back(std::make_unique<Noop>());
-      controls.emplace_back(std::make_unique<FanMode>(std::move(modeControls)));
+      controls.emplace_back(
+          std::make_unique<PMPowerStateMode>(std::move(modeControls)));
     }
   }
 
@@ -50,12 +51,12 @@ AMD::FanModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
 }
 
 std::vector<std::unique_ptr<IGPUControlProvider::IProvider>> const &
-AMD::FanModeProvider::gpuControlProviders() const
+AMD::PMPowerStateModeProvider::gpuControlProviders() const
 {
   return providers_();
 }
 
-bool AMD::FanModeProvider::registerProvider(
+bool AMD::PMPowerStateModeProvider::registerProvider(
     std::unique_ptr<IGPUControlProvider::IProvider> &&provider)
 {
   providers_().emplace_back(std::move(provider));
@@ -63,12 +64,12 @@ bool AMD::FanModeProvider::registerProvider(
 }
 
 std::vector<std::unique_ptr<IGPUControlProvider::IProvider>> &
-AMD::FanModeProvider::providers_()
+AMD::PMPowerStateModeProvider::providers_()
 {
   static std::vector<std::unique_ptr<IGPUControlProvider::IProvider>> providers;
   return providers;
 }
 
-bool const AMD::FanModeProvider::registered_ =
+bool const AMD::PMPowerStateModeProvider::registered_ =
     GPUControlProvider::registerProvider(
-        std::make_unique<AMD::FanModeProvider>());
+        std::make_unique<AMD::PMPowerStateModeProvider>());

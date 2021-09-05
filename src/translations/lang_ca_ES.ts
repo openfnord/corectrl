@@ -76,17 +76,17 @@
 <context>
     <name>AMD::PMPowerStateQMLItem</name>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
         <source>battery</source>
         <translation>Bateria</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="31"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
         <source>balanced</source>
         <translation>Balancejat</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="32"/>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="33"/>
         <source>performance</source>
         <translation>Rendiment</translation>
     </message>
@@ -184,11 +184,11 @@
     </message>
 </context>
 <context>
-    <name>AMDPMPowerStateForm</name>
+    <name>AMDPMPowerStateModeForm</name>
     <message>
-        <location filename="../qml/AMDPMPowerStateForm.qml" line="85"/>
-        <source>Power management state</source>
-        <translation>Estat de la gestió d&apos;energia</translation>
+        <location filename="../qml/AMDPMPowerStateModeForm.qml" line="33"/>
+        <source>Power management mode</source>
+        <translation>Mode de gestió d&apos;energia</translation>
     </message>
 </context>
 <context>
@@ -264,45 +264,48 @@
 <context>
     <name>CPUFreqForm</name>
     <message>
-        <location filename="../qml/CPUFreqForm.qml" line="75"/>
-        <source>CPU performance scaling</source>
-        <translation>Escalat de rendiment de la CPU</translation>
-    </message>
-    <message>
-        <location filename="../qml/CPUFreqForm.qml" line="85"/>
+        <location filename="../qml/CPUFreqForm.qml" line="71"/>
         <source>Frequency governor</source>
         <translation>Gobernador de frequència</translation>
     </message>
 </context>
 <context>
+    <name>CPUFreqModeForm</name>
+    <message>
+        <location filename="../qml/CPUFreqModeForm.qml" line="33"/>
+        <source>Performance scaling</source>
+        <translation>Escalat de rendiment</translation>
+    </message>
+</context>
+<context>
     <name>CPUFreqQMLItem</name>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="29"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
         <source>performance</source>
         <translation>Rendiment</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="30"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="32"/>
         <source>powersave</source>
         <translation>Estalvi d&apos;energia</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="31"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="33"/>
         <source>userspace</source>
         <translation>Frequència personalitzada</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="32"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="34"/>
         <source>schedutil</source>
         <translation>Utilització de la CPU</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="33"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="35"/>
         <source>ondemand</source>
         <translation>Sota demanda</translation>
     </message>
     <message>
-        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="34"/>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="36"/>
         <source>conservative</source>
         <translation>Conservador</translation>
     </message>
@@ -349,6 +352,21 @@
         <source>AMD_PM_DYNAMIC_FREQ</source>
         <translation>Dinàmica</translation>
     </message>
+    <message>
+        <location filename="../core/components/controls/cpu/cpufreqqmlitem.cpp" line="28"/>
+        <source>CPU_CPUFREQ</source>
+        <translation>Personalitzat</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/amd/pm/powerstate/pmpowerstateqmlitem.cpp" line="30"/>
+        <source>AMD_PM_POWERSTATE</source>
+        <translation>Personalitzat</translation>
+    </message>
+    <message>
+        <location filename="../core/components/controls/noopqmlitem.cpp" line="30"/>
+        <source>NOOP</source>
+        <translation>No controlar</translation>
+    </message>
 </context>
 <context>
     <name>FVControl</name>
@@ -389,6 +407,19 @@
         <location filename="../qml/FreqStateControl.qml" line="79"/>
         <source>STATE</source>
         <translation>ESTAT</translation>
+    </message>
+</context>
+<context>
+    <name>NoopForm</name>
+    <message>
+        <location filename="../qml/NoopForm.qml" line="54"/>
+        <source>Warning!</source>
+        <translation>¡Advertència!</translation>
+    </message>
+    <message>
+        <location filename="../qml/NoopForm.qml" line="59"/>
+        <source>The component will not be controlled</source>
+        <translation>El component no es controlarà</translation>
     </message>
 </context>
 <context>
