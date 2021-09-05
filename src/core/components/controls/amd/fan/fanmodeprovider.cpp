@@ -18,6 +18,7 @@
 #include "fanmodeprovider.h"
 
 #include "core/components/controls/gpucontrolprovider.h"
+#include "core/components/controls/noop.h"
 #include "core/info/igpuinfo.h"
 #include "core/info/vendor.h"
 #include "fanmode.h"
@@ -39,9 +40,11 @@ AMD::FanModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
                           std::make_move_iterator(newControls.begin()),
                           std::make_move_iterator(newControls.end()));
     }
-    if (!modeControls.empty())
+    if (!modeControls.empty()) {
+      modeControls.emplace_back(std::make_unique<Noop>());
       controls.emplace_back(std::make_unique<FanMode>(std::move(modeControls)));
     }
+  }
 
   return controls;
 }

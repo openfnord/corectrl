@@ -18,6 +18,7 @@
 #include "pmpowerstatemodeprovider.h"
 
 #include "core/components/controls/gpucontrolprovider.h"
+#include "core/components/controls/noop.h"
 #include "core/info/igpuinfo.h"
 #include "pmpowerstatemode.h"
 #include <iterator>
@@ -39,10 +40,12 @@ AMD::PMPowerStateModeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
                           std::make_move_iterator(newControls.end()));
     }
 
-    if (!modeControls.empty())
+    if (!modeControls.empty()) {
+      modeControls.emplace_back(std::make_unique<Noop>());
       controls.emplace_back(
           std::make_unique<PMPowerStateMode>(std::move(modeControls)));
     }
+  }
 
   return controls;
 }

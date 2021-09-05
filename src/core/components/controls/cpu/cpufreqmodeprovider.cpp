@@ -18,6 +18,7 @@
 #include "cpufreqmodeprovider.h"
 
 #include "core/components/controls/cpucontrolprovider.h"
+#include "core/components/controls/noop.h"
 #include "core/info/icpuinfo.h"
 #include "cpufreqmode.h"
 
@@ -35,8 +36,10 @@ CPUFreqModeProvider::provideCPUControls(ICPUInfo const &cpuInfo,
                         std::make_move_iterator(newControls.end()));
   }
 
-  if (!modeControls.empty())
+  if (!modeControls.empty()) {
+    modeControls.emplace_back(std::make_unique<Noop>());
     controls.emplace_back(std::make_unique<CPUFreqMode>(std::move(modeControls)));
+  }
 
   return controls;
 }
