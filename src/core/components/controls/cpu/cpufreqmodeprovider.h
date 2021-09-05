@@ -28,7 +28,7 @@ class CPUFreqModeProvider final
  public:
   std::vector<std::unique_ptr<IControl>>
   provideCPUControls(ICPUInfo const &cpuInfo,
-                    ISWInfo const &swInfo) const override;
+                     ISWInfo const &swInfo) const override;
 
   std::vector<std::unique_ptr<ICPUControlProvider::IProvider>> const &
   cpuControlProviders() const final override;

@@ -21,8 +21,8 @@
 #include "common/stringutils.h"
 #include "core/info/icpuinfo.h"
 #include "core/sysfsdatasource.h"
-#include "cpufreqmodeprovider.h"
 #include "cpufreq.h"
+#include "cpufreqmodeprovider.h"
 #include <algorithm>
 #include <filesystem>
 #include <utility>

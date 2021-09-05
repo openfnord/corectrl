@@ -43,20 +43,20 @@ AMD::PMVoltOffsetProvider::provideGPUControls(IGPUInfo const &gpuInfo,
     auto ppOdClkVolt = gpuInfo.path().sys / "pp_od_clk_voltage";
     auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
 
-  auto controlIsValid =
-      Utils::AMD::parseOverdriveVoltOffset(ppOdClkVoltLines).has_value();
+    auto controlIsValid =
+        Utils::AMD::parseOverdriveVoltOffset(ppOdClkVoltLines).has_value();
 
-  if (controlIsValid) {
+    if (controlIsValid) {
 
-    controls.emplace_back(std::make_unique<AMD::PMVoltOffset>(
+      controls.emplace_back(std::make_unique<AMD::PMVoltOffset>(
           std::make_unique<SysFSDataSource<std::vector<std::string>>>(
               ppOdClkVolt)));
-  }
-  else {
+    }
+    else {
       LOG(WARNING) << fmt::format("Invalid data on {}", ppOdClkVolt.string());
-    for (auto &line : ppOdClkVoltLines)
-      LOG(ERROR) << line.c_str();
-  }
+      for (auto &line : ppOdClkVoltLines)
+        LOG(ERROR) << line.c_str();
+    }
   }
 
   return controls;
