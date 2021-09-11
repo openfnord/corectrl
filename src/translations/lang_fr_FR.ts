@@ -202,7 +202,7 @@
         <location filename="../qml/AMDPMVoltCurveForm.qml" line="35"/>
         <location filename="../qml/AMDPMVoltCurveForm.qml" line="65"/>
         <source>Voltage</source>
-        <translation>Voltage</translation>
+        <translation>Tension</translation>
     </message>
 </context>
 <context>
@@ -210,7 +210,7 @@
     <message>
         <location filename="../qml/AMDPMVoltOffsetForm.qml" line="65"/>
         <source>Voltage</source>
-        <translation>Voltage</translation>
+        <translation>Tension</translation>
     </message>
     <message>
         <location filename="../qml/AMDPMVoltOffsetForm.qml" line="78"/>
@@ -691,7 +691,7 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
     <message>
         <location filename="../core/components/sensors/amd/gpuvoltgraphitem.cpp" line="34"/>
         <source>AMD_GPU_VOLT</source>
-        <translation>Voltage</translation>
+        <translation>Tension</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/junctiontempgraphitem.cpp" line="34"/>
