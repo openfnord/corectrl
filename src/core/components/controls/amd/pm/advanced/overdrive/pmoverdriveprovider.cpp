@@ -50,29 +50,19 @@ AMD::PMOverdriveProvider::provideGPUControls(IGPUInfo const &gpuInfo,
       if (Utils::File::isSysFSEntryValid(perfLevel) &&
           Utils::File::isSysFSEntryValid(ppOdClkVolt)) {
 
-        auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
-        if (!Utils::AMD::ppOdClkVoltageHasKnownQuirks(ppOdClkVoltLines)) {
-
-          std::vector<std::unique_ptr<IControl>> groupControls;
-          for (auto &provider : providers_()) {
-            auto newControls = provider->provideGPUControls(gpuInfo, swInfo);
-            groupControls.insert(groupControls.end(),
-                                 std::make_move_iterator(newControls.begin()),
-                                 std::make_move_iterator(newControls.end()));
-          }
-          if (!groupControls.empty())
-            controls.emplace_back(std::make_unique<PMOverdrive>(
-                std::make_unique<SysFSDataSource<std::string>>(perfLevel),
-                std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                    ppOdClkVolt),
-                std::move(groupControls)));
+        std::vector<std::unique_ptr<IControl>> groupControls;
+        for (auto &provider : providers_()) {
+          auto newControls = provider->provideGPUControls(gpuInfo, swInfo);
+          groupControls.insert(groupControls.end(),
+                               std::make_move_iterator(newControls.begin()),
+                               std::make_move_iterator(newControls.end()));
         }
-        else {
-          LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                      ppOdClkVolt.string());
-          for (auto &line : ppOdClkVoltLines)
-            LOG(ERROR) << line.c_str();
-        }
+        if (!groupControls.empty())
+          controls.emplace_back(std::make_unique<PMOverdrive>(
+              std::make_unique<SysFSDataSource<std::string>>(perfLevel),
+              std::make_unique<SysFSDataSource<std::vector<std::string>>>(
+                  ppOdClkVolt),
+              std::move(groupControls)));
       }
     }
   }

@@ -602,11 +602,6 @@ getOverdriveClkControlCmdId(std::string_view controlName)
   return {};
 }
 
-bool ppOdClkVoltageHasKnownQuirks(std::vector<std::string> const &)
-{
-  return false;
-}
-
 bool ppOdClkVoltageHasKnownFreqVoltQuirks(
     std::string const &, std::vector<std::string> const &ppOdClkVoltageLines)
 {
