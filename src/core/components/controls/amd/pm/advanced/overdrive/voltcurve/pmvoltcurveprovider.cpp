@@ -44,6 +44,7 @@ AMD::PMVoltCurveProvider::provideGPUControls(IGPUInfo const &gpuInfo,
     auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
 
     auto voltCurveControlValid =
+        !Utils::AMD::ppOdClkVoltageHasKnownVoltCurveQuirks(ppOdClkVoltLines) &&
         Utils::AMD::parseOverdriveVoltCurveRange(ppOdClkVoltLines).has_value() &&
         Utils::AMD::parseOverdriveVoltCurve(ppOdClkVoltLines).has_value();
 
