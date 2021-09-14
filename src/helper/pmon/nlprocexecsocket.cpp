@@ -131,18 +131,40 @@ int NLProcExecSocket::installSocketFilter() const
       BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, htonl(CN_VAL_PROC), 1, 0),
       BPF_STMT(BPF_RET | BPF_K, 0x0), // drop message
 
-      // accept exec message
+      // accept exec messages from processes
       BPF_STMT(BPF_LD | BPF_W | BPF_ABS, NLMSG_LENGTH(0) +
-                                         offsetof (struct cn_msg, data) +
-                                         offsetof (struct proc_event, what)),
-      BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, htonl(proc_event::PROC_EVENT_EXEC), 0, 1),
+                                         offsetof(struct cn_msg, data) +
+                                         offsetof(struct proc_event, what)),
+      BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, htonl(proc_event::PROC_EVENT_EXEC), 0, 6),
+
+      // processes have process_pid == process_tgid (thread group leaders)
+      BPF_STMT(BPF_LD | BPF_W | BPF_ABS, NLMSG_LENGTH(0) +
+                                         offsetof(struct cn_msg, data) +
+                                         offsetof(struct proc_event, event_data.exec.process_pid)),
+      BPF_STMT(BPF_ST, 0),
+      BPF_STMT(BPF_LDX | BPF_W | BPF_MEM, 0),
+      BPF_STMT(BPF_LD | BPF_W | BPF_ABS, NLMSG_LENGTH(0) +
+                                         offsetof(struct cn_msg, data) +
+                                         offsetof(struct proc_event, event_data.exec.process_tgid)),
+      BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_X, 0, 0, 1),
       BPF_STMT(BPF_RET | BPF_K, 0xffffffff),
 
-      // accept exit message
+      // accept exit messages from processes
       BPF_STMT(BPF_LD | BPF_W | BPF_ABS, NLMSG_LENGTH(0) +
-                                         offsetof (struct cn_msg, data) +
-                                         offsetof (struct proc_event, what)),
-      BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, htonl(proc_event::PROC_EVENT_EXIT), 0, 1),
+                                         offsetof(struct cn_msg, data) +
+                                         offsetof(struct proc_event, what)),
+      BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, htonl(proc_event::PROC_EVENT_EXIT), 0, 6),
+
+      // processes have process_pid == process_tgid
+      BPF_STMT(BPF_LD | BPF_W | BPF_ABS, NLMSG_LENGTH(0) +
+                                         offsetof(struct cn_msg, data) +
+                                         offsetof(struct proc_event, event_data.exit.process_pid)),
+      BPF_STMT(BPF_ST, 0),
+      BPF_STMT(BPF_LDX | BPF_W | BPF_MEM, 0),
+      BPF_STMT(BPF_LD | BPF_W | BPF_ABS, NLMSG_LENGTH(0) +
+                                         offsetof(struct cn_msg, data) +
+                                         offsetof(struct proc_event, event_data.exit.process_tgid)),
+      BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_X, 0, 0, 1),
       BPF_STMT(BPF_RET | BPF_K, 0xffffffff),
 
       // drop any other messages
