@@ -1,4 +1,4 @@
-Please, follow the [Issues writting guidelines](CONTRIBUTING.md#Issues-writting-guidelines).
+Please, follow the [Issues writing guidelines](CONTRIBUTING.md#Issues-writing-guidelines).
 
 **CoreCtrl version:**
 
