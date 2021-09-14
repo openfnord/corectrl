@@ -172,6 +172,13 @@ bool ppOdClkVoltageHasKnownFreqVoltQuirks(
 bool ppOdClkVoltageHasKnownVoltCurveQuirks(
     std::vector<std::string> const &ppOdClkVoltageLines);
 
+/// Returns whether pp_od_clk_voltage has known frequency range control quirks.
+/// @param controlName name of the control
+/// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
+bool ppOdClkVoltageHasKnownFreqRangeQuirks(
+    std::string const &controlName,
+    std::vector<std::string> const &ppOdClkVoltageLines);
+
 /// Returns true when overdrive clock + voltage state control is available.
 bool hasOverdriveClkVoltControl(std::vector<std::string> const &data);
 

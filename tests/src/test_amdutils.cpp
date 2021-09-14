@@ -659,6 +659,48 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     }
   }
 
+  SECTION("ppOdClkVoltageHasKnownFreqRangeQuirks")
+  {
+    SECTION("RX 6X00XT out of range minimum memory clock")
+    {
+      // clang-format off
+      std::vector<std::string> input{"OD_SCLK:",
+                                     "0: 700Mhz",
+                                     "1: 2629Mhz",
+                                     "OD_MCLK:",
+                                     "0: 97Mhz",
+                                     "1: 1000MHz",
+                                     "OD_VDDGFX_OFFSET:",
+                                     "0mV",
+                                     "OD_RANGE:",
+                                     "SCLK:     500Mhz       3150Mhz",
+                                     "MCLK:     674Mhz        1200Mhz"};
+      // clang-format on
+      REQUIRE(::Utils::AMD::ppOdClkVoltageHasKnownFreqRangeQuirks("MCLK", input));
+    }
+
+    SECTION("Good input has no quirks")
+    {
+      // clang-format off
+      std::vector<std::string> input{"OD_SCLK:",
+                                     "0: 700Mhz",
+                                     "1: 2629Mhz",
+                                     "OD_MCLK:",
+                                     "0: 674Mhz",
+                                     "1: 1000MHz",
+                                     "OD_VDDGFX_OFFSET:",
+                                     "0mV",
+                                     "OD_RANGE:",
+                                     "SCLK:     500Mhz       3150Mhz",
+                                     "MCLK:     674Mhz        1200Mhz"};
+      // clang-format on
+      REQUIRE_FALSE(
+          ::Utils::AMD::ppOdClkVoltageHasKnownFreqRangeQuirks("SCLK", input));
+      REQUIRE_FALSE(
+          ::Utils::AMD::ppOdClkVoltageHasKnownFreqRangeQuirks("MCLK", input));
+    }
+  }
+
   SECTION("hasOverdriveClkVoltControl")
   {
     SECTION("Returns true when overdrive has clock + voltage state controls")
