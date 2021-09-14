@@ -52,6 +52,8 @@ AMD::PMFreqRangeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
       for (auto controlName : controlNames.value()) {
 
         auto controlIsValid =
+            !Utils::AMD::ppOdClkVoltageHasKnownFreqRangeQuirks(
+                controlName, ppOdClkVoltLines) &&
             Utils::AMD::parseOverdriveClkRange(controlName, ppOdClkVoltLines)
                 .has_value() &&
             Utils::AMD::parseOverdriveClks(controlName, ppOdClkVoltLines)

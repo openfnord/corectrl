@@ -637,6 +637,32 @@ bool ppOdClkVoltageHasKnownVoltCurveQuirks(
   return false;
 }
 
+bool ppOdClkVoltageHasKnownFreqRangeQuirks(
+    std::string const &controlName,
+    std::vector<std::string> const &ppOdClkVoltageLines)
+{
+  // Check for out of range frequency clocks (RX6X00 XT)
+  // ...
+  // "OD_MCLK:",
+  // "0: 97Mhz",
+  // ...
+  // "OD_RANGE:",
+  // ...
+  // "MCLK:     674Mhz        1200Mhz",
+  auto clks = parseOverdriveClks(controlName, ppOdClkVoltageLines);
+  auto range = parseOverdriveClkRange(controlName, ppOdClkVoltageLines);
+  if (!(clks.has_value() && range.has_value()))
+    return true;
+
+  auto [min, max] = *range;
+  for (auto &[_, clk] : *clks) {
+    if (!(clk >= min && clk <= max))
+      return true;
+  }
+
+  return false;
+}
+
 bool hasOverdriveClkVoltControl(std::vector<std::string> const &data)
 {
   std::regex const clkRegex(R"(^OD_\wCLK:)", std::regex::icase);
