@@ -62,6 +62,8 @@ AMD::PMFreqVoltProvider::provideGPUControls(IGPUInfo const &gpuInfo,
 
           auto dpmIsValid = Utils::AMD::parseDPMStates(dpmLines).has_value();
           auto controlIsValid =
+              !Utils::AMD::ppOdClkVoltageHasKnownFreqVoltQuirks(
+                  controlName, ppOdClkVoltLines) &&
               Utils::AMD::parseOverdriveClkRange(controlName, ppOdClkVoltLines)
                   .has_value() &&
               Utils::AMD::parseOverdriveVoltRange(ppOdClkVoltLines).has_value() &&
@@ -88,8 +90,8 @@ AMD::PMFreqVoltProvider::provideGPUControls(IGPUInfo const &gpuInfo,
           }
           else {
             if (!controlIsValid) {
-              LOG(WARNING) << fmt::format("Unknown data format on {}",
-                                          ppOdClkVolt.string());
+              LOG(WARNING) << fmt::format("Invalid data on {} for control {}",
+                                          ppOdClkVolt.string(), controlName);
               logPPOdClkVoltContents = true;
             }
 

@@ -550,15 +550,19 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     }
   }
 
-  SECTION("ppOdClkVoltageHasKnownQuirks")
+  SECTION("ppOdClkVoltageHasKnownFreqVoltQuirks")
   {
-    SECTION("Empty file")
+    SECTION("Pre-Vega20 missing range section")
     {
-      REQUIRE(::Utils::AMD::ppOdClkVoltageHasKnownQuirks(
-          std::vector<std::string>()));
+      // clang-format off
+      std::vector<std::string> input{"OD_SCLK:",
+                                     "0:        300MHz        800mV",
+                                     "1:        608MHz        818mV"};
+      // clang-format on
+      REQUIRE(::Utils::AMD::ppOdClkVoltageHasKnownFreqVoltQuirks("SCLK", input));
     }
 
-    SECTION("Pre-Vega20 missing range section")
+    SECTION("Good input has no quirks")
     {
       // clang-format off
       std::vector<std::string> input{"OD_SCLK:",
@@ -566,11 +570,21 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "1:        608MHz        818mV",
                                      "OD_MCLK:",
                                      "0:        300MHz        800mV",
-                                     "1:       2000MHz        975mV"};
+                                     "1:       2000MHz        975mV",
+                                     "OD_RANGE:",
+                                     "SCLK:     800MHz       2150MHz",
+                                     "MCLK:     625MHz        950MHz",
+                                     "VDDC:     800mV        1175mV"};
       // clang-format on
-      REQUIRE(::Utils::AMD::ppOdClkVoltageHasKnownQuirks(input));
+      REQUIRE_FALSE(
+          ::Utils::AMD::ppOdClkVoltageHasKnownFreqVoltQuirks("SCLK", input));
+      REQUIRE_FALSE(
+          ::Utils::AMD::ppOdClkVoltageHasKnownFreqVoltQuirks("MCLK", input));
     }
+  }
 
+  SECTION("ppOdClkVoltageHasKnownVoltCurveQuirks")
+  {
     SECTION("Navi zero voltage curve points")
     {
       // clang-format off
@@ -592,25 +606,11 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "VDDC_CURVE_SCLK[2]:     800Mhz       2150Mhz",
                                      "VDDC_CURVE_VOLT[2]:     750mV        1200mV"};
       // clang-format on
-      REQUIRE(::Utils::AMD::ppOdClkVoltageHasKnownQuirks(input));
+      REQUIRE(::Utils::AMD::ppOdClkVoltageHasKnownVoltCurveQuirks(input));
     }
 
     SECTION("Good input has no quirks")
     {
-      // clang-format off
-      std::vector<std::string> preVega20Input{"OD_SCLK:",
-                                              "0:        300MHz        800mV",
-                                              "1:        608MHz        818mV",
-                                              "OD_MCLK:",
-                                              "0:        300MHz        800mV",
-                                              "1:       2000MHz        975mV",
-                                              "OD_RANGE:",
-                                              "SCLK:     800MHz       2150MHz",
-                                              "MCLK:     625MHz        950MHz",
-                                              "VDDC:     800mV        1175mV"};
-      // clang-format on
-      REQUIRE_FALSE(::Utils::AMD::ppOdClkVoltageHasKnownQuirks(preVega20Input));
-
       // Vega20
       // clang-format off
       std::vector<std::string> vega20Input{"OD_SCLK:",
@@ -631,7 +631,8 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                            "VDDC_CURVE_SCLK[2]:     800Mhz       2150Mhz",
                                            "VDDC_CURVE_VOLT[2]:     750mV        1200mV"};
       // clang-format on
-      REQUIRE_FALSE(::Utils::AMD::ppOdClkVoltageHasKnownQuirks(vega20Input));
+      REQUIRE_FALSE(
+          ::Utils::AMD::ppOdClkVoltageHasKnownVoltCurveQuirks(vega20Input));
 
       // Navi
       // clang-format off
@@ -653,7 +654,8 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                          "VDDC_CURVE_SCLK[2]:     800Mhz       2150Mhz",
                                          "VDDC_CURVE_VOLT[2]:     750mV        1200mV"};
       // clang-format on
-      REQUIRE_FALSE(::Utils::AMD::ppOdClkVoltageHasKnownQuirks(naviInput));
+      REQUIRE_FALSE(
+          ::Utils::AMD::ppOdClkVoltageHasKnownVoltCurveQuirks(naviInput));
     }
   }
 

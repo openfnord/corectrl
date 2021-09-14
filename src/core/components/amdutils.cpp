@@ -602,13 +602,9 @@ getOverdriveClkControlCmdId(std::string_view controlName)
   return {};
 }
 
-bool ppOdClkVoltageHasKnownQuirks(
-    std::vector<std::string> const &ppOdClkVoltageLines)
+bool ppOdClkVoltageHasKnownFreqVoltQuirks(
+    std::string const &, std::vector<std::string> const &ppOdClkVoltageLines)
 {
-  // Empty file
-  if (ppOdClkVoltageLines.empty())
-    return true;
-
   // Check for missing range section (kernel < 4.18)
   auto odRangeIter = std::find_if(
       ppOdClkVoltageLines.cbegin(), ppOdClkVoltageLines.cend(),
@@ -616,6 +612,12 @@ bool ppOdClkVoltageHasKnownQuirks(
   if (odRangeIter == ppOdClkVoltageLines.cend())
     return true;
 
+  return false;
+}
+
+bool ppOdClkVoltageHasKnownVoltCurveQuirks(
+    std::vector<std::string> const &ppOdClkVoltageLines)
+{
   // Check for voltage incomplete curve points (navi on kernel < 5.6)
   // "OD_VDDC_CURVE:",
   // "0: 700Mhz @ 0mV",
