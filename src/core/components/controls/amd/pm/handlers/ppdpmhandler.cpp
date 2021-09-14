@@ -24,8 +24,10 @@
 #include <iterator>
 
 AMD::PpDpmHandler::PpDpmHandler(
+    std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
     std::unique_ptr<IDataSource<std::vector<std::string>>> &&ppDpmDataSource) noexcept
-: ppDpmDataSource_(std::move(ppDpmDataSource))
+: perfLevelDataSource_(std::move(perfLevelDataSource))
+, ppDpmDataSource_(std::move(ppDpmDataSource))
 , resync_(true)
 {
   if (ppDpmDataSource_->read(ppDpmLines_)) {
@@ -87,18 +89,11 @@ void AMD::PpDpmHandler::reset(ICommandQueue &ctlCmds)
     activeStatesStr.append(std::to_string(state.first)).append(" ");
   activeStatesStr.pop_back(); // remove trailing space
 
+  if (perfLevelDataSource_->read(perfLevelValue_) &&
+      perfLevelValue_ != "manual")
+    ctlCmds.add({perfLevelDataSource_->source(), "manual"});
   ctlCmds.add({ppDpmDataSource_->source(), activeStatesStr});
-  resync_ = false;
-}
 
-void AMD::PpDpmHandler::apply(ICommandQueue &ctlCmds)
-{
-  std::string activeStatesStr;
-  for (auto &index : active_)
-    activeStatesStr.append(std::to_string(index)).append(" ");
-  activeStatesStr.pop_back(); // remove trailing space
-
-  ctlCmds.add({ppDpmDataSource_->source(), activeStatesStr});
   resync_ = false;
 }
 
@@ -108,15 +103,37 @@ void AMD::PpDpmHandler::sync(ICommandQueue &ctlCmds)
   // pp_dpm_* files, we cannot control external changes of the file
   // when the external change selected one or more states within the
   // current active states group of this handler.
-  // Also, we need to keep track manually when is necesary a resync.
+  // Also, we need to keep track manually when is necessary a re-sync.
 
-  if (ppDpmDataSource_->read(ppDpmLines_)) {
-    auto currentIndex = Utils::AMD::parseDPMCurrentStateIndex(ppDpmLines_);
-    if (currentIndex.has_value()) {
-      if (resync_ || // modified: needs syncing
-          std::find( // current index is not an active index
-              active_.cbegin(), active_.cend(), *currentIndex) == active_.cend())
-        apply(ctlCmds);
+  if (perfLevelDataSource_->read(perfLevelValue_) &&
+      ppDpmDataSource_->read(ppDpmLines_)) {
+
+    if (perfLevelValue_ != "manual") {
+      apply(ctlCmds); // apply it unconditionally
+    }
+    else {
+      auto currentIndex = Utils::AMD::parseDPMCurrentStateIndex(ppDpmLines_);
+      if (currentIndex.has_value()) {
+        if (resync_ || // modified: needs syncing
+            std::find( // current index is not an active index
+                active_.cbegin(), active_.cend(), *currentIndex) ==
+                active_.cend())
+          apply(ctlCmds);
+      }
     }
   }
+}
+
+void AMD::PpDpmHandler::apply(ICommandQueue &ctlCmds)
+{
+  std::string activeStatesStr;
+  for (auto &index : active_)
+    activeStatesStr.append(std::to_string(index)).append(" ");
+  activeStatesStr.pop_back(); // remove trailing space
+
+  if (perfLevelValue_ != "manual")
+    ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+  ctlCmds.add({ppDpmDataSource_->source(), activeStatesStr});
+
+  resync_ = false;
 }

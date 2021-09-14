@@ -21,13 +21,10 @@
 #include "core/icommandqueue.h"
 #include "core/idatasource.h"
 
-AMD::PMFixedFreq::PMFixedFreq(
-    std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
-    std::unique_ptr<IPpDpmHandler> &&ppDpmSclkHandler,
-    std::unique_ptr<IPpDpmHandler> &&ppDpmMclkHandler) noexcept
+AMD::PMFixedFreq::PMFixedFreq(std::unique_ptr<IPpDpmHandler> &&ppDpmSclkHandler,
+                              std::unique_ptr<IPpDpmHandler> &&ppDpmMclkHandler) noexcept
 : Control(true)
 , id_(AMD::PMFixedFreq::ItemID)
-, perfLevelDataSource_(std::move(perfLevelDataSource))
 , ppDpmSclkHandler_(std::move(ppDpmSclkHandler))
 , ppDpmMclkHandler_(std::move(ppDpmMclkHandler))
 {
@@ -82,25 +79,12 @@ void AMD::PMFixedFreq::exportControl(IControl::Exporter &e) const
 
 void AMD::PMFixedFreq::cleanControl(ICommandQueue &ctlCmds)
 {
-  ctlCmds.add({perfLevelDataSource_->source(), "manual"});
-
   ppDpmSclkHandler_->reset(ctlCmds);
   ppDpmMclkHandler_->reset(ctlCmds);
 }
 
 void AMD::PMFixedFreq::syncControl(ICommandQueue &ctlCmds)
 {
-  if (perfLevelDataSource_->read(dataSourceEntry_)) {
-
-    if (dataSourceEntry_ != "manual") {
-      ctlCmds.add({perfLevelDataSource_->source(), "manual"});
-
-      ppDpmSclkHandler_->apply(ctlCmds);
-      ppDpmMclkHandler_->apply(ctlCmds);
-    }
-    else {
-      ppDpmSclkHandler_->sync(ctlCmds);
-      ppDpmMclkHandler_->sync(ctlCmds);
-    }
-  }
+  ppDpmSclkHandler_->sync(ctlCmds);
+  ppDpmMclkHandler_->sync(ctlCmds);
 }

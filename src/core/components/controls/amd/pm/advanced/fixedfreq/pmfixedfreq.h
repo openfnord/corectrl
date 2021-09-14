@@ -57,8 +57,7 @@ class PMFixedFreq : public Control
             &states) = 0;
   };
 
-  PMFixedFreq(std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
-              std::unique_ptr<IPpDpmHandler> &&ppDpmSclkHandler,
+  PMFixedFreq(std::unique_ptr<IPpDpmHandler> &&ppDpmSclkHandler,
               std::unique_ptr<IPpDpmHandler> &&ppDpmMclkHandler) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
@@ -77,11 +76,9 @@ class PMFixedFreq : public Control
  private:
   std::string const id_;
 
-  std::unique_ptr<IDataSource<std::string>> const perfLevelDataSource_;
   std::unique_ptr<IPpDpmHandler> ppDpmSclkHandler_;
   std::unique_ptr<IPpDpmHandler> ppDpmMclkHandler_;
 
-  std::string dataSourceEntry_;
   std::vector<std::string> sclkSourceLines_;
   std::vector<std::string> mclkSourceLines_;
 };

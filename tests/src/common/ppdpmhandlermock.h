@@ -46,7 +46,6 @@ class PpDpmHandlerMock : public ::AMD::IPpDpmHandler
   MAKE_MOCK0(saveState, void(), override);
   MAKE_MOCK1(restoreState, void(ICommandQueue &), override);
   MAKE_MOCK1(reset, void(ICommandQueue &), override);
-  MAKE_MOCK1(apply, void(ICommandQueue &), override);
   MAKE_MOCK1(sync, void(ICommandQueue &), override);
 
  private:
