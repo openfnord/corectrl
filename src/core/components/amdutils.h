@@ -160,9 +160,16 @@ parseOverdriveClkControls(std::vector<std::string> const &ppOdClkVoltageLines);
 std::optional<std::string>
 getOverdriveClkControlCmdId(std::string_view controlName);
 
-/// Returns whether pp_od_clk_voltage has known quirks.
+/// Returns whether pp_od_clk_voltage has known frequency + voltage control quirks.
+/// @param controlName name of the control
 /// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
-bool ppOdClkVoltageHasKnownQuirks(
+bool ppOdClkVoltageHasKnownFreqVoltQuirks(
+    std::string const &controlName,
+    std::vector<std::string> const &ppOdClkVoltageLines);
+
+/// Returns whether pp_od_clk_voltage has known voltage curve control quirks.
+/// @param ppOdClkVoltageLines pp_od_clk_voltage data source contents
+bool ppOdClkVoltageHasKnownVoltCurveQuirks(
     std::vector<std::string> const &ppOdClkVoltageLines);
 
 /// Returns true when overdrive clock + voltage state control is available.
