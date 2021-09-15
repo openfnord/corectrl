@@ -130,6 +130,9 @@ TEST_CASE("AMD PMOverdrive tests", "[GPU][AMD][PM][PMOverdrive]")
     std::vector<std::string> ppOdClkVoltageData{"..."};
 
     controlMocks.emplace_back(std::make_unique<ControlMock>());
+    ControlMock *controlMock = static_cast<ControlMock *>(controlMocks[0].get());
+    REQUIRE_CALL(*controlMock, clean(trompeloeil::_));
+
     PMOverdriveTestAdapter ts(std::make_unique<StringDataSourceStub>(
                                   "power_dpm_force_performance_level", "auto"),
                               std::make_unique<VectorStringDataSourceStub>(
