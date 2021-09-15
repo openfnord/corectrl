@@ -24,6 +24,15 @@
 class CommandQueueStub final : public ICommandQueue
 {
  public:
+  void pack(bool) override
+  {
+  }
+
+  std::optional<bool> packWritesTo(std::string const &) override
+  {
+    return std::nullopt;
+  }
+
   void add(std::pair<std::string, std::string> &&cmd) override
   {
     commands_.emplace_back(std::move(cmd));
