@@ -30,9 +30,8 @@ class ICommandQueue
   /// @param cmd command to queue
   virtual void add(std::pair<std::string, std::string> &&cmd) = 0;
 
-  /// Packs all commands into a byte array and cleans the queue.
-  /// @param data where to pack the commands
-  virtual void pack(QByteArray &data) = 0;
+  /// Transform all commands into raw data, cleaning the command queue.
+  virtual QByteArray toRawData() = 0;
 
   /// Returns the number of queued commands.
   virtual unsigned int count() = 0;

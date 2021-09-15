@@ -28,7 +28,7 @@ class CommandQueue : public ICommandQueue
   CommandQueue() noexcept;
 
   void add(std::pair<std::string, std::string> &&cmd) override;
-  void pack(QByteArray &data) override;
+  QByteArray toRawData() override;
   unsigned int count() override;
 
  protected:

@@ -37,15 +37,18 @@ void CommandQueue::add(std::pair<std::string, std::string> &&cmd)
   commands().emplace_back(std::move(cmd));
 }
 
-void CommandQueue::pack(QByteArray &data)
+QByteArray CommandQueue::toRawData()
 {
+  QByteArray data;
   for (auto &[path, value] : commands()) {
     data += path.c_str();
     data += '\0';
     data += value.c_str();
     data += '\0';
   }
+
   commands().clear();
+  return data;
 }
 
 unsigned int CommandQueue::count()

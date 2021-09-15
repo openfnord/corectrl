@@ -31,7 +31,7 @@ class CommandQueueTestAdapter : public ::CommandQueue
   using ::CommandQueue::add;
   using ::CommandQueue::commands;
   using ::CommandQueue::count;
-  using ::CommandQueue::pack;
+  using ::CommandQueue::toRawData;
 };
 
 TEST_CASE("CommandQueue tests", "[CommandQueue]")
@@ -58,10 +58,10 @@ TEST_CASE("CommandQueue tests", "[CommandQueue]")
         REQUIRE(ts.count() == 1);
       }
 
-      SECTION("When commands are packed the queue is cleared")
+      SECTION(
+          "When commands are transformed into raw data the queue is cleared")
       {
-        QByteArray data;
-        ts.pack(data);
+        auto data = ts.toRawData();
 
         REQUIRE(ts.count() == 0);
         REQUIRE(data == QString("path\0value\0"));

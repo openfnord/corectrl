@@ -29,8 +29,9 @@ class CommandQueueStub final : public ICommandQueue
     commands_.emplace_back(std::move(cmd));
   }
 
-  void pack(QByteArray &) override
+  QByteArray toRawData() override
   {
+    return QByteArray();
   }
 
   unsigned int count() override
