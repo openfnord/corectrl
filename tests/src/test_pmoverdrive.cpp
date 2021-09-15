@@ -117,12 +117,12 @@ TEST_CASE("AMD PMOverdrive tests", "[GPU][AMD][PM][PMOverdrive]")
     REQUIRE(commands.size() == 2);
 
     auto &[cmd0Path, cmd0Value] = commands.at(0);
-    REQUIRE(cmd0Path == "power_dpm_force_performance_level");
-    REQUIRE(cmd0Value == "auto");
+    REQUIRE(cmd0Path == "pp_od_clk_voltage");
+    REQUIRE(cmd0Value == "c");
 
     auto &[cmd1Path, cmd1Value] = commands.at(1);
-    REQUIRE(cmd1Path == "pp_od_clk_voltage");
-    REQUIRE(cmd1Value == "c");
+    REQUIRE(cmd1Path == "power_dpm_force_performance_level");
+    REQUIRE(cmd1Value == "auto");
   }
 
   SECTION("Generate overdrive clean controls commands")

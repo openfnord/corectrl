@@ -41,9 +41,10 @@ void AMD::PMOverdrive::preInit(ICommandQueue &ctlCmds)
 
 void AMD::PMOverdrive::postInit(ICommandQueue &ctlCmds)
 {
-  ctlCmds.add({perfLevelDataSource_->source(), perfLevelPreInitValue_});
   ControlGroup::postInit(ctlCmds);
+
   ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
+  ctlCmds.add({perfLevelDataSource_->source(), perfLevelPreInitValue_});
 }
 
 void AMD::PMOverdrive::cleanControl(ICommandQueue &ctlCmds)
