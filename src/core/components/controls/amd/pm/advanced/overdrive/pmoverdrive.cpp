@@ -38,7 +38,11 @@ void AMD::PMOverdrive::preInit(ICommandQueue &ctlCmds)
   // NOTE Each aggregated control will generate clean commands on its
   // own preInit stage. As cleanControl forces the generation of clean
   // commands on aggregated controls, it cannot be called here.
-  ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+
+  if (perfLevelDataSource_->read(perfLevelEntry_) &&
+      perfLevelEntry_ != "manual")
+    ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+
   ctlCmds.add({ppOdClkVoltDataSource_->source(), "r"});
   ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
 
@@ -55,7 +59,10 @@ void AMD::PMOverdrive::postInit(ICommandQueue &ctlCmds)
 
 void AMD::PMOverdrive::cleanControl(ICommandQueue &ctlCmds)
 {
-  ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+  if (perfLevelDataSource_->read(perfLevelEntry_) &&
+      perfLevelEntry_ != "manual")
+    ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+
   ctlCmds.add({ppOdClkVoltDataSource_->source(), "r"});
   ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
 
