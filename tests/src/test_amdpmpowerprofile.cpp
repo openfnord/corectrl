@@ -180,27 +180,49 @@ TEST_CASE("AMD PMPowerProfile tests",
     ts.exportControl(e);
   }
 
-  SECTION("Generate clean control commands")
+  SECTION("Generate clean control commands...")
   {
-    PMPowerProfileTestAdapter ts(
-        std::make_unique<StringDataSourceStub>(
-            "power_dpm_force_performance_level", "manual"),
-        std::make_unique<VectorStringDataSourceStub>("pp_power_profile_mode",
-                                                     ppPowerProfileModeData),
-        modes);
-    ts.init();
-    ts.cleanControl(ctlCmds);
+    SECTION("Including performance level command when its value is not manual")
+    {
+      PMPowerProfileTestAdapter ts(
+          std::make_unique<StringDataSourceStub>(
+              "power_dpm_force_performance_level", "auto"),
+          std::make_unique<VectorStringDataSourceStub>("pp_power_profile_mode",
+                                                       ppPowerProfileModeData),
+          modes);
+      ts.init();
+      ts.cleanControl(ctlCmds);
 
-    auto &commands = ctlCmds.commands();
-    REQUIRE(commands.size() == 2);
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 2);
 
-    auto &[cmd0Path, cmd0Value] = commands[0];
-    REQUIRE(cmd0Path == "power_dpm_force_performance_level");
-    REQUIRE(cmd0Value == "manual");
+      auto &[cmd0Path, cmd0Value] = commands[0];
+      REQUIRE(cmd0Path == "power_dpm_force_performance_level");
+      REQUIRE(cmd0Value == "manual");
 
-    auto &[cmd1Path, cmd1Value] = commands[1];
-    REQUIRE(cmd1Path == "pp_power_profile_mode");
-    REQUIRE(cmd1Value == "0");
+      auto &[cmd1Path, cmd1Value] = commands[1];
+      REQUIRE(cmd1Path == "pp_power_profile_mode");
+      REQUIRE(cmd1Value == "0");
+    }
+
+    SECTION("Excluding performance level command when its value is manual")
+    {
+      PMPowerProfileTestAdapter ts(
+          std::make_unique<StringDataSourceStub>(
+              "power_dpm_force_performance_level", "manual"),
+          std::make_unique<VectorStringDataSourceStub>("pp_power_profile_mode",
+                                                       ppPowerProfileModeData),
+          modes);
+      ts.init();
+      ts.cleanControl(ctlCmds);
+
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 1);
+
+      auto &[cmd0Path, cmd0Value] = commands[0];
+      REQUIRE(cmd0Path == "pp_power_profile_mode");
+      REQUIRE(cmd0Value == "0");
+    }
   }
 
   SECTION("Does not generate sync control commands when is synced")
@@ -224,7 +246,7 @@ TEST_CASE("AMD PMPowerProfile tests",
     {
       PMPowerProfileTestAdapter ts(
           std::make_unique<StringDataSourceStub>(
-              "power_dpm_force_performance_level", "_not_manual_"),
+              "power_dpm_force_performance_level", "auto"),
           std::make_unique<VectorStringDataSourceStub>("pp_power_profile_mode",
                                                        ppPowerProfileModeData),
           modes);

@@ -51,9 +51,7 @@ void HelperSysCtl::init()
 
 void HelperSysCtl::apply(ICommandQueue &ctlCmds)
 {
-  QByteArray data;
-  ctlCmds.pack(data);
-
+  auto data = ctlCmds.toRawData();
   if (!data.isEmpty()) {
     auto signature = cryptoLayer_->signature(data);
     sysCtlInterface_->asyncCall(QStringLiteral("apply"), data, signature);

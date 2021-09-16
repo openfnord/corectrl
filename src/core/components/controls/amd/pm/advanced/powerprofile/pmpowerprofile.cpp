@@ -71,7 +71,10 @@ void AMD::PMPowerProfile::exportControl(IControl::Exporter &e) const
 
 void AMD::PMPowerProfile::cleanControl(ICommandQueue &ctlCmds)
 {
-  ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+  if (perfLevelDataSource_->read(dataSourceEntry_) &&
+      dataSourceEntry_ != "manual")
+    ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+
   ctlCmds.add(
       {powerProfileDataSource_->source(), std::to_string(defaultModeIndex_)});
 }

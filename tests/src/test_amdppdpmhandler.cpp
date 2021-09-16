@@ -18,6 +18,7 @@
 #include "catch.hpp"
 
 #include "common/commandqueuestub.h"
+#include "common/stringdatasourcestub.h"
 #include "common/vectorstringdatasourcestub.h"
 #include "core/components/controls/amd/pm/handlers/ppdpmhandler.h"
 
@@ -33,11 +34,12 @@ TEST_CASE("AMD PpDpmHandler tests",
   std::vector<unsigned int> defaultActiveStates{0, 1};
   std::vector<std::string> ppDpmData{"0: 300Mhz *", "1: 2000Mhz"};
 
-  ::AMD::PpDpmHandler ts(
-      std::make_unique<VectorStringDataSourceStub>("pp_dpm_sclk", ppDpmData));
-
   SECTION("Initializes states from data source on construction")
   {
+    ::AMD::PpDpmHandler ts(
+        std::make_unique<StringDataSourceStub>(
+            "power_dpm_force_performance_level", "manual"),
+        std::make_unique<VectorStringDataSourceStub>("pp_dpm_sclk", ppDpmData));
 
     auto states = ts.states();
     REQUIRE(states.size() == 2);
@@ -77,35 +79,61 @@ TEST_CASE("AMD PpDpmHandler tests",
 
   SECTION("Saving and restoring data source state are not supported")
   {
+    ::AMD::PpDpmHandler ts(
+        std::make_unique<StringDataSourceStub>(
+            "power_dpm_force_performance_level", "manual"),
+        std::make_unique<VectorStringDataSourceStub>("pp_dpm_sclk", ppDpmData));
+
     ts.saveState();
     ts.restoreState(ctlCmds);
     REQUIRE(ctlCmds.commands().empty());
   }
 
-  SECTION("Queue reset control commands unconditionally")
+  SECTION("Generates reset control commands unconditionally...")
   {
-    ts.reset(ctlCmds);
+    SECTION("Including performance level command when its value is not manual")
+    {
+      ::AMD::PpDpmHandler ts(std::make_unique<StringDataSourceStub>(
+                                 "power_dpm_force_performance_level", "auto"),
+                             std::make_unique<VectorStringDataSourceStub>(
+                                 "pp_dpm_sclk", ppDpmData));
 
-    auto &commands = ctlCmds.commands();
-    REQUIRE(commands.size() == 1);
-    auto &[cmdPath, cmdValue] = commands.front();
-    REQUIRE(cmdPath == "pp_dpm_sclk");
-    REQUIRE(cmdValue == "0 1");
-  }
+      ts.reset(ctlCmds);
 
-  SECTION("Queue apply control commands unconditionally")
-  {
-    ts.apply(ctlCmds);
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 2);
+      auto &[cmd0Path, cmd0Value] = commands.at(0);
+      REQUIRE(cmd0Path == "power_dpm_force_performance_level");
+      REQUIRE(cmd0Value == "manual");
+      auto &[cmd1Path, cmd1Value] = commands.at(1);
+      REQUIRE(cmd1Path == "pp_dpm_sclk");
+      REQUIRE(cmd1Value == "0 1");
+    }
 
-    auto &commands = ctlCmds.commands();
-    REQUIRE(commands.size() == 1);
-    auto &[cmdPath, cmdValue] = commands.front();
-    REQUIRE(cmdPath == "pp_dpm_sclk");
-    REQUIRE(cmdValue == "0 1");
+    SECTION("Excluding performance level command when its value is not manual")
+    {
+      ::AMD::PpDpmHandler ts(std::make_unique<StringDataSourceStub>(
+                                 "power_dpm_force_performance_level", "manual"),
+                             std::make_unique<VectorStringDataSourceStub>(
+                                 "pp_dpm_sclk", ppDpmData));
+
+      ts.reset(ctlCmds);
+
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 1);
+      auto &[cmd0Path, cmd0Value] = commands.at(0);
+      REQUIRE(cmd0Path == "pp_dpm_sclk");
+      REQUIRE(cmd0Value == "0 1");
+    }
   }
 
   SECTION("Does not generate sync control commands when is synced")
   {
+    ::AMD::PpDpmHandler ts(
+        std::make_unique<StringDataSourceStub>(
+            "power_dpm_force_performance_level", "manual"),
+        std::make_unique<VectorStringDataSourceStub>("pp_dpm_sclk", ppDpmData));
+
     // skip initial sync commands
     ts.sync(ctlCmds);
     ctlCmds.clear();
@@ -115,31 +143,62 @@ TEST_CASE("AMD PpDpmHandler tests",
     REQUIRE(ctlCmds.commands().empty());
   }
 
-  SECTION("Does generate sync control commands when...")
+  SECTION("Generates sync control commands when...")
   {
+    SECTION("Performance level is not manual")
+    {
+      ::AMD::PpDpmHandler ts(std::make_unique<StringDataSourceStub>(
+                                 "power_dpm_force_performance_level", "auto"),
+                             std::make_unique<VectorStringDataSourceStub>(
+                                 "pp_dpm_sclk", ppDpmData));
+
+      ts.sync(ctlCmds);
+
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 2);
+      auto &[cmd0Path, cmd0Value] = commands.at(0);
+      REQUIRE(cmd0Path == "power_dpm_force_performance_level");
+      REQUIRE(cmd0Value == "manual");
+      auto &[cmd1Path, cmd1Value] = commands.at(1);
+      REQUIRE(cmd1Path == "pp_dpm_sclk");
+      REQUIRE(cmd1Value == "0 1");
+    }
+
     SECTION("Active states were changed")
     {
+      ::AMD::PpDpmHandler ts(std::make_unique<StringDataSourceStub>(
+                                 "power_dpm_force_performance_level", "manual"),
+                             std::make_unique<VectorStringDataSourceStub>(
+                                 "pp_dpm_sclk", ppDpmData));
+
       ts.activate({0});
       ts.sync(ctlCmds);
 
-      REQUIRE(ctlCmds.commands().size() == 1);
-      auto &[cmdPath, cmdValue] = ctlCmds.commands().front();
-      REQUIRE(cmdPath == "pp_dpm_sclk");
-      REQUIRE(cmdValue == "0");
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 1);
+      auto &[cmd0Path, cmd0Value] = commands.at(0);
+      REQUIRE(cmd0Path == "pp_dpm_sclk");
+      REQUIRE(cmd0Value == "0");
     }
 
     SECTION("Current index is not an active index")
     {
+      ::AMD::PpDpmHandler ts(std::make_unique<StringDataSourceStub>(
+                                 "power_dpm_force_performance_level", "manual"),
+                             std::make_unique<VectorStringDataSourceStub>(
+                                 "pp_dpm_sclk", ppDpmData));
+
       ts.activate({1});
       ts.sync(ctlCmds);
       ctlCmds.clear();
 
       ts.sync(ctlCmds);
 
-      REQUIRE(ctlCmds.commands().size() == 1);
-      auto &[cmdPath, cmdValue] = ctlCmds.commands().front();
-      REQUIRE(cmdPath == "pp_dpm_sclk");
-      REQUIRE(cmdValue == "1");
+      auto &commands = ctlCmds.commands();
+      REQUIRE(commands.size() == 1);
+      auto &[cmd0Path, cmd0Value] = commands.at(0);
+      REQUIRE(cmd0Path == "pp_dpm_sclk");
+      REQUIRE(cmd0Value == "1");
     }
   }
 }

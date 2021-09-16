@@ -31,9 +31,6 @@ class IDataSourceHandler
   /// Queue commands to reset the data source.
   virtual void reset(ICommandQueue &ctlCmds) = 0;
 
-  /// Queue commands to apply the current handler state to the data source.
-  virtual void apply(ICommandQueue &ctlCmds) = 0;
-
   /// Queue commands to sync the handler state with the data source.
   virtual void sync(ICommandQueue &ctlCmds) = 0;
 
