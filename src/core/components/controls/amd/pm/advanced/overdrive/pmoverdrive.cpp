@@ -69,18 +69,15 @@ void AMD::PMOverdrive::syncControl(ICommandQueue &ctlCmds)
     if (perfLevelEntry_ != "manual")
       ctlCmds.add({perfLevelDataSource_->source(), "manual"});
 
-    auto cmdsCount = ctlCmds.count();
+    ctlCmds.pack(true);
+
     ControlGroup::syncControl(ctlCmds);
 
-    if (cmdsCount < ctlCmds.count()) {
-      // NOTE Aggregated controls can generate any sync commands.
-      // Most controls will generate overdrive related commands,
-      // but some of them would not.
-      // In case that the only commands generated are not overdrive
-      // related, the following statement will generate a spurious
-      // overdrive commit command, that should not have any effect.
+    auto commit = ctlCmds.packWritesTo(ppOdClkVoltDataSource_->source());
+    if (commit.has_value() && *commit)
       ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
-    }
+
+    ctlCmds.pack(false);
   }
 }
 
