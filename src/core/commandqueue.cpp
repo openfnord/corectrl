@@ -96,11 +96,6 @@ QByteArray CommandQueue::toRawData()
   return data;
 }
 
-unsigned int CommandQueue::count()
-{
-  return commands().size();
-}
-
 std::vector<std::pair<std::string, std::string>> &CommandQueue::commands()
 {
   return commands_;

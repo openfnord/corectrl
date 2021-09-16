@@ -30,7 +30,6 @@ class CommandQueueTestAdapter : public ::CommandQueue
 
   using ::CommandQueue::add;
   using ::CommandQueue::commands;
-  using ::CommandQueue::count;
   using ::CommandQueue::pack;
   using ::CommandQueue::packIndex;
   using ::CommandQueue::packWritesTo;
@@ -43,13 +42,13 @@ TEST_CASE("CommandQueue tests", "[CommandQueue]")
 
   SECTION("Initially, is empty")
   {
-    REQUIRE(ts.count() == 0);
+    REQUIRE(ts.commands().size() == 0);
 
     SECTION("Commands can be added")
     {
       ts.add({"path", "value"});
 
-      REQUIRE(ts.count() == 1);
+      REQUIRE(ts.commands().size() == 1);
 
       std::pair<std::string, std::string> cmd{"path", "value"};
       REQUIRE(ts.commands().front() == cmd);
@@ -58,7 +57,7 @@ TEST_CASE("CommandQueue tests", "[CommandQueue]")
       {
         ts.add({"path", "value"});
 
-        REQUIRE(ts.count() == 1);
+        REQUIRE(ts.commands().size() == 1);
       }
 
       SECTION("Command packing mode...")
@@ -154,7 +153,7 @@ TEST_CASE("CommandQueue tests", "[CommandQueue]")
 
         SECTION("The queue is cleared")
         {
-          REQUIRE(ts.count() == 0);
+          REQUIRE(ts.commands().size() == 0);
         }
 
         SECTION("Pack commands mode is deactivated")

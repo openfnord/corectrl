@@ -47,8 +47,5 @@ class ICommandQueue
   /// Transform all commands into raw data, cleaning the command queue.
   virtual QByteArray toRawData() = 0;
 
-  /// Returns the number of queued commands.
-  virtual unsigned int count() = 0;
-
   virtual ~ICommandQueue() = default;
 };

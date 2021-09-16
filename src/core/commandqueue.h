@@ -31,7 +31,6 @@ class CommandQueue : public ICommandQueue
   std::optional<bool> packWritesTo(std::string const &file) override;
   void add(std::pair<std::string, std::string> &&cmd) override;
   QByteArray toRawData() override;
-  unsigned int count() override;
 
  protected:
   std::vector<std::pair<std::string, std::string>> &commands();
