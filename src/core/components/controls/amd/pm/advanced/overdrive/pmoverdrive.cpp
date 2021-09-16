@@ -34,28 +34,39 @@ AMD::PMOverdrive::PMOverdrive(
 void AMD::PMOverdrive::preInit(ICommandQueue &ctlCmds)
 {
   perfLevelDataSource_->read(perfLevelPreInitValue_);
-  ControlGroup::preInit(ctlCmds);
 
-  cleanControl(ctlCmds);
-}
+  // NOTE Each aggregated control will generate clean commands on its
+  // own preInit stage. As cleanControl forces the generation of clean
+  // commands on aggregated controls, it cannot be called here.
 
-void AMD::PMOverdrive::postInit(ICommandQueue &ctlCmds)
-{
-  ctlCmds.add({perfLevelDataSource_->source(), perfLevelPreInitValue_});
-  ControlGroup::postInit(ctlCmds);
-  ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
-}
-
-void AMD::PMOverdrive::cleanControl(ICommandQueue &ctlCmds)
-{
-  ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+  if (perfLevelDataSource_->read(perfLevelEntry_) &&
+      perfLevelEntry_ != "manual")
+    ctlCmds.add({perfLevelDataSource_->source(), "manual"});
 
   ctlCmds.add({ppOdClkVoltDataSource_->source(), "r"});
   ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
 
-  // NOTE We only generate clean commands for this control.
-  // Each aggregated control will generate its clean commands
-  // on its own preInit stage.
+  ControlGroup::preInit(ctlCmds);
+}
+
+void AMD::PMOverdrive::postInit(ICommandQueue &ctlCmds)
+{
+  ControlGroup::postInit(ctlCmds);
+
+  ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
+  ctlCmds.add({perfLevelDataSource_->source(), perfLevelPreInitValue_});
+}
+
+void AMD::PMOverdrive::cleanControl(ICommandQueue &ctlCmds)
+{
+  if (perfLevelDataSource_->read(perfLevelEntry_) &&
+      perfLevelEntry_ != "manual")
+    ctlCmds.add({perfLevelDataSource_->source(), "manual"});
+
+  ctlCmds.add({ppOdClkVoltDataSource_->source(), "r"});
+  ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
+
+  ControlGroup::cleanControl(ctlCmds);
 }
 
 void AMD::PMOverdrive::syncControl(ICommandQueue &ctlCmds)
@@ -65,18 +76,15 @@ void AMD::PMOverdrive::syncControl(ICommandQueue &ctlCmds)
     if (perfLevelEntry_ != "manual")
       ctlCmds.add({perfLevelDataSource_->source(), "manual"});
 
-    auto cmdsCount = ctlCmds.count();
+    ctlCmds.pack(true);
+
     ControlGroup::syncControl(ctlCmds);
 
-    if (cmdsCount < ctlCmds.count()) {
-      // NOTE Aggregated controls can generate any sync commands.
-      // Most controls will generate overdrive related commands,
-      // but some of them would not.
-      // In case that the only commands generated are not overdrive
-      // related, the following statement will generate a spurious
-      // overdrive commit command, that should not have any effect.
+    auto commit = ctlCmds.packWritesTo(ppOdClkVoltDataSource_->source());
+    if (commit.has_value() && *commit)
       ctlCmds.add({ppOdClkVoltDataSource_->source(), "c"});
-    }
+
+    ctlCmds.pack(false);
   }
 }
 

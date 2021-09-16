@@ -32,7 +32,8 @@ namespace AMD {
 class PpDpmHandler : public IPpDpmHandler
 {
  public:
-  PpDpmHandler(std::unique_ptr<IDataSource<std::vector<std::string>>>
+  PpDpmHandler(std::unique_ptr<IDataSource<std::string>> &&perfLevelDataSource,
+               std::unique_ptr<IDataSource<std::vector<std::string>>>
                    &&ppDpmDataSource) noexcept;
 
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> const &
@@ -45,11 +46,15 @@ class PpDpmHandler : public IPpDpmHandler
   void restoreState(ICommandQueue &ctlCmds) override;
 
   void reset(ICommandQueue &ctlCmds) override;
-  void apply(ICommandQueue &ctlCmds) override;
   void sync(ICommandQueue &ctlCmds) override;
 
  private:
+  void apply(ICommandQueue &ctlCmds);
+
+  std::unique_ptr<IDataSource<std::string>> const perfLevelDataSource_;
   std::unique_ptr<IDataSource<std::vector<std::string>>> const ppDpmDataSource_;
+
+  std::string perfLevelValue_;
   std::vector<std::string> ppDpmLines_;
 
   std::vector<std::pair<unsigned int, units::frequency::megahertz_t>> states_;

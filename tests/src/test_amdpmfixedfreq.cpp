@@ -20,7 +20,6 @@
 
 #include "common/commandqueuestub.h"
 #include "common/ppdpmhandlermock.h"
-#include "common/stringdatasourcestub.h"
 #include "common/vectorstringdatasourcestub.h"
 #include "core/components/controls/amd/pm/advanced/fixedfreq/pmfixedfreq.h"
 
@@ -112,57 +111,46 @@ TEST_CASE("AMD PMFixedFreq tests", "[GPU][AMD][PM][PMAdvanced][PMFixedFreq]")
 
   SECTION("Has PMFixedFreq ID")
   {
-    REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
-    REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
 
-    PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                              std::move(ppDpmSclkMock),
-                              std::move(ppDpmMclkMock));
+    PMFixedFreqTestAdapter ts(std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
     REQUIRE(ts.ID() == ::AMD::PMFixedFreq::ItemID);
   }
 
   SECTION("Is active by default")
   {
-    REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
-    REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
 
-    PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                              std::move(ppDpmSclkMock),
-                              std::move(ppDpmMclkMock));
+    PMFixedFreqTestAdapter ts(std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
     REQUIRE(ts.active());
   }
 
   SECTION("Has first state selected by default")
   {
-
     REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
     REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
 
-    PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                              std::move(ppDpmSclkMock),
-                              std::move(ppDpmMclkMock));
+    PMFixedFreqTestAdapter ts(std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
   }
 
   SECTION("Does not generate pre-init control commands")
   {
-    REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
-    REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
 
-    PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                              std::move(ppDpmSclkMock),
-                              std::move(ppDpmMclkMock));
+    PMFixedFreqTestAdapter ts(std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
     ts.preInit(ctlCmds);
     REQUIRE(ctlCmds.commands().empty());
   }
 
   SECTION("Does not generate post-init control commands")
   {
-    REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
-    REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
 
-    PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                              std::move(ppDpmSclkMock),
-                              std::move(ppDpmMclkMock));
+    PMFixedFreqTestAdapter ts(std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
     ts.preInit(ctlCmds);
     REQUIRE(ctlCmds.commands().empty());
   }
@@ -174,9 +162,7 @@ TEST_CASE("AMD PMFixedFreq tests", "[GPU][AMD][PM][PMAdvanced][PMFixedFreq]")
     auto &ppDpmSclkMockRef = *ppDpmSclkMock;
     auto &ppDpmMclkMockRef = *ppDpmMclkMock;
 
-    PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                              std::move(ppDpmSclkMock),
-                              std::move(ppDpmMclkMock));
+    PMFixedFreqTestAdapter ts(std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
 
     std::vector<unsigned int> sclkState{0};
     std::vector<unsigned int> mclkState{1};
@@ -189,14 +175,12 @@ TEST_CASE("AMD PMFixedFreq tests", "[GPU][AMD][PM][PMAdvanced][PMFixedFreq]")
 
   SECTION("Export its state and available states")
   {
-    REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
-    REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
     REQUIRE_CALL(*ppDpmSclkMock, active()).LR_RETURN(activeStates);
     REQUIRE_CALL(*ppDpmMclkMock, active()).LR_RETURN(activeStates);
 
-    PMFixedFreqTestAdapter ts(std::make_unique<StringDataSourceStub>(),
-                              std::move(ppDpmSclkMock),
-                              std::move(ppDpmMclkMock));
+    PMFixedFreqTestAdapter ts(std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
     trompeloeil::sequence seq;
     PMFixedFreqExporterMock e;
     REQUIRE_CALL(e, takePMFixedFreqSclkStates(trompeloeil::_)).IN_SEQUENCE(seq);
@@ -207,85 +191,30 @@ TEST_CASE("AMD PMFixedFreq tests", "[GPU][AMD][PM][PMAdvanced][PMFixedFreq]")
     ts.exportControl(e);
   }
 
-  SECTION("Generate clean control commands unconditionally")
+  SECTION("Resets ppDpmHandlers on clean")
   {
-    REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
-    REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
     REQUIRE_CALL(*ppDpmSclkMock, reset(trompeloeil::_));
     REQUIRE_CALL(*ppDpmMclkMock, reset(trompeloeil::_));
 
-    PMFixedFreqTestAdapter ts(
-        std::make_unique<StringDataSourceStub>(
-            "power_dpm_force_performance_level", "manual"),
-        std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+    PMFixedFreqTestAdapter ts(std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
 
     ts.cleanControl(ctlCmds);
-
-    auto &commands = ctlCmds.commands();
-    REQUIRE(commands.size() == 1);
-    auto &[cmdPath, cmdValue] = commands.front();
-    REQUIRE(cmdPath == "power_dpm_force_performance_level");
-    REQUIRE(cmdValue == "manual");
-  }
-
-  SECTION("Does not generate sync control commands when is synced")
-  {
-    REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
-    REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
-    REQUIRE_CALL(*ppDpmSclkMock, sync(trompeloeil::_));
-    REQUIRE_CALL(*ppDpmMclkMock, sync(trompeloeil::_));
-
-    PMFixedFreqTestAdapter ts(
-        std::make_unique<StringDataSourceStub>(
-            "power_dpm_force_performance_level", "manual"),
-        std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
-
-    ts.syncControl(ctlCmds);
-
     REQUIRE(ctlCmds.commands().empty());
   }
 
-  SECTION("Does generate sync control commands when...")
+  SECTION("Sync ppDpmHandlers on sync")
   {
-    SECTION("power_dpm_force_performance_level is out of sync")
-    {
-      REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_))
-          .WITH(_1 == activeStates);
-      REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_))
-          .WITH(_1 == activeStates);
-      REQUIRE_CALL(*ppDpmSclkMock, apply(trompeloeil::_));
-      REQUIRE_CALL(*ppDpmMclkMock, apply(trompeloeil::_));
+    ALLOW_CALL(*ppDpmSclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    ALLOW_CALL(*ppDpmMclkMock, activate(trompeloeil::_)).WITH(_1 == activeStates);
+    REQUIRE_CALL(*ppDpmSclkMock, sync(trompeloeil::_));
+    REQUIRE_CALL(*ppDpmMclkMock, sync(trompeloeil::_));
 
-      PMFixedFreqTestAdapter ts(
-          std::make_unique<StringDataSourceStub>(
-              "power_dpm_force_performance_level", "_other_"),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
+    PMFixedFreqTestAdapter ts(std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
 
-      ts.syncControl(ctlCmds);
-
-      auto &commands = ctlCmds.commands();
-      REQUIRE(commands.size() == 1);
-      auto &[cmdPath, cmdValue] = commands.front();
-      REQUIRE(cmdPath == "power_dpm_force_performance_level");
-      REQUIRE(cmdValue == "manual");
-    }
-
-    SECTION("Sync pp_dpm_* when power_dpm_force_performance_level is synced")
-    {
-      REQUIRE_CALL(*ppDpmSclkMock, activate(trompeloeil::_))
-          .WITH(_1 == activeStates);
-      REQUIRE_CALL(*ppDpmMclkMock, activate(trompeloeil::_))
-          .WITH(_1 == activeStates);
-      REQUIRE_CALL(*ppDpmSclkMock, apply(trompeloeil::_));
-      REQUIRE_CALL(*ppDpmMclkMock, apply(trompeloeil::_));
-
-      PMFixedFreqTestAdapter ts(
-          std::make_unique<StringDataSourceStub>(
-              "power_dpm_force_performance_level", "_other_"),
-          std::move(ppDpmSclkMock), std::move(ppDpmMclkMock));
-
-      ts.syncControl(ctlCmds);
-    }
+    ts.syncControl(ctlCmds);
+    REQUIRE(ctlCmds.commands().empty());
   }
 }
 

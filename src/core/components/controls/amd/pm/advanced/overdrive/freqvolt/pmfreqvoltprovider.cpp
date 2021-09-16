@@ -43,6 +43,7 @@ AMD::PMFreqVoltProvider::provideGPUControls(IGPUInfo const &gpuInfo,
   if (gpuInfo.vendor() == Vendor::AMD &&
       gpuInfo.hasCapability(GPUInfoPMOverdrive::ClkVolt)) {
 
+    auto perfLevel = gpuInfo.path().sys / "power_dpm_force_performance_level";
     auto ppOdClkVolt = gpuInfo.path().sys / "pp_od_clk_voltage";
     auto ppOdClkVoltLines = Utils::File::readFileLines(ppOdClkVolt);
 
@@ -81,6 +82,7 @@ AMD::PMFreqVoltProvider::provideGPUControls(IGPUInfo const &gpuInfo,
                   std::make_unique<SysFSDataSource<std::vector<std::string>>>(
                       ppOdClkVolt),
                   std::make_unique<PpDpmHandler>(
+                      std::make_unique<SysFSDataSource<std::string>>(perfLevel),
                       std::make_unique<SysFSDataSource<std::vector<std::string>>>(
                           dpmControl))));
             }

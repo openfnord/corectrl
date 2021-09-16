@@ -63,11 +63,12 @@ AMD::PMFixedFreqProvider::provideGPUControls(IGPUInfo const &gpuInfo,
         if (dpmSclkValid && dpmMclkValid) {
 
           controls.emplace_back(std::make_unique<AMD::PMFixedFreq>(
-              std::make_unique<SysFSDataSource<std::string>>(perfLevel),
               std::make_unique<PpDpmHandler>(
+                  std::make_unique<SysFSDataSource<std::string>>(perfLevel),
                   std::make_unique<SysFSDataSource<std::vector<std::string>>>(
                       dpmSclk)),
               std::make_unique<PpDpmHandler>(
+                  std::make_unique<SysFSDataSource<std::string>>(perfLevel),
                   std::make_unique<SysFSDataSource<std::vector<std::string>>>(
                       dpmMclk))));
         }
