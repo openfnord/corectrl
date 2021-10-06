@@ -42,10 +42,8 @@ std::string ProcPIDSolver::app(int PID)
 std::string
 ProcPIDSolver::procExeFileName(std::filesystem::path const &procPIDPath) const
 {
-  auto const exePath(procPIDPath / "exe");
   std::error_code ec;
-  auto canonicalExePath = canonical(exePath, ec);
-  return canonicalExePath.filename();
+  return std::filesystem::read_symlink(procPIDPath / "exe", ec).filename();
 }
 
 std::string ProcPIDSolver::exeFileName(std::string const &path,
