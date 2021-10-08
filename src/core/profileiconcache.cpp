@@ -70,10 +70,11 @@ std::pair<bool, bool> ProfileIconCache::syncCache(
 
     auto cacheURL = cache_->add(info.iconURL, info.exe);
     if (cacheURL.has_value()) {
-      if (info.iconURL != *cacheURL)
+      auto updateURL = info.iconURL != *cacheURL;
+      if (updateURL)
         info.iconURL = *cacheURL;
 
-      return {true, info.iconURL != *cacheURL};
+      return {true, updateURL};
     }
   }
 
