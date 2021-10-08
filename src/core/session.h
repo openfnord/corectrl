@@ -56,7 +56,6 @@ class Session final : public ISession
 
   void populateProfileIndex();
   void watchProfiles();
-  void removeProfileIndexMapping(std::string const &profileName);
   void createProfileViews(std::vector<std::string> const &profileNames);
   void queueProfileView(std::string const &profileName);
   void dequeueProfileView(std::string const &profileName);

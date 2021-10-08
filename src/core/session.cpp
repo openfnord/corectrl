@@ -147,7 +147,11 @@ void Session::profileAdded(std::string const &profileName)
 {
   std::lock_guard<std::mutex> lock(profileExeIndexMutex_);
 
-  if (profileExeIndex_.count(profileName) == 0) {
+  auto const profileIndexIter = std::find_if(
+      profileExeIndex_.cbegin(), profileExeIndex_.cend(),
+      [&](auto &indexItem) { return indexItem.second == profileName; });
+
+  if (profileIndexIter == profileExeIndex_.cend()) {
     auto profile = profileManager_->profile(profileName);
     if (profile.has_value() && profile->get().active()) {
       profileExeIndex_.emplace(profile->get().info().exe, profileName);
@@ -161,7 +165,15 @@ void Session::profileRemoved(std::string const &profileName)
   // remove from profile index
   {
     std::lock_guard<std::mutex> lock(profileExeIndexMutex_);
-    removeProfileIndexMapping(profileName);
+
+    auto const profileIndexIter = std::find_if(
+        profileExeIndex_.cbegin(), profileExeIndex_.cend(),
+        [&](auto &indexItem) { return indexItem.second == profileName; });
+
+    if (profileIndexIter != profileExeIndex_.cend()) {
+      helperMonitor_->forgetApp(profileIndexIter->first);
+      profileExeIndex_.erase(profileIndexIter);
+    }
   }
 
   {
@@ -278,17 +290,6 @@ void Session::watchProfiles()
     auto &exe = profile->get().info().exe;
     if (exe != IProfile::Info::GlobalID)
       helperMonitor_->watchApp(exe);
-  }
-}
-
-void Session::removeProfileIndexMapping(std::string const &profileName)
-{
-  auto const profileIndexIter = std::find_if(
-      profileExeIndex_.cbegin(), profileExeIndex_.cend(),
-      [&](auto &indexItem) { return indexItem.second == profileName; });
-  if (profileIndexIter != profileExeIndex_.cend()) {
-    helperMonitor_->forgetApp(profileIndexIter->first);
-    profileExeIndex_.erase(profileIndexIter);
   }
 }
 
