@@ -214,8 +214,16 @@ void Session::profileInfoChanged(IProfile::Info const &oldInfo,
 {
   std::lock_guard<std::mutex> lock(profileExeIndexMutex_);
 
-  removeProfileIndexMapping(oldInfo.name);
-  profileExeIndex_.emplace(newInfo.exe, newInfo.name);
+  if (oldInfo.exe != newInfo.exe || oldInfo.name != newInfo.name) {
+    if (profileExeIndex_.erase(oldInfo.exe) > 0) {
+      profileExeIndex_.emplace(newInfo.exe, newInfo.name);
+
+      if (oldInfo.exe != newInfo.exe) {
+        helperMonitor_->forgetApp(oldInfo.exe);
+        helperMonitor_->watchApp(newInfo.exe);
+      }
+    }
+  }
 }
 
 void Session::queueProfileViewForExecutable(std::string const &executableName)
