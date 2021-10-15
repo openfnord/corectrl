@@ -35,12 +35,8 @@ class ProcPIDSolver final : public IPIDSolver
   /// is not a valid path
   std::string procExeFileName(std::filesystem::path const &procPIDPath) const;
 
-  /// Gets the executable name from path argument
-  /// @param path canonical path to process' executable
-  /// @param dirSeparator character used as directory separator for the path
-  /// @return executable name or the empty string when path does not contains
-  /// any dirSeparator character
-  std::string exeFileName(std::string const &path, char const dirSeparator) const;
+  /// Returns the last component of a windows or unix path
+  std::string lastComponent(std::string const &path) const;
 
   /// Gets the executable name (.exe) from a wine launch command line
   /// @param cmdline /proc/PID/cmline file entries

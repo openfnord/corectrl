@@ -18,6 +18,8 @@
 #include "procpidsolver.h"
 
 #include "common/fileutils.h"
+#include <algorithm>
+#include <cctype>
 #include <cstddef>
 #include <system_error>
 
@@ -46,15 +48,13 @@ ProcPIDSolver::procExeFileName(std::filesystem::path const &procPIDPath) const
   return std::filesystem::read_symlink(procPIDPath / "exe", ec).filename();
 }
 
-std::string ProcPIDSolver::exeFileName(std::string const &path,
-                                       char const dirSeparator) const
+std::string ProcPIDSolver::lastComponent(std::string const &path) const
 {
-  size_t const pos = path.rfind(dirSeparator, path.length());
-
+  size_t const pos = path.find_last_of("\\/");
   if (pos == std::string::npos)
-    return ""; // separator not found
+    return path;
 
-  return path.substr(pos + 1, path.length() - pos);
+  return path.substr(pos + 1);
 }
 
 std::string ProcPIDSolver::wineAppName(std::vector<std::string> const &cmdline) const
@@ -62,20 +62,21 @@ std::string ProcPIDSolver::wineAppName(std::vector<std::string> const &cmdline) 
   for (auto &entry : cmdline) {
 
     std::filesystem::path const entryPath(entry);
-    bool absolutePath = entryPath.is_absolute();
-    if (absolutePath && wineExecutables_.find(entryPath.filename()) !=
-                            wineExecutables_.cend()) {
+    if (entryPath.is_absolute() &&
+        wineExecutables_.find(entryPath.filename()) != wineExecutables_.cend())
       continue;
-    }
-    else if (entryPath.extension() == ".exe" &&
-             (absolutePath || entry.find('\\') != std::string::npos)) {
-      return absolutePath ? entryPath.filename().string()
-                          : exeFileName(entry, '\\');
-    }
-    else {
-      // not a valid wine launch command line
+
+    if (entry.find(":\\") == std::string::npos &&
+        entry.find(":/") == std::string::npos)
+      break; // not a valid wine launch command line
+
+    std::string extension = entryPath.extension();
+    std::transform(extension.cbegin(), extension.cend(), extension.begin(),
+                   ::tolower);
+    if (extension != ".exe")
       break;
-    }
+
+    return lastComponent(entry);
   }
 
   return "";
