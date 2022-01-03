@@ -46,8 +46,8 @@
 App::App(std::unique_ptr<IHelperControl> &&helperControl,
          std::shared_ptr<ISysModelSyncer> sysSyncer,
          std::unique_ptr<ISession> &&session,
-         std::unique_ptr<IUIFactory> &&uiFactory, QObject *parent) noexcept
-: QObject(parent)
+         std::unique_ptr<IUIFactory> &&uiFactory) noexcept
+: QObject()
 , appInfo_(App::Name, App::VersionStr)
 , singleInstance_(App::Name)
 , helperControl_(std::move(helperControl))

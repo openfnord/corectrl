@@ -74,8 +74,7 @@ class App final : public QObject
   App(std::unique_ptr<IHelperControl> &&helperControl,
       std::shared_ptr<ISysModelSyncer> sysSyncer,
       std::unique_ptr<ISession> &&session,
-      std::unique_ptr<IUIFactory> &&uiFactory,
-      QObject *parent = nullptr) noexcept;
+      std::unique_ptr<IUIFactory> &&uiFactory) noexcept;
 
   ~App();
 
