@@ -62,9 +62,9 @@ void SysTray::settingChanged(QString const &key, QVariant const &value)
 void SysTray::createSysTrayIcon()
 {
   if (QSystemTrayIcon::isSystemTrayAvailable()) {
-    sysTray_ = std::make_unique<QSystemTrayIcon>(this);
+    sysTray_ = new QSystemTrayIcon(this);
     sysTray_->setIcon(QIcon::fromTheme(QString(App::Name.data()).toLower()));
-    connect(sysTray_.get(), &QSystemTrayIcon::activated, this,
+    connect(sysTray_, &QSystemTrayIcon::activated, this,
             &SysTray::onTrayIconActivated);
 
     QAction *quitAction = new QAction(tr("Quit"), &menu_);
