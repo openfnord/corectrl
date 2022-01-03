@@ -22,7 +22,6 @@
 #include <QString>
 #include <QSystemTrayIcon>
 #include <QVariant>
-#include <memory>
 
 class SysTray : public QObject
 {
@@ -48,6 +47,6 @@ class SysTray : public QObject
   void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
  private:
-  std::unique_ptr<QSystemTrayIcon> sysTray_;
+  QSystemTrayIcon *sysTray_;
   QMenu menu_;
 };
