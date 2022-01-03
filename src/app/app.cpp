@@ -174,13 +174,13 @@ void App::onSettingChanged(QString const &key, QVariant const &value)
 
 void App::buildUI(QQmlApplicationEngine &qmlEngine, Settings &settings)
 {
-  sysTray_ = std::make_unique<SysTray>(this);
+  sysTray_ = new SysTray(QApplication::instance());
   if (settings.getValue("sysTray", true).toBool())
     sysTray_->show();
 
   qmlEngine.rootContext()->setContextProperty("appInfo", &appInfo_);
-  qmlEngine.rootContext()->setContextProperty("systemTray", sysTray_.get());
   qmlEngine.rootContext()->setContextProperty("settings", &settings);
+  qmlEngine.rootContext()->setContextProperty("systemTray", sysTray_);
 
   uiFactory_->build(qmlEngine, sysSyncer_->sysModel(), *session_);
 
