@@ -20,11 +20,11 @@
 #include "app.h"
 #include <QAction>
 #include <QIcon>
-#include <QMenu>
 #include <QTimer>
 
 SysTray::SysTray(QObject *parent)
 : QObject(parent)
+, menu_()
 {
   createSysTrayIcon();
 }
@@ -67,11 +67,10 @@ void SysTray::createSysTrayIcon()
     connect(sysTray_.get(), &QSystemTrayIcon::activated, this,
             &SysTray::onTrayIconActivated);
 
-    QMenu *menu = new QMenu();
-    QAction *quitAction = new QAction(tr("Quit"), sysTray_.get());
+    QAction *quitAction = new QAction(tr("Quit"), &menu_);
     connect(quitAction, &QAction::triggered, this, &SysTray::quit);
-    menu->addAction(quitAction);
-    sysTray_->setContextMenu(menu);
+    menu_.addAction(quitAction);
+    sysTray_->setContextMenu(&menu_);
 
     emit available();
   }

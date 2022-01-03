@@ -17,6 +17,7 @@
 //
 #pragma once
 
+#include <QMenu>
 #include <QObject>
 #include <QString>
 #include <QSystemTrayIcon>
@@ -48,4 +49,5 @@ class SysTray : public QObject
 
  private:
   std::unique_ptr<QSystemTrayIcon> sysTray_;
+  QMenu menu_;
 };
