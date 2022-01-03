@@ -117,8 +117,7 @@ int App::exec(int argc, char **argv)
     noop_ = cmdParser.isSet("help") || cmdParser.isSet("version");
     if (!noop_) {
       try {
-        settings_ =
-            std::make_unique<Settings>(QString(App::Name.data()).toLower());
+        auto settings = Settings(QString(App::Name.data()).toLower());
 
         int timeoutValue = helperTimeout;
         if (cmdParser.isSet("helper-timeout") &&
@@ -133,10 +132,10 @@ int App::exec(int argc, char **argv)
         session_->init(sysSyncer_->sysModel());
 
         QQmlApplicationEngine qmlEngine;
-        buildUI(qmlEngine);
+        buildUI(qmlEngine, settings);
 
         // Load and apply stored settings
-        settings_->signalSettings();
+        settings.signalSettings();
 
         return app.exec();
       }
@@ -175,21 +174,20 @@ void App::onSettingChanged(QString const &key, QVariant const &value)
   sysSyncer_->settingChanged(key, value);
 }
 
-void App::buildUI(QQmlApplicationEngine &qmlEngine)
+void App::buildUI(QQmlApplicationEngine &qmlEngine, Settings &settings)
 {
   connect(&qmlEngine, &QQmlApplicationEngine::quit, QApplication::instance(),
           &QApplication::quit);
   connect(QApplication::instance(), &QApplication::aboutToQuit, this, &App::exit);
-  connect(settings_.get(), &Settings::settingChanged, this,
-          &App::onSettingChanged);
+  connect(&settings, &Settings::settingChanged, this, &App::onSettingChanged);
 
   sysTray_ = std::make_unique<SysTray>(this);
-  if (settings_->getValue("sysTray", true).toBool())
+  if (settings.getValue("sysTray", true).toBool())
     sysTray_->show();
 
   qmlEngine.rootContext()->setContextProperty("appInfo", &appInfo_);
-  qmlEngine.rootContext()->setContextProperty("settings", settings_.get());
   qmlEngine.rootContext()->setContextProperty("systemTray", sysTray_.get());
+  qmlEngine.rootContext()->setContextProperty("settings", &settings);
 
   uiFactory_->build(qmlEngine, sysSyncer_->sysModel(), *session_);
 

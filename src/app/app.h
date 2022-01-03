@@ -86,7 +86,7 @@ class App final : public QObject
   void onSettingChanged(QString const &key, QVariant const &value);
 
  private:
-  void buildUI(QQmlApplicationEngine &qmlEngine);
+  void buildUI(QQmlApplicationEngine &qmlEngine, Settings &settings);
 
   AppInfo appInfo_;
   SingleInstance singleInstance_;
@@ -95,7 +95,6 @@ class App final : public QObject
   std::shared_ptr<ISysModelSyncer> sysSyncer_;
   std::unique_ptr<ISession> session_;
   std::unique_ptr<IUIFactory> uiFactory_;
-  std::unique_ptr<Settings> settings_;
 
   bool noop_{false};
   QQuickWindow *mainWindow_{nullptr};
