@@ -161,11 +161,9 @@ void App::exit()
 
 void App::showMainWindow()
 {
-  if (mainWindow_ != nullptr) {
-    mainWindow_->show();
-    mainWindow_->raise();
-    mainWindow_->requestActivate();
-  }
+  mainWindow_->show();
+  mainWindow_->raise();
+  mainWindow_->requestActivate();
 }
 
 void App::onSettingChanged(QString const &key, QVariant const &value)
@@ -176,11 +174,6 @@ void App::onSettingChanged(QString const &key, QVariant const &value)
 
 void App::buildUI(QQmlApplicationEngine &qmlEngine, Settings &settings)
 {
-  connect(&qmlEngine, &QQmlApplicationEngine::quit, QApplication::instance(),
-          &QApplication::quit);
-  connect(QApplication::instance(), &QApplication::aboutToQuit, this, &App::exit);
-  connect(&settings, &Settings::settingChanged, this, &App::onSettingChanged);
-
   sysTray_ = std::make_unique<SysTray>(this);
   if (settings.getValue("sysTray", true).toBool())
     sysTray_->show();
@@ -192,6 +185,11 @@ void App::buildUI(QQmlApplicationEngine &qmlEngine, Settings &settings)
   uiFactory_->build(qmlEngine, sysSyncer_->sysModel(), *session_);
 
   mainWindow_ = qobject_cast<QQuickWindow *>(qmlEngine.rootObjects().value(0));
+
+  connect(&qmlEngine, &QQmlApplicationEngine::quit, QApplication::instance(),
+          &QApplication::quit);
+  connect(QApplication::instance(), &QApplication::aboutToQuit, this, &App::exit);
+  connect(&settings, &Settings::settingChanged, this, &App::onSettingChanged);
   connect(&singleInstance_, &SingleInstance::newInstance, this,
           &App::showMainWindow);
 }
