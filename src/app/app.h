@@ -98,5 +98,5 @@ class App final : public QObject
 
   bool noop_{false};
   QQuickWindow *mainWindow_{nullptr};
-  std::unique_ptr<SysTray> sysTray_;
+  SysTray *sysTray_{nullptr};
 };
