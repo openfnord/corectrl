@@ -74,7 +74,7 @@ std::vector<std::string> split(std::string const &src, char delim)
 
 std::optional<std::string> parseKernelProcVersion(std::string const &data)
 {
-  std::regex const regex(R"(^Linux\s*version\s*(\d+\.\d+\.\d+).*)");
+  std::regex const regex(R"(^Linux\s*version\s*(\d+\.\d+(?:\.\d+)*).*)");
 
   std::smatch result;
   if (!std::regex_search(data, result, regex)) {
@@ -82,7 +82,12 @@ std::optional<std::string> parseKernelProcVersion(std::string const &data)
     return {};
   }
 
-  return result[1];
+  // Append .0 when the patch version number is missing, see #254
+  std::string version = result[1];
+  if (std::count(version.cbegin(), version.cend(), '.') == 1)
+    version.append(".0");
+
+  return version;
 }
 
 } // namespace String
