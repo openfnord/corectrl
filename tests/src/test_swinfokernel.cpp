@@ -25,17 +25,33 @@ namespace SWInfoKernel {
 
 TEST_CASE("SWInfoKernel tests", "[Info][SWInfo][SWInfoKernel]")
 {
-  SECTION("Provides kernel version")
+  SECTION("Provides kernel version with data using...")
   {
-    std::string const infoData("Linux version 1.2.3_other_info ...");
+    SECTION("Semver format")
+    {
+      std::string const infoData("Linux version 1.2.3_other_info ...");
 
-    ::SWInfoKernel ts(
-        std::make_unique<StringDataSourceStub>("/proc/version", infoData));
-    auto output = ts.provideInfo();
+      ::SWInfoKernel ts(
+          std::make_unique<StringDataSourceStub>("/proc/version", infoData));
+      auto output = ts.provideInfo();
 
-    auto kernelVersion = std::make_pair(
-        std::string(ISWInfo::Keys::kernelVersion), std::string("1.2.3"));
-    REQUIRE_THAT(output, Catch::VectorContains(kernelVersion));
+      auto kernelVersion = std::make_pair(
+          std::string(ISWInfo::Keys::kernelVersion), std::string("1.2.3"));
+      REQUIRE_THAT(output, Catch::VectorContains(kernelVersion));
+    }
+
+    SECTION("Incomplete semver format (missing patch version, see #234)")
+    {
+      std::string const infoData("Linux version 1.2_other_info ...");
+
+      ::SWInfoKernel ts(
+          std::make_unique<StringDataSourceStub>("/proc/version", infoData));
+      auto output = ts.provideInfo();
+
+      auto kernelVersion = std::make_pair(
+          std::string(ISWInfo::Keys::kernelVersion), std::string("1.2.0"));
+      REQUIRE_THAT(output, Catch::VectorContains(kernelVersion));
+    }
   }
 
   SECTION("Provides fake kernel version (0.0.0) when...")
