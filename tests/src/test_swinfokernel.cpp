@@ -40,7 +40,7 @@ TEST_CASE("SWInfoKernel tests", "[Info][SWInfo][SWInfoKernel]")
       REQUIRE_THAT(output, Catch::VectorContains(kernelVersion));
     }
 
-    SECTION("Incomplete semver format (missing patch version, see #234)")
+    SECTION("Incomplete semver format (missing patch version, see #254)")
     {
       std::string const infoData("Linux version 1.2_other_info ...");
 

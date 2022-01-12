@@ -82,7 +82,7 @@ std::optional<std::string> parseKernelProcVersion(std::string const &data)
     return {};
   }
 
-  // Append .0 when the patch version number is missing, see #234
+  // Append .0 when the patch version number is missing, see #254
   std::string version = result[1];
   if (std::count(version.cbegin(), version.cend(), '.') == 1)
     version.append(".0");
