@@ -74,7 +74,7 @@ std::vector<std::string> split(std::string const &src, char delim)
 
 std::optional<std::string> parseKernelProcVersion(std::string const &data)
 {
-  std::regex const regex(R"(^Linux\s*version\s*(\d+\.\d+(?:\.\d+)*).*)");
+  std::regex const regex(R"(^Linux\s*version\s*(\d+\.\d+(?:\.\d+){0,1}).*)");
 
   std::smatch result;
   if (!std::regex_search(data, result, regex)) {

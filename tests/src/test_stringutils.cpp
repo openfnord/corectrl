@@ -123,16 +123,37 @@ TEST_CASE("StringUtils tests", "[Utils][String]")
 
   SECTION("parseKernelProcVersion")
   {
-    SECTION("Returns version when the string follows /proc/version format")
+    SECTION("Provides kernel version when data is using...")
     {
-      std::string const data("Linux version 1.2.3_other_info ...");
-      auto output = ::Utils::String::parseKernelProcVersion(data);
-      REQUIRE(output.has_value());
-      REQUIRE(*output == "1.2.3");
+      SECTION("Semver format")
+      {
+        std::string const data("Linux version 1.2.3_other_info ...");
+        auto output = ::Utils::String::parseKernelProcVersion(data);
+        REQUIRE(output.has_value());
+        REQUIRE(*output == "1.2.3");
+      }
+
+      SECTION("Invalid semver format...")
+      {
+        SECTION("Missing patch version (see #254)")
+        {
+          std::string const data("Linux version 1.2_other_info ...");
+          auto output = ::Utils::String::parseKernelProcVersion(data);
+          REQUIRE(output.has_value());
+          REQUIRE(*output == "1.2.0");
+        }
+
+        SECTION("With additional version numbers after patch version")
+        {
+          std::string const data("Linux version 1.2.3.4_other_info ...");
+          auto output = ::Utils::String::parseKernelProcVersion(data);
+          REQUIRE(output.has_value());
+          REQUIRE(*output == "1.2.3");
+        }
+      }
     }
 
-    SECTION(
-        "Returns no value when the string doesn't follow /proc/version format")
+    SECTION("Returns no value when the string follow an unknown format")
     {
       std::string const data("Other format");
       auto output = ::Utils::String::parseKernelProcVersion(data);
