@@ -47,6 +47,6 @@ class SysTray : public QObject
   void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
  private:
-  QSystemTrayIcon *sysTray_;
+  QSystemTrayIcon *sysTray_{nullptr};
   QMenu menu_;
 };
