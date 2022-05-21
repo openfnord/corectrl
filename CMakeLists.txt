@@ -17,9 +17,7 @@ if(NOT TARGET uninstall)
    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 endif()
 
-list(APPEND TARGET_COMMON_COMPILE_FEATURES
-  cxx_std_17              # C++17
-)
+set(CMAKE_CXX_STANDARD 17)
 
 option (WITH_DEBUG_INFO "Add debug information (to Debug builds)" OFF)
 
