@@ -50,6 +50,20 @@ Install the [corectrl](https://software.opensuse.org/download.html?project=home%
 
 Add the [`Ernst ppa-mesarc`](https://launchpad.net/~ernstp/+archive/ubuntu/mesarc) PPA.
 
+**WARNING:** This repository also hosts **release candidate and development versions** of many other packages. Notice that, by installing such packages, you can run into bugs that could break your system.
+
+Most users may only want to install `corectrl` from this PPA. If so, create the file `/etc/apt/preferences.d/corectrl` with the following content:
+
+    # Never prefer packages from the ernstp repository
+    Package: *
+    Pin: release o=LP-PPA-ernstp-mesarc
+    Pin-Priority: 1
+
+    # Allow upgrading only corectrl from LP-PPA-ernstp-mesarc
+    Package: corectrl
+    Pin: release o=LP-PPA-ernstp-mesarc
+    Pin-Priority: 500
+
 Then run:
 
     sudo apt install corectrl
