@@ -19,11 +19,13 @@
 
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
-#include <KArchive/KZip>
 #include <QByteArray>
 #include <QIODevice>
 #include <QString>
 #include <exception>
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
+#include <quazipnewinfo.h>
 #include <stdexcept>
 
 namespace fs = std::filesystem;
@@ -48,22 +50,34 @@ bool ZipDataSink::write(
     std::vector<std::pair<std::string, std::vector<char>>> const &data)
 {
   if (!data.empty()) {
-    KZip archive(QString::fromStdString(sink()));
-    if (archive.open(QIODevice::WriteOnly)) {
+    QuaZip zip(QString::fromStdString(sink()));
+    if (zip.open(QuaZip::mdCreate)) {
 
       for (auto &[dataFilePath, fileData] : data) {
         if (!dataFilePath.empty() && !fileData.empty()) {
-          if (!archive.writeFile(
-                  QString::fromStdString(dataFilePath),
-                  QByteArray::fromRawData(fileData.data(), fileData.size()))) {
+
+          QuaZipFile file(&zip);
+          if (!(file.open(QIODevice::WriteOnly,
+                          QuaZipNewInfo(QString::fromStdString(dataFilePath))) &&
+                file.write(QByteArray::fromRawData(fileData.data(),
+                                                   fileData.size())) >= 0)) {
+
+            if (file.isOpen())
+              file.close();
+            zip.close();
+
             restorePreWriteFileState();
+
             throw std::runtime_error(
                 fmt::format("Failed to write {} data to file {}",
                             dataFilePath.data(), sink().data()));
           }
+
+          file.close();
         }
       }
 
+      zip.close();
       return true;
     }
     else {

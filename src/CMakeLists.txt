@@ -388,7 +388,7 @@ target_link_libraries(corectrl_lib PRIVATE
   Qt5::Widgets
   Qt5::DBus
   KF5::Auth
-  KF5::Archive
+  QuaZip::QuaZip
   stdc++fs
   pthread
   ${Botan_LIBRARIES}

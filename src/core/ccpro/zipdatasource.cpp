@@ -18,12 +18,13 @@
 #include "zipdatasource.h"
 
 #include "fmt/format.h"
-#include <KArchive/KZip>
 #include <QByteArray>
 #include <QIODevice>
 #include <QString>
 #include <algorithm>
 #include <iterator>
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
 #include <stdexcept>
 
 ZipDataSource::ZipDataSource(std::filesystem::path const &path) noexcept
@@ -40,17 +41,24 @@ bool ZipDataSource::read(std::string const &internalDataPath,
                          std::vector<char> &data)
 {
   if (!internalDataPath.empty()) {
-    KZip archive(QString::fromStdString(source()));
-    if (archive.open(QIODevice::ReadOnly)) {
-      auto rootDir = archive.directory();
+    QuaZip zip(QString::fromStdString(source()));
+    if (zip.open(QuaZip::mdUnzip)) {
+      if (zip.setCurrentFile(QString::fromStdString(internalDataPath))) {
 
-      auto file = rootDir->file(QString::fromStdString(internalDataPath));
-      if (file != nullptr) {
-        data.clear();
-        auto fileData = file->data();
-        std::copy(fileData.cbegin(), fileData.cend(), std::back_inserter(data));
-        return true;
+        QuaZipFile file(&zip);
+        if (file.open(QIODevice::ReadOnly)) {
+
+          data.clear();
+          auto fileData = file.readAll();
+          std::copy(fileData.cbegin(), fileData.cend(), std::back_inserter(data));
+
+          file.close();
+          zip.close();
+          return true;
+        }
       }
+
+      zip.close();
     }
     else {
       throw std::runtime_error(fmt::format("Failed to open file {}", source()));
