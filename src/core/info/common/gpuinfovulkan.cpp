@@ -22,6 +22,7 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <QProcess>
+#include <QStringList>
 #include <utility>
 
 class GPUInfoVulkanDataSource : public IDataSource<std::string>
@@ -40,7 +41,7 @@ class GPUInfoVulkanDataSource : public IDataSource<std::string>
     QProcess cmd;
     cmd.setProcessChannelMode(QProcess::MergedChannels);
     cmd.setProcessEnvironment(env);
-    cmd.start(source().c_str());
+    cmd.start(source().c_str(), QStringList());
 
     if (cmd.waitForFinished()) {
       data = cmd.readAllStandardOutput().toStdString();
