@@ -26,61 +26,53 @@
 #include "pmon/nlprocexecmonitor.h"
 #include "pmon/nlprocexecsocket.h"
 #include "pmon/procpidsolver.h"
+#include "polkit.h"
 #include "sysctl/msgreceiver.h"
 #include "sysctl/sysfswriter.h"
 #include <QByteArray>
+#include <QCoreApplication>
 #include <QDBusConnection>
 #include <QDBusError>
 #include <QString>
-#include <QVariantMap>
 #include <exception>
 #include <filesystem>
 
 INITIALIZE_EASYLOGGINGPP
 
+Helper::Helper(QObject *parent) noexcept
+: QDBusAbstractAdaptor(parent)
+{
+}
+
 Helper::~Helper() = default;
 
-ActionReply Helper::init(QVariantMap const &args)
+QDBusVariant Helper::start(QByteArray const &appPublicKey, int autoExitTimeout,
+                           QDBusMessage const &message)
 {
-  setupLogger(std::filesystem::temp_directory_path() / LOG_HELPER_FILE_NAME, "1");
+  if (!started()) {
+    setupLogger(std::filesystem::temp_directory_path() / LOG_HELPER_FILE_NAME,
+                "1");
 
-  LOG(INFO) << "----- Helper started -----";
+    LOG(INFO) << "----- Helper started -----";
 
-  ActionReply reply;
+    if (!(isAuthorized(message) && initCrypto(appPublicKey) &&
+          initProcessMonitor() && initMsgReceiver())) {
+      exitHelper();
+      return QDBusVariant(false);
+    }
 
-  auto appPublicKey = args[QStringLiteral("pubkey")].toByteArray();
-  if (!initCrypto(appPublicKey)) {
-    reply.addData(QStringLiteral("success"), false);
-    return reply;
+    autoExitTimer_.setInterval(autoExitTimeout);
+    autoExitTimer_.setSingleShot(true);
+    connect(&autoExitTimer_, &QTimer::timeout, this, &Helper::autoExitTimeout);
+    autoExitTimer_.start();
   }
 
-  if (!initDBus()) {
-    reply.addData(QStringLiteral("success"), false);
-    return reply;
-  }
+  return QDBusVariant(cryptoLayer_->publicKey());
+}
 
-  if (!(initProcessMonitor() && initMsgReceiver())) {
-    endDBus();
-
-    reply.addData(QStringLiteral("success"), false);
-    return reply;
-  }
-
-  auto const autoExitTime = args[QStringLiteral("autoExitTimeout")].toInt();
-  autoExitTimer_.setInterval(autoExitTime);
-  autoExitTimer_.setSingleShot(true);
-  connect(&autoExitTimer_, &QTimer::timeout, this, &Helper::autoExitTimeout);
-  autoExitTimer_.start();
-
-  // send ready signal to main app
-  QVariantMap readyArgs;
-  readyArgs.insert(QStringLiteral("pubkey"), cryptoLayer_->publicKey());
-  HelperSupport::progressStep(readyArgs);
-
-  eventLoop_.exec();
-
-  reply.addData(QStringLiteral("success"), true);
-  return reply;
+bool Helper::started() const
+{
+  return autoExitTimer_.isActive();
 }
 
 void Helper::exit(QByteArray const &signature)
@@ -96,15 +88,20 @@ void Helper::exit(QByteArray const &signature)
 void Helper::exitHelper()
 {
   endProcessMonitor();
-  endDBus();
-
-  eventLoop_.exit();
+  QTimer::singleShot(0, QCoreApplication::instance(), &QCoreApplication::quit);
 }
 
 void Helper::autoExitTimeout()
 {
   LOG(WARNING) << "Auto exit timeout. Killing helper instance...";
   exitHelper();
+}
+
+bool Helper::isAuthorized(QDBusMessage const &message) const
+{
+  auto subject = Polkit::BusNameSubject{.bus = message.service().toStdString()};
+  return Polkit::checkAuthorizationSync(POLKIT_HELPER_ACTION, subject) ==
+         Polkit::AuthResult::Yes;
 }
 
 bool Helper::initCrypto(QByteArray const &appPublicKey)
@@ -125,48 +122,8 @@ bool Helper::initCrypto(QByteArray const &appPublicKey)
 
 void Helper::delayAutoExit()
 {
-  autoExitTimer_.start();
-}
-
-bool Helper::initDBus()
-{
-  QDBusConnection dbusConnection = QDBusConnection::systemBus();
-  if (!dbusConnection.isConnected()) {
-    LOG(ERROR) << "Could not connect to D-Bus system bus";
-    return false;
-  }
-
-  if (!dbusConnection.registerService(QStringLiteral(DBUS_HELPER_SERVICE))) {
-    LOG(ERROR) << fmt::format(
-        "Could not register D-Bus service {}.\nLast D-Bus error: {}",
-        DBUS_HELPER_SERVICE, dbusConnection.lastError().message().toStdString());
-    return false;
-  }
-
-  if (!dbusConnection.registerObject(QStringLiteral(DBUS_HELPER_PATH),
-                                     QStringLiteral(DBUS_HELPER_INTERFACE), this,
-                                     QDBusConnection::ExportScriptableSignals |
-                                         QDBusConnection::ExportScriptableSlots)) {
-    LOG(ERROR) << fmt::format("Could not register D-Bus object on path {} "
-                              "using the interface {}\n.Last D-Bus error: {}",
-                              DBUS_HELPER_PATH, DBUS_HELPER_INTERFACE,
-                              dbusConnection.lastError().message().toStdString());
-    return false;
-  }
-
-  return true;
-}
-
-void Helper::endDBus()
-{
-  QDBusConnection dbusConnection = QDBusConnection::systemBus();
-  if (!dbusConnection.unregisterService(QStringLiteral(DBUS_HELPER_SERVICE))) {
-    LOG(ERROR) << fmt::format(
-        "D-Bus error unregistering service {}: {}", DBUS_HELPER_SERVICE,
-        dbusConnection.lastError().message().toStdString());
-  }
-
-  dbusConnection.unregisterObject(QStringLiteral(DBUS_HELPER_PATH));
+  if (autoExitTimer_.isActive())
+    autoExitTimer_.start();
 }
 
 bool Helper::initProcessMonitor()
@@ -197,8 +154,10 @@ bool Helper::initProcessMonitor()
 
 void Helper::endProcessMonitor()
 {
-  processMonitor_->stop();
-  pMonThread_->join();
+  if (pMonThread_ != nullptr) {
+    processMonitor_->stop();
+    pMonThread_->join();
+  }
 }
 
 bool Helper::initMsgReceiver()
@@ -216,4 +175,58 @@ bool Helper::initMsgReceiver()
   return false;
 }
 
-KAUTH_HELPER_MAIN(KAUTH_HELPER_ID, Helper)
+bool initDBusForHelperService(QObject *obj)
+{
+  QDBusConnection bus = QDBusConnection::systemBus();
+  if (!bus.isConnected()) {
+    LOG(ERROR) << "Could not connect to D-Bus system bus";
+    return false;
+  }
+
+  if (!bus.registerObject(QStringLiteral(DBUS_HELPER_PATH), obj)) {
+    LOG(ERROR) << fmt::format("Could not register D-Bus object on path {} "
+                              "using the interface {}\n.Last D-Bus error: {}",
+                              DBUS_HELPER_PATH, DBUS_HELPER_INTERFACE,
+                              bus.lastError().message().toStdString());
+    return false;
+  }
+
+  if (!bus.registerService(QStringLiteral(DBUS_HELPER_SERVICE))) {
+    LOG(ERROR) << fmt::format(
+        "Could not register D-Bus service {}.\nLast D-Bus error: {}",
+        DBUS_HELPER_SERVICE, bus.lastError().message().toStdString());
+    return false;
+  }
+
+  return true;
+}
+
+bool endDBusForHelperService()
+{
+  QDBusConnection bus = QDBusConnection::systemBus();
+  bus.unregisterObject(QStringLiteral(DBUS_HELPER_PATH));
+  auto success = bus.unregisterService(QStringLiteral(DBUS_HELPER_SERVICE));
+  if (!success) {
+    LOG(ERROR) << fmt::format("D-Bus error unregistering service {}: {}",
+                              DBUS_HELPER_SERVICE,
+                              bus.lastError().message().toStdString());
+  }
+
+  return success;
+}
+
+int main(int argc, char **argv)
+{
+  QCoreApplication app(argc, argv);
+  new Helper(&app);
+
+  if (!initDBusForHelperService(&app))
+    exit(1);
+
+  app.exec();
+
+  if (!endDBusForHelperService())
+    exit(1);
+
+  return 0;
+}

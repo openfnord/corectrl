@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.corectrl.helper
+Exec=@CMAKE_INSTALL_FULL_LIBEXECDIR@/corectrl/corectrl_helper
+User=root

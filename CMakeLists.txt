@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.3)
 project(CoreCtrl LANGUAGES CXX)
 set(PROJECT_VERSION 1.3.0-dev)
 
+include(GNUInstallDirs)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -31,13 +33,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   endif()
 endif()
 
-find_package(ECM REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH  ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
-include(KDEInstallDirs)
-
 find_package(Qt5 COMPONENTS Core DBus Quick Charts Widgets Network Svg REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
-find_package(KF5Auth REQUIRED)
 find_package(QuaZip-Qt5 REQUIRED)
 find_package(Botan REQUIRED)
 
@@ -53,14 +50,25 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-# resources
+# Icons
 string(TOLOWER "${PROJECT_NAME}" ICON_NAME)
 foreach(ICON_SIZE 16 22 24 32 48 64 72 96 128 192 256)
     install(
         FILES resources/icon/app_${ICON_SIZE}.svg
-        DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/${ICON_SIZE}x${ICON_SIZE}/apps
+        DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/icons/hicolor/${ICON_SIZE}x${ICON_SIZE}/apps
         RENAME ${ICON_NAME}.svg
     )
 endforeach()
-install(FILES resources/launcher.desktop DESTINATION ${KDE_INSTALL_APPDIR} RENAME org.corectrl.corectrl.desktop)
-install(FILES resources/org.corectrl.corectrl.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+
+# .desktop file
+install(
+  FILES resources/launcher.desktop
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/applications
+  RENAME org.corectrl.corectrl.desktop
+)
+
+# AppStream metadata
+install(
+  FILES resources/org.corectrl.corectrl.appdata.xml
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/metainfo
+)

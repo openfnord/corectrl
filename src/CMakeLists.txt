@@ -387,7 +387,6 @@ target_link_libraries(corectrl_lib PRIVATE
   Qt5::Charts
   Qt5::Widgets
   Qt5::DBus
-  KF5::Auth
   QuaZip::QuaZip
   stdc++fs
   pthread

@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QTimer>
 #include <memory>
+#include <optional>
 
 class ICryptoLayer;
 class QDBusInterface;
@@ -42,17 +43,22 @@ class HelperControl final
   void stop() override;
 
  private slots:
+  void helperHealthCheckTimeout();
   void helperExitDeferrerTimeout();
 
  private:
-  bool isHelperRunning() const;
+  bool helperHasBeenStarted() const;
   void createHelperInterface();
-  QByteArray startHelper(units::time::millisecond_t autoExitTimeout,
-                         units::time::millisecond_t deferAutoExitSignalInterval);
+  std::optional<QByteArray> startHelper();
   void stopHelper();
-  bool killOtherHelper() const;
+  void killOtherHelperInstance();
+  bool startHelperKiller();
 
   std::shared_ptr<ICryptoLayer> cryptoLayer_;
+  QTimer deferHelperHealthCheckTimer_;
   QTimer deferHelperAutoExitSignalTimer_;
   std::unique_ptr<QDBusInterface> helperInterface_;
+
+  units::time::millisecond_t autoExitTimeout_;
+  units::time::millisecond_t deferAutoExitSignalInterval_;
 };

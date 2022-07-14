@@ -1,5 +1,5 @@
 //
-// Copyright 2019 Juan Palacios <jpalaciosdev@gmail.com>
+// Copyright 2022 Juan Palacios <jpalaciosdev@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,23 +17,24 @@
 //
 #pragma once
 
-#include "helperids.h"
-#include <QDBusAbstractAdaptor>
-#include <QObject>
+#include <string>
 
-class QDBusMessage;
+namespace Polkit {
 
-class HelperKiller final : public QDBusAbstractAdaptor
-{
-  Q_OBJECT
-  Q_CLASSINFO("D-Bus Interface", DBUS_HELPER_KILLER_INTERFACE)
- public:
-  HelperKiller(QObject *parent) noexcept;
-  ~HelperKiller();
-
- public slots: // D-Bus interface slots
-  bool start(QDBusMessage const &message) const;
-
- private:
-  bool isAuthorized(QDBusMessage const &message) const;
+enum class AuthResult {
+  Yes,
+  No,
+  Error,
 };
+
+struct BusNameSubject
+{
+  std::string bus;
+};
+
+/// Checks whether a subject, identified by its bus name, is authorized to
+/// perform an action. This operation requires user interaction.
+AuthResult checkAuthorizationSync(std::string const &actionId,
+                                  BusNameSubject const &busNameSubject);
+
+} // namespace Polkit

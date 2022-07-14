@@ -21,13 +21,13 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include "helperids.h"
-#include <KAuth>
 #include <QDBusConnection>
+#include <QDBusError>
 #include <QDBusInterface>
 #include <QDBusReply>
-#include <QEventLoop>
+#include <QDBusVariant>
 #include <QString>
-#include <QVariantMap>
+#include <QVariant>
 #include <algorithm>
 #include <limits>
 #include <stdexcept>
@@ -37,7 +37,11 @@ HelperControl::HelperControl(std::shared_ptr<ICryptoLayer> cryptoLayer,
                              QObject *parent) noexcept
 : QObject(parent)
 , cryptoLayer_(std::move(cryptoLayer))
+, autoExitTimeout_(minExitTimeout())
+, deferAutoExitSignalInterval_(minExitTimeout() * .667)
 {
+  connect(&deferHelperHealthCheckTimer_, &QTimer::timeout, this,
+          &HelperControl::helperHealthCheckTimeout);
   connect(&deferHelperAutoExitSignalTimer_, &QTimer::timeout, this,
           &HelperControl::helperExitDeferrerTimeout);
 }
@@ -49,19 +53,48 @@ units::time::millisecond_t HelperControl::minExitTimeout() const
 
 void HelperControl::init(units::time::millisecond_t autoExitTimeout)
 {
-  autoExitTimeout = std::max(autoExitTimeout, minExitTimeout());
-  units::time::millisecond_t deferAutoExitSignalInterval(autoExitTimeout * .75);
+  autoExitTimeout_ = std::max(autoExitTimeout, minExitTimeout());
+  deferAutoExitSignalInterval_ = autoExitTimeout * .667;
 
   cryptoLayer_->init();
-  auto helperPublicKey = startHelper(autoExitTimeout,
-                                     deferAutoExitSignalInterval);
-  cryptoLayer_->usePublicKey(helperPublicKey);
+  createHelperInterface();
+
+  killOtherHelperInstance();
+
+  auto helperPublicKey = startHelper();
+  if (!helperPublicKey.has_value())
+    throw std::runtime_error("Cannot start helper");
+
+  cryptoLayer_->usePublicKey(helperPublicKey.value());
+
+  // Check the helper health every 15 seconds.
+  deferHelperHealthCheckTimer_.setInterval(15000);
+  deferHelperHealthCheckTimer_.start();
 }
 
 void HelperControl::stop()
 {
+  deferHelperHealthCheckTimer_.stop();
   deferHelperAutoExitSignalTimer_.stop();
   stopHelper();
+}
+
+void HelperControl::helperHealthCheckTimeout()
+{
+  if (deferHelperAutoExitSignalTimer_.isActive() && !helperHasBeenStarted()) {
+    LOG(WARNING) << "The Helper has not been started. Starting it now.";
+
+    deferHelperAutoExitSignalTimer_.stop();
+    auto helperPublicKey = startHelper();
+
+    if (!helperPublicKey.has_value()) {
+      // NOTE If the helper died and cannot be started again, it's better to not
+      // crash the application throwing an exception.
+      LOG(WARNING) << "Cannot restart helper!";
+    }
+
+    cryptoLayer_->usePublicKey(helperPublicKey.value());
+  }
 }
 
 void HelperControl::helperExitDeferrerTimeout()
@@ -69,20 +102,10 @@ void HelperControl::helperExitDeferrerTimeout()
   helperInterface_->asyncCall(QStringLiteral("delayAutoExit"));
 }
 
-bool HelperControl::isHelperRunning() const
+bool HelperControl::helperHasBeenStarted() const
 {
-  QDBusInterface iface(QStringLiteral(DBUS_HELPER_SERVICE),
-                       QStringLiteral(DBUS_HELPER_PATH),
-                       QStringLiteral("org.freedesktop.DBus.Introspectable"),
-                       QDBusConnection::systemBus());
-  if (!iface.isValid())
-    return false;
-
-  QDBusReply<void> reply = iface.call(QStringLiteral("Introspect"));
-  if (reply.isValid())
-    return true;
-
-  return false;
+  QDBusReply<bool> reply = helperInterface_->call(QStringLiteral("started"));
+  return reply.isValid() && reply.value();
 }
 
 void HelperControl::createHelperInterface()
@@ -92,73 +115,25 @@ void HelperControl::createHelperInterface()
       QStringLiteral(DBUS_HELPER_INTERFACE), QDBusConnection::systemBus());
 
   if (!helperInterface_->isValid())
-    throw std::runtime_error(
-        fmt::format("Cannot connect to DBus interface {} (path: {})",
-                    DBUS_HELPER_INTERFACE, DBUS_HELPER_PATH));
+    throw std::runtime_error(fmt::format(
+        "Cannot connect to D-Bus interface {}: {}", DBUS_HELPER_INTERFACE,
+        helperInterface_->lastError().message().toStdString()));
 }
 
-QByteArray
-HelperControl::startHelper(units::time::millisecond_t autoExitTimeout,
-                           units::time::millisecond_t deferAutoExitSignalInterval)
+std::optional<QByteArray> HelperControl::startHelper()
 {
-  if (isHelperRunning()) {
-    LOG(WARNING) << "Helper instance detected. Killing it now.";
+  QDBusReply<QDBusVariant> reply = helperInterface_->call(
+      QStringLiteral("start"), cryptoLayer_->publicKey(),
+      autoExitTimeout_.to<int>());
 
-    if (!killOtherHelper() || isHelperRunning())
-      throw std::runtime_error("Failed to kill other helper instance");
-  }
-
-  QVariantMap args;
-  args.insert(QStringLiteral("pubkey"), cryptoLayer_->publicKey());
-  args.insert(QStringLiteral("autoExitTimeout"), autoExitTimeout.to<int>());
-
-  KAuth::Action initAction(QStringLiteral(KAUTH_HELPER_ACTION));
-  initAction.setHelperId(QStringLiteral(KAUTH_HELPER_ID));
-  initAction.setTimeout(std::numeric_limits<int>::max());
-  initAction.setArguments(args);
-
-  KAuth::ExecuteJob *job = initAction.execute();
-
-  bool success = true;
-  QEventLoop waitForHelper;
-
-  // setup helper ready signal handling
-  QByteArray helperPublicKey;
-  QMetaObject::Connection readySignalConnection = QObject::connect(
-      job, &KAuth::ExecuteJob::newData, [&](QVariantMap const &data) {
-        helperPublicKey = data[QStringLiteral("pubkey")].toByteArray();
-
-        QObject::disconnect(readySignalConnection);
-        waitForHelper.exit();
-      });
-
-  // setup helper init handling
-  QObject::connect(job, &KJob::finished, [&]() {
-    if (job->error()) {
-      success = false;
-      LOG(ERROR) << fmt::format("Helper start error. {}",
-                                job->errorString().toStdString());
-    }
-    else
-      success = job->data()[QStringLiteral("success")].toBool();
-
-    if (!success)
-      waitForHelper.exit();
-  });
-
-  job->start();
-  waitForHelper.exec();
-
-  if (!success)
-    throw std::runtime_error("Cannot start helper");
-
-  createHelperInterface();
+  if (!(reply.isValid() && reply.value().variant().type() == QVariant::ByteArray))
+    return std::nullopt;
 
   deferHelperAutoExitSignalTimer_.setInterval(
-      deferAutoExitSignalInterval.to<int>());
+      deferAutoExitSignalInterval_.to<int>());
   deferHelperAutoExitSignalTimer_.start();
 
-  return helperPublicKey;
+  return reply.value().variant().value<QByteArray>();
 }
 
 void HelperControl::stopHelper()
@@ -167,31 +142,35 @@ void HelperControl::stopHelper()
   helperInterface_->asyncCall(QStringLiteral("exit"), signature);
 }
 
-bool HelperControl::killOtherHelper() const
+void HelperControl::killOtherHelperInstance()
 {
-  KAuth::Action helperKillerAction(QStringLiteral(KAUTH_HELPER_KILLER_ACTION));
-  helperKillerAction.setHelperId(QStringLiteral(KAUTH_HELPER_KILLER_ID));
+  if (helperHasBeenStarted()) {
+    LOG(WARNING) << "Helper instance detected. Killing it now.";
 
-  KAuth::ExecuteJob *job = helperKillerAction.execute();
+    if (!startHelperKiller() || helperHasBeenStarted())
+      throw std::runtime_error("Failed to kill other helper instance");
+  }
+}
 
-  bool success = true;
-  QEventLoop waitForHelper;
+bool HelperControl::startHelperKiller()
+{
+  QDBusInterface iface(QStringLiteral(DBUS_HELPER_KILLER_SERVICE),
+                       QStringLiteral(DBUS_HELPER_KILLER_PATH),
+                       QStringLiteral(DBUS_HELPER_KILLER_INTERFACE),
+                       QDBusConnection::systemBus());
+  if (!iface.isValid()) {
+    LOG(ERROR) << fmt::format("Cannot connect to D-Bus interface {}: {}",
+                              DBUS_HELPER_KILLER_INTERFACE,
+                              iface.lastError().message().toStdString());
+    return false;
+  }
 
-  // setup helper killer init handling
-  QObject::connect(job, &KJob::finished, [&]() {
-    if (job->error()) {
-      success = false;
-      LOG(ERROR) << fmt::format("Helper killer start error. {}",
-                                job->errorString().toStdString());
-    }
-    else
-      success = job->data()[QStringLiteral("success")].toBool();
+  QDBusReply<bool> reply = iface.call(QStringLiteral("start"));
+  if (!reply.isValid()) {
+    LOG(ERROR) << fmt::format("Helper killer error: {}",
+                              iface.lastError().message().toStdString());
+    return false;
+  }
 
-    waitForHelper.exit();
-  });
-
-  job->start();
-  waitForHelper.exec();
-
-  return success;
+  return reply.value();
 }

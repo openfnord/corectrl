@@ -18,15 +18,13 @@
 #pragma once
 
 #include "helperids.h"
-#include <KAuth>
-#include <QEventLoop>
+#include <QDBusAbstractAdaptor>
+#include <QDBusMessage>
+#include <QDBusVariant>
 #include <QObject>
 #include <QTimer>
-#include <QVariantMap>
 #include <memory>
 #include <thread>
-
-using namespace KAuth;
 
 class ICryptoLayer;
 class IAppRegistry;
@@ -34,34 +32,33 @@ class IProcessMonitor;
 class MsgReceiver;
 class QByteArray;
 
-class Helper final : public QObject
+class Helper final : public QDBusAbstractAdaptor
 {
   Q_OBJECT
   Q_CLASSINFO("D-Bus Interface", DBUS_HELPER_INTERFACE)
 
  public:
+  Helper(QObject *parent) noexcept;
   ~Helper();
 
- public slots: // KAuth init method
-  ActionReply init(QVariantMap const &args);
-
  public slots: // D-Bus interface slots
-  Q_SCRIPTABLE void exit(QByteArray const &signature);
-  Q_SCRIPTABLE void delayAutoExit();
+  QDBusVariant start(QByteArray const &appPublicKey, int autoExitTimeout,
+                     QDBusMessage const &message);
+  bool started() const;
+  Q_NOREPLY void exit(QByteArray const &signature);
+  Q_NOREPLY void delayAutoExit();
 
  private slots:
   void exitHelper();
   void autoExitTimeout();
 
  private:
+  bool isAuthorized(QDBusMessage const &message) const;
   bool initCrypto(QByteArray const &appPublicKey);
-  bool initDBus();
-  void endDBus();
   bool initProcessMonitor();
   void endProcessMonitor();
   bool initMsgReceiver();
 
-  QEventLoop eventLoop_;
   QTimer autoExitTimer_;
 
   std::shared_ptr<ICryptoLayer> cryptoLayer_;

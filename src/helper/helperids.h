@@ -18,12 +18,12 @@
 #pragma once
 
 // clang-format off
-#define KAUTH_HELPER_KILLER_ID        "org.corectrl.helperkiller"
-#define KAUTH_HELPER_KILLER_ACTION    "org.corectrl.helperkiller.init"
+#define POLKIT_HELPER_KILLER_ACTION   "org.corectrl.helperkiller.init"
+#define DBUS_HELPER_KILLER_SERVICE    "org.corectrl.helperkiller"
+#define DBUS_HELPER_KILLER_INTERFACE  "org.corectrl.helperkiller"
+#define DBUS_HELPER_KILLER_PATH       "/"
 
-#define KAUTH_HELPER_ID               "org.corectrl.helper"
-#define KAUTH_HELPER_ACTION           "org.corectrl.helper.init"
-
+#define POLKIT_HELPER_ACTION          "org.corectrl.helper.init"
 #define DBUS_HELPER_SERVICE           "org.corectrl.helper"
 #define DBUS_HELPER_INTERFACE         "org.corectrl.helper"
 #define DBUS_HELPER_PATH              "/Helper"
