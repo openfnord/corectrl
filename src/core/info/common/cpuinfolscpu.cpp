@@ -23,6 +23,7 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <QProcess>
+#include <QStringList>
 #include <algorithm>
 
 class CPUInfoLsCpuDataSource : public IDataSource<std::vector<std::string>>
@@ -41,7 +42,7 @@ class CPUInfoLsCpuDataSource : public IDataSource<std::vector<std::string>>
     QProcess cmd;
     cmd.setProcessChannelMode(QProcess::MergedChannels);
     cmd.setProcessEnvironment(env);
-    cmd.start(source().c_str());
+    cmd.start(source().c_str(), QStringList());
 
     if (cmd.waitForFinished()) {
       auto rawData = cmd.readAllStandardOutput().toStdString();

@@ -20,6 +20,7 @@
 #include "helperids.h"
 #include <QProcess>
 #include <QString>
+#include <QStringList>
 #include <exception>
 #include <signal.h>
 #include <string>
@@ -28,11 +29,8 @@ HelperKiller::~HelperKiller() = default;
 
 ActionReply HelperKiller::init(QVariantMap const &)
 {
-  QString cmdStr("pidof ");
-  cmdStr.append(HELPER_EXE);
-
   QProcess cmd;
-  cmd.start(cmdStr);
+  cmd.start(QStringLiteral("pidof"), QStringList(HELPER_EXE));
 
   bool success = cmd.waitForFinished();
   if (success) {

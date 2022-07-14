@@ -23,6 +23,7 @@
 #include "fmt/format.h"
 #include <QProcess>
 #include <QString>
+#include <QStringList>
 #include <utility>
 
 class GPUInfoOpenGLDataSource : public IDataSource<std::string, int const>
@@ -30,7 +31,7 @@ class GPUInfoOpenGLDataSource : public IDataSource<std::string, int const>
  public:
   std::string source() const override
   {
-    return "glxinfo -B";
+    return "glxinfo";
   }
 
   bool read(std::string &data, int const &gpuIndex) override
@@ -45,7 +46,7 @@ class GPUInfoOpenGLDataSource : public IDataSource<std::string, int const>
     QProcess cmd;
     cmd.setProcessChannelMode(QProcess::MergedChannels);
     cmd.setProcessEnvironment(env);
-    cmd.start(source().c_str());
+    cmd.start(source().c_str(), QStringList("-B"));
 
     if (cmd.waitForFinished()) {
       auto output = cmd.readAllStandardOutput().toStdString();

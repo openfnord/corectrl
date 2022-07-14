@@ -22,6 +22,7 @@
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include <QProcess>
+#include <QStringList>
 #include <string_view>
 #include <utility>
 
@@ -30,7 +31,7 @@ class SWInfoMesaDataSource : public IDataSource<std::string>
  public:
   std::string source() const override
   {
-    return "glxinfo -B";
+    return "glxinfo";
   }
 
   bool read(std::string &data) override
@@ -41,7 +42,7 @@ class SWInfoMesaDataSource : public IDataSource<std::string>
     QProcess cmd;
     cmd.setProcessChannelMode(QProcess::MergedChannels);
     cmd.setProcessEnvironment(env);
-    cmd.start(source().c_str());
+    cmd.start(source().c_str(), QStringList("-B"));
 
     if (cmd.waitForFinished()) {
       data = cmd.readAllStandardOutput().toStdString();
