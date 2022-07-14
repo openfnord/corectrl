@@ -15,8 +15,7 @@
 #
 # This file is in the public domain
 
-include(FindPkgConfig)
-
+find_package(PkgConfig REQUIRED)
 pkg_check_modules(Botan botan-2)
 
 if(NOT Botan_FOUND)
