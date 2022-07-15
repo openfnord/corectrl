@@ -44,7 +44,7 @@ void AMD::PMVoltOffset::preInit(ICommandQueue &)
 
 void AMD::PMVoltOffset::postInit(ICommandQueue &ctlCmds)
 {
-  ctlCmds.add({ppOdClkVoltDataSource_->source(), ppOdClkVoltCmd(value())});
+  ctlCmds.add({ppOdClkVoltDataSource_->source(), ppOdClkVoltCmd(preInitOffset_)});
 }
 
 void AMD::PMVoltOffset::init()
