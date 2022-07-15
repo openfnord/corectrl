@@ -114,6 +114,11 @@ int App::exec(int argc, char **argv)
     app.installTranslator(&translator);
     app.setWindowIcon(QIcon::fromTheme(QString(App::Name.data()).toLower()));
 
+    // Ensure that the application do not implicitly call to quit after closing
+    // the last window, which is not the desired behaviour when minimize to
+    // system tray is being used.
+    app.setQuitOnLastWindowClosed(false);
+
     noop_ = cmdParser.isSet("help") || cmdParser.isSet("version");
     if (!noop_) {
       try {
