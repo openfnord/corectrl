@@ -61,15 +61,13 @@ std::string ProcPIDSolver::wineAppName(std::vector<std::string> const &cmdline) 
 {
   for (auto &entry : cmdline) {
 
+    // skip wine executable files
     std::filesystem::path const entryPath(entry);
     if (entryPath.is_absolute() &&
         wineExecutables_.find(entryPath.filename()) != wineExecutables_.cend())
       continue;
 
-    if (entry.find(":\\") == std::string::npos &&
-        entry.find(":/") == std::string::npos)
-      break; // not a valid wine launch command line
-
+    // look for .exe extension
     std::string extension = entryPath.extension();
     std::transform(extension.cbegin(), extension.cend(), extension.begin(),
                    ::tolower);
