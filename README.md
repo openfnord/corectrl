@@ -24,11 +24,7 @@ If you find something malicious on any of them, please open an issue so the list
 
 #### Arch Linux
 
-Install [corectrl](https://aur.archlinux.org/packages/corectrl/) from the AUR.
-
-With `yay`, run:
-
-    yay -S corectrl
+    pacman -S corectrl
 
 #### Fedora
 
