@@ -7,7 +7,7 @@ option(INSTALL_DBUS_FILES_IN_PREFIX "Use installation prefix for D-Bus files" OF
 
 # Find dbus
 if(NOT INSTALL_DBUS_FILES_IN_PREFIX)
-  pkg_check_modules(dbus REQUIRED dbus-1)
+  pkg_check_modules(DBUS REQUIRED dbus-1)
   execute_process(
     COMMAND pkg-config --variable=datadir dbus-1
     RESULT_VARIABLE DBUS_DATADIR_PREFIX_DIR_RESULT
@@ -21,7 +21,7 @@ endif()
 message("D-Bus files will be installed into ${DBUS_DATADIR_PREFIX_DIR}/dbus-1")
 
 # Find polkit
-pkg_check_modules(polkit REQUIRED polkit-gobject-1)
+pkg_check_modules(POLKIT REQUIRED polkit-gobject-1)
 execute_process(
     COMMAND pkg-config --variable=policydir polkit-gobject-1
     RESULT_VARIABLE POLKIT_POLICY_INSTALL_DIR_RESULT
