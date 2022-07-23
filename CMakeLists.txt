@@ -35,7 +35,7 @@ endif()
 
 find_package(Qt5 COMPONENTS Core DBus Quick Charts Widgets Network Svg REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
-find_package(QuaZip-Qt5 REQUIRED)
+find_package(QuaZip REQUIRED)
 find_package(Botan REQUIRED)
 
 # Allow pci.ids path customization using -DWITH_PCI_IDS_PATH=<path-to-pci.ids-file> (#136)

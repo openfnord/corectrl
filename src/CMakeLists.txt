@@ -378,6 +378,7 @@ target_include_directories(corectrl_lib PRIVATE
   ${CMAKE_CURRENT_BINARY_DIR}
   ${3RDPARTY_INCLUDE_DIRECTORIES}
   ${CMAKE_CURRENT_SOURCE_DIR}
+  ${QUAZIP_INCLUDE_DIRS}
   ${Botan_INCLUDE_DIRS}
 )
 target_compile_features(corectrl_lib PRIVATE ${TARGET_COMMON_COMPILE_FEATURES})
@@ -387,9 +388,9 @@ target_link_libraries(corectrl_lib PRIVATE
   Qt5::Charts
   Qt5::Widgets
   Qt5::DBus
-  QuaZip::QuaZip
   stdc++fs
   pthread
+  ${QUAZIP_LIBRARIES}
   ${Botan_LIBRARIES}
 )
 set_target_properties(corectrl_lib PROPERTIES OUTPUT_NAME corectrl)

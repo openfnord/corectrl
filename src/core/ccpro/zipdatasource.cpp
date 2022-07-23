@@ -23,8 +23,8 @@
 #include <QString>
 #include <algorithm>
 #include <iterator>
-#include <quazip/quazip.h>
-#include <quazip/quazipfile.h>
+#include <quazip.h>
+#include <quazipfile.h>
 #include <stdexcept>
 
 ZipDataSource::ZipDataSource(std::filesystem::path const &path) noexcept
