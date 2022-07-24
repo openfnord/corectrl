@@ -56,7 +56,7 @@ add_executable(corectrl_helperkiller
 set(CMAKE_AUTOMOC OFF)
 
 target_include_directories(corectrl_helperkiller PRIVATE
-  ${polkit_INCLUDE_DIRS}
+  ${POLKIT_INCLUDE_DIRS}
   ${3RDPARTY_INCLUDE_DIRECTORIES}
 )
 target_compile_features(corectrl_helperkiller PRIVATE ${TARGET_COMMON_COMPILE_FEATURES})
@@ -64,7 +64,7 @@ target_compile_definitions(corectrl_helperkiller PRIVATE ${3RDPARTY_COMMON_DEFIN
 target_link_libraries(corectrl_helperkiller PRIVATE
   Qt5::Core
   Qt5::DBus
-  ${polkit_LIBRARIES}
+  ${POLKIT_LIBRARIES}
 )
 
 configure_file(org.corectrl.helperkiller.service.in org.corectrl.helperkiller.service)
@@ -86,7 +86,7 @@ set(CMAKE_AUTOMOC OFF)
 
 target_include_directories(corectrl_helper PRIVATE
   ${Botan_INCLUDE_DIRS}
-  ${polkit_INCLUDE_DIRS}
+  ${POLKIT_INCLUDE_DIRS}
   ${3RDPARTY_INCLUDE_DIRECTORIES}
   ${PROJECT_SOURCE_DIR}/src
 )
@@ -98,7 +98,7 @@ target_link_libraries(corectrl_helper PRIVATE
   stdc++fs
   pthread
   ${Botan_LIBRARIES}
-  ${polkit_LIBRARIES}
+  ${POLKIT_LIBRARIES}
 )
 
 configure_file(org.corectrl.helper.service.in org.corectrl.helper.service)
