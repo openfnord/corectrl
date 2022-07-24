@@ -21,6 +21,7 @@
 #include "units/units.h"
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -41,6 +42,17 @@ class PMFreqRange : public Control
  public:
   static constexpr std::string_view ItemID{"AMD_PM_FREQ_RANGE"};
 
+  /// Disabled range bound.
+  ///
+  /// When PMFreqRange is created with a disabled range bound, it won't generate
+  /// any control commands for the hardware state index defined by the
+  /// DisabledBound.
+  struct DisabledBound
+  {
+    /// Hardware state index of the disabled bound.
+    unsigned int index;
+  };
+
   class Importer : public IControl::Importer
   {
    public:
@@ -59,9 +71,10 @@ class PMFreqRange : public Control
             &states) = 0;
   };
 
-  PMFreqRange(std::string &&controlName, std::string &&controlCmdId,
-              std::unique_ptr<IDataSource<std::vector<std::string>>>
-                  &&ppOdClkVoltDataSource) noexcept;
+  PMFreqRange(
+      std::string &&controlName, std::string &&controlCmdId,
+      std::unique_ptr<IDataSource<std::vector<std::string>>> &&ppOdClkVoltDataSource,
+      std::optional<DisabledBound> &&disabledBound = std::nullopt) noexcept;
 
   void preInit(ICommandQueue &ctlCmds) final override;
   void postInit(ICommandQueue &ctlCmds) final override;
@@ -95,6 +108,7 @@ class PMFreqRange : public Control
   std::string const id_;
   std::string const controlName_;
   std::string const controlCmdId_;
+  std::optional<DisabledBound> const disabledBound_;
 
   std::unique_ptr<IDataSource<std::vector<std::string>>> const ppOdClkVoltDataSource_;
   std::vector<std::string> ppOdClkVoltLines_;
