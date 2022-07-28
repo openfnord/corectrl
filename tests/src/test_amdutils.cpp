@@ -90,12 +90,12 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     {
       // clang-format off
       std::vector<std::string> input{
-          "NUM        MODE_NAME     SCLK_UP_HYST   SCLK_DOWN_HYST SCLK_ACTIVE_LEVEL     MCLK_UP_HYST   MCLK_DOWN_HYST MCLK_ACTIVE_LEVEL",
-          "  0   BOOTUP_DEFAULT:        -                -                -                -                -                -",
-          "  1 3D_FULL_SCREEN *:        0              100               30                0              100               10",
-          "  2     POWER_SAVING:       10                0               30                -                -                -",
+          "NUM ...",
+          "  0   BOOTUP_DEFAULT: ...",
+          "  1 3D_FULL_SCREEN *: ...",
+          "  2     POWER_SAVING: ...",
           "...",
-          "  6           CUSTOM:        -                -                -                -                -                -"};
+          "  6           CUSTOM: ..."};
       // clang-format on
 
       auto modes = ::Utils::AMD::parsePowerProfileModeModes(input);
@@ -115,11 +115,11 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     {
       // clang-format off
       std::vector<std::string> input{
-          "NUM        MODE_NAME BUSY_SET_POINT FPS USE_RLC_BUSY MIN_ACTIVE_LEVEL",
-          "  0 3D_FULL_SCREEN*:             70  60          1              3",
-          "  1   POWER_SAVING :             90  60          0              0",
+          "NUM ...",
+          "  0 3D_FULL_SCREEN*: ...",
+          "  1   POWER_SAVING : ...",
           "...",
-          "  5         CUSTOM :              0   0          0              0"};
+          "  5         CUSTOM : ..."};
       // clang-format on
 
       auto modes = ::Utils::AMD::parsePowerProfileModeModes(input);
@@ -140,12 +140,10 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
       // clang-format off
       std::vector<std::string> input{
           "PROFILE_INDEX(NAME)  ...",
-          "  0 3D_FULL_SCREEN*:",
+          "  0 3D_FULL_SCREEN*: ...",
+          "  1   POWER_SAVING : ...",
           "...",
-          "  1   POWER_SAVING :",
-          "...",
-          "  5         CUSTOM :",
-          "..."};
+          "  5         CUSTOM : ..."};
       // clang-format on
 
       auto modes = ::Utils::AMD::parsePowerProfileModeModes(input);
@@ -160,6 +158,29 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
       REQUIRE(mode1 == "POWER_SAVING");
       REQUIRE(mode1Index == 1);
     }
+
+    SECTION("Returns power profile modes on asics without heuristics settings")
+    {
+      // clang-format off
+      std::vector<std::string> input{
+          "  0 3D_FULL_SCREEN ",
+          "  3          VIDEO*",
+          "...",
+          "  6         CUSTOM "};
+      // clang-format on
+
+      auto modes = ::Utils::AMD::parsePowerProfileModeModes(input);
+      REQUIRE(modes.has_value());
+      REQUIRE_FALSE(modes->empty());
+
+      auto &[mode0, mode0Index] = modes->at(0);
+      REQUIRE(mode0 == "3D_FULL_SCREEN");
+      REQUIRE(mode0Index == 0);
+
+      auto &[mode1, mode1Index] = modes->at(1);
+      REQUIRE(mode1 == "VIDEO");
+      REQUIRE(mode1Index == 3);
+    }
   }
 
   SECTION("parsePowerProfileModeCurrentModeIndex")
@@ -168,12 +189,12 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     {
       // clang-format off
       std::vector<std::string> input{
-          "NUM        MODE_NAME     SCLK_UP_HYST   SCLK_DOWN_HYST SCLK_ACTIVE_LEVEL     MCLK_UP_HYST   MCLK_DOWN_HYST MCLK_ACTIVE_LEVEL",
-          "  0   BOOTUP_DEFAULT:        -                -                -                -                -                -",
-          "  1 3D_FULL_SCREEN *:        0              100               30                0              100               10",
-          "  2     POWER_SAVING:       10                0               30                -                -                -",
+          "NUM ...",
+          "  0   BOOTUP_DEFAULT: ...",
+          "  1 3D_FULL_SCREEN *: ...",
+          "  2     POWER_SAVING: ...",
           "...",
-          "  6           CUSTOM:        -                -                -                -                -                -"};
+          "  6           CUSTOM: ..."};
       // clang-format on
 
       auto index = ::Utils::AMD::parsePowerProfileModeCurrentModeIndex(input);
@@ -185,11 +206,11 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     {
       // clang-format off
       std::vector<std::string> input{
-          "NUM        MODE_NAME BUSY_SET_POINT FPS USE_RLC_BUSY MIN_ACTIVE_LEVEL",
-          "  0 3D_FULL_SCREEN :             70  60          1              3",
-          "  1   POWER_SAVING*:             90  60          0              0",
+          "NUM ...",
+          "  0 3D_FULL_SCREEN : ...",
+          "  1   POWER_SAVING*: ...",
           "...",
-          "  5         CUSTOM :              0   0          0              0"};
+          "  5         CUSTOM : ..."};
       // clang-format on
 
       auto index = ::Utils::AMD::parsePowerProfileModeCurrentModeIndex(input);
@@ -202,17 +223,31 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
       // clang-format off
       std::vector<std::string> input{
           "PROFILE_INDEX(NAME)  ...",
-          "  0 3D_FULL_SCREEN :",
+          "  0 3D_FULL_SCREEN : ...",
+          "  1   POWER_SAVING*: ...",
           "...",
-          "  1   POWER_SAVING*:",
-          "...",
-          "  5         CUSTOM :",
-          "..."};
+          "  5         CUSTOM : ..."};
       // clang-format on
 
       auto index = ::Utils::AMD::parsePowerProfileModeCurrentModeIndex(input);
       REQUIRE(index.has_value());
       REQUIRE(*index == 1);
+    }
+
+    SECTION("Returns index of current profile mode on asics without heuristics "
+            "settings")
+    {
+      // clang-format off
+      std::vector<std::string> input{
+          "  0 3D_FULL_SCREEN ",
+          "  3          VIDEO*",
+          "...",
+          "  6         CUSTOM "};
+      // clang-format on
+
+      auto index = ::Utils::AMD::parsePowerProfileModeCurrentModeIndex(input);
+      REQUIRE(index.has_value());
+      REQUIRE(*index == 3);
     }
 
     SECTION("Returns nothing for invalid input")

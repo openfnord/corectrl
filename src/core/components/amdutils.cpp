@@ -122,57 +122,40 @@ parseDPMCurrentStateIndex(std::vector<std::string> const &ppDpmLines)
   return {};
 }
 
-bool isPowerProfileModeSupported(
-    std::vector<std::string> const &ppPowerProfileModeLines)
-{
-  // Relevant header formats:
-  // NUM ...                          | smu7, vega10
-  // PROFILE_INDEX(NAME) ...          | vega20
-  if (ppPowerProfileModeLines.empty())
-    return false;
-
-  std::regex const regex(R"(^(?:NUM|PROFILE_INDEX\(NAME\))\s+)");
-  return std::regex_search(ppPowerProfileModeLines.front(), regex);
-}
-
 std::optional<std::vector<std::pair<std::string, int>>>
 parsePowerProfileModeModes(std::vector<std::string> const &ppPowerProfileModeLines)
 {
-  // Relevant lines format
-  // ...
-  //   1 3D_FULL_SCREEN *:... or  1 3D_FULL_SCREEN*:...
-  // ... (other lines on some asics)
-  //   2     POWER_SAVING:... or  2   POWER_SAVING :...
-  // ...
+  // Relevant lines format:
+  //   1 3D_FULL_SCREEN *: ...
+  //   1 3D_FULL_SCREEN: ...
+  //   1 3D_FULL_SCREEN*: ...
+  //   1 3D_FULL_SCREEN : ...
+  //   1 3D_FULL_SCREEN*
+  //   1 3D_FULL_SCREEN
+  std::regex const regex(R"(^\s*(\d+)\s*([^\*\s:]+))");
+  std::vector<std::pair<std::string, int>> modes;
 
-  if (isPowerProfileModeSupported(ppPowerProfileModeLines)) {
+  for (auto &line : ppPowerProfileModeLines) {
 
-    std::regex const regex(R"(^\s*(\d+)\s*([^\*\s]+)(?:\s|\*)*:)");
-    std::vector<std::pair<std::string, int>> modes;
+    std::smatch result;
+    if (!std::regex_search(line, result, regex))
+      continue;
 
-    for (size_t i = 1; i < ppPowerProfileModeLines.size(); ++i) {
-      auto &line = ppPowerProfileModeLines[i];
+    // skip BOOT and CUSTOM modes
+    std::string const mode(result[2]);
+    if (mode.find("BOOT") != std::string::npos ||
+        mode.find("CUSTOM") != std::string::npos)
+      continue;
 
-      std::smatch result;
-      if (!std::regex_search(line, result, regex))
-        continue;
+    int index{0};
+    if (!Utils::String::toNumber<int>(index, result[1]))
+      continue;
 
-      // skip BOOT and CUSTOM modes
-      std::string const mode(result[2]);
-      if (mode.find("BOOT") != std::string::npos ||
-          mode.find("CUSTOM") != std::string::npos)
-        continue;
-
-      int index{0};
-      if (!Utils::String::toNumber<int>(index, result[1]))
-        continue;
-
-      modes.emplace_back(std::move(mode), index);
-    }
-
-    if (!modes.empty())
-      return std::move(modes);
+    modes.emplace_back(std::move(mode), index);
   }
+
+  if (!modes.empty())
+    return std::move(modes);
 
   return {};
 }
@@ -180,29 +163,23 @@ parsePowerProfileModeModes(std::vector<std::string> const &ppPowerProfileModeLin
 std::optional<int> parsePowerProfileModeCurrentModeIndex(
     std::vector<std::string> const &ppPowerProfileModeLines)
 {
-  // Relevant lines format
-  // ...
-  //   1 3D_FULL_SCREEN *:... or  1 3D_FULL_SCREEN*:...
-  // ...
+  // Relevant lines format:
+  //   1 3D_FULL_SCREEN *: ...
+  //   1 3D_FULL_SCREEN*: ...
+  //   1 3D_FULL_SCREEN*
+  std::regex const regex(R"(^\s*(\d+)\s*(?:[^\*\s]+)\s*\*)");
 
-  if (isPowerProfileModeSupported(ppPowerProfileModeLines)) {
+  for (auto &line : ppPowerProfileModeLines) {
 
-    std::regex const regex(R"(^\s*(\d+)\s*(?:[^\*\s]+)\s*\*\s*:)");
+    std::smatch result;
+    if (!std::regex_search(line, result, regex))
+      continue;
 
-    // search for selection mark ('*')
-    for (size_t i = 1; i < ppPowerProfileModeLines.size(); ++i) {
-      auto &line = ppPowerProfileModeLines[i];
+    int index{0};
+    if (!Utils::String::toNumber<int>(index, result[1]))
+      break;
 
-      std::smatch result;
-      if (!std::regex_search(line, result, regex))
-        continue;
-
-      int index{0};
-      if (!Utils::String::toNumber<int>(index, result[1]))
-        break;
-
-      return index;
-    }
+    return index;
   }
 
   return {};
