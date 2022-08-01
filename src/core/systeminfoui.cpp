@@ -66,6 +66,7 @@ char const *const SystemInfoUI::trStrings[] = {
     QT_TRANSLATE_NOOP("SystemInfoUI", "l1dcache"),
     QT_TRANSLATE_NOOP("SystemInfoUI", "l1icache"),
     QT_TRANSLATE_NOOP("SystemInfoUI", "l2cache"),
+    QT_TRANSLATE_NOOP("SystemInfoUI", "uniqueid"),
 };
 
 SystemInfoUI::SystemInfoUI(QObject *parent) noexcept

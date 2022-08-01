@@ -756,7 +756,7 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="71"/>
+        <location filename="../app/systray.cpp" line="70"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
@@ -955,6 +955,11 @@ Vérifiez les droits sur les fichier et répertoire de destination.</translation
         <location filename="../core/systeminfoui.cpp" line="68"/>
         <source>l2cache</source>
         <translation>Cache L2</translation>
+    </message>
+    <message>
+        <location filename="../core/systeminfoui.cpp" line="69"/>
+        <source>uniqueid</source>
+        <translation>Identifiant unique</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="57"/>

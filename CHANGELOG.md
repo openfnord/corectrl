@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Add a workaround for a [long-standing driver bug](https://gitlab.freedesktop.org/drm/amd/-/issues/1706) which affects the RX6000 series. It allows the user to control the maximum memory frequency when using these cards.
 - Support power profile mode on asics without heuristics settings (#303).
+- Display the GPU unique ID in the GPU info tab. Available on Vega and later GPU models.
+
 
 ## CoreCtrl 1.2.4 (2022-07-17)
 

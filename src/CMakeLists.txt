@@ -105,6 +105,7 @@ list(APPEND INFO_SRC
   core/info/amd/gpuinfopmoverdrive.cpp
   core/info/amd/gpuinfovbios.cpp
   core/info/amd/gpuinfovram.cpp
+  core/info/amd/gpuinfouniqueid.cpp
 )
 
 list(APPEND CONTROLS_SRC

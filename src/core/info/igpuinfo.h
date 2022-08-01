@@ -43,6 +43,7 @@ class IGPUInfo
     static constexpr std::string_view driver{"driver"};
     static constexpr std::string_view revision{"revision"};
     static constexpr std::string_view memory{"memory"};
+    static constexpr std::string_view uniqueID{"uniqueid"};
   };
 
   struct Path

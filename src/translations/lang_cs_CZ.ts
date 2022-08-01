@@ -756,7 +756,7 @@ Zkontrolujte přístupová práva k cílovému souboru a adresáři.</translatio
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="71"/>
+        <location filename="../app/systray.cpp" line="70"/>
         <source>Quit</source>
         <translation>Opustit</translation>
     </message>
@@ -955,6 +955,11 @@ Zkontrolujte přístupová práva k cílovému souboru a adresáři.</translatio
         <location filename="../core/systeminfoui.cpp" line="68"/>
         <source>l2cache</source>
         <translation>Mezipaměť L2</translation>
+    </message>
+    <message>
+        <location filename="../core/systeminfoui.cpp" line="69"/>
+        <source>uniqueid</source>
+        <translation>Jedinečné ID</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="57"/>

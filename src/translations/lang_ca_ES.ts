@@ -756,7 +756,7 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="71"/>
+        <location filename="../app/systray.cpp" line="70"/>
         <source>Quit</source>
         <translation>Sortir</translation>
     </message>
@@ -955,6 +955,11 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
         <location filename="../core/systeminfoui.cpp" line="68"/>
         <source>l2cache</source>
         <translation>Caché L2</translation>
+    </message>
+    <message>
+        <location filename="../core/systeminfoui.cpp" line="69"/>
+        <source>uniqueid</source>
+        <translation>ID únic</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="57"/>

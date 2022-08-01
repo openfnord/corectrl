@@ -961,6 +961,11 @@ Het bestand is mogelijk ongeldig of beschadigd.</translation>
         <source>l2cache</source>
         <translation>l2cache</translation>
     </message>
+    <message>
+        <location filename="../core/systeminfoui.cpp" line="69"/>
+        <source>uniqueid</source>
+        <translation>Unieke ID</translation>
+    </message>
 </context>
 <context>
     <name>main</name>

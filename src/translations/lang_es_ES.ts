@@ -756,7 +756,7 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="71"/>
+        <location filename="../app/systray.cpp" line="70"/>
         <source>Quit</source>
         <translation>Salir</translation>
     </message>
@@ -955,6 +955,11 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
         <location filename="../core/systeminfoui.cpp" line="68"/>
         <source>l2cache</source>
         <translation>Caché L2</translation>
+    </message>
+    <message>
+        <location filename="../core/systeminfoui.cpp" line="69"/>
+        <source>uniqueid</source>
+        <translation>Identificador único</translation>
     </message>
     <message>
         <location filename="../core/systeminfoui.cpp" line="57"/>
