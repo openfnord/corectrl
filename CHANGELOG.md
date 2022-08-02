@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+
+## CoreCtrl 1.2.5 (2022-08-02)
+
 ### Added
 - Add a workaround for a [long-standing driver bug](https://gitlab.freedesktop.org/drm/amd/-/issues/1706) which affects the RX6000 series. It allows the user to control the maximum memory frequency when using these cards.
 - Support power profile mode on asics without heuristics settings (#303).
