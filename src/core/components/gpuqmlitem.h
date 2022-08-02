@@ -44,11 +44,13 @@ class GPUQMLItem
   int provideIndex() const override;
   std::string const &provideDeviceID() const override;
   std::string const &provideRevision() const override;
+  std::optional<std::string> provideUniqueID() const override;
 
   void takeActive(bool active) override;
   void takeIndex(int index) override;
   void takeDeviceID(std::string const &deviceID) override;
   void takeRevision(std::string const &revision) override;
+  void takeUniqueID(std::optional<std::string> uniqueID) override;
 
   std::unique_ptr<Exportable::Exporter>
   initializer(IQMLComponentFactory const &qmlComponentFactory,
@@ -63,6 +65,7 @@ class GPUQMLItem
   bool active_;
   std::string deviceID_;
   std::string revision_;
+  std::optional<std::string> uniqueID_;
   int index_;
 
   static bool register_();

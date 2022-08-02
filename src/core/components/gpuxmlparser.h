@@ -21,6 +21,7 @@
 #include "igpuprofilepart.h"
 #include "pugixml/pugixml.hpp"
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 
@@ -55,6 +56,9 @@ class GPUXMLParser final
   void takeRevision(std::string const &revision) override;
   std::string const &provideRevision() const override;
 
+  void takeUniqueID(std::optional<std::string> uniqueID) override;
+  std::optional<std::string> provideUniqueID() const override;
+
   void appendTo(pugi::xml_node &parentNode) override;
 
  protected:
@@ -74,6 +78,8 @@ class GPUXMLParser final
   std::string deviceIDDefault_;
   std::string revision_;
   std::string revisionDefault_;
+  std::optional<std::string> uniqueID_;
+  std::optional<std::string> uniqueIDDefault_;
   int index_;
   int indexDefault_;
 

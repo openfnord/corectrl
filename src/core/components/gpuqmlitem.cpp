@@ -135,6 +135,11 @@ std::string const &GPUQMLItem::provideRevision() const
   return revision_;
 }
 
+std::optional<std::string> GPUQMLItem::provideUniqueID() const
+{
+  return uniqueID_;
+}
+
 void GPUQMLItem::takeActive(bool active)
 {
   active_ = active;
@@ -154,6 +159,11 @@ void GPUQMLItem::takeDeviceID(std::string const &deviceID)
 void GPUQMLItem::takeRevision(std::string const &revision)
 {
   revision_ = revision;
+}
+
+void GPUQMLItem::takeUniqueID(std::optional<std::string> uniqueID)
+{
+  uniqueID_ = uniqueID;
 }
 
 std::unique_ptr<Exportable::Exporter>

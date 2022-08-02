@@ -20,6 +20,7 @@
 #include "igpu.h"
 #include "igpuprofilepart.h"
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -61,6 +62,7 @@ class GPUProfilePart final
   std::string revision_;
   std::string key_;
   int index_{0};
+  std::optional<std::string> uniqueID_;
 
   static bool const registered_;
 };

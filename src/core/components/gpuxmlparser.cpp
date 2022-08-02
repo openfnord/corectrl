@@ -17,7 +17,6 @@
 //
 #include "gpuxmlparser.h"
 
-#include "core/info/igpuinfo.h"
 #include "core/profilepartxmlparserprovider.h"
 #include "igpu.h"
 #include <utility>
@@ -56,6 +55,10 @@ class GPUXMLParser::Factory final
   {
   }
 
+  void takeUniqueID(std::optional<std::string>) override
+  {
+  }
+
  private:
   GPUXMLParser &outer_;
 };
@@ -90,6 +93,7 @@ class GPUXMLParser::Initializer final : public IGPUProfilePart::Exporter
   void takeIndex(int index) override;
   void takeDeviceID(std::string const &deviceID) override;
   void takeRevision(std::string const &revision) override;
+  void takeUniqueID(std::optional<std::string> uniqueID) override;
 
  private:
   GPUXMLParser &outer_;
@@ -133,6 +137,11 @@ void GPUXMLParser::Initializer::takeDeviceID(std::string const &deviceID)
 void GPUXMLParser::Initializer::takeRevision(std::string const &revision)
 {
   outer_.revision_ = outer_.revisionDefault_ = revision;
+}
+
+void GPUXMLParser::Initializer::takeUniqueID(std::optional<std::string> uniqueID)
+{
+  outer_.uniqueID_ = outer_.uniqueIDDefault_ = uniqueID;
 }
 
 GPUXMLParser::GPUXMLParser() noexcept
@@ -212,6 +221,16 @@ std::string const &GPUXMLParser::provideRevision() const
   return revision_;
 }
 
+void GPUXMLParser::takeUniqueID(std::optional<std::string> uniqueID)
+{
+  uniqueID_ = uniqueID;
+}
+
+std::optional<std::string> GPUXMLParser::provideUniqueID() const
+{
+  return uniqueID_;
+}
+
 void GPUXMLParser::appendTo(pugi::xml_node &parentNode)
 {
   auto gpuNode = parentNode.append_child(ID().c_str());
@@ -219,6 +238,9 @@ void GPUXMLParser::appendTo(pugi::xml_node &parentNode)
   gpuNode.append_attribute("index") = index_;
   gpuNode.append_attribute("deviceid") = deviceID_.c_str();
   gpuNode.append_attribute("revision") = revision_.c_str();
+
+  if (uniqueID_.has_value())
+    gpuNode.append_attribute("uniqueid") = uniqueID_->c_str();
 
   for (auto &[key, component] : parsers_)
     component->appendTo(gpuNode);
@@ -230,6 +252,7 @@ void GPUXMLParser::resetAttributes()
   index_ = indexDefault_;
   deviceID_ = deviceIDDefault_;
   revision_ = revisionDefault_;
+  uniqueID_ = uniqueIDDefault_;
 }
 
 void GPUXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
@@ -239,12 +262,15 @@ void GPUXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
     if (node.name() != ID())
       return false;
 
-    // match specific gpu
+    // try to match specific gpu by uniqueid attribute
+    auto uniqueID = node.attribute("uniqueid").as_string();
+    if (*uniqueID != 0 && uniqueID_.has_value())
+      return uniqueID_ == uniqueID;
+
+    // match specific gpu by index, deviceid and revision attributes
     return node.attribute("index").as_int(-1) == index_ &&
-           node.attribute(IGPUInfo::Keys::deviceID.data()).as_string() ==
-               deviceID_ &&
-           node.attribute(IGPUInfo::Keys::revision.data()).as_string() ==
-               revision_;
+           node.attribute("deviceid").as_string() == deviceID_ &&
+           node.attribute("revision").as_string() == revision_;
   });
 
   active_ = gpuNode.attribute("active").as_bool(activeDefault_);

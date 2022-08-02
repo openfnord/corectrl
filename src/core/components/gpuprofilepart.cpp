@@ -70,6 +70,11 @@ void GPUProfilePart::Factory::takeInfo(IGPUInfo const &info)
   // NOTE info and system component key must be initialized here
   outer_.deviceID_ = info.info(IGPUInfo::Keys::deviceID);
   outer_.revision_ = info.info(IGPUInfo::Keys::revision);
+
+  auto uniqueID = info.info(IGPUInfo::Keys::uniqueID);
+  if (!uniqueID.empty())
+    outer_.uniqueID_ = uniqueID;
+
   outer_.index_ = info.index();
   outer_.updateKey();
 }
@@ -161,6 +166,12 @@ bool GPUProfilePart::belongsTo(Item const &i) const
   auto gpu = dynamic_cast<IGPU const *>(&i);
   if (gpu != nullptr) {
     auto &info = gpu->info();
+
+    // when available, use the GPU unique ID
+    auto uniqueID = info.info(IGPUInfo::Keys::uniqueID);
+    if (!uniqueID.empty())
+      return uniqueID == uniqueID_;
+
     return info.index() == index_ &&
            info.info(IGPUInfo::Keys::deviceID) == deviceID_ &&
            info.info(IGPUInfo::Keys::revision) == revision_;
@@ -203,6 +214,7 @@ void GPUProfilePart::importProfilePart(IProfilePart::Importer &i)
   index_ = gImporter.provideIndex();
   deviceID_ = gImporter.provideDeviceID();
   revision_ = gImporter.provideRevision();
+  uniqueID_ = gImporter.provideUniqueID();
 
   if (oldIndex != index_)
     updateKey();
@@ -217,6 +229,7 @@ void GPUProfilePart::exportProfilePart(IProfilePart::Exporter &e) const
   gExporter.takeIndex(index_);
   gExporter.takeDeviceID(deviceID_);
   gExporter.takeRevision(revision_);
+  gExporter.takeUniqueID(uniqueID_);
 
   for (auto &part : parts_)
     part->exportWith(e);
@@ -227,6 +240,7 @@ std::unique_ptr<IProfilePart> GPUProfilePart::cloneProfilePart() const
   auto clone = std::make_unique<GPUProfilePart>();
   clone->deviceID_ = deviceID_;
   clone->revision_ = revision_;
+  clone->uniqueID_ = uniqueID_;
   clone->index_ = index_;
   clone->key_ = key_;
   clone->parts_.reserve(parts_.size());
