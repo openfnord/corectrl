@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 ### Fixed
-- Fix profiles not loading consistently between reboots when using multiple GPUs (#300). If you are affected by this issue and your GPUs supports unique IDs (Vega and later models), re-save your profiles. More info on the [FAQ](https://gitlab.com/corectrl/corectrl/-/wikis/FAQ#Profiles-reset-randomly-between-reboots-when-using-multiple-GPUs).
+- Fix profiles not loading consistently between reboots when using multiple GPUs (#300). If you are affected by this issue and your GPUs supports unique IDs (Vega and later models), re-save your profiles. More info on the [Known Issues](https://gitlab.com/corectrl/corectrl/-/wikis/Known-issues#profiles-reset-randomly-between-reboots-when-using-multiple-gpus) Wiki page.
 
 ### Changed
 - Replace KAuth dependency with Polkit, D-Bus and Qt5::DBus.
