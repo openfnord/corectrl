@@ -40,7 +40,7 @@ else()
   set(QUAZIP_INCLUDE_DIRS ${QUAZIP_INCLUDE_DIR} ${QUAZIP_ZLIB_INCLUDE_DIR})
 
   include(FindPackageHandleStandardArgs)
-  find_package_handle_standard_args(QUAZIP DEFAULT_MSG
+  find_package_handle_standard_args(QuaZip DEFAULT_MSG
     QUAZIP_LIBRARIES
     QUAZIP_INCLUDE_DIR
     QUAZIP_ZLIB_INCLUDE_DIR
