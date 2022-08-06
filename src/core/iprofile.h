@@ -40,7 +40,7 @@ class IProfile
     static constexpr std::string_view DefaultIconURL{":/images/DefaultIcon"};
 
     Info(std::string name = "", std::string exe = "",
-         std::string iconURL = std::string(MissingIconURL))
+         std::string iconURL = std::string(DefaultIconURL))
     : name(name)
     , exe(exe)
     , iconURL(iconURL)
@@ -49,7 +49,7 @@ class IProfile
 
     std::string name{""};
     std::string exe{""};
-    std::string iconURL{MissingIconURL};
+    std::string iconURL{DefaultIconURL};
   };
 
   class Importer : public Importable::Importer

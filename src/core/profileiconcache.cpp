@@ -86,7 +86,7 @@ std::pair<bool, bool> ProfileIconCache::syncCache(
 void ProfileIconCache::clean(IProfile::Info &info)
 {
   cache_->remove(info.exe);
-  info.iconURL = IProfile::Info::MissingIconURL;
+  info.iconURL = IProfile::Info::DefaultIconURL;
 }
 
 std::optional<std::filesystem::path> ProfileIconCache::cacheIconFromData(
