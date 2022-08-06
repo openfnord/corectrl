@@ -138,7 +138,7 @@ void ProfileManagerUI::init(IProfileManager *profileManager,
 
 QString ProfileManagerUI::defaultIcon() const
 {
-  return IProfile::Info::DefaultIconURL.data();
+  return IProfile::Info::MissingIconURL.data();
 }
 
 bool ProfileManagerUI::isProfileNameInUse(QString const &profileName)

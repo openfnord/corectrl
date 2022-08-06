@@ -66,7 +66,7 @@ std::pair<bool, bool> ProfileIconCache::syncCache(
     std::function<std::optional<std::vector<char>>()> &&fallbackIconReader)
 {
   if (info.iconURL != IProfile::Info::GlobalIconURL &&
-      info.iconURL != IProfile::Info::DefaultIconURL) {
+      info.iconURL != IProfile::Info::MissingIconURL) {
 
     auto cacheURL = cache_->add(info.iconURL, info.exe);
     if (cacheURL.has_value()) {
@@ -85,7 +85,7 @@ std::pair<bool, bool> ProfileIconCache::syncCache(
 void ProfileIconCache::clean(IProfile::Info &info)
 {
   cache_->remove(info.exe);
-  info.iconURL = IProfile::Info::DefaultIconURL;
+  info.iconURL = IProfile::Info::MissingIconURL;
 }
 
 std::optional<std::filesystem::path> ProfileIconCache::cacheIconFromData(
@@ -101,11 +101,11 @@ std::optional<std::filesystem::path> ProfileIconCache::cacheIconFromData(
   }
   else { // no icon data!
 
-    // use default or global icon
+    // use missing or global icon
     auto url = info.iconURL;
     if (info.iconURL != IProfile::Info::GlobalIconURL &&
-        info.iconURL != IProfile::Info::DefaultIconURL)
-      url = IProfile::Info::DefaultIconURL;
+        info.iconURL != IProfile::Info::MissingIconURL)
+      url = IProfile::Info::MissingIconURL;
 
     auto rccData = Utils::File::readQrcFile(url);
     if (!rccData.empty()) {

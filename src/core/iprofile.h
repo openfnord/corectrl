@@ -36,10 +36,10 @@ class IProfile
   {
     static constexpr std::string_view GlobalID{"_global_"};
     static constexpr std::string_view GlobalIconURL{":/images/GlobalIcon"};
-    static constexpr std::string_view DefaultIconURL{":/images/DefaultIcon"};
+    static constexpr std::string_view MissingIconURL{":/images/MissingIcon"};
 
     Info(std::string name = "", std::string exe = "",
-         std::string iconURL = std::string(DefaultIconURL))
+         std::string iconURL = std::string(MissingIconURL))
     : name(name)
     , exe(exe)
     , iconURL(iconURL)
@@ -48,7 +48,7 @@ class IProfile
 
     std::string name{""};
     std::string exe{""};
-    std::string iconURL{DefaultIconURL};
+    std::string iconURL{MissingIconURL};
   };
 
   class Importer : public Importable::Importer
