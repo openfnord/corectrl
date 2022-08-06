@@ -267,11 +267,11 @@ ProfileStorage::readIconData(std::filesystem::path const &path,
   if (profileFileIconData.has_value())
     return profileFileIconData;
 
-  // use missing or global icon
   auto url = info.iconURL;
-  if (info.iconURL != IProfile::Info::GlobalIconURL &&
+  if (info.iconURL != IProfile::Info::DefaultIconURL &&
+      info.iconURL != IProfile::Info::GlobalIconURL &&
       info.iconURL != IProfile::Info::MissingIconURL)
-    url = IProfile::Info::MissingIconURL;
+    url = IProfile::Info::MissingIconURL; // fallback to missing icon
 
   auto rccData = Utils::File::readQrcFile(url);
   if (!rccData.empty())

@@ -37,6 +37,7 @@ class IProfile
     static constexpr std::string_view GlobalID{"_global_"};
     static constexpr std::string_view GlobalIconURL{":/images/GlobalIcon"};
     static constexpr std::string_view MissingIconURL{":/images/MissingIcon"};
+    static constexpr std::string_view DefaultIconURL{":/images/DefaultIcon"};
 
     Info(std::string name = "", std::string exe = "",
          std::string iconURL = std::string(MissingIconURL))

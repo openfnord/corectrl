@@ -64,6 +64,7 @@
     <qresource prefix="/images">
         <file alias="GlobalIcon">images/GlobalProfile.svg</file>
         <file alias="MissingIcon">images/MissingIcon.svg</file>
+        <file alias="DefaultIcon">images/DefaultIcon.svg</file>
         <file alias="WarningIcon">images/WarningIcon.svg</file>
         <file alias="AppIcon">images/AppIcon.svg</file>
     </qresource>
