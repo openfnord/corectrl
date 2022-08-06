@@ -2,21 +2,21 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg4153"
    version="1.1"
-   inkscape:version="0.92.4 5da689c313, 2019-01-14"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
    width="48"
    height="48"
-   sodipodi:docname="corectrl_48.svg"
+   sodipodi:docname="app_48.svg"
    viewBox="0 0 48 48"
-   inkscape:label="main">
+   inkscape:label="main"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata4159">
     <rdf:RDF>
@@ -79,16 +79,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1352"
-     inkscape:window-height="1152"
+     inkscape:window-height="1148"
      id="namedview4155"
      inkscape:document-units="px"
      showgrid="true"
      inkscape:showpageshadow="false"
      borderlayer="true"
-     inkscape:zoom="90.509668"
-     inkscape:cx="44.613736"
-     inkscape:cy="20.789122"
-     inkscape:window-x="568"
+     inkscape:zoom="11.313709"
+     inkscape:cx="28.107495"
+     inkscape:cy="35.355339"
+     inkscape:window-x="566"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="g850"
@@ -98,7 +98,9 @@
      fit-margin-bottom="0"
      inkscape:lockguides="true"
      showguides="true"
-     inkscape:snap-bbox="false">
+     inkscape:snap-bbox="false"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        type="xygrid"
        id="grid818"
@@ -229,7 +231,7 @@
          x="1.9187713"
          height="28.158041"
          width="28.081228"
-         style="fill:#4f4f4f;stroke-width:1.00427175"
+         style="fill:#363636;stroke-width:1.00427175;fill-opacity:1"
          inkscape:label="main" />
       <path
          id="path6"
