@@ -159,6 +159,33 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
       REQUIRE(mode1Index == 1);
     }
 
+    SECTION("Returns power profile modes on sienna cichlid asics")
+    {
+      // clang-format off
+      std::vector<std::string> input{
+          "PROFILE_INDEX(NAME)  ...",
+          "...",
+          "  1 3D_FULL_SCREEN*: ...",
+          "                    0(       GFXCLK) ...",
+          "...",
+          "  2   POWER_SAVING : ...",
+          "                    0(       GFXCLK) ...",
+          "..."};
+      // clang-format on
+
+      auto modes = ::Utils::AMD::parsePowerProfileModeModes(input);
+      REQUIRE(modes.has_value());
+      REQUIRE_FALSE(modes->empty());
+
+      auto &[mode0, mode0Index] = modes->at(0);
+      REQUIRE(mode0 == "3D_FULL_SCREEN");
+      REQUIRE(mode0Index == 1);
+
+      auto &[mode1, mode1Index] = modes->at(1);
+      REQUIRE(mode1 == "POWER_SAVING");
+      REQUIRE(mode1Index == 2);
+    }
+
     SECTION("Returns power profile modes on asics without heuristics settings")
     {
       // clang-format off
@@ -227,6 +254,25 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
           "  1   POWER_SAVING*: ...",
           "...",
           "  5         CUSTOM : ..."};
+      // clang-format on
+
+      auto index = ::Utils::AMD::parsePowerProfileModeCurrentModeIndex(input);
+      REQUIRE(index.has_value());
+      REQUIRE(*index == 1);
+    }
+
+    SECTION("Returns index of current profile mode on sienna cichlid asics")
+    {
+      // clang-format off
+      std::vector<std::string> input{
+          "PROFILE_INDEX(NAME)  ...",
+          "...",
+          "  1 3D_FULL_SCREEN*: ...",
+          "                    0(       GFXCLK) ...",
+          "...",
+          "  2   POWER_SAVING : ...",
+          "                    0(       GFXCLK) ...",
+          "..."};
       // clang-format on
 
       auto index = ::Utils::AMD::parsePowerProfileModeCurrentModeIndex(input);
