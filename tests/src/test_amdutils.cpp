@@ -694,11 +694,10 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
     }
   }
 
-  SECTION("ppOdClkVoltageFreqRangeOutOfRangeState")
+  SECTION("ppOdClkVoltageHasKnownFreqRangeQuirks")
   {
-    SECTION("Returns the out of range state indices")
+    SECTION("RX 6X00XT out of range minimum memory clock")
     {
-      // RX 6X00XT out of range minimum memory clock
       // clang-format off
       std::vector<std::string> input{"OD_SCLK:",
                                      "0: 700Mhz",
@@ -712,15 +711,10 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "SCLK:     500Mhz       3150Mhz",
                                      "MCLK:     674Mhz        1200Mhz"};
       // clang-format on
-      auto states = ::Utils::AMD::ppOdClkVoltageFreqRangeOutOfRangeStates(
-          "MCLK", input);
-
-      REQUIRE(states.has_value());
-      REQUIRE(states->size() == 1);
-      REQUIRE(states->at(0) == 0);
+      REQUIRE(::Utils::AMD::ppOdClkVoltageHasKnownFreqRangeQuirks("MCLK", input));
     }
 
-    SECTION("Returns nothing when there is no out of range states")
+    SECTION("Good input has no quirks")
     {
       // clang-format off
       std::vector<std::string> input{"OD_SCLK:",
@@ -736,11 +730,9 @@ TEST_CASE("AMD utils tests", "[Utils][AMD]")
                                      "MCLK:     674Mhz        1200Mhz"};
       // clang-format on
       REQUIRE_FALSE(
-          ::Utils::AMD::ppOdClkVoltageFreqRangeOutOfRangeStates("SCLK", input)
-              .has_value());
+          ::Utils::AMD::ppOdClkVoltageHasKnownFreqRangeQuirks("SCLK", input));
       REQUIRE_FALSE(
-          ::Utils::AMD::ppOdClkVoltageFreqRangeOutOfRangeStates("MCLK", input)
-              .has_value());
+          ::Utils::AMD::ppOdClkVoltageHasKnownFreqRangeQuirks("MCLK", input));
     }
   }
 

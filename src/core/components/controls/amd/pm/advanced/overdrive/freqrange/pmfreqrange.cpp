@@ -26,13 +26,12 @@
 
 AMD::PMFreqRange::PMFreqRange(
     std::string &&controlName, std::string &&controlCmdId,
-    std::unique_ptr<IDataSource<std::vector<std::string>>> &&ppOdClkVoltDataSource,
-    std::optional<DisabledBound> &&disabledBound) noexcept
+    std::unique_ptr<IDataSource<std::vector<std::string>>>
+        &&ppOdClkVoltDataSource) noexcept
 : Control(true)
 , id_(AMD::PMFreqRange::ItemID)
 , controlName_(std::move(controlName))
 , controlCmdId_(std::move(controlCmdId))
-, disabledBound_(std::move(disabledBound))
 , ppOdClkVoltDataSource_(std::move(ppOdClkVoltDataSource))
 {
 }
@@ -47,13 +46,8 @@ void AMD::PMFreqRange::preInit(ICommandQueue &)
 
 void AMD::PMFreqRange::postInit(ICommandQueue &ctlCmds)
 {
-  for (auto [index, freq] : preInitStates_) {
-    // skip disabled bound
-    if (disabledBound_.has_value() && index == disabledBound_->index)
-      continue;
-
+  for (auto [index, freq] : preInitStates_)
     ctlCmds.add({ppOdClkVoltDataSource_->source(), ppOdClkVoltCmd(index, freq)});
-  }
 }
 
 void AMD::PMFreqRange::init()
@@ -65,13 +59,8 @@ void AMD::PMFreqRange::init()
     auto states = Utils::AMD::parseOverdriveClks(controlName(),
                                                  ppOdClkVoltLines_);
     auto [min, max] = stateRange_;
-    for (auto [index, freq] : states.value()) {
-      // skip disabled bound
-      if (disabledBound_.has_value() && index == disabledBound_->index)
-        continue;
-
+    for (auto [index, freq] : states.value())
       states_.emplace(index, (std::clamp(freq, min, max)));
-    }
   }
 }
 
@@ -113,10 +102,6 @@ void AMD::PMFreqRange::syncControl(ICommandQueue &ctlCmds)
     auto states = Utils::AMD::parseOverdriveClks(controlName(),
                                                  ppOdClkVoltLines_);
     for (auto [index, freq] : states.value()) {
-      // skip disabled bound
-      if (disabledBound_.has_value() && index == disabledBound_->index)
-        continue;
-
       auto targetFreq = states_.at(index);
       if (freq != targetFreq) {
         ctlCmds.add({ppOdClkVoltDataSource_->source(),
