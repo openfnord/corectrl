@@ -19,6 +19,7 @@
 #include "trompeloeil.hpp"
 
 #include "common/commandqueuestub.h"
+#include "common/stringdatasourcestub.h"
 #include "common/vectorstringdatasourcestub.h"
 #include "core/components/controls/amd/pm/advanced/overdrive/freqrange/pmfreqrange.h"
 #include "units/units.h"
@@ -173,31 +174,16 @@ TEST_CASE("AMD PMFreqRange tests",
     REQUIRE(cmd1Value == "s 1 1000");
   }
 
-  SECTION(
-      "Does not generate post-init control commands for disabled bound states")
-  {
-    PMFreqRangeTestAdapter ts("SCLK", "s",
-                              std::make_unique<VectorStringDataSourceStub>(
-                                  "pp_od_clk_voltage", ppOdClkVoltageData),
-                              ::AMD::PMFreqRange::DisabledBound{1});
-    ts.preInit(ctlCmds);
-    ctlCmds.clear();
-    ts.postInit(ctlCmds);
-
-    auto &commands = ctlCmds.commands();
-    REQUIRE(commands.size() == 1);
-
-    auto &[cmd0Path, cmd0Value] = commands.at(0);
-    REQUIRE(cmd0Path == "pp_od_clk_voltage");
-    REQUIRE(cmd0Value == "s 0 200");
-  }
-
   SECTION("Initializes states and range from pp_od_clk_voltage data source")
   {
     PMFreqRangeTestAdapter ts("SCLK", "s",
                               std::make_unique<VectorStringDataSourceStub>(
                                   "pp_od_clk_voltage", ppOdClkVoltageData));
     ts.init();
+
+    auto &range = ts.stateRange();
+    REQUIRE(range.first == units::frequency::megahertz_t(200));
+    REQUIRE(range.second == units::frequency::megahertz_t(2000));
 
     auto states = ts.states();
     REQUIRE(states.size() == 2);
@@ -209,27 +195,6 @@ TEST_CASE("AMD PMFreqRange tests",
     auto &[s1Index, s1Freq] = states.at(1);
     REQUIRE(s1Index == 1);
     REQUIRE(s1Freq == units::frequency::megahertz_t(1000));
-
-    auto &[min, max] = ts.stateRange();
-    REQUIRE(min == units::frequency::megahertz_t(200));
-    REQUIRE(max == units::frequency::megahertz_t(2000));
-  }
-
-  SECTION("Initializes states and range from pp_od_clk_voltage data source, "
-          "skipping disabled bound states")
-  {
-    PMFreqRangeTestAdapter ts("SCLK", "s",
-                              std::make_unique<VectorStringDataSourceStub>(
-                                  "pp_od_clk_voltage", ppOdClkVoltageData),
-                              ::AMD::PMFreqRange::DisabledBound{1});
-    ts.init();
-
-    auto states = ts.states();
-    REQUIRE(states.size() == 1);
-
-    auto &[s0Index, s0Freq] = states.at(0);
-    REQUIRE(s0Index == 0);
-    REQUIRE(s0Freq == units::frequency::megahertz_t(200));
 
     auto &[min, max] = ts.stateRange();
     REQUIRE(min == units::frequency::megahertz_t(200));
@@ -349,27 +314,6 @@ TEST_CASE("AMD PMFreqRange tests",
     auto &[cmd0Path, cmd0Value] = commands.at(0);
     REQUIRE(cmd0Path == "pp_od_clk_voltage");
     REQUIRE(cmd0Value == "s 0 201");
-  }
-
-  SECTION("Generated sync control commands ignores disabled bound state")
-  {
-    // clang-format off
-    std::vector<std::string> ppOdClkVoltageData {
-                               "OD_SCLK:",
-                               "0:        10MHz", // Bogus state that will be disabled
-                               "1:       1000MHz",
-                               "OD_RANGE:",
-                               "SCLK:     200MHz       2000MHz"};
-    // clang-format on
-
-    PMFreqRangeTestAdapter ts("SCLK", "s",
-                              std::make_unique<VectorStringDataSourceStub>(
-                                  "pp_od_clk_voltage", ppOdClkVoltageData),
-                              ::AMD::PMFreqRange::DisabledBound{0});
-    ts.init();
-    ts.syncControl(ctlCmds);
-
-    REQUIRE(ctlCmds.commands().empty());
   }
 }
 
