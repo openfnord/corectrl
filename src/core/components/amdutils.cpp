@@ -132,7 +132,7 @@ parsePowerProfileModeModes(std::vector<std::string> const &ppPowerProfileModeLin
   //   1 3D_FULL_SCREEN : ...
   //   1 3D_FULL_SCREEN*
   //   1 3D_FULL_SCREEN
-  std::regex const regex(R"(^\s*(\d+)\s*([^\*\s:]+))");
+  std::regex const regex(R"(^\s*(\d+)\s+([^\*\(\s:]+))");
   std::vector<std::pair<std::string, int>> modes;
 
   for (auto &line : ppPowerProfileModeLines) {
@@ -167,7 +167,7 @@ std::optional<int> parsePowerProfileModeCurrentModeIndex(
   //   1 3D_FULL_SCREEN *: ...
   //   1 3D_FULL_SCREEN*: ...
   //   1 3D_FULL_SCREEN*
-  std::regex const regex(R"(^\s*(\d+)\s*(?:[^\*\s]+)\s*\*)");
+  std::regex const regex(R"(^\s*(\d+)\s+(?:[^\*\(\s]+)\s*\*)");
 
   for (auto &line : ppPowerProfileModeLines) {
 
