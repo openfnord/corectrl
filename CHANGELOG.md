@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+
+## CoreCtrl 1.2.6 (2022-08-06)
+
 ### Removed
 - Workaround for a [long-standing driver bug](https://gitlab.freedesktop.org/drm/amd/-/issues/1706) affecting the RX6000 series. This workaround allowed the user to control the maximum memory frequency on those models. Unfortunately, this functionality triggers another memory related driver bug that locks the memory frequency to a low value (#304).
 
