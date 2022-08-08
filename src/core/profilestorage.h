@@ -58,9 +58,6 @@ class ProfileStorage : public IProfileStorage
   bool loadProfileFrom(std::filesystem::path const &path,
                        IProfile &profile) const;
 
-  std::optional<std::vector<char>> readIconData(std::filesystem::path const &path,
-                                                IProfile::Info const &info) const;
-
   std::filesystem::path const path_;
   std::unique_ptr<IProfileParser> profileParser_;
   std::unique_ptr<IProfileFileParser> profileFileParser_;

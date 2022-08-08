@@ -17,7 +17,6 @@
 //
 #include "profileiconcache.h"
 
-#include "common/fileutils.h"
 #include "easyloggingpp/easylogging++.h"
 #include "fmt/format.h"
 #include "ifilecache.h"
@@ -33,9 +32,8 @@ void ProfileIconCache::init()
   cache_->init();
 }
 
-bool ProfileIconCache::tryOrCache(
-    IProfile::Info &info,
-    std::function<std::optional<std::vector<char>>()> &&fallbackIconReader)
+bool ProfileIconCache::tryOrCache(IProfile::Info &info,
+                                  std::vector<char> const &fallbackIcon)
 {
   // try the cache
   auto cacheURL = cache_->get(info.exe);
@@ -45,12 +43,12 @@ bool ProfileIconCache::tryOrCache(
     return true;
   }
 
-  // cache icon from fallback icon
-  return cache(info, fallbackIconReader());
+  // cache fallback icon
+  return cache(info, fallbackIcon);
 }
 
 bool ProfileIconCache::cache(IProfile::Info &info,
-                             std::optional<std::vector<char>> const &iconData)
+                             std::vector<char> const &iconData)
 {
   auto cacheURL = cacheIconFromData(iconData, info);
   if (cacheURL.has_value()) {
@@ -61,63 +59,34 @@ bool ProfileIconCache::cache(IProfile::Info &info,
   return false;
 }
 
-std::pair<bool, bool> ProfileIconCache::syncCache(
-    IProfile::Info &info,
-    std::function<std::optional<std::vector<char>>()> &&fallbackIconReader)
+std::pair<bool, bool> ProfileIconCache::syncCache(IProfile::Info &info)
 {
-  if (info.iconURL != IProfile::Info::DefaultIconURL &&
-      info.iconURL != IProfile::Info::GlobalIconURL &&
-      info.iconURL != IProfile::Info::MissingIconURL) {
+  auto cacheURL = cache_->add(info.iconURL, info.exe);
+  if (cacheURL.has_value()) {
+    auto updateURL = info.iconURL != *cacheURL;
+    if (updateURL)
+      info.iconURL = *cacheURL;
 
-    auto cacheURL = cache_->add(info.iconURL, info.exe);
-    if (cacheURL.has_value()) {
-      auto updateURL = info.iconURL != *cacheURL;
-      if (updateURL)
-        info.iconURL = *cacheURL;
-
-      return {true, updateURL};
-    }
+    return {true, updateURL};
   }
 
-  auto success = cache(info, fallbackIconReader());
-  return {success, success};
+  LOG(ERROR) << fmt::format("Failed to cache icon for {}", info.exe.data());
+  return {false, false};
 }
 
 void ProfileIconCache::clean(IProfile::Info &info)
 {
   cache_->remove(info.exe);
-  info.iconURL = IProfile::Info::DefaultIconURL;
 }
 
-std::optional<std::filesystem::path> ProfileIconCache::cacheIconFromData(
-    std::optional<std::vector<char>> const &iconData,
-    IProfile::Info const &info) const
+std::optional<std::filesystem::path>
+ProfileIconCache::cacheIconFromData(std::vector<char> const &iconData,
+                                    IProfile::Info const &info) const
 {
-  if (iconData.has_value()) {
-    auto cacheURL = cache_->add(*iconData, info.exe);
-    if (cacheURL.has_value())
-      return cacheURL;
-    else
-      LOG(ERROR) << fmt::format("Failed to cache icon for {}", info.exe.data());
-  }
-  else { // no icon data!
-    auto url = info.iconURL;
-    if (info.iconURL != IProfile::Info::DefaultIconURL &&
-        info.iconURL != IProfile::Info::GlobalIconURL &&
-        info.iconURL != IProfile::Info::MissingIconURL)
-      url = IProfile::Info::MissingIconURL; // fallback to missing icon
+  auto cacheURL = cache_->add(iconData, info.exe);
+  if (cacheURL.has_value())
+    return cacheURL;
 
-    auto rccData = Utils::File::readQrcFile(url);
-    if (!rccData.empty()) {
-      auto cacheURL = cache_->add(rccData, info.exe);
-      if (cacheURL.has_value())
-        return cacheURL;
-      else
-        LOG(ERROR) << fmt::format("Failed to cache icon {}", url.data());
-    }
-    else
-      LOG(ERROR) << fmt::format("Cannot read {} icon", url.data());
-  }
-
+  LOG(ERROR) << fmt::format("Failed to cache icon for {}", info.exe.data());
   return {};
 }
