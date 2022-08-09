@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Display the GPU unique ID in the GPU info tab. Available on Vega and later GPU models.
+- Workaround for a [long-standing driver bug](https://gitlab.freedesktop.org/drm/amd/-/issues/1706) which affects the RX6000 series. It allows the user to control the maximum memory frequency when using these cards. Turned out that this was not the cause of the low memory frequency issue (#304), so it should be safe to restore this functionality.
 
 
 ## CoreCtrl 1.2.6 (2022-08-06)
