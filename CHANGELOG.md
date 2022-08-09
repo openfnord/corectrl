@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+
+## CoreCtrl 1.2.7 (2022-08-09)
+
 ### Fixed
 - Fix power profiles parsing on sienna cichlid asics (#305).
 
