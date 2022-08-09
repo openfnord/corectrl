@@ -96,7 +96,7 @@ AMD::PMFreqRangeQMLItem::PMFreqRangeQMLItem() noexcept
 
 void AMD::PMFreqRangeQMLItem::changeState(int index, int freq)
 {
-  if (states_.count(static_cast<unsigned int>(index))) {
+  if (states_.count(static_cast<unsigned int>(index)) > 0) {
     auto &stateFreq = states_.at(static_cast<unsigned int>(index));
     if (stateFreq.to<int>() != freq) {
       stateFreq = units::frequency::megahertz_t(freq);

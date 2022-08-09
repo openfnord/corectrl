@@ -22,6 +22,7 @@
 #include "pmfreqrange.h"
 #include <algorithm>
 #include <memory>
+#include <set>
 
 class AMD::PMFreqRangeXMLParser::Initializer final
 : public AMD::PMFreqRangeProfilePart::Exporter
@@ -195,18 +196,30 @@ void AMD::PMFreqRangeXMLParser::loadStates(pugi::xml_node const &node)
         auto indexIt = std::find_if(
             statesDefault_.cbegin(), statesDefault_.cend(),
             [=](auto &state) { return state.first == index; });
-        if (indexIt == statesDefault_.cend()) // unknown index
-          break;
+        if (indexIt == statesDefault_.cend())
+          continue; // skip unknown index
 
         auto freq = freqAttr.as_uint();
         states_.emplace_back(index, units::frequency::megahertz_t(freq));
       }
-      else // malformed data
-        break;
+      else
+        continue; // skip malformed state data
     }
 
-    if (states_.size() != statesDefault_.size())
-      states_ = statesDefault_;
+    if (states_.size() != statesDefault_.size()) {
+      // mix loaded states with default states
+      std::set<std::pair<unsigned int, units::frequency::megahertz_t>> states(
+          statesDefault_.cbegin(), statesDefault_.cend());
+
+      for (auto &state : states_) {
+        states.erase(state);
+        states.insert(state);
+      }
+
+      states_ =
+          std::vector<std::pair<unsigned int, units::frequency::megahertz_t>>(
+              states.cbegin(), states.cend());
+    }
   }
 }
 

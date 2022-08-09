@@ -51,9 +51,12 @@ AMD::PMFreqRangeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
 
       for (auto controlName : controlNames.value()) {
 
+        auto outOfRangeStates =
+            Utils::AMD::ppOdClkVoltageFreqRangeOutOfRangeStates(
+                controlName, ppOdClkVoltLines);
+
         auto controlIsValid =
-            !Utils::AMD::ppOdClkVoltageHasKnownFreqRangeQuirks(
-                controlName, ppOdClkVoltLines) &&
+            !(outOfRangeStates.has_value() && outOfRangeStates->size() > 1) &&
             Utils::AMD::parseOverdriveClkRange(controlName, ppOdClkVoltLines)
                 .has_value() &&
             Utils::AMD::parseOverdriveClks(controlName, ppOdClkVoltLines)
@@ -65,10 +68,22 @@ AMD::PMFreqRangeProvider::provideGPUControls(IGPUInfo const &gpuInfo,
               Utils::AMD::getOverdriveClkControlCmdId(controlName);
           if (controlCmdId.has_value()) {
 
+            if (outOfRangeStates.has_value())
+              LOG(WARNING) << fmt::format(
+                  "Detected out of range state index {} on control {}",
+                  outOfRangeStates->at(0), controlName);
+
+            auto disabledBound =
+                outOfRangeStates.has_value()
+                    ? std::optional<AMD::PMFreqRange::DisabledBound>(
+                          AMD::PMFreqRange::DisabledBound{outOfRangeStates->at(0)})
+                    : std::nullopt;
+
             controls.emplace_back(std::make_unique<AMD::PMFreqRange>(
                 std::move(controlName), std::move(*controlCmdId),
                 std::make_unique<SysFSDataSource<std::vector<std::string>>>(
-                    ppOdClkVolt)));
+                    ppOdClkVolt),
+                std::move(disabledBound)));
           }
           else {
             LOG(WARNING) << fmt::format("Unsupported control {}", controlName);
