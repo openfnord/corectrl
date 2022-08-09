@@ -30,10 +30,10 @@ Page {
     objectName: "PROFILE_MANAGER"
 
     onInitProfiles: p.initProfileButtons(profiles)
-    onProfileAdded: p.createProfileButton(name, exe, icon, isActive)
+    onProfileAdded: p.createProfileButton(name, exe, icon, hasCustomIcon, isActive)
     onProfileRemoved: p.removeProfileButton(name)
     onProfileSaved:  p.updateToolBarButtonsOnProfileSaved()
-    onProfileInfoChanged: p.updateProfileButton(oldName, newName, exe, icon, isActive)
+    onProfileInfoChanged: p.updateProfileButton(oldName, newName, exe, icon, hasCustomIcon, isActive)
     onProfileChanged: p.updateProfileUIState(name)
     onProfileActiveChanged: p.updateProfileButtonActiveState(name, active);
   }
@@ -47,36 +47,32 @@ Page {
     property var editedProfileBtn: undefined
 
     function initProfileButtons(profiles) {
-      for (var i = 0; i < profiles.length; i+=4) {
+      for (var i = 0; i < profiles.length; i+=5) {
 
         var name = profiles[i]
         var exe = profiles[i+1]
         var icon = profiles[i+2]
         var isActive = profiles[i+3]
+        var hasCustomIcon = profiles[i+4]
+        var isGlobal = i === 0
 
-        if (name === "_global_")
-          profileModel.append({ "_label": qsTranslate("ProfileManagerUI", name),
-                                "_name": name,
-                                "_exe": exe,
-                                "_icon": icon,
-                                "_isGlobal": true,
-                                "_active": isActive })
-        else
-          profileModel.append({ "_label": name,
-                                "_name": name,
-                                "_exe": exe,
-                                "_icon": icon,
-                                "_isGlobal": false,
-                                "_active": isActive })
+        profileModel.append({ "_label": isGlobal ? qsTranslate("ProfileManagerUI", name) : name,
+                              "_name": name,
+                              "_exe": exe,
+                              "_icon": icon,
+                              "_isGlobal": isGlobal,
+                              "_hasCustomIcon": hasCustomIcon,
+                              "_active": isActive })
       }
     }
 
-    function createProfileButton(name, exe, icon, isActive) {
+    function createProfileButton(name, exe, icon, hasCustomIcon, isActive) {
       profileModel.append({ "_label": name,
                             "_name": name,
                             "_exe": exe,
                             "_icon": icon,
                             "_isGlobal": false,
+                            "_hasCustomIcon": hasCustomIcon,
                             "_active": isActive })
 
       // move model element to the correct position
@@ -97,7 +93,7 @@ Page {
       }
     }
 
-    function updateProfileButton(oldName, newName, exe, icon, isActive) {
+    function updateProfileButton(oldName, newName, exe, icon, hasCustomIcon, isActive) {
       // get model element old and new positions
       var from = -1
       var to = profileModel.count
@@ -124,6 +120,7 @@ Page {
                               "_name": newName,
                               "_exe": exe,
                               "_icon": icon,
+                              "_hasCustomIcon": hasCustomIcon,
                               "_active": isActive })
 
         refreshProfileButtonsIcon(icon)
@@ -246,6 +243,7 @@ Page {
         infoDlg.name = name
         infoDlg.exe = exe
         infoDlg.icon = icon
+        infoDlg.hasCustomIcon = _hasCustomIcon
         infoDlg.newInfoAction = function(name, exe, icon) {
           p.editedProfileBtn = undefined
           if (pBtn.name !== name || pBtn.exe !== exe || pBtn.icon !== icon)
@@ -259,6 +257,7 @@ Page {
         infoDlg.name = ""
         infoDlg.exe = ""
         infoDlg.icon = isGlobal ? "" : icon
+        infoDlg.hasCustomIcon = _hasCustomIcon
         infoDlg.newInfoAction = function(name, exe, icon) {
           profileManager.add(name, exe, icon, pBtn.name)
         }
@@ -297,12 +296,14 @@ Page {
 
   ProfileInfoDialog {
     id: infoDlg
+    defaultIcon: profileManager.defaultIcon()
 
     function openNewProfileDialog() {
       title = qsTr("New profile properties")
       name = ""
       exe = ""
-      icon = ""
+      icon = defaultIcon
+      hasCustomIcon = false
       newInfoAction = function(name, exe, icon) {
         profileManager.add(name, exe, icon, "defaultProfile")
       }

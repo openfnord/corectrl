@@ -27,6 +27,8 @@ Dialog {
   property string name
   property string exe
   property url icon
+  property url defaultIcon
+  property bool hasCustomIcon
 
   property var newInfoAction: function(name, exe, icon) {}
 
@@ -48,6 +50,9 @@ Dialog {
   QtObject { // private stuff
     id: p
 
+    property url originalIcon
+    property url selectedIcon
+
     property bool nameOK: false
     property bool exeOK: false
     property bool iconOK: false
@@ -58,14 +63,17 @@ Dialog {
 
     function resetState() {
       newInfoAction = function(name, exe, icon) {}
+      originalIcon = ""
+      selectedIcon = ""
     }
   }
 
-  onRejected: p.resetState()
-  onAccepted: {
-    newInfoAction(dlg.name, dlg.exe, dlg.icon)
-    p.resetState()
+  onAboutToShow: {
+    customizeIconCb.checked = hasCustomIcon
+    p.originalIcon = icon
   }
+  onClosed: p.resetState()
+  onAccepted: newInfoAction(dlg.name, dlg.exe, dlg.icon)
 
   onNameChanged: {
     if (name !== nameTf.text)
@@ -99,7 +107,7 @@ Dialog {
     if (icon !== icnBtn.path)
       icnBtn.path = icon
 
-    p.iconOK = icon !== null && icon.toString().length > 0
+    p.iconOK = icon.toString().length > 0
     p.updateOKButtonState()
   }
 
@@ -170,9 +178,11 @@ Dialog {
 
     Button {
       id: icnBtn
+      Layout.alignment: Qt.AlignLeft
+
+      enabled: customizeIconCb.checked
       property alias path: icnBtnImage.source
 
-      Layout.alignment: Qt.AlignLeft
       hoverEnabled: Style.g_hover
       Material.elevation: Style.Material.elevation
 
@@ -198,9 +208,32 @@ Dialog {
         onAccepted: {
           icnBtnImage.source = file
           dlg.icon = file
+          p.selectedIcon = file
         }
       }
       onClicked: icnFDialog.open()
+    }
+
+    CheckBox {
+      id: customizeIconCb
+      Layout.alignment: Qt.AlignLeft
+      Layout.row: 3
+      Layout.column: 1
+
+      text: qsTr("Customize icon")
+
+      hoverEnabled: Style.g_hover
+
+      leftPadding: 0
+      rightPadding: 0
+      topPadding: 0
+      bottomPadding: 0
+
+      onToggled: {
+        var customIcon = dlg.hasCustomIcon ? p.originalIcon : ""
+        var customIconToShow = p.selectedIcon.toString().length > 0 ? p.selectedIcon : customIcon
+        dlg.icon = checked ? customIconToShow : dlg.defaultIcon
+      }
     }
   }
 

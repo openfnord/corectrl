@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Display the GPU unique ID in the GPU info tab. Available on Vega and later GPU models.
+- Make custom profile icons optional in the profile dialog. The user can now select a custom icon or simply use the default one in their profiles (#127).
 
 
 ## CoreCtrl 1.2.7 (2022-08-09)

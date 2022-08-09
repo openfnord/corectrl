@@ -458,44 +458,49 @@
 <context>
     <name>ProfileInfoDialog</name>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="112"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="120"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="121"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="129"/>
         <source>Profile name</source>
         <translation>Имя профиля</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="127"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="135"/>
         <source>Executable:</source>
         <translation>Исполняемый файл:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="137"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="145"/>
         <source>Executable name</source>
         <translation>Имя исполняемого файла</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="154"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="162"/>
         <source>Select an executable file</source>
         <translation>Выбрать исполняемый файл</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="167"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="175"/>
         <source>Icon:</source>
         <translation>Иконка:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="195"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="205"/>
         <source>Select an icon</source>
         <translation>Выбрать иконку</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="206"/>
         <source>Images</source>
         <translation>Изображения</translation>
+    </message>
+    <message>
+        <location filename="../qml/ProfileInfoDialog.qml" line="223"/>
+        <source>Customize icon</source>
+        <translation>Настроить значок</translation>
     </message>
 </context>
 <context>
@@ -509,129 +514,129 @@
 <context>
     <name>Profiles</name>
     <message>
-        <location filename="../qml/Profiles.qml" line="153"/>
+        <location filename="../qml/Profiles.qml" line="150"/>
         <source>Disabled</source>
         <translation>Выключены</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="245"/>
+        <location filename="../qml/Profiles.qml" line="242"/>
         <source>Profile properties</source>
         <translation>Свойства профиля</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="258"/>
+        <location filename="../qml/Profiles.qml" line="256"/>
         <location filename="../qml/Profiles.qml" line="302"/>
         <source>New profile properties</source>
         <translation>Новые свойства профиля</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="331"/>
+        <location filename="../qml/Profiles.qml" line="332"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="352"/>
-        <location filename="../qml/Profiles.qml" line="382"/>
-        <location filename="../qml/Profiles.qml" line="417"/>
-        <location filename="../qml/Profiles.qml" line="446"/>
+        <location filename="../qml/Profiles.qml" line="353"/>
+        <location filename="../qml/Profiles.qml" line="383"/>
+        <location filename="../qml/Profiles.qml" line="418"/>
+        <location filename="../qml/Profiles.qml" line="447"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="367"/>
+        <location filename="../qml/Profiles.qml" line="368"/>
         <source>This action is permantent.
 Do you really want to remove %1?</source>
         <translation>Это действие необратимо.
 Вы действительно хотите удалить %1?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="394"/>
+        <location filename="../qml/Profiles.qml" line="395"/>
         <source>Unapplied settings will be lost.
 Do you want to apply them now?</source>
         <translation>Неприменённые настройки будут потеряны.
 Хотите применить их сейчас?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="481"/>
+        <location filename="../qml/Profiles.qml" line="482"/>
         <source>Manage profiles for your applications...</source>
         <translation>Управление профилями для ваших приложений...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="553"/>
+        <location filename="../qml/Profiles.qml" line="554"/>
         <source>Load from...</source>
         <translation>Загрузить из...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="558"/>
+        <location filename="../qml/Profiles.qml" line="559"/>
         <source>Load settings from...</source>
         <translation>Загрузить настройки из...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="564"/>
+        <location filename="../qml/Profiles.qml" line="565"/>
         <source>Cannot load profile.
 Invalid or corrupted file.</source>
         <translation>Невозможно загрузить профиль.
 Некорректный или поврежденный файл.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="429"/>
+        <location filename="../qml/Profiles.qml" line="430"/>
         <source>Unsaved settings will be lost.
 </source>
         <translation>Несохраненные настройки будут потеряны.
 </translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="430"/>
+        <location filename="../qml/Profiles.qml" line="431"/>
         <source>Do you want to load the default settings?</source>
         <translation>Вы хотите загрузить настройки по умолчанию?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="458"/>
+        <location filename="../qml/Profiles.qml" line="459"/>
         <source>Current settings will be discarded.
 </source>
         <translation>Текущие настройки будут сброшены.
 </translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="459"/>
+        <location filename="../qml/Profiles.qml" line="460"/>
         <source>Do you want to load the saved settings?</source>
         <translation>Хотите загрузить сохранённые настройки?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="529"/>
+        <location filename="../qml/Profiles.qml" line="530"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="535"/>
+        <location filename="../qml/Profiles.qml" line="536"/>
         <source>Apply</source>
         <translation>Применить</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="541"/>
+        <location filename="../qml/Profiles.qml" line="542"/>
         <source>Restore</source>
         <translation>Восстановить</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="283"/>
+        <location filename="../qml/Profiles.qml" line="282"/>
         <source>Export profile to...</source>
         <translation>Экспортировать профиль в...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="284"/>
-        <location filename="../qml/Profiles.qml" line="559"/>
+        <location filename="../qml/Profiles.qml" line="283"/>
+        <location filename="../qml/Profiles.qml" line="560"/>
         <source>CoreCtrl profile</source>
         <translation>Профиль CoreCtrl</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="292"/>
+        <location filename="../qml/Profiles.qml" line="291"/>
         <source>Cannot export profile.
 Check the permissions of the destination file and directory.</source>
         <translation>Невозможно экспортировать профиль.
 Проверьте права доступа к файлу назначения и каталогу.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="573"/>
+        <location filename="../qml/Profiles.qml" line="574"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
