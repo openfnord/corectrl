@@ -5,7 +5,6 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Fix profiles not loading consistently between reboots when using multiple GPUs (#300). If you are affected by this issue and your GPUs supports unique IDs (Vega and later models), re-save your profiles. More info on the [Known Issues](https://gitlab.com/corectrl/corectrl/-/wikis/Known-issues#profiles-reset-randomly-between-reboots-when-using-multiple-gpus) Wiki page.
-- Fix power profiles parsing on sienna cichlid asics (#305).
 
 ### Changed
 - Replace KAuth dependency with Polkit, D-Bus and Qt5::DBus.
@@ -13,6 +12,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Display the GPU unique ID in the GPU info tab. Available on Vega and later GPU models.
+
+
+## CoreCtrl 1.2.7 (2022-08-09)
+
+### Fixed
+- Fix power profiles parsing on sienna cichlid asics (#305).
+
+### Added
 - Workaround for a [long-standing driver bug](https://gitlab.freedesktop.org/drm/amd/-/issues/1706) which affects the RX6000 series. It allows the user to control the maximum memory frequency when using these cards. Turned out that this was not the cause of the low memory frequency issue (#304), so it should be safe to restore this functionality.
 
 
