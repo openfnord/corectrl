@@ -33,21 +33,17 @@ class ProfileIconCache final : public IProfileIconCache
   void init() override;
 
   bool tryOrCache(IProfile::Info &info,
-                  std::function<std::optional<std::vector<char>>()>
-                      &&fallbackIconReader) override;
+                  std::vector<char> const &fallbackIcon) override;
 
-  bool cache(IProfile::Info &info,
-             std::optional<std::vector<char>> const &iconData) override;
+  bool cache(IProfile::Info &info, std::vector<char> const &iconData) override;
 
-  std::pair<bool, bool> syncCache(IProfile::Info &info,
-                                  std::function<std::optional<std::vector<char>>()>
-                                      &&fallbackIconReader) override;
+  std::pair<bool, bool> syncCache(IProfile::Info &info) override;
 
   void clean(IProfile::Info &info) override;
 
  private:
   std::optional<std::filesystem::path>
-  cacheIconFromData(std::optional<std::vector<char>> const &iconData,
+  cacheIconFromData(std::vector<char> const &iconData,
                     IProfile::Info const &info) const;
 
   std::unique_ptr<IFileCache> const cache_;

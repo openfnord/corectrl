@@ -458,44 +458,49 @@
 <context>
     <name>ProfileInfoDialog</name>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="112"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="120"/>
         <source>Name:</source>
         <translation>Naam:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="121"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="129"/>
         <source>Profile name</source>
         <translation>Profielnaam</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="127"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="135"/>
         <source>Executable:</source>
         <translation>Uitvoerbaar bestand:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="137"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="145"/>
         <source>Executable name</source>
         <translation>Uitvoerbaar bestand</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="154"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="162"/>
         <source>Select an executable file</source>
         <translation>Kies een uitvoerbaar bestand</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="167"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="175"/>
         <source>Icon:</source>
         <translation>Pictogram:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="195"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="205"/>
         <source>Select an icon</source>
         <translation>Kies een pictogram</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="206"/>
         <source>Images</source>
         <translation>Afbeeldingen</translation>
+    </message>
+    <message>
+        <location filename="../qml/ProfileInfoDialog.qml" line="223"/>
+        <source>Customize icon</source>
+        <translation>Pictogram aanpassen</translation>
     </message>
 </context>
 <context>
@@ -509,129 +514,129 @@
 <context>
     <name>Profiles</name>
     <message>
-        <location filename="../qml/Profiles.qml" line="153"/>
+        <location filename="../qml/Profiles.qml" line="150"/>
         <source>Disabled</source>
         <translation>Uitgeschakeld</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="245"/>
+        <location filename="../qml/Profiles.qml" line="242"/>
         <source>Profile properties</source>
         <translation>Profieleigenschappen</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="258"/>
+        <location filename="../qml/Profiles.qml" line="256"/>
         <location filename="../qml/Profiles.qml" line="302"/>
         <source>New profile properties</source>
         <translation>Nieuwe profieleigenschappen</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="283"/>
+        <location filename="../qml/Profiles.qml" line="282"/>
         <source>Export profile to...</source>
         <translation>Profiel exporteren naar…</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="284"/>
-        <location filename="../qml/Profiles.qml" line="559"/>
+        <location filename="../qml/Profiles.qml" line="283"/>
+        <location filename="../qml/Profiles.qml" line="560"/>
         <source>CoreCtrl profile</source>
         <translation>CoreCtrl-profiel</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="292"/>
+        <location filename="../qml/Profiles.qml" line="291"/>
         <source>Cannot export profile.
 Check the permissions of the destination file and directory.</source>
         <translation>Het profiel kan niet worden geëxporteerd.
 Controleer de rechten van de bestemming.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="331"/>
+        <location filename="../qml/Profiles.qml" line="332"/>
         <source>Error</source>
         <translation>Foutmelding</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="352"/>
-        <location filename="../qml/Profiles.qml" line="382"/>
-        <location filename="../qml/Profiles.qml" line="417"/>
-        <location filename="../qml/Profiles.qml" line="446"/>
+        <location filename="../qml/Profiles.qml" line="353"/>
+        <location filename="../qml/Profiles.qml" line="383"/>
+        <location filename="../qml/Profiles.qml" line="418"/>
+        <location filename="../qml/Profiles.qml" line="447"/>
         <source>Warning</source>
         <translation>Waarschuwing</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="367"/>
+        <location filename="../qml/Profiles.qml" line="368"/>
         <source>This action is permantent.
 Do you really want to remove %1?</source>
         <translation>Deze actie kan niet ongedaan worden gemaakt.
 Weet u zeker dat u %1 wilt verwijderen?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="394"/>
+        <location filename="../qml/Profiles.qml" line="395"/>
         <source>Unapplied settings will be lost.
 Do you want to apply them now?</source>
         <translation>Niet-toegepaste instellingen worden gewist.
 Wilt u ze nu toepassen?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="429"/>
+        <location filename="../qml/Profiles.qml" line="430"/>
         <source>Unsaved settings will be lost.
 </source>
         <translation>Niet-toegepaste instellingen worden gewist.
 </translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="430"/>
+        <location filename="../qml/Profiles.qml" line="431"/>
         <source>Do you want to load the default settings?</source>
         <translation>Wilt u de standaardwaarden herstellen?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="458"/>
+        <location filename="../qml/Profiles.qml" line="459"/>
         <source>Current settings will be discarded.
 </source>
         <translation>De huidige instellingen worden hierdoor overschreven.
 </translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="459"/>
+        <location filename="../qml/Profiles.qml" line="460"/>
         <source>Do you want to load the saved settings?</source>
         <translation>Wilt u de opgeslagen instellingen laden?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="481"/>
+        <location filename="../qml/Profiles.qml" line="482"/>
         <source>Manage profiles for your applications...</source>
         <translation>Beheer uw programmaprofielen…</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="529"/>
+        <location filename="../qml/Profiles.qml" line="530"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="535"/>
+        <location filename="../qml/Profiles.qml" line="536"/>
         <source>Apply</source>
         <translation>Toepassen</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="541"/>
+        <location filename="../qml/Profiles.qml" line="542"/>
         <source>Restore</source>
         <translation>Herstellen</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="553"/>
+        <location filename="../qml/Profiles.qml" line="554"/>
         <source>Load from...</source>
         <translation>Laden uit…</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="558"/>
+        <location filename="../qml/Profiles.qml" line="559"/>
         <source>Load settings from...</source>
         <translation>Instellingen laden uit…</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="564"/>
+        <location filename="../qml/Profiles.qml" line="565"/>
         <source>Cannot load profile.
 Invalid or corrupted file.</source>
         <translation>Het profiel kan niet worden geladen.
 Het bestand is mogelijk ongeldig of beschadigd.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="573"/>
+        <location filename="../qml/Profiles.qml" line="574"/>
         <source>Reset</source>
         <translation>Standaardwaarden</translation>
     </message>

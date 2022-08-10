@@ -46,6 +46,12 @@ class IProfile
     {
     }
 
+    bool hasCustomIcon() const
+    {
+      return iconURL != IProfile::Info::DefaultIconURL &&
+             iconURL != IProfile::Info::GlobalIconURL;
+    }
+
     std::string name{""};
     std::string exe{""};
     std::string iconURL{DefaultIconURL};

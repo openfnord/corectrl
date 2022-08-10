@@ -88,9 +88,9 @@ void ProfileManagerUI::ProfileManagerObserver::profileInfoChanged(
   outer_.addProfileUsedNames(newInfo.name);
   auto profile = outer_.profileManager_->profile(newInfo.name);
   emit outer_.profileInfoChanged(
-      QString::fromStdString(oldInfo.name),
-      QString::fromStdString(newInfo.name), QString::fromStdString(newInfo.exe),
-      outer_.toQMLIconPath(newInfo.iconURL), profile->get().active());
+      QString::fromStdString(oldInfo.name), QString::fromStdString(newInfo.name),
+      QString::fromStdString(newInfo.exe), outer_.toQMLIconPath(newInfo.iconURL),
+      newInfo.hasCustomIcon(), profile->get().active());
 }
 
 ProfileManagerUI::ProfileManagerUI(QObject *parent) noexcept
@@ -131,6 +131,7 @@ void ProfileManagerUI::init(IProfileManager *profileManager,
     list.append(QString::fromStdString(info.exe));
     list.append(toQMLIconPath(info.iconURL));
     list.append(profile->get().active());
+    list.append(info.hasCustomIcon());
   }
 
   emit initProfiles(list);
@@ -138,7 +139,7 @@ void ProfileManagerUI::init(IProfileManager *profileManager,
 
 QString ProfileManagerUI::defaultIcon() const
 {
-  return IProfile::Info::DefaultIconURL.data();
+  return toQMLIconPath(IProfile::Info::DefaultIconURL.data());
 }
 
 bool ProfileManagerUI::isProfileNameInUse(QString const &profileName)
@@ -276,7 +277,8 @@ void ProfileManagerUI::addProfileComponet(std::string const &profileName)
   auto &info = profile->get().info();
   emit profileAdded(QString::fromStdString(info.name),
                     QString::fromStdString(info.exe),
-                    toQMLIconPath(info.iconURL), profile->get().active());
+                    toQMLIconPath(info.iconURL), info.hasCustomIcon(),
+                    profile->get().active());
 }
 
 void ProfileManagerUI::addProfileUsedNames(std::string const &profileName)

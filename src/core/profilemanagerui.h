@@ -65,14 +65,14 @@ class ProfileManagerUI : public QObject
  signals:
   void initProfiles(QVariantList const &profiles);
   void profileAdded(QString const &name, QString const &exe,
-                    QString const &icon, bool isActive);
+                    QString const &icon, bool hasCustomIcon, bool isActive);
   void profileRemoved(QString const &name);
   void profileChanged(QString const &name);
   void profileActiveChanged(QString const &name, bool active);
   void profileSaved(QString const &name);
   void profileInfoChanged(QString const &oldName, QString const &newName,
                           QString const &exe, QString const &icon,
-                          bool isActive);
+                          bool hasCustomIcon, bool isActive);
 
  private:
   std::string cleanIconFilePath(QString iconPath) const;

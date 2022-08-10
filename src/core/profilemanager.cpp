@@ -70,15 +70,10 @@ void ProfileManager::init(ISysModel const &model)
 
     if (info.exe == IProfile::Info::GlobalID) {
 
-      // ensure info name is valid (icon url is valid at this point)
-      if (!(info.name == IProfile::Info::GlobalID)) {
-
-        profile->info({std::string(IProfile::Info::GlobalID),
-                       std::string(IProfile::Info::GlobalID),
-                       std::string(IProfile::Info::GlobalIconURL)});
-
-        profileStorage_->save(*profile);
-      }
+      auto overrideInfo = info;
+      overrideInfo.name = IProfile::Info::GlobalID;
+      overrideInfo.iconURL = IProfile::Info::GlobalIconURL;
+      profile->info(overrideInfo);
 
       globalFound = true;
     }

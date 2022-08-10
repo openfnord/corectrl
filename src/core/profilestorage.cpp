@@ -88,30 +88,21 @@ bool ProfileStorage::load(IProfile &profile)
 bool ProfileStorage::save(IProfile &profile)
 {
   if (profilesDirectoryExist()) {
+
     auto filePath = path_ / (profile.info().exe + fileExtension_);
+    auto exported = exportTo(profile, filePath);
+    if (exported) {
 
-    std::vector<char> profileData;
-    if (profileParser_->save(profileData, profile)) {
       auto info = profile.info();
+      if (info.hasCustomIcon()) {
 
-      auto [success, updated] = iconCache_->syncCache(info, [&]() {
-        return profileFileParser_->load(
-            filePath, std::string(IProfileFileParser::IconDataFileName));
-      });
-      if (success && updated)
-        profile.info(info);
+        // sync icon cache when custom icons are used
+        auto [success, updated] = iconCache_->syncCache(info);
+        if (success && updated)
+          profile.info(info);
+      }
 
-      // pack data to be saved
-      std::vector<std::pair<std::string, std::vector<char>>> data;
-      data.emplace_back(std::string(profileDataFileName_),
-                        std::move(profileData));
-
-      auto iconData = Utils::File::readFile(info.iconURL);
-      if (!iconData.empty())
-        data.emplace_back(std::string(IProfileFileParser::IconDataFileName),
-                          std::move(iconData));
-
-      return profileFileParser_->save(filePath, data);
+      return true;
     }
   }
 
@@ -138,11 +129,15 @@ bool ProfileStorage::exportTo(IProfile const &profile,
     std::vector<std::pair<std::string, std::vector<char>>> data;
     data.emplace_back(std::string(profileDataFileName_), std::move(profileData));
 
-    auto profileFilePath = path_ / (profile.info().exe + fileExtension_);
-    auto iconData = readIconData(profileFilePath, profile.info());
-    if (iconData.has_value())
-      data.emplace_back(std::string(IProfileFileParser::IconDataFileName),
-                        std::move(iconData.value()));
+    auto info = profile.info();
+    if (info.hasCustomIcon()) {
+
+      // save the custom icon in the profile
+      auto iconData = Utils::File::readFile(info.iconURL);
+      if (!iconData.empty())
+        data.emplace_back(std::string(IProfileFileParser::IconDataFileName),
+                          std::move(iconData));
+    }
 
     auto targetFilePath = path;
     if (targetFilePath.extension() != fileExtension_)
@@ -225,12 +220,18 @@ bool ProfileStorage::loadProfileFromStorage(std::filesystem::path const &path,
       auto info = profile.info();
       if (info.exe == IProfile::Info::GlobalID)
         info.iconURL = IProfile::Info::GlobalIconURL;
+      else {
+        // try to read the icon stored in the profile
+        auto profileIcon = profileFileParser_->load(
+            path, std::string(IProfileFileParser::IconDataFileName));
 
-      if (iconCache_->tryOrCache(info, [&]() {
-            return profileFileParser_->load(
-                path, std::string(IProfileFileParser::IconDataFileName));
-          })) {
-        profile.info(info);
+        // profiles without icons use the default icon
+        if (!profileIcon.has_value())
+          info.iconURL = IProfile::Info::DefaultIconURL;
+
+        // profiles with icons use a cached icon
+        else if (iconCache_->tryOrCache(info, *profileIcon))
+          profile.info(info);
       }
 
       return true;
@@ -248,36 +249,4 @@ bool ProfileStorage::loadProfileFrom(std::filesystem::path const &path,
     return profileParser_->load(*profileData, profile);
 
   return false;
-}
-
-std::optional<std::vector<char>>
-ProfileStorage::readIconData(std::filesystem::path const &path,
-                             IProfile::Info const &info) const
-{
-  // try the info icon
-  if (Utils::File::isFilePathValid(info.iconURL)) {
-    auto cacheData = Utils::File::readFile(info.iconURL);
-    if (!cacheData.empty())
-      return {cacheData};
-  }
-
-  // load from profile file
-  auto profileFileIconData = profileFileParser_->load(
-      path, std::string(IProfileFileParser::IconDataFileName));
-  if (profileFileIconData.has_value())
-    return profileFileIconData;
-
-  // use default or global icon
-  auto url = info.iconURL;
-  if (info.iconURL != IProfile::Info::GlobalIconURL &&
-      info.iconURL != IProfile::Info::DefaultIconURL)
-    url = IProfile::Info::DefaultIconURL;
-
-  auto rccData = Utils::File::readQrcFile(url);
-  if (!rccData.empty())
-    return {rccData};
-
-  LOG(ERROR) << fmt::format("Not icon found for {}", info.exe.data());
-
-  return {};
 }
