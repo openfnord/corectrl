@@ -692,7 +692,7 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../qml/SensorGraph.qml" line="150"/>
         <source>n/a</source>
-        <translation type="unfinished"></translation>
+        <translation>н/д</translation>
     </message>
     <message>
         <location filename="../core/components/sensors/amd/gpuvoltgraphitem.cpp" line="34"/>
@@ -720,12 +720,12 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../qml/SettingsDialog.qml" line="46"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Общие</translation>
     </message>
     <message>
         <location filename="../qml/SettingsDialog.qml" line="46"/>
         <source>Workarounds</source>
-        <translation type="unfinished"></translation>
+        <translation>Обходные пути</translation>
     </message>
 </context>
 <context>
@@ -733,12 +733,12 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../qml/SettingsGeneral.qml" line="53"/>
         <source>Show system tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать значок в системном лотке</translation>
     </message>
     <message>
         <location filename="../qml/SettingsGeneral.qml" line="68"/>
         <source>Start minimized on system tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Запускать в свёрнутом виде в системном лотке</translation>
     </message>
 </context>
 <context>
@@ -746,17 +746,17 @@ Check the permissions of the destination file and directory.</source>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="109"/>
         <source>Sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Датчики</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="120"/>
         <source>Disabled sensors won&apos;t be updated from hardware</source>
-        <translation type="unfinished"></translation>
+        <translation>Выключенные датчики не будут получать обновления от оборудования</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWorkarounds.qml" line="130"/>
         <source>Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Устройство</translation>
     </message>
 </context>
 <context>
