@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Replace KAuth dependency with Polkit, D-Bus and Qt5::DBus.
 - Replace KArchive dependency with QuaZip.
+- Update Russian translation. Thanks to OlesyaGerasimenko (!35).
 
 ### Added
 - Display the GPU unique ID in the GPU info tab. Available on Vega and later GPU models.
