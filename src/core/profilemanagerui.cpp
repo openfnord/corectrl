@@ -17,7 +17,6 @@
 //
 #include "profilemanagerui.h"
 
-#include "ifilecache.h"
 #include "iprofile.h"
 #include "iprofilemanager.h"
 #include "isysmodelui.h"
@@ -98,6 +97,8 @@ ProfileManagerUI::ProfileManagerUI(QObject *parent) noexcept
 , profileManagerObserver_(
       std::make_shared<ProfileManagerUI::ProfileManagerObserver>(*this))
 {
+  usedExecutableNames_.insert(
+      QString::fromLatin1(IProfile::Info::ManualID.data()));
 }
 
 void ProfileManagerUI::init(IProfileManager *profileManager,
@@ -289,8 +290,10 @@ void ProfileManagerUI::addProfileUsedNames(std::string const &profileName)
   auto name = QString::fromStdString(profileName);
   usedProfileNames_.insert(name);
 
-  auto exe = QString::fromStdString(profileInfo.exe);
-  usedExecutableNames_.insert(exe);
+  if (profileInfo.exe != IProfile::Info::ManualID) {
+    auto exe = QString::fromStdString(profileInfo.exe);
+    usedExecutableNames_.insert(exe);
+  }
 }
 
 void ProfileManagerUI::removeProfileUsedNames(std::string const &profileName)
@@ -301,8 +304,10 @@ void ProfileManagerUI::removeProfileUsedNames(std::string const &profileName)
   auto name = QString::fromStdString(profileName);
   usedProfileNames_.remove(name);
 
-  auto exe = QString::fromStdString(profileInfo.exe);
-  usedExecutableNames_.remove(exe);
+  if (profileInfo.exe != IProfile::Info::ManualID) {
+    auto exe = QString::fromStdString(profileInfo.exe);
+    usedExecutableNames_.remove(exe);
+  }
 }
 
 bool const ProfileManagerUI::registered_ =

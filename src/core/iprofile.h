@@ -35,6 +35,7 @@ class IProfile
   struct Info
   {
     static constexpr std::string_view GlobalID{"_global_"};
+    static constexpr std::string_view ManualID{"_manual_"};
     static constexpr std::string_view GlobalIconURL{":/images/GlobalIcon"};
     static constexpr std::string_view DefaultIconURL{":/images/DefaultIcon"};
 
