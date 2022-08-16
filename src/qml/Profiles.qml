@@ -256,7 +256,7 @@ Page {
         infoDlg.title = qsTr("New profile properties")
         infoDlg.name = ""
         infoDlg.exe = ""
-        infoDlg.icon = isGlobal ? "" : icon
+        infoDlg.icon = isGlobal ? infoDlg.defaultIcon : icon
         infoDlg.hasCustomIcon = _hasCustomIcon
         infoDlg.newInfoAction = function(name, exe, icon) {
           profileManager.add(name, exe, icon, pBtn.name)
