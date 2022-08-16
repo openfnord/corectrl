@@ -88,8 +88,11 @@ void ProfileManagerUI::ProfileManagerObserver::profileInfoChanged(
   auto profile = outer_.profileManager_->profile(newInfo.name);
   emit outer_.profileInfoChanged(
       QString::fromStdString(oldInfo.name), QString::fromStdString(newInfo.name),
-      QString::fromStdString(newInfo.exe), outer_.toQMLIconPath(newInfo.iconURL),
-      newInfo.hasCustomIcon(), profile->get().active());
+      newInfo.exe != IProfile::Info::ManualID
+          ? QString::fromStdString(newInfo.exe)
+          : QLatin1String(""),
+      outer_.toQMLIconPath(newInfo.iconURL), newInfo.hasCustomIcon(),
+      profile->get().active());
 }
 
 ProfileManagerUI::ProfileManagerUI(QObject *parent) noexcept
@@ -129,7 +132,9 @@ void ProfileManagerUI::init(IProfileManager *profileManager,
     auto &info = profile->get().info();
 
     list.append(QString::fromStdString(info.name));
-    list.append(QString::fromStdString(info.exe));
+    list.append(info.exe != IProfile::Info::ManualID
+                    ? QString::fromStdString(info.exe)
+                    : QLatin1String(""));
     list.append(toQMLIconPath(info.iconURL));
     list.append(profile->get().active());
     list.append(info.hasCustomIcon());
@@ -170,7 +175,9 @@ bool ProfileManagerUI::isProfileActive(QString const &profileName)
 void ProfileManagerUI::add(QString const &name, QString const &exe,
                            QString const &icon, QString const &base)
 {
-  IProfile::Info info(name.toStdString(), exe.toStdString());
+  IProfile::Info info(name.toStdString(),
+                      exe.length() > 0 ? exe.toStdString()
+                                       : std::string(IProfile::Info::ManualID));
   info.iconURL = cleanIconFilePath(icon);
 
   if (base == "defaultProfile")
@@ -191,8 +198,9 @@ void ProfileManagerUI::updateInfo(QString const &oldName, QString const &newName
 {
   auto profileName = oldName.toStdString();
   removeProfileUsedNames(profileName);
-
-  IProfile::Info info(newName.toStdString(), exe.toStdString(),
+  IProfile::Info info(newName.toStdString(),
+                      exe.length() > 0 ? exe.toStdString()
+                                       : std::string(IProfile::Info::ManualID),
                       cleanIconFilePath(icon));
   profileManager_->update(profileName, info);
 }
@@ -277,7 +285,9 @@ void ProfileManagerUI::addProfileComponet(std::string const &profileName)
   auto profile = profileManager_->profile(profileName);
   auto &info = profile->get().info();
   emit profileAdded(QString::fromStdString(info.name),
-                    QString::fromStdString(info.exe),
+                    info.exe != IProfile::Info::ManualID
+                        ? QString::fromStdString(info.exe)
+                        : QLatin1String(""),
                     toQMLIconPath(info.iconURL), info.hasCustomIcon(),
                     profile->get().active());
 }

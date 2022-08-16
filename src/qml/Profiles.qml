@@ -258,6 +258,7 @@ Page {
         infoDlg.exe = ""
         infoDlg.icon = isGlobal ? infoDlg.defaultIcon : icon
         infoDlg.hasCustomIcon = _hasCustomIcon
+        infoDlg.forceAutomaticActivation = exe.length > 0
         infoDlg.newInfoAction = function(name, exe, icon) {
           profileManager.add(name, exe, icon, pBtn.name)
         }

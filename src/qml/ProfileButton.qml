@@ -26,7 +26,7 @@ Pane {
   property alias label: btnText.text
   property string name: ""
   property alias icon : icn.source
-  property string exe
+  property string exe: ""
   property bool isGlobal: false
   property bool profileActivated: true
 
@@ -136,13 +136,10 @@ Pane {
 
           MenuItem {
             text: btn.profileActivated ? qsTr("Disable") : qsTr("Enable")
-            enabled: !isGlobal
+            enabled: !isGlobal && exe.length > 0
             hoverEnabled: Style.g_hover
 
-            onTriggered: {
-              btn.profileActivated = !btn.profileActivated
-              btn.enableProfile(btn.profileActivated)
-            }
+            onTriggered: btn.enableProfile(!btn.profileActivated)
           }
 
           MenuItem {
