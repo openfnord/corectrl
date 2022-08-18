@@ -224,15 +224,56 @@ void Session::profileSaved(std::string const &)
 void Session::profileInfoChanged(IProfile::Info const &oldInfo,
                                  IProfile::Info const &newInfo)
 {
-  std::lock_guard<std::mutex> lock(profileExeIndexMutex_);
-
   if (oldInfo.exe != newInfo.exe || oldInfo.name != newInfo.name) {
-    if (profileExeIndex_.erase(oldInfo.exe) > 0) {
-      profileExeIndex_.emplace(newInfo.exe, newInfo.name);
 
-      if (oldInfo.exe != newInfo.exe) {
-        helperMonitor_->forgetApp(oldInfo.exe);
-        helperMonitor_->watchApp(newInfo.exe);
+    // sync profile executable index
+    {
+      std::lock_guard<std::mutex> lock(profileExeIndexMutex_);
+
+      if (profileExeIndex_.erase(oldInfo.exe) > 0) {
+        profileExeIndex_.emplace(newInfo.exe, newInfo.name);
+
+        // update monitor
+        if (oldInfo.exe != newInfo.exe) {
+          helperMonitor_->forgetApp(oldInfo.exe);
+          helperMonitor_->watchApp(newInfo.exe);
+        }
+      }
+    }
+
+    // handle profile view
+    {
+      std::lock_guard<std::mutex> lock(pViewsMutex_);
+
+      // find the profile view
+      auto profileViewIter = std::find_if(
+          pViews_.cbegin(), pViews_.cend(),
+          [&](auto &pv) { return pv->name() == oldInfo.name; });
+
+      if (profileViewIter != pViews_.end()) {
+        std::vector<std::string> pViewsToRecreate;
+        pViewsToRecreate.reserve(pViews_.size());
+
+        // recreate the profile view when only its name has been changed
+        if (oldInfo.exe == newInfo.exe && oldInfo.name != newInfo.name)
+          pViewsToRecreate.push_back(newInfo.name);
+
+        // compute a list with the names of profile views to recreate
+        auto nextProfileViewIter = std::next(profileViewIter);
+        if (nextProfileViewIter != pViews_.end()) {
+          std::transform(nextProfileViewIter, pViews_.cend(),
+                         std::back_inserter(pViewsToRecreate),
+                         [](auto &pv) { return pv->name(); });
+        }
+
+        // remove affected the profile views
+        pViews_.erase(profileViewIter, pViews_.cend());
+
+        // recreate the list of profile views
+        createProfileViews(pViewsToRecreate);
+
+        // apply active profile view
+        profileApplicator_->apply(*pViews_.back());
       }
     }
   }
