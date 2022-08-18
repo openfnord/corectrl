@@ -27,6 +27,7 @@
 #include <string_view>
 
 class IProfileManager;
+class ISession;
 class ISysModelUI;
 class IFileCache;
 
@@ -39,7 +40,7 @@ class ProfileManagerUI : public QObject
 
   explicit ProfileManagerUI(QObject *parent = nullptr) noexcept;
 
-  void init(IProfileManager *profileManager, ISysModelUI *sysModelUI);
+  void init(ISession *session, ISysModelUI *sysModelUI);
 
   Q_INVOKABLE QString defaultIcon() const;
   Q_INVOKABLE bool isProfileNameInUse(QString const &profileName);
@@ -53,6 +54,7 @@ class ProfileManagerUI : public QObject
   Q_INVOKABLE void updateInfo(QString const &oldName, QString const &newName,
                               QString const &exe, QString const &icon);
   Q_INVOKABLE void activate(QString const &name, bool active);
+  Q_INVOKABLE void toggleManualProfile(QString const &name);
 
   Q_INVOKABLE void loadSettings(QString const &name);
   Q_INVOKABLE bool loadSettings(QString const &name, QUrl const &path);
@@ -69,6 +71,7 @@ class ProfileManagerUI : public QObject
   void profileRemoved(QString const &name);
   void profileChanged(QString const &name);
   void profileActiveChanged(QString const &name, bool active);
+  void manualProfileToggled(QString const &name, bool active);
   void profileSaved(QString const &name);
   void profileInfoChanged(QString const &oldName, QString const &newName,
                           QString const &exe, QString const &icon,
@@ -82,11 +85,15 @@ class ProfileManagerUI : public QObject
   void addProfileUsedNames(std::string const &profileName);
   void removeProfileUsedNames(std::string const &profileName);
 
+  ISession *session_{nullptr};
   IProfileManager *profileManager_{nullptr};
   ISysModelUI *sysModelUI_{nullptr};
 
   class ProfileManagerObserver;
   std::shared_ptr<ProfileManagerObserver> profileManagerObserver_;
+
+  class ManualProfileObserver;
+  std::shared_ptr<ManualProfileObserver> manualProfileObserver_;
 
   QSet<QString> usedProfileNames_;
   QSet<QString> usedExecutableNames_;

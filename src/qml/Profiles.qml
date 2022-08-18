@@ -36,6 +36,7 @@ Page {
     onProfileInfoChanged: p.updateProfileButton(oldName, newName, exe, icon, hasCustomIcon, isActive)
     onProfileChanged: p.updateProfileUIState(name)
     onProfileActiveChanged: p.updateProfileButtonActiveState(name, active);
+    onManualProfileToggled: p.updateProfileButtonManualToggle(name, active);
   }
 
   QtObject { // private stuff
@@ -62,7 +63,8 @@ Page {
                               "_icon": icon,
                               "_isGlobal": isGlobal,
                               "_hasCustomIcon": hasCustomIcon,
-                              "_active": isActive })
+                              "_active": isActive,
+                              "_toggledManual": false })
       }
     }
 
@@ -73,7 +75,8 @@ Page {
                             "_icon": icon,
                             "_isGlobal": false,
                             "_hasCustomIcon": hasCustomIcon,
-                            "_active": isActive })
+                            "_active": isActive,
+                            "_toggledManual": false })
 
       // move model element to the correct position
       for (var i = 1; i < profileModel.count; ++i) {
@@ -116,12 +119,14 @@ Page {
         profileModel.move(from, to, 1)
 
         // update model element
+        var toggledManual = profileModel.get(to)._toggledManual
         profileModel.set(to, {"_label": newName,
                               "_name": newName,
                               "_exe": exe,
                               "_icon": icon,
                               "_hasCustomIcon": hasCustomIcon,
-                              "_active": isActive })
+                              "_active": isActive,
+                              "_toggledManual": exe.length > 0 ? false : toggledManual })
 
         refreshProfileButtonsIcon(icon)
       }
@@ -132,6 +137,15 @@ Page {
         if (profileModel.get(i)._name === name &&
             profileModel.get(i)._active !== active) {
           profileModel.set(i, {"_active": active})
+          break
+        }
+      }
+    }
+
+    function updateProfileButtonManualToggle(name, active) {
+      for (var i = 1; i < profileModel.count; ++i) {
+        if (profileModel.get(i)._name === name) {
+          profileModel.set(i, {"_toggledManual": active})
           break
         }
       }
@@ -169,8 +183,6 @@ Page {
     function updateProfileUIState(name) {
       if (editedProfileBtn !== undefined) {
         var active = profileManager.isProfileActive(name)
-
-        editedProfileBtn.profileActivated = active
         updateToolBarProfileInfo(editedProfileBtn.label, tbIcon.source, active)
 
         if (restoringProfile) {
@@ -221,6 +233,7 @@ Page {
       exe: _exe
       isGlobal: _isGlobal
       profileActivated: _active
+      toggledManual: _toggledManual
 
       onClicked: {
         p.editedProfileBtn = pBtn
@@ -274,6 +287,10 @@ Page {
         removeWarningDlg.profileBtn = pBtn
         removeWarningDlg.profileName = pBtn.name
         removeWarningDlg.open()
+      }
+
+      onToggleManualProfile: {
+        profileManager.toggleManualProfile(name)
       }
     }
   }

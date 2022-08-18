@@ -29,14 +29,16 @@ Pane {
   property string exe: ""
   property bool isGlobal: false
   property bool profileActivated: true
+  property alias toggledManual: manualSwc.checked
 
-  implicitWidth: 237
+  implicitWidth: 240
   implicitHeight: 60
 
   padding: 0
 
   signal clicked()
   signal enableProfile(bool enable)
+  signal toggleManualProfile(string name)
   signal edit()
   signal clone()
   signal exportTo()
@@ -117,7 +119,26 @@ Pane {
     Item {
       Layout.fillHeight: true
       Layout.alignment: Qt.AlignRight
-      Layout.rightMargin: Style.RectItem.padding
+
+      implicitWidth: manualSwc.width / 3
+
+      Switch {
+        id: manualSwc
+        visible: exe.length == 0
+
+        padding: 0
+        rotation: -90
+        scale: Style.g_tweakScale
+        anchors.centerIn: parent
+
+        onToggled: btn.toggleManualProfile(name)
+      }
+    }
+
+    Item {
+      Layout.fillHeight: true
+      Layout.alignment: Qt.AlignRight
+      Layout.rightMargin: 0
 
       implicitWidth: editBtn.width
 

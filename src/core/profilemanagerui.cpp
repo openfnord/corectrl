@@ -19,6 +19,7 @@
 
 #include "iprofile.h"
 #include "iprofilemanager.h"
+#include "isession.h"
 #include "isysmodelui.h"
 #include "qmlcomponentregistry.h"
 #include <QQmlApplicationEngine>
@@ -95,20 +96,44 @@ void ProfileManagerUI::ProfileManagerObserver::profileInfoChanged(
       profile->get().active());
 }
 
+class ProfileManagerUI::ManualProfileObserver
+: public ISession::ManualProfileObserver
+{
+ public:
+  ManualProfileObserver(ProfileManagerUI &outer) noexcept
+  : outer_(outer)
+  {
+  }
+
+  void toggled(std::string const &profileName, bool active) override;
+
+ private:
+  ProfileManagerUI &outer_;
+};
+
+void ProfileManagerUI::ManualProfileObserver::toggled(
+    const std::string &profileName, bool active)
+{
+  emit outer_.manualProfileToggled(QString::fromStdString(profileName), active);
+}
+
 ProfileManagerUI::ProfileManagerUI(QObject *parent) noexcept
 : QObject(parent)
 , profileManagerObserver_(
       std::make_shared<ProfileManagerUI::ProfileManagerObserver>(*this))
+, manualProfileObserver_(
+      std::make_shared<ProfileManagerUI::ManualProfileObserver>(*this))
 {
   usedExecutableNames_.insert(
       QString::fromLatin1(IProfile::Info::ManualID.data()));
 }
 
-void ProfileManagerUI::init(IProfileManager *profileManager,
-                            ISysModelUI *sysModelUI)
+void ProfileManagerUI::init(ISession *session, ISysModelUI *sysModelUI)
 {
   sysModelUI_ = sysModelUI;
-  profileManager_ = profileManager;
+  session_ = session;
+  session_->addManualProfileObserver(manualProfileObserver_);
+  profileManager_ = &session_->profileManager();
   profileManager_->addObserver(profileManagerObserver_);
 
   // create profile components
@@ -208,6 +233,11 @@ void ProfileManagerUI::updateInfo(QString const &oldName, QString const &newName
 void ProfileManagerUI::activate(QString const &name, bool active)
 {
   profileManager_->activate(name.toStdString(), active);
+}
+
+void ProfileManagerUI::toggleManualProfile(QString const &name)
+{
+  session_->toggleManualProfile(name.toStdString());
 }
 
 void ProfileManagerUI::loadSettings(QString const &name)
