@@ -17,17 +17,24 @@
 //
 #pragma once
 
+#include "core/iprofile.h"
 #include <QMenu>
 #include <QObject>
 #include <QString>
 #include <QSystemTrayIcon>
 #include <QVariant>
+#include <memory>
+#include <optional>
+#include <string>
+
+class IProfileManager;
+class ISession;
 
 class SysTray : public QObject
 {
   Q_OBJECT
  public:
-  explicit SysTray(QObject *parent = nullptr);
+  explicit SysTray(ISession *session, QObject *parent = nullptr);
 
   Q_INVOKABLE bool isAvailable() const;
   Q_INVOKABLE bool isVisible() const;
@@ -47,6 +54,27 @@ class SysTray : public QObject
   void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
  private:
+  void profileAdded(std::string const &profileName);
+  void profileRemoved(std::string const &profileName);
+  void profileInfoChanged(IProfile::Info const &oldInfo,
+                          IProfile::Info const &newInfo);
+  void manualProfileToggled(std::string const &profileName, bool active);
+
+  QAction *createManualProfileAction(std::string const &profileName);
+  std::optional<QAction *> findManualProfileAction(std::string const &profileName);
+  QAction *findNextManualProfileActionPosition(std::string const &profileName);
+  void fillManualProfileMenu();
+  void onManualProfileMenuTriggered(QString const &profile);
+
+  ISession *session_;
+  IProfileManager *profileManager_;
   QSystemTrayIcon *sysTray_{nullptr};
   QMenu menu_;
+  QMenu *manualProfileMenu_{nullptr};
+
+  class ProfileManagerObserver;
+  std::shared_ptr<ProfileManagerObserver> profileManagerObserver_;
+
+  class ManualProfileObserver;
+  std::shared_ptr<ManualProfileObserver> manualProfileObserver_;
 };

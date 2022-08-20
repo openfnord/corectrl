@@ -179,7 +179,7 @@ void App::onSettingChanged(QString const &key, QVariant const &value)
 
 void App::buildUI(QQmlApplicationEngine &qmlEngine, Settings &settings)
 {
-  sysTray_ = new SysTray(QApplication::instance());
+  sysTray_ = new SysTray(&*session_, QApplication::instance());
   if (settings.getValue("sysTray", true).toBool())
     sysTray_->show();
 
