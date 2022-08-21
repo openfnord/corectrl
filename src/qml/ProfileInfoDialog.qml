@@ -19,6 +19,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
+import CoreCtrl.UIComponents 1.0
 import "Style.js" as Style
 
 Dialog {
@@ -29,6 +30,7 @@ Dialog {
   property url icon
   property url defaultIcon
   property bool hasCustomIcon
+  property bool forceAutomaticActivation: false
 
   property var newInfoAction: function(name, exe, icon) {}
 
@@ -57,6 +59,10 @@ Dialog {
     property bool exeOK: false
     property bool iconOK: false
 
+    function checkExe() {
+      return exe && exe.length > 0 && !/\\|\/|\||\x00|\*|`|;|:|'|"/.test(exe)
+    }
+
     function updateOKButtonState() {
       dlg.footer.standardButton(Dialog.Ok).enabled = nameOK && exeOK && iconOK
     }
@@ -65,15 +71,19 @@ Dialog {
       newInfoAction = function(name, exe, icon) {}
       originalIcon = ""
       selectedIcon = ""
+      forceAutomaticActivation = false
+      activationCb.currentIndex = -1
     }
   }
 
   onAboutToShow: {
+    activationCb.currentIndex = forceAutomaticActivation ? 0 :
+                                                           exe.length > 0 ? 0 : 1
     customizeIconCb.checked = hasCustomIcon
     p.originalIcon = icon
   }
   onClosed: p.resetState()
-  onAccepted: newInfoAction(dlg.name, dlg.exe, dlg.icon)
+  onAccepted: newInfoAction(dlg.name, activationCb.currentIndex === 0 ? dlg.exe : "", dlg.icon)
 
   onNameChanged: {
     if (name !== nameTf.text)
@@ -93,7 +103,7 @@ Dialog {
     if (exe !== exeTf.text)
       exeTf.text = exe
 
-    p.exeOK = exe && exe.length > 0 && !/\\|\/|\||\x00|\*|`|;|:|'|"/.test(exe)
+    p.exeOK = p.checkExe()
 
     if(p.exeOK) {
       updateExecutableNameUsed(exe)
@@ -132,10 +142,34 @@ Dialog {
     }
 
     Label {
-      text: qsTr("Executable:")
+      text: qsTr("Activation:")
       Layout.alignment: Qt.AlignRight
     }
+
+    CComboBox {
+      id: activationCb
+      Layout.alignment: Qt.AlignLeft
+      Layout.fillWidth: true
+      hoverEnabled: Style.g_hover
+
+      model: ListModel {
+        ListElement { text: qsTr("Automatic") }
+        ListElement { text: qsTr("Manual") }
+      }
+
+      onCurrentIndexChanged: {
+        p.exeOK = currentIndex === 0 ? p.checkExe() : true
+        p.updateOKButtonState()
+      }
+    }
+
+    Label {
+      text: qsTr("Executable:")
+      Layout.alignment: Qt.AlignRight
+      visible: activationCb.currentIndex === 0
+    }
     Row {
+      visible: activationCb.currentIndex === 0
       spacing: 5
 
       TextField {
@@ -217,7 +251,7 @@ Dialog {
     CheckBox {
       id: customizeIconCb
       Layout.alignment: Qt.AlignLeft
-      Layout.row: 3
+      Layout.row: activationCb.currentIndex === 0 ? 4 : 3
       Layout.column: 1
 
       text: qsTr("Customize icon")

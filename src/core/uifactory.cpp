@@ -63,8 +63,7 @@ void UIFactory::build(QQmlApplicationEngine &qmlEngine,
     auto profileManagerUI = static_cast<ProfileManagerUI *>(
         qmlEngine.rootObjects().front()->findChild<QObject *>(
             ProfileManagerUI::QMLComponentID.data()));
-    profileManagerUI->init(&session.profileManager(),
-                           dynamic_cast<ISysModelUI *>(item));
+    profileManagerUI->init(&session, dynamic_cast<ISysModelUI *>(item));
 
     auto systemInfoUI = static_cast<SystemInfoUI *>(
         qmlEngine.rootObjects().front()->findChild<QObject *>(

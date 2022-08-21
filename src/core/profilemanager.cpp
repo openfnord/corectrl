@@ -103,14 +103,6 @@ void ProfileManager::init(ISysModel const &model)
       continue;
     }
 
-    if (std::regex_search(info.exe, invalidExe)) {
-      LOG(WARNING) << fmt::format("Ignoring profile with name: '{}', exe: '{}'",
-                                  info.name, info.exe);
-      LOG(WARNING) << fmt::format(
-          "Profile executable name ({}) has invalid characters", info.exe);
-      continue;
-    }
-
     auto profileIt = profiles_.find(info.name);
     if (profileIt != profiles_.cend()) {
       LOG(WARNING) << fmt::format("Ignoring profile with name: '{}', exe: '{}'",
@@ -120,16 +112,27 @@ void ProfileManager::init(ISysModel const &model)
       continue;
     }
 
-    auto exeIt = exes.find(info.exe);
-    if (exeIt != exes.cend()) {
-      LOG(WARNING) << fmt::format("Ignoring profile with name: '{}', exe: '{}'",
-                                  info.name, info.exe);
-      LOG(WARNING) << fmt::format(
-          "There is another profile for the same executable ({})", info.exe);
-      continue;
+    if (info.exe != IProfile::Info::ManualID) {
+      if (std::regex_search(info.exe, invalidExe)) {
+        LOG(WARNING) << fmt::format(
+            "Ignoring profile with name: '{}', exe: '{}'", info.name, info.exe);
+        LOG(WARNING) << fmt::format(
+            "Profile executable name ({}) has invalid characters", info.exe);
+        continue;
+      }
+
+      auto exeIt = exes.find(info.exe);
+      if (exeIt != exes.cend()) {
+        LOG(WARNING) << fmt::format(
+            "Ignoring profile with name: '{}', exe: '{}'", info.name, info.exe);
+        LOG(WARNING) << fmt::format(
+            "There is another profile for the same executable ({})", info.exe);
+        continue;
+      }
+
+      exes.insert(info.exe);
     }
 
-    exes.insert(info.exe);
     profiles_.emplace(info.name, std::move(profile));
   }
 
@@ -202,6 +205,11 @@ void ProfileManager::clone(IProfile::Info const &cloneInfo,
     if (clonedProfileIt == profiles_.cend()) {
       auto clone = profileIt->second->clone();
       clone->info(cloneInfo);
+
+      // manual profiles are always active
+      if (cloneInfo.exe == IProfile::Info::ManualID)
+        clone->activate(true);
+
       profileStorage_->save(*clone);
       profiles_.emplace(cloneInfo.name, std::move(clone));
 
@@ -292,8 +300,13 @@ void ProfileManager::update(std::string const &profileName,
         unsavedProfiles_.insert(info.name);
       }
     }
-
     notifyProfileInfoChanged(oldInfo, info);
+
+    // manual profiles are always active
+    if (info.exe == IProfile::Info::ManualID && !profile.active()) {
+      profile.activate(true);
+      notifyProfileActiveChanged(info.name, true);
+    }
   }
 }
 

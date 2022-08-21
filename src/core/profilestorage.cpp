@@ -78,8 +78,11 @@ ProfileStorage::profiles(IProfile const &baseProfile)
 bool ProfileStorage::load(IProfile &profile)
 {
   if (profilesDirectoryExist()) {
-    auto filePath = path_ / (profile.info().exe + fileExtension_);
-    return loadProfileFromStorage(filePath, profile);
+    auto info = profile.info();
+    auto fileName = info.exe != IProfile::Info::ManualID
+                        ? info.exe + fileExtension_
+                        : info.exe + info.name + fileExtension_;
+    return loadProfileFromStorage(path_ / fileName, profile);
   }
 
   return false;
@@ -89,11 +92,13 @@ bool ProfileStorage::save(IProfile &profile)
 {
   if (profilesDirectoryExist()) {
 
-    auto filePath = path_ / (profile.info().exe + fileExtension_);
-    auto exported = exportTo(profile, filePath);
+    auto info = profile.info();
+    auto fileName = info.exe != IProfile::Info::ManualID
+                        ? info.exe + fileExtension_
+                        : info.exe + info.name + fileExtension_;
+    auto exported = exportTo(profile, path_ / fileName);
     if (exported) {
 
-      auto info = profile.info();
       if (info.hasCustomIcon()) {
 
         // sync icon cache when custom icons are used
@@ -155,6 +160,10 @@ bool ProfileStorage::update(IProfile const &profile, IProfile::Info &newInfo)
   if (!load(*updatedProfile))
     return false;
 
+  // manual profiles are always active
+  if (newInfo.exe == IProfile::Info::ManualID && !updatedProfile->active())
+    updatedProfile->activate(true);
+
   auto oldInfo = profile.info();
   updatedProfile->info(newInfo);
   if (!save(*updatedProfile))
@@ -164,7 +173,9 @@ bool ProfileStorage::update(IProfile const &profile, IProfile::Info &newInfo)
   if (cacheURL != newInfo.iconURL)
     newInfo.iconURL = cacheURL;
 
-  if (oldInfo.exe != newInfo.exe)
+  if (oldInfo.exe != newInfo.exe ||
+      (oldInfo.exe == IProfile::Info::ManualID &&
+       newInfo.exe == IProfile::Info::ManualID && oldInfo.name != newInfo.name))
     remove(oldInfo);
 
   return true;
@@ -175,7 +186,9 @@ void ProfileStorage::remove(IProfile::Info &info)
   if (profilesDirectoryExist()) {
     iconCache_->clean(info);
 
-    auto fileName = info.exe + fileExtension_;
+    auto fileName = info.exe != IProfile::Info::ManualID
+                        ? info.exe + fileExtension_
+                        : info.exe + info.name + fileExtension_;
     try {
       fs::remove(path_ / fileName);
     }

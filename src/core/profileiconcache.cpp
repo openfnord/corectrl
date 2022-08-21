@@ -35,8 +35,10 @@ void ProfileIconCache::init()
 bool ProfileIconCache::tryOrCache(IProfile::Info &info,
                                   std::vector<char> const &fallbackIcon)
 {
+  auto fileName = info.exe != IProfile::Info::ManualID ? info.exe
+                                                       : info.exe + info.name;
   // try the cache
-  auto cacheURL = cache_->get(info.exe);
+  auto cacheURL = cache_->get(fileName);
   if (cacheURL.has_value()) {
     if (info.iconURL != *cacheURL)
       info.iconURL = *cacheURL;
@@ -61,7 +63,9 @@ bool ProfileIconCache::cache(IProfile::Info &info,
 
 std::pair<bool, bool> ProfileIconCache::syncCache(IProfile::Info &info)
 {
-  auto cacheURL = cache_->add(info.iconURL, info.exe);
+  auto fileName = info.exe != IProfile::Info::ManualID ? info.exe
+                                                       : info.exe + info.name;
+  auto cacheURL = cache_->add(info.iconURL, fileName);
   if (cacheURL.has_value()) {
     auto updateURL = info.iconURL != *cacheURL;
     if (updateURL)
@@ -70,23 +74,27 @@ std::pair<bool, bool> ProfileIconCache::syncCache(IProfile::Info &info)
     return {true, updateURL};
   }
 
-  LOG(ERROR) << fmt::format("Failed to cache icon for {}", info.exe.data());
+  LOG(ERROR) << fmt::format("Failed to cache icon for {}", fileName.data());
   return {false, false};
 }
 
 void ProfileIconCache::clean(IProfile::Info &info)
 {
-  cache_->remove(info.exe);
+  auto fileName = info.exe != IProfile::Info::ManualID ? info.exe
+                                                       : info.exe + info.name;
+  cache_->remove(fileName);
 }
 
 std::optional<std::filesystem::path>
 ProfileIconCache::cacheIconFromData(std::vector<char> const &iconData,
                                     IProfile::Info const &info) const
 {
-  auto cacheURL = cache_->add(iconData, info.exe);
+  auto fileName = info.exe != IProfile::Info::ManualID ? info.exe
+                                                       : info.exe + info.name;
+  auto cacheURL = cache_->add(iconData, fileName);
   if (cacheURL.has_value())
     return cacheURL;
 
-  LOG(ERROR) << fmt::format("Failed to cache icon for {}", info.exe.data());
+  LOG(ERROR) << fmt::format("Failed to cache icon for {}", fileName.data());
   return {};
 }
