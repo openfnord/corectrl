@@ -64,40 +64,8 @@ ApplicationWindow {
     }
   }
 
-  Connections {
-    target: systemTray
-
-    onAvailable: {
-      var showSysTray = settings.getValue("sysTray",
-                                          Settings.SysemTrayDefaults.enabled)
-      if (showSysTray) {
-        systemTray.show()
-        appWindow.visible = !settings.getValue("startOnSysTray",
-                                               Settings.SysemTrayDefaults.startMinimized)
-      }
-    }
-
-    onActivated: {
-      if (!appWindow.visible)
-        appWindow.show()
-      else
-        appWindow.hide()
-    }
-
-    onQuit: {
-      systemTray.hide()
-      Qt.quit()
-    }
-  }
-
   onClosing: {
     if (!systemTray.isAvailable() || !systemTray.isVisible())
       Qt.quit()
-  }
-
-  Component.onCompleted: {
-    if (systemTray.isAvailable() && systemTray.isVisible())
-      appWindow.visible = !settings.getValue("startOnSysTray",
-                                             Settings.SysemTrayDefaults.startMinimized)
   }
 }

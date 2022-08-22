@@ -101,65 +101,33 @@ SysTray::SysTray(ISession *session, QObject *parent)
   session_->addManualProfileObserver(manualProfileObserver_);
   profileManager_->addObserver(profileManagerObserver_);
 
-  createSysTrayIcon();
+  sysTray_ = createSystemTrayIcon();
 }
 
 bool SysTray::isAvailable() const
 {
-  return sysTray_ != nullptr;
+  return QSystemTrayIcon::isSystemTrayAvailable();
 }
 
 bool SysTray::isVisible() const
 {
-  return sysTray_ != nullptr && sysTray_->isVisible();
+  return isAvailable() && sysTray_->isVisible();
 }
 
 void SysTray::show()
 {
-  if (sysTray_ != nullptr)
-    sysTray_->show();
+  sysTray_->show();
 }
 
 void SysTray::hide()
 {
-  if (sysTray_ != nullptr)
-    sysTray_->hide();
+  sysTray_->hide();
 }
 
 void SysTray::settingChanged(QString const &key, QVariant const &value)
 {
-  if (sysTray_ != nullptr) {
-    if (key == "sysTray")
-      sysTray_->setVisible(value.toBool());
-  }
-}
-
-void SysTray::createSysTrayIcon()
-{
-  if (QSystemTrayIcon::isSystemTrayAvailable()) {
-    sysTray_ = new QSystemTrayIcon(this);
-    sysTray_->setIcon(QIcon::fromTheme(QString(App::Name.data()).toLower()));
-    connect(sysTray_, &QSystemTrayIcon::activated, this,
-            &SysTray::onTrayIconActivated);
-
-    manualProfileMenu_ = menu_.addMenu(tr("Manual profiles"));
-    fillManualProfileMenu();
-    menu_.addSeparator();
-
-    QAction *quitAction = new QAction(tr("Quit"), &menu_);
-    connect(quitAction, &QAction::triggered, this, &SysTray::quit);
-    menu_.addAction(quitAction);
-    sysTray_->setContextMenu(&menu_);
-
-    emit available();
-  }
-  else { // deferred creation
-    static int retries{30};
-    if (retries > 0) {
-      --retries;
-      QTimer::singleShot(2000, this, &SysTray::createSysTrayIcon);
-    }
-  }
+  if (key == "sysTray")
+    sysTray_->setVisible(value.toBool());
 }
 
 void SysTray::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
@@ -174,11 +142,39 @@ void SysTray::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
   }
 }
 
-QAction *SysTray::createManualProfileAction(std::string const &profileName)
+QSystemTrayIcon *SysTray::createSystemTrayIcon()
+{
+  auto sysTray = new QSystemTrayIcon(this);
+
+  sysTray->setIcon(QIcon::fromTheme(QString(App::Name.data()).toLower()));
+  sysTray->setContextMenu(menu());
+
+  connect(sysTray, &QSystemTrayIcon::activated, this,
+          &SysTray::onTrayIconActivated);
+
+  return sysTray;
+}
+
+QMenu *SysTray::menu()
+{
+  if (menu_.isEmpty()) {
+    manualProfileMenu_ = menu_.addMenu(tr("Manual profiles"));
+    addManualProfilesTo(manualProfileMenu_);
+    menu_.addSeparator();
+
+    QAction *quitAction = new QAction(tr("Quit"), &menu_);
+    connect(quitAction, &QAction::triggered, this, &SysTray::quit);
+    menu_.addAction(quitAction);
+  }
+
+  return &menu_;
+}
+
+QAction *SysTray::createManualProfileAction(QMenu *menu,
+                                            std::string const &profileName)
 {
 
-  QAction *action = new QAction(QString::fromStdString(profileName),
-                                manualProfileMenu_);
+  QAction *action = new QAction(QString::fromStdString(profileName), menu);
   action->setCheckable(true);
 
   connect(action, &QAction::triggered, this,
@@ -214,7 +210,7 @@ SysTray::findNextManualProfileActionPosition(std::string const &profileName)
   return actionIt != actions.end() ? *actionIt : nullptr;
 }
 
-void SysTray::fillManualProfileMenu()
+void SysTray::addManualProfilesTo(QMenu *menu)
 {
   auto profiles = profileManager_->profiles();
   std::sort(profiles.begin(), profiles.end());
@@ -224,12 +220,12 @@ void SysTray::fillManualProfileMenu()
     auto const &profile = profileManager_->profile(profileName);
     if (profile->get().info().exe == IProfile::Info::ManualID) {
 
-      auto action = createManualProfileAction(profileName);
-      manualProfileMenu_->addAction(action);
+      auto action = createManualProfileAction(menu, profileName);
+      menu->addAction(action);
     }
   }
 
-  manualProfileMenu_->setDisabled(manualProfileMenu_->isEmpty());
+  menu->setDisabled(menu->isEmpty());
 }
 
 void SysTray::onManualProfileMenuTriggered(QString const &profile)
@@ -243,7 +239,7 @@ void SysTray::profileAdded(std::string const &profileName)
   if (profile.has_value() &&
       profile->get().info().exe == IProfile::Info::ManualID) {
 
-    auto action = createManualProfileAction(profileName);
+    auto action = createManualProfileAction(manualProfileMenu_, profileName);
     auto beforeAction = findNextManualProfileActionPosition(profileName);
     manualProfileMenu_->insertAction(beforeAction, action);
     manualProfileMenu_->setDisabled(false);
@@ -270,7 +266,7 @@ void SysTray::profileInfoChanged(IProfile::Info const &oldInfo,
     // automatic profile converted to manual profile
     if (oldInfo.exe != IProfile::Info::ManualID &&
         newInfo.exe == IProfile::Info::ManualID) {
-      auto action = createManualProfileAction(newInfo.name);
+      auto action = createManualProfileAction(manualProfileMenu_, newInfo.name);
       auto beforeAction = findNextManualProfileActionPosition(newInfo.name);
       manualProfileMenu_->insertAction(beforeAction, action);
     }
@@ -290,7 +286,7 @@ void SysTray::profileInfoChanged(IProfile::Info const &oldInfo,
         delete *action;
 
         // insert a new action
-        auto action = createManualProfileAction(newInfo.name);
+        auto action = createManualProfileAction(manualProfileMenu_, newInfo.name);
         action->setChecked(isChecked);
         auto beforeAction = findNextManualProfileActionPosition(newInfo.name);
         manualProfileMenu_->insertAction(beforeAction, action);

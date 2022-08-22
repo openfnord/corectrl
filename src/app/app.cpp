@@ -122,7 +122,8 @@ int App::exec(int argc, char **argv)
     noop_ = cmdParser.isSet("help") || cmdParser.isSet("version");
     if (!noop_) {
       try {
-        auto settings = Settings(QString(App::Name.data()).toLower());
+        settings_ =
+            std::make_unique<Settings>(QString(App::Name.data()).toLower());
 
         int timeoutValue = helperTimeout;
         if (cmdParser.isSet("helper-timeout") &&
@@ -137,10 +138,10 @@ int App::exec(int argc, char **argv)
         session_->init(sysSyncer_->sysModel());
 
         QQmlApplicationEngine qmlEngine;
-        buildUI(qmlEngine, settings);
+        buildUI(qmlEngine);
 
         // Load and apply stored settings
-        settings.signalSettings();
+        settings_->signalSettings();
 
         return app.exec();
       }
@@ -164,11 +165,37 @@ void App::exit()
   }
 }
 
-void App::showMainWindow()
+void App::showMainWindow(bool show)
 {
-  mainWindow_->show();
-  mainWindow_->raise();
-  mainWindow_->requestActivate();
+  if (show) {
+    mainWindow_->show();
+    mainWindow_->raise();
+    mainWindow_->requestActivate();
+  }
+  else {
+    if (sysTray_->isVisible())
+      mainWindow_->hide();
+    else
+      mainWindow_->showMinimized();
+  }
+}
+
+void App::onSingleInstance()
+{
+  showMainWindow(true);
+}
+
+void App::startSysTray()
+{
+  if (settings_->getValue("sysTray", true).toBool()) {
+    sysTray_->show();
+    showMainWindow(!settings_->getValue("startOnSysTray", false).toBool());
+  }
+}
+
+void App::onSysTrayActivated()
+{
+  showMainWindow(!mainWindow_->isVisible());
 }
 
 void App::onSettingChanged(QString const &key, QVariant const &value)
@@ -177,24 +204,25 @@ void App::onSettingChanged(QString const &key, QVariant const &value)
   sysSyncer_->settingChanged(key, value);
 }
 
-void App::buildUI(QQmlApplicationEngine &qmlEngine, Settings &settings)
+void App::buildUI(QQmlApplicationEngine &qmlEngine)
 {
   sysTray_ = new SysTray(&*session_, QApplication::instance());
-  if (settings.getValue("sysTray", true).toBool())
-    sysTray_->show();
+  connect(sysTray_, &SysTray::quit, this, &QApplication::quit);
+  connect(sysTray_, &SysTray::activated, this, &App::onSysTrayActivated);
 
   qmlEngine.rootContext()->setContextProperty("appInfo", &appInfo_);
-  qmlEngine.rootContext()->setContextProperty("settings", &settings);
+  qmlEngine.rootContext()->setContextProperty("settings", &*settings_);
   qmlEngine.rootContext()->setContextProperty("systemTray", sysTray_);
 
   uiFactory_->build(qmlEngine, sysSyncer_->sysModel(), *session_);
-
   mainWindow_ = qobject_cast<QQuickWindow *>(qmlEngine.rootObjects().value(0));
 
   connect(&qmlEngine, &QQmlApplicationEngine::quit, QApplication::instance(),
           &QApplication::quit);
   connect(QApplication::instance(), &QApplication::aboutToQuit, this, &App::exit);
-  connect(&settings, &Settings::settingChanged, this, &App::onSettingChanged);
+  connect(&*settings_, &Settings::settingChanged, this, &App::onSettingChanged);
   connect(&singleInstance_, &SingleInstance::newInstance, this,
-          &App::showMainWindow);
+          &App::onSingleInstance);
+
+  startSysTray();
 }

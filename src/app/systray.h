@@ -40,7 +40,6 @@ class SysTray : public QObject
   Q_INVOKABLE bool isVisible() const;
 
  signals:
-  void available();
   void activated();
   void quit();
 
@@ -50,7 +49,6 @@ class SysTray : public QObject
   void settingChanged(QString const &key, QVariant const &value);
 
  private slots:
-  void createSysTrayIcon();
   void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
  private:
@@ -60,10 +58,12 @@ class SysTray : public QObject
                           IProfile::Info const &newInfo);
   void manualProfileToggled(std::string const &profileName, bool active);
 
-  QAction *createManualProfileAction(std::string const &profileName);
+  QSystemTrayIcon *createSystemTrayIcon();
+  QMenu *menu();
+  QAction *createManualProfileAction(QMenu *menu, std::string const &profileName);
   std::optional<QAction *> findManualProfileAction(std::string const &profileName);
   QAction *findNextManualProfileActionPosition(std::string const &profileName);
-  void fillManualProfileMenu();
+  void addManualProfilesTo(QMenu *menu);
   void onManualProfileMenuTriggered(QString const &profile);
 
   ISession *session_;

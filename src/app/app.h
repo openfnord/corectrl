@@ -82,11 +82,14 @@ class App final : public QObject
 
  private slots:
   void exit();
-  void showMainWindow();
+  void showMainWindow(bool show);
+  void onSingleInstance();
+  void startSysTray();
+  void onSysTrayActivated();
   void onSettingChanged(QString const &key, QVariant const &value);
 
  private:
-  void buildUI(QQmlApplicationEngine &qmlEngine, Settings &settings);
+  void buildUI(QQmlApplicationEngine &qmlEngine);
 
   AppInfo appInfo_;
   SingleInstance singleInstance_;
@@ -95,6 +98,7 @@ class App final : public QObject
   std::shared_ptr<ISysModelSyncer> sysSyncer_;
   std::unique_ptr<ISession> session_;
   std::unique_ptr<IUIFactory> uiFactory_;
+  std::unique_ptr<Settings> settings_;
 
   bool noop_{false};
   QQuickWindow *mainWindow_{nullptr};
