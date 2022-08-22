@@ -218,7 +218,7 @@
         <translation>ADVERTENCIA: Rango de operación no disponible. ¡Úselo con precaución!</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="106"/>
+        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="107"/>
         <source>OFFSET</source>
         <translation>COMPENSACIÓN</translation>
     </message>
@@ -226,37 +226,37 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../qml/About.qml" line="53"/>
+        <location filename="../qml/About.qml" line="54"/>
         <source>Control your hardware with ease using application profiles</source>
         <translation>Controla tu hardware con facilidad usando perfiles de aplicaciones</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="58"/>
+        <location filename="../qml/About.qml" line="59"/>
         <source>by</source>
         <translation>por</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="67"/>
+        <location filename="../qml/About.qml" line="68"/>
         <source>Links</source>
         <translation>Enlaces</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="68"/>
+        <location filename="../qml/About.qml" line="69"/>
         <source>Project</source>
         <translation>Proyecto</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="69"/>
+        <location filename="../qml/About.qml" line="70"/>
         <source>Issue tracker</source>
         <translation>Seguimiento de problemas</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="70"/>
+        <location filename="../qml/About.qml" line="71"/>
         <source>Wiki</source>
         <translation>Wiki</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="71"/>
+        <location filename="../qml/About.qml" line="72"/>
         <source>FAQ</source>
         <translation>Preguntas frecuentes</translation>
     </message>
@@ -412,12 +412,12 @@
 <context>
     <name>NoopForm</name>
     <message>
-        <location filename="../qml/NoopForm.qml" line="54"/>
+        <location filename="../qml/NoopForm.qml" line="55"/>
         <source>Warning!</source>
         <translation>¡Advertencia!</translation>
     </message>
     <message>
-        <location filename="../qml/NoopForm.qml" line="59"/>
+        <location filename="../qml/NoopForm.qml" line="60"/>
         <source>The component will not be controlled</source>
         <translation>El componente no será controlado</translation>
     </message>
@@ -425,32 +425,32 @@
 <context>
     <name>ProfileButton</name>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="159"/>
+        <location filename="../qml/ProfileButton.qml" line="160"/>
         <source>Disable</source>
         <translation>Deshabilitar</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="159"/>
+        <location filename="../qml/ProfileButton.qml" line="160"/>
         <source>Enable</source>
         <translation>Habilitar</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="167"/>
+        <location filename="../qml/ProfileButton.qml" line="168"/>
         <source>Edit...</source>
         <translation>Editar...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="175"/>
+        <location filename="../qml/ProfileButton.qml" line="176"/>
         <source>Clone...</source>
         <translation>Duplicar...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="182"/>
+        <location filename="../qml/ProfileButton.qml" line="183"/>
         <source>Export to...</source>
         <translation>Exportar a...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="191"/>
+        <location filename="../qml/ProfileButton.qml" line="192"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
@@ -577,17 +577,17 @@ Do you want to apply them now?</source>
         <translation>Gestiona perfiles para tus aplicaciones...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="572"/>
+        <location filename="../qml/Profiles.qml" line="573"/>
         <source>Load from...</source>
         <translation>Cargar desde...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="577"/>
+        <location filename="../qml/Profiles.qml" line="578"/>
         <source>Load settings from...</source>
         <translation>Cargar ajustes desde...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="583"/>
+        <location filename="../qml/Profiles.qml" line="584"/>
         <source>Cannot load profile.
 Invalid or corrupted file.</source>
         <translation>No se puede cargar el perfil.
@@ -618,17 +618,17 @@ Archivo erróneo o corrompido.</translation>
         <translation>¿Quieres cargar los ajustes guardados?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="548"/>
+        <location filename="../qml/Profiles.qml" line="549"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="554"/>
+        <location filename="../qml/Profiles.qml" line="555"/>
         <source>Apply</source>
         <translation>Aplicar</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="560"/>
+        <location filename="../qml/Profiles.qml" line="561"/>
         <source>Restore</source>
         <translation>Restaurar</translation>
     </message>
@@ -639,7 +639,7 @@ Archivo erróneo o corrompido.</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="301"/>
-        <location filename="../qml/Profiles.qml" line="578"/>
+        <location filename="../qml/Profiles.qml" line="579"/>
         <source>CoreCtrl profile</source>
         <translation>Perfil de CoreCtrl</translation>
     </message>
@@ -651,7 +651,7 @@ Check the permissions of the destination file and directory.</source>
 Comprueba los permisos del fichero y el directorio de destino.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="592"/>
+        <location filename="../qml/Profiles.qml" line="593"/>
         <source>Reset</source>
         <translation>Reinicializar</translation>
     </message>
@@ -776,12 +776,22 @@ Comprueba los permisos del fichero y el directorio de destino.</translation>
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="145"/>
+        <location filename="../app/systray.cpp" line="135"/>
+        <source>Hide</source>
+        <translation>Ocultar</translation>
+    </message>
+    <message>
+        <location filename="../app/systray.cpp" line="135"/>
+        <source>Show</source>
+        <translation>Mostrar</translation>
+    </message>
+    <message>
+        <location filename="../app/systray.cpp" line="177"/>
         <source>Manual profiles</source>
         <translation>Perfiles manuales</translation>
     </message>
     <message>
-        <location filename="../app/systray.cpp" line="149"/>
+        <location filename="../app/systray.cpp" line="181"/>
         <source>Quit</source>
         <translation>Salir</translation>
     </message>

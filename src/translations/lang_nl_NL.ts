@@ -218,7 +218,7 @@
         <translation>WAARSCHUWING: het gekozen bereik is niet beschikbaar. Wees voorzichtig!</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="106"/>
+        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="107"/>
         <source>OFFSET</source>
         <translation>Verschuiving</translation>
     </message>
@@ -226,37 +226,37 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../qml/About.qml" line="53"/>
+        <location filename="../qml/About.qml" line="54"/>
         <source>Control your hardware with ease using application profiles</source>
         <translation>Bedien uw hardware op basis van programmaprofielen</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="58"/>
+        <location filename="../qml/About.qml" line="59"/>
         <source>by</source>
         <translation>door</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="67"/>
+        <location filename="../qml/About.qml" line="68"/>
         <source>Links</source>
         <translation>Links</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="68"/>
+        <location filename="../qml/About.qml" line="69"/>
         <source>Project</source>
         <translation>Project</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="69"/>
+        <location filename="../qml/About.qml" line="70"/>
         <source>Issue tracker</source>
         <translation>Probleemtracker</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="70"/>
+        <location filename="../qml/About.qml" line="71"/>
         <source>Wiki</source>
         <translation>Wiki</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="71"/>
+        <location filename="../qml/About.qml" line="72"/>
         <source>FAQ</source>
         <translation>Veelgestelde vragen</translation>
     </message>
@@ -412,12 +412,12 @@
 <context>
     <name>NoopForm</name>
     <message>
-        <location filename="../qml/NoopForm.qml" line="54"/>
+        <location filename="../qml/NoopForm.qml" line="55"/>
         <source>Warning!</source>
         <translation>Waarschuwing!</translation>
     </message>
     <message>
-        <location filename="../qml/NoopForm.qml" line="59"/>
+        <location filename="../qml/NoopForm.qml" line="60"/>
         <source>The component will not be controlled</source>
         <translation>Dit onderdeel wordt niet bediend</translation>
     </message>
@@ -425,32 +425,32 @@
 <context>
     <name>ProfileButton</name>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="159"/>
+        <location filename="../qml/ProfileButton.qml" line="160"/>
         <source>Disable</source>
         <translation>Uitschakelen</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="159"/>
+        <location filename="../qml/ProfileButton.qml" line="160"/>
         <source>Enable</source>
         <translation>Inschakelen</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="167"/>
+        <location filename="../qml/ProfileButton.qml" line="168"/>
         <source>Edit...</source>
         <translation>Bewerken…</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="175"/>
+        <location filename="../qml/ProfileButton.qml" line="176"/>
         <source>Clone...</source>
         <translation>Klonen…</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="182"/>
+        <location filename="../qml/ProfileButton.qml" line="183"/>
         <source>Export to...</source>
         <translation>Exporteren naar…</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="191"/>
+        <location filename="../qml/ProfileButton.qml" line="192"/>
         <source>Remove</source>
         <translation>Verwijderen</translation>
     </message>
@@ -551,7 +551,7 @@
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="301"/>
-        <location filename="../qml/Profiles.qml" line="578"/>
+        <location filename="../qml/Profiles.qml" line="579"/>
         <source>CoreCtrl profile</source>
         <translation>CoreCtrl-profiel</translation>
     </message>
@@ -619,39 +619,39 @@ Wilt u ze nu toepassen?</translation>
         <translation>Beheer uw programmaprofielen…</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="548"/>
+        <location filename="../qml/Profiles.qml" line="549"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="554"/>
+        <location filename="../qml/Profiles.qml" line="555"/>
         <source>Apply</source>
         <translation>Toepassen</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="560"/>
+        <location filename="../qml/Profiles.qml" line="561"/>
         <source>Restore</source>
         <translation>Herstellen</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="572"/>
+        <location filename="../qml/Profiles.qml" line="573"/>
         <source>Load from...</source>
         <translation>Laden uit…</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="577"/>
+        <location filename="../qml/Profiles.qml" line="578"/>
         <source>Load settings from...</source>
         <translation>Instellingen laden uit…</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="583"/>
+        <location filename="../qml/Profiles.qml" line="584"/>
         <source>Cannot load profile.
 Invalid or corrupted file.</source>
         <translation>Het profiel kan niet worden geladen.
 Het bestand is mogelijk ongeldig of beschadigd.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="592"/>
+        <location filename="../qml/Profiles.qml" line="593"/>
         <source>Reset</source>
         <translation>Standaardwaarden</translation>
     </message>
@@ -776,12 +776,22 @@ Het bestand is mogelijk ongeldig of beschadigd.</translation>
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="145"/>
+        <location filename="../app/systray.cpp" line="135"/>
+        <source>Hide</source>
+        <translation>Verbergen</translation>
+    </message>
+    <message>
+        <location filename="../app/systray.cpp" line="135"/>
+        <source>Show</source>
+        <translation>Tonen</translation>
+    </message>
+    <message>
+        <location filename="../app/systray.cpp" line="177"/>
         <source>Manual profiles</source>
         <translation>Handmatige profielen</translation>
     </message>
     <message>
-        <location filename="../app/systray.cpp" line="149"/>
+        <location filename="../app/systray.cpp" line="181"/>
         <source>Quit</source>
         <translation>Afsluiten</translation>
     </message>

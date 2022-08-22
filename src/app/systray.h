@@ -18,6 +18,7 @@
 #pragma once
 
 #include "core/iprofile.h"
+#include <QAction>
 #include <QMenu>
 #include <QObject>
 #include <QString>
@@ -42,14 +43,17 @@ class SysTray : public QObject
  signals:
   void activated();
   void quit();
+  void showMainWindowToggled(bool visible);
 
  public slots:
   void show();
   void hide();
   void settingChanged(QString const &key, QVariant const &value);
+  void onMainWindowVisibleChanged(bool isVisible);
 
  private slots:
   void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+  void onShowMainWindowActionTriggered();
 
  private:
   void profileAdded(std::string const &profileName);
@@ -71,6 +75,8 @@ class SysTray : public QObject
   QSystemTrayIcon *sysTray_{nullptr};
   QMenu menu_;
   QMenu *manualProfileMenu_{nullptr};
+  QAction *showMainWindowAction_{nullptr};
+  bool showMainWindow_{true};
 
   class ProfileManagerObserver;
   std::shared_ptr<ProfileManagerObserver> profileManagerObserver_;

@@ -218,7 +218,7 @@
         <translation>ВНИМАНИЕ: Рабочий диапазон недоступен. Используйте с осторожностью!</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="106"/>
+        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="107"/>
         <source>OFFSET</source>
         <translation>СМЕЩЕНИЕ</translation>
     </message>
@@ -226,37 +226,37 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../qml/About.qml" line="53"/>
+        <location filename="../qml/About.qml" line="54"/>
         <source>Control your hardware with ease using application profiles</source>
         <translation>Управляйте своим оборудованием с легкостью, используя профили приложений</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="58"/>
+        <location filename="../qml/About.qml" line="59"/>
         <source>by</source>
         <translation>от</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="67"/>
+        <location filename="../qml/About.qml" line="68"/>
         <source>Links</source>
         <translation>Ссылки</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="68"/>
+        <location filename="../qml/About.qml" line="69"/>
         <source>Project</source>
         <translation>Проект</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="69"/>
+        <location filename="../qml/About.qml" line="70"/>
         <source>Issue tracker</source>
         <translation>Issue tracker</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="70"/>
+        <location filename="../qml/About.qml" line="71"/>
         <source>Wiki</source>
         <translation>Вики</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="71"/>
+        <location filename="../qml/About.qml" line="72"/>
         <source>FAQ</source>
         <translation>FAQ</translation>
     </message>
@@ -412,12 +412,12 @@
 <context>
     <name>NoopForm</name>
     <message>
-        <location filename="../qml/NoopForm.qml" line="54"/>
+        <location filename="../qml/NoopForm.qml" line="55"/>
         <source>Warning!</source>
         <translation>Внимание!</translation>
     </message>
     <message>
-        <location filename="../qml/NoopForm.qml" line="59"/>
+        <location filename="../qml/NoopForm.qml" line="60"/>
         <source>The component will not be controlled</source>
         <translation>Компонент не будет управляться</translation>
     </message>
@@ -425,32 +425,32 @@
 <context>
     <name>ProfileButton</name>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="159"/>
+        <location filename="../qml/ProfileButton.qml" line="160"/>
         <source>Disable</source>
         <translation>Выключить</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="159"/>
+        <location filename="../qml/ProfileButton.qml" line="160"/>
         <source>Enable</source>
         <translation>Включить</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="167"/>
+        <location filename="../qml/ProfileButton.qml" line="168"/>
         <source>Edit...</source>
         <translation>Редактировать...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="175"/>
+        <location filename="../qml/ProfileButton.qml" line="176"/>
         <source>Clone...</source>
         <translation>Клонировать...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="182"/>
+        <location filename="../qml/ProfileButton.qml" line="183"/>
         <source>Export to...</source>
         <translation>Экспортировать в...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="191"/>
+        <location filename="../qml/ProfileButton.qml" line="192"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
@@ -577,17 +577,17 @@ Do you want to apply them now?</source>
         <translation>Управление профилями для ваших приложений...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="572"/>
+        <location filename="../qml/Profiles.qml" line="573"/>
         <source>Load from...</source>
         <translation>Загрузить из...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="577"/>
+        <location filename="../qml/Profiles.qml" line="578"/>
         <source>Load settings from...</source>
         <translation>Загрузить настройки из...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="583"/>
+        <location filename="../qml/Profiles.qml" line="584"/>
         <source>Cannot load profile.
 Invalid or corrupted file.</source>
         <translation>Невозможно загрузить профиль.
@@ -618,17 +618,17 @@ Invalid or corrupted file.</source>
         <translation>Хотите загрузить сохранённые настройки?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="548"/>
+        <location filename="../qml/Profiles.qml" line="549"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="554"/>
+        <location filename="../qml/Profiles.qml" line="555"/>
         <source>Apply</source>
         <translation>Применить</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="560"/>
+        <location filename="../qml/Profiles.qml" line="561"/>
         <source>Restore</source>
         <translation>Восстановить</translation>
     </message>
@@ -639,7 +639,7 @@ Invalid or corrupted file.</source>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="301"/>
-        <location filename="../qml/Profiles.qml" line="578"/>
+        <location filename="../qml/Profiles.qml" line="579"/>
         <source>CoreCtrl profile</source>
         <translation>Профиль CoreCtrl</translation>
     </message>
@@ -651,7 +651,7 @@ Check the permissions of the destination file and directory.</source>
 Проверьте права доступа к файлу назначения и каталогу.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="592"/>
+        <location filename="../qml/Profiles.qml" line="593"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
@@ -777,12 +777,22 @@ Check the permissions of the destination file and directory.</source>
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="145"/>
+        <location filename="../app/systray.cpp" line="135"/>
+        <source>Hide</source>
+        <translation>Скрывать</translation>
+    </message>
+    <message>
+        <location filename="../app/systray.cpp" line="135"/>
+        <source>Show</source>
+        <translation>Показать</translation>
+    </message>
+    <message>
+        <location filename="../app/systray.cpp" line="177"/>
         <source>Manual profiles</source>
         <translation>Ручные профили</translation>
     </message>
     <message>
-        <location filename="../app/systray.cpp" line="149"/>
+        <location filename="../app/systray.cpp" line="181"/>
         <source>Quit</source>
         <translation>Завершить</translation>
     </message>

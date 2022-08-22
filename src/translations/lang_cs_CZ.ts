@@ -218,7 +218,7 @@
         <translation>VAROVANÍ: Provozní rozsah není k dispozici. Používejte s opatrností!</translation>
     </message>
     <message>
-        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="106"/>
+        <location filename="../qml/AMDPMVoltOffsetForm.qml" line="107"/>
         <source>OFFSET</source>
         <translation>Nastavit vypnutí</translation>
     </message>
@@ -226,37 +226,37 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../qml/About.qml" line="53"/>
+        <location filename="../qml/About.qml" line="54"/>
         <source>Control your hardware with ease using application profiles</source>
         <translation>Snadné ovládání hardwaru pomocí profilů aplikací</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="58"/>
+        <location filename="../qml/About.qml" line="59"/>
         <source>by</source>
         <translation>od</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="67"/>
+        <location filename="../qml/About.qml" line="68"/>
         <source>Links</source>
         <translation>Odkazy</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="68"/>
+        <location filename="../qml/About.qml" line="69"/>
         <source>Project</source>
         <translation>Projekt</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="69"/>
+        <location filename="../qml/About.qml" line="70"/>
         <source>Issue tracker</source>
         <translation>Nahlásit chybu</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="70"/>
+        <location filename="../qml/About.qml" line="71"/>
         <source>Wiki</source>
         <translation>Вики</translation>
     </message>
     <message>
-        <location filename="../qml/About.qml" line="71"/>
+        <location filename="../qml/About.qml" line="72"/>
         <source>FAQ</source>
         <translation>Často kladené otázky</translation>
     </message>
@@ -412,12 +412,12 @@
 <context>
     <name>NoopForm</name>
     <message>
-        <location filename="../qml/NoopForm.qml" line="54"/>
+        <location filename="../qml/NoopForm.qml" line="55"/>
         <source>Warning!</source>
         <translation>Varování!</translation>
     </message>
     <message>
-        <location filename="../qml/NoopForm.qml" line="59"/>
+        <location filename="../qml/NoopForm.qml" line="60"/>
         <source>The component will not be controlled</source>
         <translation>Komponenta nebude spravována</translation>
     </message>
@@ -425,32 +425,32 @@
 <context>
     <name>ProfileButton</name>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="159"/>
+        <location filename="../qml/ProfileButton.qml" line="160"/>
         <source>Disable</source>
         <translation>Vypnout</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="159"/>
+        <location filename="../qml/ProfileButton.qml" line="160"/>
         <source>Enable</source>
         <translation>Zapnout</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="167"/>
+        <location filename="../qml/ProfileButton.qml" line="168"/>
         <source>Edit...</source>
         <translation>Upravit...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="175"/>
+        <location filename="../qml/ProfileButton.qml" line="176"/>
         <source>Clone...</source>
         <translation>Klonovat...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="182"/>
+        <location filename="../qml/ProfileButton.qml" line="183"/>
         <source>Export to...</source>
         <translation>Exportovat do...</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileButton.qml" line="191"/>
+        <location filename="../qml/ProfileButton.qml" line="192"/>
         <source>Remove</source>
         <translation>Odstranit</translation>
     </message>
@@ -577,17 +577,17 @@ Chcete je použít hned?</translation>
         <translation>Správa profilů pro vaše aplikace...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="572"/>
+        <location filename="../qml/Profiles.qml" line="573"/>
         <source>Load from...</source>
         <translation>Načíst z...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="577"/>
+        <location filename="../qml/Profiles.qml" line="578"/>
         <source>Load settings from...</source>
         <translation>Načíst nastavení z...</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="583"/>
+        <location filename="../qml/Profiles.qml" line="584"/>
         <source>Cannot load profile.
 Invalid or corrupted file.</source>
         <translation>Nelze načíst profil.
@@ -618,17 +618,17 @@ Nesprávný nebo poškozený soubor.</translation>
         <translation>Chcete stáhnout uložená nastavení?</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="548"/>
+        <location filename="../qml/Profiles.qml" line="549"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="554"/>
+        <location filename="../qml/Profiles.qml" line="555"/>
         <source>Apply</source>
         <translation>Použít</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="560"/>
+        <location filename="../qml/Profiles.qml" line="561"/>
         <source>Restore</source>
         <translation>Obnovit</translation>
     </message>
@@ -639,7 +639,7 @@ Nesprávný nebo poškozený soubor.</translation>
     </message>
     <message>
         <location filename="../qml/Profiles.qml" line="301"/>
-        <location filename="../qml/Profiles.qml" line="578"/>
+        <location filename="../qml/Profiles.qml" line="579"/>
         <source>CoreCtrl profile</source>
         <translation>Profil CoreCtrl</translation>
     </message>
@@ -651,7 +651,7 @@ Check the permissions of the destination file and directory.</source>
 Zkontrolujte přístupová práva k cílovému souboru a adresáři.</translation>
     </message>
     <message>
-        <location filename="../qml/Profiles.qml" line="592"/>
+        <location filename="../qml/Profiles.qml" line="593"/>
         <source>Reset</source>
         <translation>Resetovat</translation>
     </message>
@@ -776,12 +776,22 @@ Zkontrolujte přístupová práva k cílovému souboru a adresáři.</translatio
 <context>
     <name>SysTray</name>
     <message>
-        <location filename="../app/systray.cpp" line="145"/>
+        <location filename="../app/systray.cpp" line="135"/>
+        <source>Hide</source>
+        <translation>Skrýt</translation>
+    </message>
+    <message>
+        <location filename="../app/systray.cpp" line="135"/>
+        <source>Show</source>
+        <translation>Ukázat</translation>
+    </message>
+    <message>
+        <location filename="../app/systray.cpp" line="177"/>
         <source>Manual profiles</source>
         <translation>Manuální profily</translation>
     </message>
     <message>
-        <location filename="../app/systray.cpp" line="149"/>
+        <location filename="../app/systray.cpp" line="181"/>
         <source>Quit</source>
         <translation>Opustit</translation>
     </message>

@@ -21,7 +21,6 @@
 #include "core/iprofile.h"
 #include "core/iprofilemanager.h"
 #include "core/isession.h"
-#include <QAction>
 #include <QIcon>
 #include <QTimer>
 #include <algorithm>
@@ -130,6 +129,12 @@ void SysTray::settingChanged(QString const &key, QVariant const &value)
     sysTray_->setVisible(value.toBool());
 }
 
+void SysTray::onMainWindowVisibleChanged(bool isVisible)
+{
+  showMainWindow_ = isVisible;
+  showMainWindowAction_->setText(isVisible ? tr("Hide") : tr("Show"));
+}
+
 void SysTray::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
   switch (reason) {
@@ -140,6 +145,11 @@ void SysTray::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
     default:
       break;
   }
+}
+
+void SysTray::onShowMainWindowActionTriggered()
+{
+  emit showMainWindowToggled(!showMainWindow_);
 }
 
 QSystemTrayIcon *SysTray::createSystemTrayIcon()
@@ -158,6 +168,12 @@ QSystemTrayIcon *SysTray::createSystemTrayIcon()
 QMenu *SysTray::menu()
 {
   if (menu_.isEmpty()) {
+    showMainWindowAction_ = new QAction(&menu_);
+    connect(showMainWindowAction_, &QAction::triggered, this,
+            &SysTray::onShowMainWindowActionTriggered);
+    menu_.addAction(showMainWindowAction_);
+    menu_.addSeparator();
+
     manualProfileMenu_ = menu_.addMenu(tr("Manual profiles"));
     addManualProfilesTo(manualProfileMenu_);
     menu_.addSeparator();

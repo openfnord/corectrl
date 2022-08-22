@@ -209,6 +209,7 @@ void App::buildUI(QQmlApplicationEngine &qmlEngine)
   sysTray_ = new SysTray(&*session_, QApplication::instance());
   connect(sysTray_, &SysTray::quit, this, &QApplication::quit);
   connect(sysTray_, &SysTray::activated, this, &App::onSysTrayActivated);
+  connect(sysTray_, &SysTray::showMainWindowToggled, this, &App::showMainWindow);
 
   qmlEngine.rootContext()->setContextProperty("appInfo", &appInfo_);
   qmlEngine.rootContext()->setContextProperty("settings", &*settings_);
@@ -216,7 +217,8 @@ void App::buildUI(QQmlApplicationEngine &qmlEngine)
 
   uiFactory_->build(qmlEngine, sysSyncer_->sysModel(), *session_);
   mainWindow_ = qobject_cast<QQuickWindow *>(qmlEngine.rootObjects().value(0));
-
+  connect(mainWindow_, &QQuickWindow::visibleChanged, &*sysTray_,
+          &SysTray::onMainWindowVisibleChanged);
   connect(&qmlEngine, &QQmlApplicationEngine::quit, QApplication::instance(),
           &QApplication::quit);
   connect(QApplication::instance(), &QApplication::aboutToQuit, this, &App::exit);
