@@ -87,6 +87,7 @@ AMD_PM_VOLT_OFFSET {
             id: warningIcn
             source: "qrc:/images/WarningIcon"
             anchors.fill: parent
+            fillMode: Image.PreserveAspectFit
             width: Style.g_icon.small_size
             height: Style.g_icon.small_size
             sourceSize.width: Style.g_icon.size

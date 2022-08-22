@@ -77,6 +77,7 @@ Pane {
         id: icn
         cache: false
         anchors.centerIn: parent
+        fillMode: Image.PreserveAspectFit
         width: Style.g_icon.size
         height: Style.g_icon.size
         sourceSize.width: Style.g_icon.source_size

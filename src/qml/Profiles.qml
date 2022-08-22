@@ -517,6 +517,7 @@ Page {
         Image {
           id: tbIcon
           anchors.fill: parent
+          fillMode: Image.PreserveAspectFit
           width: Style.g_icon.size
           height: Style.g_icon.size
           sourceSize.width: Style.g_icon.source_size

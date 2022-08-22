@@ -30,6 +30,7 @@ Pane {
 
       Image {
         source: "qrc:/images/AppIcon"
+        fillMode: Image.PreserveAspectFit
         width: 128
         height: 128
         sourceSize.width: 128

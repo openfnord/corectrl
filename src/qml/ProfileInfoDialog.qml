@@ -227,7 +227,7 @@ Dialog {
         Image {
           id: icnBtnImage
           anchors.centerIn: parent
-          fillMode: Image.Stretch
+          fillMode: Image.PreserveAspectFit
           width: Style.g_icon.size
           height: Style.g_icon.size
           sourceSize.width: Style.g_icon.source_size

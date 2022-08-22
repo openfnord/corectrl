@@ -42,6 +42,7 @@ NOOP {
         Image {
           id: warningIcn
           source: "qrc:/images/WarningIcon"
+          fillMode: Image.PreserveAspectFit
           anchors.fill: parent
           width: Style.g_icon.size
           height: Style.g_icon.size
