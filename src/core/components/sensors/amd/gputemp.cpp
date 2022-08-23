@@ -23,7 +23,6 @@
 #include "../sensor.h"
 #include "common/fileutils.h"
 #include "common/stringutils.h"
-#include "core/components/amdutils.h"
 #include "core/info/igpuinfo.h"
 #include "core/info/iswinfo.h"
 #include "core/info/vendor.h"
@@ -73,14 +72,18 @@ class Provider final : public IGPUSensorProvider::IProvider
           if (driver == "amdgpu" || // kernel >= 4.2.0
               (driver == "radeon" && kernel >= std::make_tuple(3, 12, 0))) {
 
-            auto data = Utils::File::readFileLines(path.value() / "temp1_crit");
-            if (!data.empty()) {
-              int value;
-              if (Utils::String::toNumber<int>(value, data.front()) &&
-                  // do not use bogus values, see #103
-                  (value >= 0 && value < 150000)) {
-                range = {units::temperature::celsius_t(0),
-                         units::temperature::celsius_t(value / 1000)};
+            auto critFilePath = path.value() / "temp1_crit";
+            if (Utils::File::isFilePathValid(critFilePath)) {
+
+              auto data = Utils::File::readFileLines(critFilePath);
+              if (!data.empty()) {
+                int value;
+                if (Utils::String::toNumber<int>(value, data.front()) &&
+                    // do not use bogus values, see #103
+                    (value >= 0 && value < 150000)) {
+                  range = {units::temperature::celsius_t(0),
+                           units::temperature::celsius_t(value / 1000)};
+                }
               }
             }
           }

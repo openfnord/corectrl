@@ -37,10 +37,12 @@ class GPUInfoUniqueIDDataSource
   bool read(std::string &data, std::filesystem::path const &path) override
   {
     auto const filePath = path / source();
-    auto const lines = Utils::File::readFileLines(filePath);
-    if (!lines.empty()) {
-      data = lines.front();
-      return true;
+    if (Utils::File::isFilePathValid(filePath)) {
+      auto const lines = Utils::File::readFileLines(filePath);
+      if (!lines.empty()) {
+        data = lines.front();
+        return true;
+      }
     }
 
     return false;
