@@ -86,17 +86,18 @@ class App final : public QObject
   void exit();
   void showMainWindow(bool show);
   void onNewInstance(QStringList args);
-  void startSysTray();
   void onSysTrayActivated();
   void onSettingChanged(QString const &key, QVariant const &value);
 
  private:
+  void setupMainWindowBasedOnSysTrayState();
   void setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
                       int helperTimeout) const;
   void buildUI(QQmlApplicationEngine &qmlEngine);
 
   AppInfo appInfo_;
   SingleInstance singleInstance_;
+  QCommandLineParser cmdParser_;
 
   std::unique_ptr<IHelperControl> helperControl_;
   std::shared_ptr<ISysModelSyncer> sysSyncer_;

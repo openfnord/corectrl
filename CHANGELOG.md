@@ -18,6 +18,8 @@ All notable changes to this project will be documented in this file.
 - Make custom profile icons optional in the profile dialog. The user can now select a custom icon or simply use the default one in their profiles (#127).
 - Manual profiles. The user can now create profiles to partially or completely override  the settings applied by the global and per-application profiles. They can be toggled from the system tray or through the main GUI (#49).
 - System tray menu entry to hide and show the main window (#280).
+- New command line options:
+  - `--minimize-systray`: starts the application minimized either to the system tray (when available) or to the taskbar. When an instance of the application is already running, the action will be applied to its main window (#78).
 - Add German translation. Thanks to Rüdiger Arp, polyphase and SE. (#104).
 
 

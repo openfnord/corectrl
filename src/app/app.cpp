@@ -82,20 +82,19 @@ int App::exec(int argc, char **argv)
   int const minHelperTimeout = helperControl_->minExitTimeout().to<int>();
   int const helperTimeout{std::max(180000, // default helper timeout in milliseconds
                                    minHelperTimeout)};
-  QCommandLineParser cmdParser;
-  setupCmdParser(cmdParser, minHelperTimeout, helperTimeout);
-  cmdParser.process(app);
+  setupCmdParser(cmdParser_, minHelperTimeout, helperTimeout);
+  cmdParser_.process(app);
 
   // exit if there is another instance running
   if (!singleInstance_.mainInstance(app.arguments()))
     return 0;
 
-  noop_ = cmdParser.isSet("help") || cmdParser.isSet("version");
+  noop_ = cmdParser_.isSet("help") || cmdParser_.isSet("version");
   if (noop_)
     return 0;
 
-  QString lang = cmdParser.isSet("lang") ? cmdParser.value("lang")
-                                         : QLocale().system().name();
+  QString lang = cmdParser_.isSet("lang") ? cmdParser_.value("lang")
+                                          : QLocale().system().name();
   QTranslator translator;
   if (!translator.load(QStringLiteral(":/translations/lang_") + lang)) {
     LOG(INFO) << fmt::format("No translation found for locale {}",
@@ -115,9 +114,9 @@ int App::exec(int argc, char **argv)
     settings_ = std::make_unique<Settings>(QString(App::Name.data()).toLower());
 
     int timeoutValue = helperTimeout;
-    if (cmdParser.isSet("helper-timeout") &&
+    if (cmdParser_.isSet("helper-timeout") &&
         Utils::String::toNumber<int>(
-            timeoutValue, cmdParser.value("helper-timeout").toStdString())) {
+            timeoutValue, cmdParser_.value("helper-timeout").toStdString())) {
       timeoutValue = std::max(helperControl_->minExitTimeout().to<int>(),
                               timeoutValue);
     }
@@ -131,6 +130,8 @@ int App::exec(int argc, char **argv)
 
     // Load and apply stored settings
     settings_->signalSettings();
+
+    setupMainWindowBasedOnSysTrayState();
 
     return app.exec();
   }
@@ -169,15 +170,13 @@ void App::showMainWindow(bool show)
 
 void App::onNewInstance(QStringList args)
 {
-  showMainWindow(true);
-}
+  auto show = true;
 
-void App::startSysTray()
-{
-  if (settings_->getValue("sysTray", true).toBool()) {
-    sysTray_->show();
-    showMainWindow(!settings_->getValue("startOnSysTray", false).toBool());
-  }
+  cmdParser_.parse(args);
+  if (cmdParser_.isSet("minimize-systray"))
+    show = false;
+
+  showMainWindow(show);
 }
 
 void App::onSysTrayActivated()
@@ -190,6 +189,19 @@ void App::onSettingChanged(QString const &key, QVariant const &value)
   sysTray_->settingChanged(key, value);
   sysSyncer_->settingChanged(key, value);
 }
+
+void App::setupMainWindowBasedOnSysTrayState()
+{
+  auto minimizeArgIsSet = cmdParser_.isSet("minimize-systray");
+  if (minimizeArgIsSet || settings_->getValue("sysTray", true).toBool()) {
+
+    sysTray_->show();
+    showMainWindow(minimizeArgIsSet
+                       ? false
+                       : !settings_->getValue("startOnSysTray", false).toBool());
+  }
+}
+
 void App::setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
                          int helperTimeout) const
 {
@@ -200,6 +212,10 @@ void App::setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
        "Forces a specific <language>, given in locale format. Example: "
        "en_EN.",
        "language"},
+      {"minimize-systray",
+       "Minimizes the main window either to the system tray (when "
+       "available) or to the taskbar.\nWhen an instance of the application is "
+       "already running, the action will be applied to its main window."},
       {{"t", "helper-timeout"},
        "Sets helper auto exit timeout. "
        "The helper process kills himself when no signals are received from "
@@ -232,6 +248,4 @@ void App::buildUI(QQmlApplicationEngine &qmlEngine)
   connect(&*settings_, &Settings::settingChanged, this, &App::onSettingChanged);
   connect(&singleInstance_, &SingleInstance::newInstance, this,
           &App::onNewInstance);
-
-  startSysTray();
 }
