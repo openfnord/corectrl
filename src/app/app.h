@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include "singleinstance.h"
+#include <QCommandLineParser>
 #include <QObject>
 #include <QString>
 #include <QStringList>
@@ -90,6 +91,8 @@ class App final : public QObject
   void onSettingChanged(QString const &key, QVariant const &value);
 
  private:
+  void setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
+                      int helperTimeout) const;
   void buildUI(QQmlApplicationEngine &qmlEngine);
 
   AppInfo appInfo_;

@@ -79,26 +79,11 @@ int App::exec(int argc, char **argv)
   QQmlDebuggingEnabler enabler;
 #endif
 
+  int const minHelperTimeout = helperControl_->minExitTimeout().to<int>();
   int const helperTimeout{std::max(180000, // default helper timeout in milliseconds
-                                   helperControl_->minExitTimeout().to<int>())};
+                                   minHelperTimeout)};
   QCommandLineParser cmdParser;
-  cmdParser.addHelpOption();
-  cmdParser.addVersionOption();
-  cmdParser.addOptions({
-      {{"l", "lang"},
-       "Forces a specific <language>, given in locale format. Example: "
-       "en_EN.",
-       "language"},
-      {{"t", "helper-timeout"},
-       "Sets helper auto exit timeout. "
-       "The helper process kills himself when no signals are received from "
-       "the "
-       "application before the timeout expires.\nValues lesser than " +
-           QString::number(helperControl_->minExitTimeout().to<int>()) +
-           +" milliseconds will be ignored.\nDefault value: " +
-           QString::number(helperTimeout) + " milliseconds.",
-       "milliseconds"},
-  });
+  setupCmdParser(cmdParser, minHelperTimeout, helperTimeout);
   cmdParser.process(app);
 
   // exit if there is another instance running
@@ -204,6 +189,26 @@ void App::onSettingChanged(QString const &key, QVariant const &value)
 {
   sysTray_->settingChanged(key, value);
   sysSyncer_->settingChanged(key, value);
+}
+void App::setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
+                         int helperTimeout) const
+{
+  parser.addHelpOption();
+  parser.addVersionOption();
+  parser.addOptions({
+      {{"l", "lang"},
+       "Forces a specific <language>, given in locale format. Example: "
+       "en_EN.",
+       "language"},
+      {{"t", "helper-timeout"},
+       "Sets helper auto exit timeout. "
+       "The helper process kills himself when no signals are received from "
+       "the application before the timeout expires.\nValues lesser than " +
+           QString::number(minHelperTimeout) +
+           +" milliseconds will be ignored.\nDefault value: " +
+           QString::number(helperTimeout) + " milliseconds.",
+       "milliseconds"},
+  });
 }
 
 void App::buildUI(QQmlApplicationEngine &qmlEngine)
