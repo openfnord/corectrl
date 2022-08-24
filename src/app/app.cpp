@@ -171,21 +171,29 @@ void App::showMainWindow(bool show)
 
 void App::onNewInstance(QStringList args)
 {
-  auto show = true;
-
   cmdParser_.parse(args);
-  if (cmdParser_.isSet("minimize-systray"))
-    show = false;
-  else if (cmdParser_.isSet("toggle-window-visibility")) {
-    // When the window is minimized, calling show() will raise it.
-    auto minimized =
-        ((mainWindow_->windowState() & Qt::WindowState::WindowMinimized) ==
-         Qt::WindowState::WindowMinimized);
 
-    show = minimized ? true : !mainWindow_->isVisible();
+  if (cmdParser_.isSet("toggle-manual-profile")) {
+    auto profileName = cmdParser_.value("toggle-manual-profile");
+    if (!profileName.isEmpty() && profileName.length() < 512)
+      session_->toggleManualProfile(profileName.toStdString());
   }
+  else {
+    auto show = true;
 
-  showMainWindow(show);
+    if (cmdParser_.isSet("minimize-systray"))
+      show = false;
+    else if (cmdParser_.isSet("toggle-window-visibility")) {
+      // When the window is minimized, calling show() will raise it.
+      auto minimized =
+          ((mainWindow_->windowState() & Qt::WindowState::WindowMinimized) ==
+           Qt::WindowState::WindowMinimized);
+
+      show = minimized ? true : !mainWindow_->isVisible();
+    }
+
+    showMainWindow(show);
+  }
 }
 
 void App::onSysTrayActivated()
@@ -221,6 +229,10 @@ void App::setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
        "Forces a specific <language>, given in locale format. Example: "
        "en_EN.",
        "language"},
+      {{"m", "toggle-manual-profile"},
+       "When an instance of the application is already running, it will toggle "
+       "the manual profile whose name is <\"profile name\">.",
+       "\"profile name\""},
       {"minimize-systray",
        "Minimizes the main window either to the system tray (when "
        "available) or to the taskbar.\nWhen an instance of the application is "
