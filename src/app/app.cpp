@@ -35,6 +35,7 @@
 #include <QQmlContext>
 #include <QQuickWindow>
 #include <QTranslator>
+#include <Qt>
 #include <QtGlobal>
 #include <algorithm>
 #include <utility>
@@ -175,6 +176,14 @@ void App::onNewInstance(QStringList args)
   cmdParser_.parse(args);
   if (cmdParser_.isSet("minimize-systray"))
     show = false;
+  else if (cmdParser_.isSet("toggle-window-visibility")) {
+    // When the window is minimized, calling show() will raise it.
+    auto minimized =
+        ((mainWindow_->windowState() & Qt::WindowState::WindowMinimized) ==
+         Qt::WindowState::WindowMinimized);
+
+    show = minimized ? true : !mainWindow_->isVisible();
+  }
 
   showMainWindow(show);
 }
@@ -224,6 +233,10 @@ void App::setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
            +" milliseconds will be ignored.\nDefault value: " +
            QString::number(helperTimeout) + " milliseconds.",
        "milliseconds"},
+      {"toggle-window-visibility",
+       "When an instance of the application is already running, it will toggle "
+       "the main window visibility showing or minimizing it, either to the "
+       "taskbar or to system tray."},
   });
 }
 

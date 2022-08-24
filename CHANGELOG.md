@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - System tray menu entry to hide and show the main window (#280).
 - New command line options:
   - `--minimize-systray`: starts the application minimized either to the system tray (when available) or to the taskbar. When an instance of the application is already running, the action will be applied to its main window (#78).
+  - `--toggle-window-visibility`: when an instance of the application is already running, it will toggle the main window visibility showing or minimizing it, either to the taskbar or to system tray.
 - Add German translation. Thanks to Rüdiger Arp, polyphase and SE. (#104).
 
 
