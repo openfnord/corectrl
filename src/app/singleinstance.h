@@ -17,9 +17,12 @@
 //
 #pragma once
 
+#include <QByteArray>
 #include <QLocalServer>
+#include <QLocalSocket>
 #include <QObject>
 #include <QString>
+#include <QStringList>
 #include <string_view>
 
 class SingleInstance : public QObject
@@ -28,18 +31,36 @@ class SingleInstance : public QObject
  public:
   explicit SingleInstance(std::string_view name, QObject *parent = 0);
 
-  /// Try to set this instance as the main instance
-  /// @return false when another instance is running
-  bool tryMakeMainInstance();
+  bool mainInstance(QStringList const &args);
 
  signals:
-  /// emited when a new instance is detected
-  void newInstance();
+  void newInstance(QStringList args);
 
  private slots:
   void newConnection();
 
  private:
+  QByteArray toRawData(QStringList const &data) const;
+
   QString const name_;
   QLocalServer server_;
+};
+
+class SingleInstanceClient : public QObject
+{
+  Q_OBJECT
+ public:
+  SingleInstanceClient(QLocalSocket *client);
+
+ signals:
+  void newInstance(QStringList args);
+
+ public slots:
+  void onReadyRead();
+  void onDisconnected();
+
+ private:
+  QStringList fromRawData(QByteArray const &data) const;
+
+  QStringList args_;
 };

@@ -17,21 +17,58 @@
 //
 #include "singleinstance.h"
 
-#include <QLocalSocket>
+SingleInstanceClient::SingleInstanceClient(QLocalSocket *client)
+: QObject(client)
+{
+  connect(client, &QLocalSocket::readyRead, this,
+          &SingleInstanceClient::onReadyRead);
+  connect(client, &QLocalSocket::disconnected, this,
+          &SingleInstanceClient::onDisconnected);
+  connect(client, &QLocalSocket::disconnected, client,
+          &QLocalSocket::deleteLater);
+}
+
+void SingleInstanceClient::onReadyRead()
+{
+  QLocalSocket *client = qobject_cast<QLocalSocket *>(parent());
+  args_ = fromRawData(client->readAll());
+}
+
+void SingleInstanceClient::onDisconnected()
+{
+  emit newInstance(args_);
+}
+
+QStringList SingleInstanceClient::fromRawData(QByteArray const &data) const
+{
+  QStringList result;
+
+  auto dataList = data.split('\0');
+  for (auto const &rawData : dataList)
+    result.push_back(QString::fromUtf8(rawData));
+
+  return result;
+}
 
 SingleInstance::SingleInstance(std::string_view name, QObject *parent)
 : QObject(parent)
 , name_(name.data())
 {
-  connect(&server_, SIGNAL(newConnection()), this, SLOT(newConnection()));
+  connect(&server_, &QLocalServer::newConnection, this,
+          &SingleInstance::newConnection);
 }
 
-bool SingleInstance::tryMakeMainInstance()
+bool SingleInstance::mainInstance(QStringList const &args)
 {
   QLocalSocket socket;
-  socket.connectToServer(name_, QLocalSocket::ReadOnly);
-  if (socket.waitForConnected(100))
+  socket.connectToServer(name_, QLocalSocket::WriteOnly);
+  if (socket.waitForConnected(100)) {
+    socket.write(toRawData(args));
+    socket.flush();
+    socket.disconnectFromServer();
+
     return false;
+  }
 
   server_.removeServer(name_);
   server_.listen(name_);
@@ -40,5 +77,19 @@ bool SingleInstance::tryMakeMainInstance()
 
 void SingleInstance::newConnection()
 {
-  emit newInstance();
+  auto client = new SingleInstanceClient(server_.nextPendingConnection());
+  connect(client, &SingleInstanceClient::newInstance, this,
+          &SingleInstance::newInstance);
+}
+
+QByteArray SingleInstance::toRawData(QStringList const &data) const
+{
+  QByteArray result;
+
+  for (auto &item : data) {
+    result.append(item.toUtf8());
+    result.append('\0');
+  }
+
+  return result;
 }

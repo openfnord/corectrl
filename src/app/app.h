@@ -21,6 +21,7 @@
 #include "singleinstance.h"
 #include <QObject>
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 #include <memory>
 #include <string_view>
@@ -83,7 +84,7 @@ class App final : public QObject
  private slots:
   void exit();
   void showMainWindow(bool show);
-  void onSingleInstance();
+  void onNewInstance(QStringList args);
   void startSysTray();
   void onSysTrayActivated();
   void onSettingChanged(QString const &key, QVariant const &value);

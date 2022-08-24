@@ -101,57 +101,59 @@ int App::exec(int argc, char **argv)
   });
   cmdParser.process(app);
 
-  if (singleInstance_.tryMakeMainInstance()) {
-    QString lang = cmdParser.isSet("lang") ? cmdParser.value("lang")
-                                           : QLocale().system().name();
-    QTranslator translator;
-    if (!translator.load(QStringLiteral(":/translations/lang_") + lang)) {
-      LOG(INFO) << fmt::format("No translation found for locale {}",
-                               lang.toStdString());
-      LOG(INFO) << fmt::format("Using en_EN translation.");
-      translator.load(QStringLiteral(":/translations/lang_en_EN"));
+  // exit if there is another instance running
+  if (!singleInstance_.mainInstance(app.arguments()))
+    return 0;
+
+  noop_ = cmdParser.isSet("help") || cmdParser.isSet("version");
+  if (noop_)
+    return 0;
+
+  QString lang = cmdParser.isSet("lang") ? cmdParser.value("lang")
+                                         : QLocale().system().name();
+  QTranslator translator;
+  if (!translator.load(QStringLiteral(":/translations/lang_") + lang)) {
+    LOG(INFO) << fmt::format("No translation found for locale {}",
+                             lang.toStdString());
+    LOG(INFO) << fmt::format("Using en_EN translation.");
+    translator.load(QStringLiteral(":/translations/lang_en_EN"));
+  }
+  app.installTranslator(&translator);
+  app.setWindowIcon(QIcon::fromTheme(QString(App::Name.data()).toLower()));
+
+  // Ensure that the application do not implicitly call to quit after closing
+  // the last window, which is not the desired behaviour when minimize to
+  // system tray is being used.
+  app.setQuitOnLastWindowClosed(false);
+
+  try {
+    settings_ = std::make_unique<Settings>(QString(App::Name.data()).toLower());
+
+    int timeoutValue = helperTimeout;
+    if (cmdParser.isSet("helper-timeout") &&
+        Utils::String::toNumber<int>(
+            timeoutValue, cmdParser.value("helper-timeout").toStdString())) {
+      timeoutValue = std::max(helperControl_->minExitTimeout().to<int>(),
+                              timeoutValue);
     }
-    app.installTranslator(&translator);
-    app.setWindowIcon(QIcon::fromTheme(QString(App::Name.data()).toLower()));
 
-    // Ensure that the application do not implicitly call to quit after closing
-    // the last window, which is not the desired behaviour when minimize to
-    // system tray is being used.
-    app.setQuitOnLastWindowClosed(false);
+    helperControl_->init(units::time::millisecond_t(timeoutValue));
+    sysSyncer_->init();
+    session_->init(sysSyncer_->sysModel());
 
-    noop_ = cmdParser.isSet("help") || cmdParser.isSet("version");
-    if (!noop_) {
-      try {
-        settings_ =
-            std::make_unique<Settings>(QString(App::Name.data()).toLower());
+    QQmlApplicationEngine qmlEngine;
+    buildUI(qmlEngine);
 
-        int timeoutValue = helperTimeout;
-        if (cmdParser.isSet("helper-timeout") &&
-            Utils::String::toNumber<int>(
-                timeoutValue, cmdParser.value("helper-timeout").toStdString())) {
-          timeoutValue = std::max(helperControl_->minExitTimeout().to<int>(),
-                                  timeoutValue);
-        }
+    // Load and apply stored settings
+    settings_->signalSettings();
 
-        helperControl_->init(units::time::millisecond_t(timeoutValue));
-        sysSyncer_->init();
-        session_->init(sysSyncer_->sysModel());
-
-        QQmlApplicationEngine qmlEngine;
-        buildUI(qmlEngine);
-
-        // Load and apply stored settings
-        settings_->signalSettings();
-
-        return app.exec();
-      }
-      catch (std::exception const &e) {
-        LOG(WARNING) << e.what();
-        LOG(WARNING) << "Initialization failed";
-        LOG(WARNING) << "Exiting...";
-        return -1;
-      }
-    }
+    return app.exec();
+  }
+  catch (std::exception const &e) {
+    LOG(WARNING) << e.what();
+    LOG(WARNING) << "Initialization failed";
+    LOG(WARNING) << "Exiting...";
+    return -1;
   }
 
   return 0;
@@ -180,7 +182,7 @@ void App::showMainWindow(bool show)
   }
 }
 
-void App::onSingleInstance()
+void App::onNewInstance(QStringList args)
 {
   showMainWindow(true);
 }
@@ -224,7 +226,7 @@ void App::buildUI(QQmlApplicationEngine &qmlEngine)
   connect(QApplication::instance(), &QApplication::aboutToQuit, this, &App::exit);
   connect(&*settings_, &Settings::settingChanged, this, &App::onSettingChanged);
   connect(&singleInstance_, &SingleInstance::newInstance, this,
-          &App::onSingleInstance);
+          &App::onNewInstance);
 
   startSysTray();
 }
