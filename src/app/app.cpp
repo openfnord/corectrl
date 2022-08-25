@@ -132,7 +132,7 @@ int App::exec(int argc, char **argv)
     // Load and apply stored settings
     settings_->signalSettings();
 
-    setupMainWindowBasedOnSysTrayState();
+    showMainWindow(!toSysTray());
 
     return app.exec();
   }
@@ -207,16 +207,20 @@ void App::onSettingChanged(QString const &key, QVariant const &value)
   sysSyncer_->settingChanged(key, value);
 }
 
-void App::setupMainWindowBasedOnSysTrayState()
+bool App::toSysTray()
 {
+  bool hideMainWindow{false};
+
   auto minimizeArgIsSet = cmdParser_.isSet("minimize-systray");
   if (minimizeArgIsSet || settings_->getValue("sysTray", true).toBool()) {
 
     sysTray_->show();
-    showMainWindow(minimizeArgIsSet
-                       ? false
-                       : !settings_->getValue("startOnSysTray", false).toBool());
+    hideMainWindow = minimizeArgIsSet
+                         ? true
+                         : settings_->getValue("startOnSysTray", false).toBool();
   }
+
+  return hideMainWindow;
 }
 
 void App::setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,

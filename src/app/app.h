@@ -90,7 +90,7 @@ class App final : public QObject
   void onSettingChanged(QString const &key, QVariant const &value);
 
  private:
-  void setupMainWindowBasedOnSysTrayState();
+  bool toSysTray();
   void setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
                       int helperTimeout) const;
   void buildUI(QQmlApplicationEngine &qmlEngine);

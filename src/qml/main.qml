@@ -28,7 +28,6 @@ ApplicationWindow {
   title: appInfo.name
   width: 970
   height: 600
-  visible: true
 
   font.family: Style.g_text.family
   font.pointSize: Style.g_text.size
