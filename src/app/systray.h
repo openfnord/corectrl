@@ -76,7 +76,7 @@ class SysTray : public QObject
   QMenu menu_;
   QMenu *manualProfileMenu_{nullptr};
   QAction *showMainWindowAction_{nullptr};
-  bool showMainWindow_{true};
+  bool showMainWindow_;
 
   class ProfileManagerObserver;
   std::shared_ptr<ProfileManagerObserver> profileManagerObserver_;

@@ -169,6 +169,7 @@ QMenu *SysTray::menu()
 {
   if (menu_.isEmpty()) {
     showMainWindowAction_ = new QAction(&menu_);
+    onMainWindowVisibleChanged(false); // initialize label and state
     connect(showMainWindowAction_, &QAction::triggered, this,
             &SysTray::onShowMainWindowActionTriggered);
     menu_.addAction(showMainWindowAction_);
