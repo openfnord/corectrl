@@ -32,7 +32,6 @@ AMD_PM_ADVANCED {
 
     Flow {
       objectName: "AMD_PM_ADVANCED_Plug"
-      spacing: 4
 
       width: {
         var maxWidth = 0
