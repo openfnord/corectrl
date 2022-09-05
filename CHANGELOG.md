@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Fix profiles not loading consistently between reboots when using multiple GPUs (#300). If you are affected by this issue and your GPUs supports unique IDs (Vega and later models), re-save your profiles. More info on the [Known Issues](https://gitlab.com/corectrl/corectrl/-/wikis/Known-issues#profiles-reset-randomly-between-reboots-when-using-multiple-gpus) Wiki page.
 - Fix active profile is not deactivated after changing its name or executable name.
 - Fix profile icons and other displayed images not preserving their aspect ratio (#310).
+- Fix crash on application exit when running under some window managers (like IceWM).
 
 ### Changed
 - Replace KAuth dependency with Polkit, D-Bus and Qt5::DBus.
