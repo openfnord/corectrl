@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Fix active profile is not deactivated after changing its name or executable name.
 - Fix profile icons and other displayed images not preserving their aspect ratio (#310).
 - Fix crash on application exit when running under some window managers (like IceWM).
+- Fix a crash when applying specific fan curves in some circumstances (#164). Now, only constant and ascending curves can be created and used as fan curves.
 
 ### Changed
 - Replace KAuth dependency with Polkit, D-Bus and Qt5::DBus.

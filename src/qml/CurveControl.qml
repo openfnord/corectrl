@@ -22,6 +22,7 @@ import "Style.js" as Style
 
 ChartView {
   property real minXDistance: 1.0
+  property bool clampPointsYCoordinate: false
 
   property alias xTickCount: xAxis.tickCount
   property alias xMinorTickCount: xAxis.minorTickCount
@@ -165,7 +166,7 @@ ChartView {
       series.markerSize = 10
       series.borderWidth = 0
 
-      for (var i = 0; i < points.length; ++ i)
+      for (var i = 0; i < points.length; ++i)
         series.append(points[i].x, points[i].y)
 
       return series
@@ -294,6 +295,9 @@ ChartView {
       if (selectedPointIndex < controlSeries[selectedCurve].count - 1)
         point.x = Math.min(point.x, nextX - minXDistance)
 
+      if (clampPointsYCoordinate)
+        clampOtherPointsYCoordinate()
+
       updateGraphPoint(selectedPoint, point)
       updateOuterRangePoints(selectedPoint.y, point.y)
 
@@ -303,6 +307,24 @@ ChartView {
       selectedPoint = point
 
       return point
+    }
+
+    function clampOtherPointsYCoordinate() {
+      var series = controlSeries[selectedCurve]
+      for (var i = 0; i < series.count; ++i) {
+        // skip selected point
+        if (selectedPointIndex == i)
+          continue
+
+        var point = series.at(i)
+        if ((i < selectedPointIndex && point.y > selectedPoint.y) ||
+            (i > selectedPointIndex && point.y < selectedPoint.y)) {
+          point.y = selectedPoint.y
+          var oldPoint = series.at(i)
+          updateGraphPoint(oldPoint, point)
+          curveChanged(selectedCurve, oldPoint, point)
+        }
+      }
     }
 
     function findCloserIndex(series, target) {

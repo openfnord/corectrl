@@ -97,6 +97,7 @@ AMD_FAN_CURVE {
       CurveControl {
         id: curveControl
         minXDistance: 5
+        clampPointsYCoordinate: true
         width: 480
         height: 240
 
