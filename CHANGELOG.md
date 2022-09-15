@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Fix profile icons and other displayed images not preserving their aspect ratio (#310).
 - Fix crash on application exit when running under some window managers (like IceWM).
 - Fix a crash when applying specific fan curves in some circumstances (#164). Now, only constant and ascending curves can be created and used as fan curves.
+- Fix `corectrl_helper` blocking when running on kernels in which the option `CONFIG_PROC_EVENTS` has not been set (#71). The automatic profiles won't work when running on such kernels, though.
 
 ### Changed
 - Replace KAuth dependency with Polkit, D-Bus and Qt5::DBus.

@@ -37,6 +37,7 @@ class NLProcExecSocket final
 
  private:
   inline int createSocket() const;
+  int setTimeout(unsigned int seconds) const;
   int bindToSocket() const;
   int installSocketFilter() const;
   int subscribeToProcEvents(bool subscribe) const;

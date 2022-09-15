@@ -27,6 +27,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <unistd.h>
 
 NLProcExecSocket::FDHandle::~FDHandle()
@@ -40,6 +41,9 @@ NLProcExecSocket::NLProcExecSocket()
   sockFd_.fd = createSocket();
   if (sockFd_.fd < 0)
     throw std::runtime_error("Cannot create netlink socket");
+
+  if (setTimeout(5) < 0)
+    throw std::runtime_error("Cannot set socket timeout");
 
   if (installSocketFilter() < 0)
     throw std::runtime_error("Cannot install socket filters");
@@ -89,6 +93,16 @@ ProcessEvent NLProcExecSocket::waitForEvent() const
 inline int NLProcExecSocket::createSocket() const
 {
   return socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
+}
+
+int NLProcExecSocket::setTimeout(unsigned int seconds) const
+{
+  struct timeval duration;
+  duration.tv_sec = seconds;
+  duration.tv_usec = 0;
+
+  return setsockopt(sockFd_.fd, SOL_SOCKET, SO_RCVTIMEO, &duration,
+                    sizeof(duration));
 }
 
 int NLProcExecSocket::bindToSocket() const
