@@ -4,12 +4,12 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 ### Fixed
-- Fix profiles not loading consistently between reboots when using multiple GPUs (#300). If you are affected by this issue and your GPUs supports unique IDs (Vega and later models), re-save your profiles. More info on the [Known Issues](https://gitlab.com/corectrl/corectrl/-/wikis/Known-issues#profiles-reset-randomly-between-reboots-when-using-multiple-gpus) Wiki page.
-- Fix active profile is not deactivated after changing its name or executable name.
-- Fix profile icons and other displayed images not preserving their aspect ratio (#310).
-- Fix crash on application exit when running under some window managers (like IceWM).
-- Fix a crash when applying specific fan curves in some circumstances (#164). Now, only constant and ascending curves can be created and used as fan curves.
-- Fix `corectrl_helper` blocking when running on kernels in which the option `CONFIG_PROC_EVENTS` has not been set (#71). The automatic profiles won't work when running on such kernels, though.
+- Profiles not loading consistently between reboots when using multiple GPUs (#300). If you are affected by this issue and your GPUs supports unique IDs (Vega and later models), re-save your profiles. More info on the [Known Issues](https://gitlab.com/corectrl/corectrl/-/wikis/Known-issues#profiles-reset-randomly-between-reboots-when-using-multiple-gpus) Wiki page.
+- Active profile is not deactivated after changing its name or executable name.
+- Profile icons and other displayed images not preserving their aspect ratio (#310).
+- Crash on application exit when running under some window managers (like IceWM).
+- Crash when applying specific fan curves in some circumstances (#164). Now, only constant and ascending curves can be created and used as fan curves.
+- `corectrl_helper` blocking when running on kernels in which the option `CONFIG_PROC_EVENTS` has not been set (#71). The automatic profiles won't work when running on such kernels, though.
 
 ### Changed
 - Replace KAuth dependency with Polkit, D-Bus and Qt5::DBus.
@@ -25,7 +25,7 @@ All notable changes to this project will be documented in this file.
   - `--minimize-systray`: starts the application minimized either to the system tray (when available) or to the taskbar. When an instance of the application is already running, the action will be applied to its main window (#78).
   - `--toggle-window-visibility`: when an instance of the application is already running, it will toggle the main window visibility showing or minimizing it, either to the taskbar or to system tray.
   - `m`, `--toggle-manual-profile`: when an instance of the application is already running, it will toggle the given manual profile (#224).
-- Add German translation. Thanks to Rüdiger Arp, polyphase and SE. (#104).
+- German translation. Thanks to Rüdiger Arp, polyphase and SE. (#104).
 
 
 ## CoreCtrl 1.2.7 (2022-08-09)
