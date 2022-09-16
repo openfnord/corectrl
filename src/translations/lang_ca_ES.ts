@@ -104,7 +104,7 @@
         <translation>PWM</translation>
     </message>
     <message>
-        <location filename="../qml/AMDFanCurveForm.qml" line="132"/>
+        <location filename="../qml/AMDFanCurveForm.qml" line="133"/>
         <source>Fan start</source>
         <translation>Inici del ventilador</translation>
     </message>
@@ -458,62 +458,62 @@
 <context>
     <name>ProfileInfoDialog</name>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="130"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="142"/>
         <source>Name:</source>
         <translation>Nom:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="139"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="151"/>
         <source>Profile name</source>
         <translation>Nom del perfil</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="145"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="157"/>
         <source>Activation:</source>
         <translation>Activació:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="156"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="168"/>
         <source>Automatic</source>
         <translation>Automàtic</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="157"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="169"/>
         <source>Manual</source>
         <translation>Manual</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="167"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="180"/>
         <source>Executable:</source>
         <translation>Executable:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="179"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="192"/>
         <source>Executable name</source>
         <translation>Nom del executable</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="209"/>
         <source>Select an executable file</source>
         <translation>Seleciona un fitxer executable</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="209"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="222"/>
         <source>Icon:</source>
         <translation>Icona:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="239"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="252"/>
         <source>Select an icon</source>
         <translation>Selecciona una icona</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="240"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="253"/>
         <source>Images</source>
         <translation>Imatges</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="257"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="270"/>
         <source>Customize icon</source>
         <translation>Personalitza la icona</translation>
     </message>
@@ -745,14 +745,19 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
 <context>
     <name>SettingsGeneral</name>
     <message>
-        <location filename="../qml/SettingsGeneral.qml" line="53"/>
+        <location filename="../qml/SettingsGeneral.qml" line="61"/>
         <source>Show system tray icon</source>
         <translation>Mostrar icona a la safata del sistema</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsGeneral.qml" line="68"/>
+        <location filename="../qml/SettingsGeneral.qml" line="76"/>
         <source>Start minimized on system tray</source>
         <translation>Iniciar minimitzat a la safata del sistema</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsGeneral.qml" line="90"/>
+        <source>Save window geometry</source>
+        <translation>Desar la geometria de la finestra</translation>
     </message>
 </context>
 <context>
@@ -786,12 +791,12 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
         <translation>Mostrar</translation>
     </message>
     <message>
-        <location filename="../app/systray.cpp" line="177"/>
+        <location filename="../app/systray.cpp" line="178"/>
         <source>Manual profiles</source>
         <translation>Perfils manuals</translation>
     </message>
     <message>
-        <location filename="../app/systray.cpp" line="181"/>
+        <location filename="../app/systray.cpp" line="182"/>
         <source>Quit</source>
         <translation>Sortir</translation>
     </message>
@@ -1005,12 +1010,12 @@ Comprova els permisos del fitxer i del directori de destí.</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="60"/>
+        <location filename="../qml/main.qml" line="57"/>
         <source>Profiles</source>
         <translation>Perfils</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="63"/>
+        <location filename="../qml/main.qml" line="60"/>
         <source>System</source>
         <translation>Sistema</translation>
     </message>

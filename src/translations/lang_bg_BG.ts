@@ -104,7 +104,7 @@
         <translation>PWM</translation>
     </message>
     <message>
-        <location filename="../qml/AMDFanCurveForm.qml" line="132"/>
+        <location filename="../qml/AMDFanCurveForm.qml" line="133"/>
         <source>Fan start</source>
         <translation>Начало на вентилатор</translation>
     </message>
@@ -458,62 +458,62 @@
 <context>
     <name>ProfileInfoDialog</name>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="130"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="142"/>
         <source>Name:</source>
         <translation>Име:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="139"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="151"/>
         <source>Profile name</source>
         <translation>Име на профила</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="145"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="157"/>
         <source>Activation:</source>
         <translation>Активиране:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="156"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="168"/>
         <source>Automatic</source>
         <translation>Автоматично</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="157"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="169"/>
         <source>Manual</source>
         <translation>Ръчен</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="167"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="180"/>
         <source>Executable:</source>
         <translation>Изпълним файл:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="179"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="192"/>
         <source>Executable name</source>
         <translation>Име на изпълним файл</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="196"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="209"/>
         <source>Select an executable file</source>
         <translation>Избиране на изпълним файл</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="209"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="222"/>
         <source>Icon:</source>
         <translation>Икона:</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="239"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="252"/>
         <source>Select an icon</source>
         <translation>Избиране на икона</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="240"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="253"/>
         <source>Images</source>
         <translation>Снимки</translation>
     </message>
     <message>
-        <location filename="../qml/ProfileInfoDialog.qml" line="257"/>
+        <location filename="../qml/ProfileInfoDialog.qml" line="270"/>
         <source>Customize icon</source>
         <translation>Персонализиране на икона</translation>
     </message>
@@ -745,14 +745,19 @@ Check the permissions of the destination file and directory.</source>
 <context>
     <name>SettingsGeneral</name>
     <message>
-        <location filename="../qml/SettingsGeneral.qml" line="53"/>
+        <location filename="../qml/SettingsGeneral.qml" line="61"/>
         <source>Show system tray icon</source>
         <translation>Показване на икона в панела</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsGeneral.qml" line="68"/>
+        <location filename="../qml/SettingsGeneral.qml" line="76"/>
         <source>Start minimized on system tray</source>
         <translation>Започни минимизирано</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsGeneral.qml" line="90"/>
+        <source>Save window geometry</source>
+        <translation>Запазване на геометрията на прозореца</translation>
     </message>
 </context>
 <context>
@@ -786,12 +791,12 @@ Check the permissions of the destination file and directory.</source>
         <translation>Покажи</translation>
     </message>
     <message>
-        <location filename="../app/systray.cpp" line="177"/>
+        <location filename="../app/systray.cpp" line="178"/>
         <source>Manual profiles</source>
         <translation>Ръчни профили</translation>
     </message>
     <message>
-        <location filename="../app/systray.cpp" line="181"/>
+        <location filename="../app/systray.cpp" line="182"/>
         <source>Quit</source>
         <translation>Затваряне</translation>
     </message>
@@ -1005,12 +1010,12 @@ Check the permissions of the destination file and directory.</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="60"/>
+        <location filename="../qml/main.qml" line="57"/>
         <source>Profiles</source>
         <translation>Профили</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="63"/>
+        <location filename="../qml/main.qml" line="60"/>
         <source>System</source>
         <translation>Система</translation>
     </message>

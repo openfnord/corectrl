@@ -20,6 +20,7 @@
 var SysemTrayDefaults = {
   enabled: true,
   startMinimized: false,
+  saveWindowGeometry: true,
 };
 
 var ComponentData = {

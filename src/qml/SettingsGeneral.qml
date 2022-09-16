@@ -23,16 +23,19 @@ ColumnLayout {
 
     property bool sysTrayIcon: Settings.SysemTrayDefaults.enabled
     property bool startOnSysTray: Settings.SysemTrayDefaults.startMinimized
+    property bool saveWindowGeometry: Settings.SysemTrayDefaults.saveWindowGeometry
 
     function refreshState() {
       sysTrayIconCb.enabled = systemTray.isAvailable()
       sysTrayIconCb.checked = sysTrayIcon
       startOnSysTrayCb.checked = startOnSysTray
+      saveWindowGeometryCb.checked = saveWindowGeometry
     }
 
     function readSettings() {
       sysTrayIcon = settings.getValue("sysTray", sysTrayIcon)
       startOnSysTray = settings.getValue("startOnSysTray", startOnSysTray)
+      saveWindowGeometry = settings.getValue("saveWindowGeometry", saveWindowGeometry)
     }
 
     function updateSettings() {
@@ -44,6 +47,11 @@ ColumnLayout {
       if (startOnSysTrayCb.checked !== startOnSysTray) {
         startOnSysTray = startOnSysTrayCb.checked
         settings.setValue("startOnSysTray", startOnSysTrayCb.checked)
+      }
+
+      if (saveWindowGeometryCb.checked !== saveWindowGeometry) {
+        saveWindowGeometry = saveWindowGeometryCb.checked
+        settings.setValue("saveWindowGeometry", saveWindowGeometryCb.checked)
       }
     }
   }
@@ -66,6 +74,20 @@ ColumnLayout {
     id: startOnSysTrayCb
     enabled: sysTrayIconCb.enabled && sysTrayIconCb.checked
     text: qsTr("Start minimized on system tray")
+
+    hoverEnabled: Style.g_hover
+
+    leftPadding: 0
+    rightPadding: 0
+    topPadding: 0
+    bottomPadding: 0
+
+    onToggled: settingsChanged()
+  }
+
+  CheckBox {
+    id: saveWindowGeometryCb
+    text: qsTr("Save window geometry")
 
     hoverEnabled: Style.g_hover
 

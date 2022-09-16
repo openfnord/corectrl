@@ -26,8 +26,6 @@ ApplicationWindow {
   id: appWindow
 
   title: appInfo.name
-  width: 970
-  height: 600
 
   font.family: Style.g_text.family
   font.pointSize: Style.g_text.size

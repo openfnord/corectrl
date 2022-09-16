@@ -151,6 +151,7 @@ void App::exit()
   if (!noop_) {
     sysSyncer_->stop();
     helperControl_->stop();
+    saveMainWindowGeometry();
   }
 }
 
@@ -263,6 +264,7 @@ void App::buildUI(QQmlApplicationEngine &qmlEngine)
 
   uiFactory_->build(qmlEngine, sysSyncer_->sysModel(), *session_);
   mainWindow_ = qobject_cast<QQuickWindow *>(qmlEngine.rootObjects().value(0));
+  restoreMainWindowGeometry();
 
   connect(&qmlEngine, &QQmlApplicationEngine::quit, QApplication::instance(),
           &QApplication::quit);
@@ -278,4 +280,56 @@ void App::buildUI(QQmlApplicationEngine &qmlEngine)
   connect(mainWindow_, &QQuickWindow::visibleChanged, &*sysTray_,
           &SysTray::onMainWindowVisibleChanged);
   qmlEngine.rootContext()->setContextProperty("systemTray", sysTray_);
+}
+
+void App::saveMainWindowGeometry()
+{
+  if (!settings_->getValue("saveWindowGeometry", true).toBool())
+    return;
+
+  if (mainWindow_ == nullptr)
+    return;
+
+  auto windowGeometry = mainWindow_->geometry();
+
+  auto savedXPos =
+      settings_->getValue("Window/main-x-pos", DefaultWindowGeometry.x()).toInt();
+  if (savedXPos != windowGeometry.x())
+    settings_->setValue("Window/main-x-pos", windowGeometry.x());
+
+  auto savedYPos =
+      settings_->getValue("Window/main-y-pos", DefaultWindowGeometry.y()).toInt();
+  if (savedYPos != windowGeometry.y())
+    settings_->setValue("Window/main-y-pos", windowGeometry.y());
+
+  auto savedWidth =
+      settings_->getValue("Window/main-width", DefaultWindowGeometry.width())
+          .toInt();
+  if (savedWidth != windowGeometry.width())
+    settings_->setValue("Window/main-width", windowGeometry.width());
+
+  auto savedHeight =
+      settings_->getValue("Window/main-height", DefaultWindowGeometry.height())
+          .toInt();
+  if (savedHeight != windowGeometry.height())
+    settings_->setValue("Window/main-height", windowGeometry.height());
+}
+
+void App::restoreMainWindowGeometry()
+{
+  if (mainWindow_ == nullptr)
+    return;
+
+  auto x =
+      settings_->getValue("Window/main-x-pos", DefaultWindowGeometry.x()).toInt();
+  auto y =
+      settings_->getValue("Window/main-y-pos", DefaultWindowGeometry.y()).toInt();
+  auto width =
+      settings_->getValue("Window/main-width", DefaultWindowGeometry.width())
+          .toInt();
+  auto height =
+      settings_->getValue("Window/main-height", DefaultWindowGeometry.height())
+          .toInt();
+
+  mainWindow_->setGeometry(x, y, width, height);
 }

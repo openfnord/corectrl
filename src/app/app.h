@@ -21,6 +21,7 @@
 #include "singleinstance.h"
 #include <QCommandLineParser>
 #include <QObject>
+#include <QRect>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
@@ -72,6 +73,7 @@ class App final : public QObject
  public:
   static constexpr std::string_view Name{PROJECT_NAME};
   static constexpr std::string_view VersionStr{PROJECT_VERSION};
+  static constexpr QRect DefaultWindowGeometry{0, 0, 970, 600};
 
   App(std::unique_ptr<IHelperControl> &&helperControl,
       std::shared_ptr<ISysModelSyncer> sysSyncer,
@@ -94,6 +96,8 @@ class App final : public QObject
   void setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
                       int helperTimeout) const;
   void buildUI(QQmlApplicationEngine &qmlEngine);
+  void saveMainWindowGeometry();
+  void restoreMainWindowGeometry();
 
   AppInfo appInfo_;
   SingleInstance singleInstance_;
