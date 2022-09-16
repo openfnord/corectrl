@@ -58,8 +58,25 @@ Dialog {
     property bool exeOK: false
     property bool iconOK: false
 
-    function checkExe() {
-      return exe && exe.length > 0 && !/\\|\/|\||\x00|\*|`|;|:|'|"/.test(exe)
+    function validProfileName(name) {
+      return name && name.trim().length > 0
+    }
+
+    function validFileName(name) {
+      return name && name.trim().length > 0 &&
+             !/\\|\/|\||\x00|\*|`|;|:|'|"/.test(name)
+    }
+
+    function validateName() {
+      nameOK = activationCb.currentIndex === 0 ? validProfileName(name) :
+                                                 validFileName(name)
+      return nameOK
+    }
+
+    function validateExe() {
+      exeOK = activationCb.currentIndex === 0 ? validFileName(exe) :
+                                                true
+      return exeOK
     }
 
     function updateOKButtonState() {
@@ -88,9 +105,7 @@ Dialog {
     if (name !== nameTf.text)
       nameTf.text = name
 
-    p.nameOK = name && name.length > 0 && !/^\s+$/.test(name)
-
-    if (p.nameOK) {
+    if (p.validateName()) {
       updateProfileNameUsed(name)
       p.nameOK &= !profileNameUsed
     }
@@ -102,9 +117,7 @@ Dialog {
     if (exe !== exeTf.text)
       exeTf.text = exe
 
-    p.exeOK = p.checkExe()
-
-    if(p.exeOK) {
+    if (p.validateExe()) {
       updateExecutableNameUsed(exe)
       p.exeOK &= !executableNameUsed
     }
@@ -157,7 +170,8 @@ Dialog {
       }
 
       onCurrentIndexChanged: {
-        p.exeOK = currentIndex === 0 ? p.checkExe() : true
+        p.validateName()
+        p.validateExe()
         p.updateOKButtonState()
       }
     }
