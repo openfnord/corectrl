@@ -24,6 +24,7 @@
 #include <QRect>
 #include <QString>
 #include <QStringList>
+#include <QTimer>
 #include <QVariant>
 #include <memory>
 #include <string_view>
@@ -90,18 +91,20 @@ class App final : public QObject
   void onNewInstance(QStringList args);
   void onSysTrayActivated();
   void onSettingChanged(QString const &key, QVariant const &value);
+  void saveMainWindowGeometry();
 
  private:
   bool toSysTray();
   void setupCmdParser(QCommandLineParser &parser, int minHelperTimeout,
                       int helperTimeout) const;
   void buildUI(QQmlApplicationEngine &qmlEngine);
-  void saveMainWindowGeometry();
+  void setupMainWindowGeometry();
   void restoreMainWindowGeometry();
 
   AppInfo appInfo_;
   SingleInstance singleInstance_;
   QCommandLineParser cmdParser_;
+  QTimer geometrySaveTimer_;
 
   std::unique_ptr<IHelperControl> helperControl_;
   std::shared_ptr<ISysModelSyncer> sysSyncer_;

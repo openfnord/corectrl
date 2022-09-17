@@ -151,7 +151,6 @@ void App::exit()
   if (!noop_) {
     sysSyncer_->stop();
     helperControl_->stop();
-    saveMainWindowGeometry();
   }
 }
 
@@ -264,7 +263,7 @@ void App::buildUI(QQmlApplicationEngine &qmlEngine)
 
   uiFactory_->build(qmlEngine, sysSyncer_->sysModel(), *session_);
   mainWindow_ = qobject_cast<QQuickWindow *>(qmlEngine.rootObjects().value(0));
-  restoreMainWindowGeometry();
+  setupMainWindowGeometry();
 
   connect(&qmlEngine, &QQmlApplicationEngine::quit, QApplication::instance(),
           &QApplication::quit);
@@ -280,6 +279,28 @@ void App::buildUI(QQmlApplicationEngine &qmlEngine)
   connect(mainWindow_, &QQuickWindow::visibleChanged, &*sysTray_,
           &SysTray::onMainWindowVisibleChanged);
   qmlEngine.rootContext()->setContextProperty("systemTray", sysTray_);
+}
+
+void App::setupMainWindowGeometry()
+{
+  restoreMainWindowGeometry();
+
+  // The geometry save timer is used to reduce the window geometry changed
+  // events fired within a time interval into a single event that will save the
+  // window geometry.
+  geometrySaveTimer_.setInterval(2000);
+  geometrySaveTimer_.setSingleShot(true);
+  connect(&geometrySaveTimer_, &QTimer::timeout, this,
+          &App::saveMainWindowGeometry);
+
+  connect(mainWindow_, &QWindow::heightChanged, this,
+          [&](int) { geometrySaveTimer_.start(); });
+  connect(mainWindow_, &QWindow::widthChanged, this,
+          [&](int) { geometrySaveTimer_.start(); });
+  connect(mainWindow_, &QWindow::xChanged, this,
+          [&](int) { geometrySaveTimer_.start(); });
+  connect(mainWindow_, &QWindow::yChanged, this,
+          [&](int) { geometrySaveTimer_.start(); });
 }
 
 void App::saveMainWindowGeometry()
