@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+
+## CoreCtrl 1.3.0 (2022-09-18)
+
 ### Fixed
 - Profiles not loading consistently between reboots when using multiple GPUs (#300). If you are affected by this issue and your GPUs supports unique IDs (Vega and later models), re-save your profiles. More info on the [Known Issues](https://gitlab.com/corectrl/corectrl/-/wikis/Known-issues#profiles-reset-randomly-between-reboots-when-using-multiple-gpus) Wiki page.
 - Active profile is not deactivated after changing its name or executable name.

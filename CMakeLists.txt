@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.3)
 
 project(CoreCtrl LANGUAGES CXX)
-set(PROJECT_VERSION 1.3.0-dev)
+set(PROJECT_VERSION 1.3.0)
 
 include(GNUInstallDirs)
 
