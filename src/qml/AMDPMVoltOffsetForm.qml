@@ -15,10 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Distributed under the GPL version 3 or any later version.
 //
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls.Material 2.15
 import CoreCtrl.UIComponents 1.0
 import "Style.js" as Style
 

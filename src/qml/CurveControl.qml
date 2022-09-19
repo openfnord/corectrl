@@ -15,9 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Distributed under the GPL version 3 or any later version.
 //
-import QtQuick 2.0
-import QtQuick.Controls 2.2
-import QtCharts 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtCharts 2.15
 import "Style.js" as Style
 
 ChartView {

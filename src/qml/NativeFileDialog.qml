@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Distributed under the GPL version 3 or any later version.
 //
-import QtQuick 2.9
-import Qt.labs.platform 1.0
+import QtQuick 2.15
+import Qt.labs.platform 1.1
 
 // Native file dialog
 // Requires:
