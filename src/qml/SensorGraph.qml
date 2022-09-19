@@ -165,16 +165,32 @@ Rectangle {
     id: controlsModel
   }
 
-  Row {
+  Connections {
+    target: settings
+
+    function onSettingChanged(key, value) {
+      if (key === "UI/splitview-sensorgraph-controls-width") {
+        controls.SplitView.preferredWidth = value
+      }
+    }
+  }
+
+  SplitView {
     spacing: 0
     anchors.fill: parent
+    orientation: Qt.Horizontal
+
+    onResizingChanged: {
+      if (!resizing) {
+        settings.setValue("UI/splitview-sensorgraph-controls-width",
+                          controls.SplitView.preferredWidth)
+      }
+    }
 
     Rectangle {
       id: controls
-
+      implicitWidth: 220
       color: Style.Graph.ctl_bg_color
-      width: 220
-      height: parent.height
 
       ScrollView {
         id: ctlScrollView
@@ -204,9 +220,7 @@ Rectangle {
 
     ChartView {
       id: chart
-
-      width: parent.width - controls.width
-      height: parent.height
+      SplitView.fillWidth: true
 
       antialiasing: true
       legend.visible: false

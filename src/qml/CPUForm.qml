@@ -18,7 +18,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
-import QtQuick.Layouts 1.15
 import CoreCtrl.UIComponents 1.0
 import "Style.js" as Style
 import "Settings.js" as Settings
@@ -34,31 +33,40 @@ CPU {
                               qsTranslate("SensorGraph", item.name))
   }
 
-  ColumnLayout {
+  Connections {
+    target: settings
+
+    function onSettingChanged(key, value) {
+      if (key === "Workarounds/ignoredSensors") {
+        var sensors = Settings.componentIgnoredSensors("CPU" + cpu.socketId,
+                                                        value)
+        sensorGraph.ignoredSensors(sensors)
+      }
+      else if (key === "UI/splitview-sysmodel-sensorgraph-height") {
+        sensorGraph.SplitView.preferredHeight = value
+      }
+    }
+  }
+
+  SplitView {
     spacing: 0
     anchors.fill: parent
+    orientation: Qt.Vertical
+
+    onResizingChanged: {
+      if (!resizing) {
+        settings.setValue("UI/splitview-sysmodel-sensorgraph-height",
+                          sensorGraph.SplitView.preferredHeight)
+      }
+    }
 
     SensorGraph {
       id: sensorGraph
-      Layout.fillWidth: true
-
-      Connections {
-        target: settings
-
-        function onSettingChanged(key, value) {
-          if (key === "Workarounds/ignoredSensors") {
-            var sensors = Settings.componentIgnoredSensors("CPU" + cpu.socketId,
-                                                            value)
-            sensorGraph.ignoredSensors(sensors)
-          }
-        }
-      }
     }
 
     Pane {
       padding: 0
-      Layout.fillWidth: true
-      Layout.fillHeight: true
+      SplitView.fillHeight: true
 
       ScrollView {
         id: scrollview
