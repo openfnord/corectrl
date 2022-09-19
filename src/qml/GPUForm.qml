@@ -69,10 +69,6 @@ GPU {
         ScrollBar.horizontal.visible: ScrollBar.horizontal.size < 1
         ScrollBar.vertical.visible: ScrollBar.vertical.size < 1
 
-        /// WORKAROUND QTBUG-74000
-        contentHeight: flow.implicitHeight
-        contentWidth: flow.implicitWidth
-
         Flow {
           id: flow
           objectName: "GPU_Plug"

@@ -191,10 +191,6 @@ Rectangle {
         ScrollBar.horizontal.visible: ScrollBar.horizontal.size < 1
         ScrollBar.vertical.visible: ScrollBar.vertical.size < 1
 
-        /// WORKAROUND QTBUG-74000
-        contentWidth: columnLayout.implicitWidth
-        contentHeight: columnLayout.implicitHeight
-
         ColumnLayout {
           id: columnLayout
 
