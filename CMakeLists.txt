@@ -33,7 +33,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   endif()
 endif()
 
-find_package(Qt5 COMPONENTS Core DBus Quick Charts Widgets Network Svg REQUIRED)
+find_package(Qt5 5.9 COMPONENTS Core DBus Quick Charts Widgets Network Svg REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
 find_package(QuaZip REQUIRED)
 find_package(Botan REQUIRED)

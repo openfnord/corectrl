@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Explicitly require Qt 5.9 (or compatible versions).
+
 
 ## CoreCtrl 1.3.0 (2022-09-18)
 

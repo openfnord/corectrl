@@ -1,5 +1,5 @@
 find_package(PkgConfig REQUIRED)
-find_package(Qt5 COMPONENTS Core DBus REQUIRED)
+find_package(Qt5 5.9 COMPONENTS Core DBus REQUIRED)
 find_package(Botan REQUIRED)
 
 set(DBUS_DATADIR_PREFIX_DIR ${CMAKE_INSTALL_FULL_DATADIR})
