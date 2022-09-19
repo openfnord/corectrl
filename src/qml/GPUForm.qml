@@ -45,7 +45,7 @@ GPU {
       Connections {
         target: settings
 
-        onSettingChanged: {
+        function onSettingChanged(key, value) {
           if (key === "Workarounds/ignoredSensors") {
             var sensors = Settings.componentIgnoredSensors("GPU" + gpu.index,
                                                            value)

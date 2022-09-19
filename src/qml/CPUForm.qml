@@ -45,7 +45,7 @@ CPU {
       Connections {
         target: settings
 
-        onSettingChanged: {
+        function onSettingChanged(key, value) {
           if (key === "Workarounds/ignoredSensors") {
             var sensors = Settings.componentIgnoredSensors("CPU" + cpu.socketId,
                                                             value)
