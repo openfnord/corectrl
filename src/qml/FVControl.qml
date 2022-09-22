@@ -186,7 +186,9 @@ Pane {
 
         padding: Style.TextField.padding
         horizontalAlignment: TextInput.AlignHCenter
+
         Layout.preferredWidth: tFMetrics.width + padding * 2
+        Layout.alignment: Qt.AlignHCenter
       }
     }
   }

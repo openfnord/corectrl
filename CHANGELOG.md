@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Fixed
+- Incorrect alignment of state voltage labels when automatic voltage is selected on the frequency & voltage control.
+
 ### Changed
 - Explicitly require Qt 5.9 (or compatible versions).
 
