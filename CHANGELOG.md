@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - QML Connections deprecation warning (#123).
+- Incorrect alignment of state voltage labels when automatic voltage is selected on the frequency & voltage control.
 
 ### Changed
 - Require Qt 5.15
