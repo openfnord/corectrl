@@ -33,7 +33,7 @@ void CPUFreqModeXMLParser::loadPartFrom(pugi::xml_node const &parentNode)
   });
 
   takeActive(node.attribute("active").as_bool(activeDefault()));
-  takeActive(node.attribute("mode").as_string(modeDefault().c_str()));
+  takeMode(node.attribute("mode").as_string(modeDefault().c_str()));
 
   if (!node) {
     // Legacy control settings might be present in the profile.

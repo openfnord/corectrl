@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Incorrect alignment of state voltage labels when automatic voltage is selected on the frequency & voltage control.
+- CPU performance scaling mode not being restored from file (#322).
 
 ### Changed
 - Explicitly require Qt 5.9 (or compatible versions).
