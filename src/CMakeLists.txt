@@ -417,7 +417,7 @@ target_link_libraries(corectrl PRIVATE
 )
 
 install(TARGETS corectrl corectrl_lib
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib)
+        RUNTIME DESTINATION ${CMAKE_INSTALL_FULL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
 
 add_subdirectory(helper)
