@@ -99,7 +99,7 @@ void Helper::autoExitTimeout()
 
 bool Helper::isAuthorized(QDBusMessage const &message) const
 {
-  auto subject = Polkit::BusNameSubject{.bus = message.service().toStdString()};
+  auto subject = Polkit::BusNameSubject{message.service().toStdString()};
   return Polkit::checkAuthorizationSync(POLKIT_HELPER_ACTION, subject) ==
          Polkit::AuthResult::Yes;
 }

@@ -67,7 +67,7 @@ bool HelperKiller::start(QDBusMessage const &message) const
 
 bool HelperKiller::isAuthorized(QDBusMessage const &message) const
 {
-  auto subject = Polkit::BusNameSubject{.bus = message.service().toStdString()};
+  auto subject = Polkit::BusNameSubject{message.service().toStdString()};
   return Polkit::checkAuthorizationSync(POLKIT_HELPER_KILLER_ACTION, subject) ==
          Polkit::AuthResult::Yes;
 }
