@@ -18,6 +18,7 @@
 #include "nlprocexecsocket.h"
 
 #include "processevent.h"
+#include <cstdint>
 #include <linux/bpf_common.h>
 #include <linux/cn_proc.h>
 #include <linux/connector.h>
@@ -62,26 +63,28 @@ NLProcExecSocket::~NLProcExecSocket()
 
 ProcessEvent NLProcExecSocket::waitForEvent() const
 {
-  struct __attribute__((aligned(NLMSG_ALIGNTO)))
+  struct nlcn_msg_t
   {
-    struct nlmsghdr nl_hdr;
-    struct __attribute__((__packed__))
-    {
-      struct cn_msg cn_msg;
-      struct proc_event proc_ev;
-    } cn;
-  } nlcn_msg;
+    struct nlmsghdr nl_hdr __attribute__((aligned(NLMSG_ALIGNTO)));
+    struct cn_msg cn_msg;
+  };
 
-  ssize_t const rc = recv(sockFd_.fd, &nlcn_msg, sizeof(nlcn_msg), 0);
+  auto const msg_size =
+      NLMSG_LENGTH(sizeof(struct cn_msg) + sizeof(struct proc_event));
+  std::uint8_t msg_buffer[msg_size] = {0};
+  auto msg = (struct nlcn_msg_t *)msg_buffer;
+
+  ssize_t const rc = recv(sockFd_.fd, msg, msg_size, 0);
   if (rc > 0) {
-    switch (nlcn_msg.cn.proc_ev.what) {
+    auto const event = ((struct proc_event *)msg->cn_msg.data);
+    switch (event->what) {
       case proc_event::PROC_EVENT_EXEC:
         return ProcessEvent{ProcessEvent::Type::EXEC,
-                            nlcn_msg.cn.proc_ev.event_data.exec.process_pid};
+                            event->event_data.exec.process_pid};
 
       case proc_event::PROC_EVENT_EXIT:
         return ProcessEvent{ProcessEvent::Type::EXIT,
-                            nlcn_msg.cn.proc_ev.event_data.exit.process_pid};
+                            event->event_data.exit.process_pid};
       default:
         return ProcessEvent{ProcessEvent::Type::IGNORE, -1};
     }
@@ -198,28 +201,29 @@ int NLProcExecSocket::installSocketFilter() const
 
 int NLProcExecSocket::subscribeToProcEvents(bool subscribe) const
 {
-  struct __attribute__((aligned(NLMSG_ALIGNTO)))
+  struct nlcn_msg_t
   {
-    struct nlmsghdr nl_hdr;
-    struct __attribute__((__packed__))
-    {
-      struct cn_msg cn_msg;
-      enum proc_cn_mcast_op cn_mcast;
-    } cn;
-  } nlcn_msg;
+    struct nlmsghdr nl_hdr __attribute__((aligned(NLMSG_ALIGNTO)));
+    struct cn_msg cn_msg;
+  };
 
-  memset(&nlcn_msg, 0, sizeof(nlcn_msg));
-  nlcn_msg.nl_hdr.nlmsg_len = sizeof(nlcn_msg);
-  nlcn_msg.nl_hdr.nlmsg_pid = 0;
-  nlcn_msg.nl_hdr.nlmsg_type = NLMSG_DONE;
+  auto const msg_size =
+      NLMSG_LENGTH(sizeof(struct cn_msg) + sizeof(enum proc_cn_mcast_op));
+  std::uint8_t msg_buffer[msg_size] = {0};
+  auto msg = (struct nlcn_msg_t *)msg_buffer;
 
-  nlcn_msg.cn.cn_msg.id.idx = CN_IDX_PROC;
-  nlcn_msg.cn.cn_msg.id.val = CN_VAL_PROC;
-  nlcn_msg.cn.cn_msg.len = sizeof(enum proc_cn_mcast_op);
+  msg->nl_hdr.nlmsg_len = msg_size;
+  msg->nl_hdr.nlmsg_pid = 0;
+  msg->nl_hdr.nlmsg_type = NLMSG_DONE;
 
-  nlcn_msg.cn.cn_mcast = subscribe ? PROC_CN_MCAST_LISTEN : PROC_CN_MCAST_IGNORE;
+  msg->cn_msg.id.idx = CN_IDX_PROC;
+  msg->cn_msg.id.val = CN_VAL_PROC;
+  msg->cn_msg.len = sizeof(enum proc_cn_mcast_op);
 
-  if (send(sockFd_.fd, &nlcn_msg, sizeof(nlcn_msg), 0) < 0)
+  auto mcast = (enum proc_cn_mcast_op *)msg->cn_msg.data;
+  *mcast = subscribe ? PROC_CN_MCAST_LISTEN : PROC_CN_MCAST_IGNORE;
+
+  if (send(sockFd_.fd, msg, msg_size, 0) < 0)
     return -1;
 
   return 0;
