@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+
+## CoreCtrl 1.3.1 (2022-10-08)
+
 ### Fixed
 - Incorrect alignment of state voltage labels when automatic voltage is selected on the frequency & voltage control.
 - CPU performance scaling mode not being restored from file (#322).
