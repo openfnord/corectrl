@@ -5,16 +5,24 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - QML Connections deprecation warning (#123).
+
+### Changed
+- Require Qt 5.15
+
+### Added
+- Implement resizable graph and sensors regions. Both regions are configurable by dragging their split handles and the sizes persist between sessions (#309).
+
+
+## CoreCtrl 1.3.1 (2022-10-08)
+
+### Fixed
 - Incorrect alignment of state voltage labels when automatic voltage is selected on the frequency & voltage control.
 - CPU performance scaling mode not being restored from file (#322).
 - Compilation issues with Linux 6.0 API headers (#325).
 
 ### Changed
-- Require Qt 5.15
+- Explicitly require Qt 5.9 (or compatible versions).
 - Install application binary and library files into GNU standard installation directories (#324).
-
-### Added
-- Implement resizable graph and sensors regions. Both regions are configurable by dragging their split handles and the sizes persist between sessions (#309).
 
 
 ## CoreCtrl 1.3.0 (2022-09-18)
