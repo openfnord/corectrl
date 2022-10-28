@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Require Qt 5.15
+- Replace file headers license section with [SPDX unique license identifiers](https://spdx.dev/ids/).
 
 ### Added
 - Implement resizable graph and sensors regions. Both regions are configurable by dragging their split handles and the sizes persist between sessions (#309).
