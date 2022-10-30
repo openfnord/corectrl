@@ -1,4 +1,4 @@
-Please, choose a template for your issue using the above **template selector** of the *Description* field.
+Please, choose a template for your issue using the **template selector** under the *Description* field.
 
 All driver bugs must be [reported upstream](https://gitlab.com/corectrl/corectrl/-/wikis/FAQ#i-found-a-driver-bug-where-can-i-report-it). You can easily check if the issue is a driver bug by trying to reproduce it using different kernel versions. When an issue is only reproducible on some kernels versions, it's most likely due to a driver bug.
 
