@@ -15,8 +15,7 @@ std::string ProcPIDSolver::app(int PID)
   auto exeName = procExeFileName(procPIDPath);
 
   // Handle wine apps.
-  // Those apps are launched using wine[64]-preloader.
-  if (winePreloaders_.find(exeName) != winePreloaders_.cend()) {
+  if (wineExecutables_.find(exeName) != wineExecutables_.cend()) {
     auto const entries = Utils::File::readFileLines(procPIDPath / "cmdline",
                                                     '\0');
     auto const wineExeName = wineAppName(entries);

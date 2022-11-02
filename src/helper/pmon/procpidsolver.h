@@ -31,8 +31,6 @@ class ProcPIDSolver final : public IPIDSolver
   std::string wineAppName(std::vector<std::string> const &cmdline) const;
 
   std::filesystem::path const procPath_{"/proc"};
-  std::set<std::string> const winePreloaders_{"wine-preloader",
-                                              "wine64-preloader"};
   std::set<std::string> const wineExecutables_{
       "wine-preloader", "wine64-preloader", "wine",
       "wine64",         "wineloader",       "wineloader64"};
