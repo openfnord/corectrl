@@ -17,10 +17,11 @@ As first step, read the [FAQ](https://gitlab.com/corectrl/corectrl/wikis/FAQ) an
 ## Merge request
 Before starting to work on a merge request, please follow these instructions:
 
-1. Open an issue explaining the reason for the change, state that you want to work on it and wait for the developers response. Then, create a merge request from the issue and start working on the change.
-2. Follow the [coding style](#coding-style) rules and make sure your code integrates well into the application architecture.
-3. Make sure that all unit tests pass when you are working on existing controls. If you are working on a new control, you must write tests for it.
-4. During the merge request, be concise on your comments and make sure that you fully understand what you are stating on them.
+1. Open an issue explaining the reason for the change, state that you want to work on it and wait for the developers response.
+2. Create a merge request from a **new branch** (do not create the MR from the master branch) and link it with the issue.
+3. Follow the [coding style](#coding-style) rules and make sure your code integrates well into the application architecture.
+4. Make sure that all unit tests pass when you are working on existing controls. If you are working on a new control, you must write tests for it.
+5. During the merge request, be concise on your comments and make sure that you fully understand what you are stating on them.
 
 ## Coding style
 * Format your code with clang-format. You can do it with your editor or running `./format.sh` on the root project directory, then pick the formatted files that you are working on.
